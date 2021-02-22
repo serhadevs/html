@@ -14,7 +14,7 @@ class CreateInstitutionsTable extends Migration
     public function up()
     {
         Schema::create('institutions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('name');
             $table->string('abbr');
             $table->integer('parish_id')->references('id')->on('parishes');

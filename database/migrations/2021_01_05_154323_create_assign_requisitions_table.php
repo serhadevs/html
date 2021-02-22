@@ -14,7 +14,7 @@ class CreateAssignRequisitionsTable extends Migration
     public function up()
     {
         Schema::create('assign_requisitions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('user_id');
             $table->integer('internal_requisition_id');
             $table->softDeletes();

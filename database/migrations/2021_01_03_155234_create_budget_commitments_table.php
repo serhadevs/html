@@ -14,7 +14,7 @@ class CreateBudgetCommitmentsTable extends Migration
     public function up()
     {
         Schema::create('budget_commitments', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('internal_requisition_id')->references('id')->on('internal_requisitions');
             $table->string('commitment_no');
             $table->string('account_code');

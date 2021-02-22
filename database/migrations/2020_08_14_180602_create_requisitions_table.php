@@ -14,7 +14,7 @@ class CreateRequisitionsTable extends Migration
     public function up()
     {
         Schema::create('requisitions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             // $table->integer('requisition_type_id')->references('id')->on('requisition_types');
             $table->string('requisition_no');
             $table->integer('department_id')->references('id')->on('department');

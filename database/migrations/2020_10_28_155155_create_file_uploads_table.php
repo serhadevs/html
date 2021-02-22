@@ -14,7 +14,7 @@ class CreateFileUploadsTable extends Migration
     public function up()
     {
         Schema::create('file__uploads', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('filename');
             $table->integer('requisition_id')->references('id')->on('requisition');
             $table->timestamps();

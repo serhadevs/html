@@ -14,7 +14,7 @@ class CreateApprovePurchaseOrders extends Migration
     public function up()
     {
         Schema::create('approve_purchase_orders', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('purchase_order_id')->nullable();
             $table->integer('user_id');
             $table->boolean('is_granted');

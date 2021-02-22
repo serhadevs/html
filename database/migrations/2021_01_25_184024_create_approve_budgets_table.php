@@ -14,7 +14,7 @@ class CreateApproveBudgetsTable extends Migration
     public function up()
     {
         Schema::create('approve_budgets', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('internal_requisition_id');
             $table->integer('user_id');
             $table->boolean('is_granted');

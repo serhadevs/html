@@ -14,7 +14,7 @@ class CreateVoucherChecksTable extends Migration
     public function up()
     {
         Schema::create('voucher_checks', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->boolean('is_check');
             $table->boolean('is_refuse');
             $table->integer('payment_voucher_id')->references('id')->on('payment_vouchers');

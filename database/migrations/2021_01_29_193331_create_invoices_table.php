@@ -14,7 +14,7 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('invoice_no')->nullable();
             $table->string('parish_code')->nullable();
             $table->string('institution_code')->nullable();

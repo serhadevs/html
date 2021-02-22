@@ -14,7 +14,7 @@ class CreatePaymentVouchersTable extends Migration
     public function up()
     {
         Schema::create('payment_vouchers', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('voucher_no');
             $table->string('voucher_date');
             $table->string('cheque_no');

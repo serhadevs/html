@@ -14,7 +14,7 @@ class CreateInternalRequisitionsTable extends Migration
     public function up()
     {
         Schema::create('internal_requisitions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('user_id');
             $table->string('requisition_no');
             $table->integer('institution_id')->references('id')->on('institution');

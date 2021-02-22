@@ -14,7 +14,7 @@ class CreateApproveInternalRequisitionsTable extends Migration
     public function up()
     {
         Schema::create('approve_internal_requisitions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
          
             $table->integer('internal_requisition_id');
             $table->integer('user_id');
