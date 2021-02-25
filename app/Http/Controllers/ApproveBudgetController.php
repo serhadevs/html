@@ -7,7 +7,7 @@ use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\Notifications\ApproveBudgetPublish;
 use App\User;
-
+use PDF;
 class ApproveBudgetController extends Controller
 {
     /**
@@ -120,8 +120,25 @@ class ApproveBudgetController extends Controller
      * @param  \App\ApproveBudget  $approveBudget
      * @return \Illuminate\Http\Response
      */
+
+    public function printPDF($id)
+    {
+        $data = [
+            'title' => 'First PDF for Medium',
+            'heading' => 'South East Regional Health Authority
+                        The Towers, 25 Dominica Drive, Kingston 5',
+            'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'
+        ];
+
+         //
+              $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
+              $pdf = PDF::loadView('/panel/approve/budget.pdf_view', $data,compact('internalRequisition')); 
+              return $pdf->download('medium.pdf');
+    }
+    
+
     public function destroy(ApproveBudget $approveBudget)
     {
         //
-    }
+    }   
 }

@@ -7,6 +7,7 @@ use App\Notifications\RefuseRequisitionPublish;
 use App\User;
 use App\Notifications\ApproveRequisitionPublish;
 use App\Comment;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,6 +115,9 @@ Route::resource('/approve-internal-requisition', 'ApproveInternalRequisitionCont
 //Approve budget controller
 Route::resource('/approve-budget-requisition', 'ApproveBudgetController');
 // Route::get("/approve-budget/show", "ApproveBudgetController@show");
+//print pdf controller
+Route::get('/print_pdf/{id}', 'ApproveBudgetController@printPDF');
+
 
 //budgetcommitment
 Route::resource('/budgetcommitment', 'BudgetCommitmentController');

@@ -21,7 +21,7 @@ text-align: center;
   display:none;
 }
 
-.variance{
+.above{
   display:none;
 }
 
@@ -92,7 +92,7 @@ text-align: center;
                         <input type="input" class="form-control" value="{{$requisition->user->abbrName()}}" readonly>
                           </div>
 
-                        <label for="inputEmail4" class="col-sm-2 col-form-label">Departmentent</label>
+                        <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
                         <div class="col-sm-4">
                           <input type="input" class="form-control" value="{{$requisition->department->name}}" readonly>
                         </div>
@@ -117,20 +117,27 @@ text-align: center;
                           <input type="input" class="form-control"  value="{{$requisition->requisition_type->name}}"name='requisition_type' id="requisition_type" readonly>
                       
                       </div>
-                        <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
-                        <div class="col-sm-4">
-                           <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
-                          <option value="">Select method </option>
-                      @foreach($methods as $method)
-                      <option value="{{$method->id}}">{{$method->name}}</option>
-                       @endforeach
-                         </select>  
+                      <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
+                      <div class="col-sm-4">
                        
-                        </div>
+                        <input type="number" class="form-control" value="{{$requisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
+                       
                       </div>
-                      
+                      </div>
+                      <div class="form-group row">
+                        <label for="cost-centre" class="col-sm-2 col-form-label">Cost Centre </label>
+                        <div class="col-sm-4">
+                            <input type="input" class="form-control" value="{{$requisition->institution->code}}" readonly name='cost_centre' >
+                        </div>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Commitment #</label>
+                        <div class="col-sm-4">
+                         
+                        <input type="input" class="form-control" value="{{$requisition->budget_commitment->commitment_no}}" readonly name='commitment' id='commitment'>
+                         
+                        </div>
+                        </div>
                          <div class="form-group row">
-                        <label for="cost-centre" class="col-sm-2 col-form-label">Recommended </label>
+                        <label for="cost-centre" class="col-sm-2 col-form-label">Recommend Supplier </label>
                         <div class="col-sm-4">
                         <select type="input" class="form-control"name ='supplier_id' id="supplier" >
                         <option value=''>Select supplier</option>
@@ -141,7 +148,7 @@ text-align: center;
                         @endforeach 
                         </select>
                         </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">Delivery</label>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="delivery" id="delivery">
                           <option value=""  >Select specification </option>
@@ -156,18 +163,7 @@ text-align: center;
 
 
 
-                         <div class="form-group row">
-                        <label for="cost-centre" class="col-sm-2 col-form-label">Cost Centre </label>
-                        <div class="col-sm-4">
-                            <input type="input" class="form-control" value="{{$requisition->institution->code}}" readonly name='cost_centre' >
-                        </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">Commitment #</label>
-                        <div class="col-sm-4">
-                         
-                        <input type="input" class="form-control" value="{{Request::old('commitment')}}" name='commitment' id='commitment'>
-                         
-                        </div>
-                        </div>
+                       
 
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Description </label>
@@ -191,19 +187,23 @@ text-align: center;
                           <div class="col-sm-4">
                               <input type="number" class="form-control" value="{{Request::old('contract_sum')}}" id="contract_sum" name='contract_sum'>
                           </div>
-                          <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
-                          <div class="col-sm-4">
-                           
-                            <input type="number" class="form-control" value="{{$requisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
-                           
-                          </div>
+                          <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
+                        <div class="col-sm-4">
+                           <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
+                          <option value="">Select method </option>
+                      @foreach($methods as $method)
+                      <option value="{{$method->id}}">{{$method->name}}</option>
+                       @endforeach
+                         </select>  
+                       
+                        </div>
                           </div>
 
-                          <div class="form-group row">
+                          {{-- <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">Date Required</label>
                             <div class="col-sm-4">
                               {{-- <input type="text" class="form-control"  name="cost_centre" id="cost_centre" placeholder="Enter cost-centre"> --}}
-                           <div class="input-group date" id="date_require" data-target-input="nearest">
+                           {{-- <div class="input-group date" id="date_require" data-target-input="nearest">
                             <input type="text" class="form-control datepicker-input" name='date_require' data-target="#date_require"/>
                             <div class="input-group-append" data-target="#date_require" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -219,24 +219,15 @@ text-align: center;
                             </div>
                              </div>
                             </div>
-                            </div>
+                            </div> --}} 
                         
-                      <div class='variance'>
+                       <div class='above'>
 
                         <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">TCC number </label>
                         <div class="col-sm-4">
                             <input type="number" class="form-control" value="{{Request::old('tcc')}}" name='tcc'>
                         </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
-                        <div class="col-sm-4">
-                         
-                         <input type="number" class="form-control" value="{{Request::old('trn')}}" id='trn' name='trn'>
-                         
-                        </div>
-                        </div>
-
-                         <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">TCC Expired </label>
                        
                         <div class="col-sm-4">
@@ -251,18 +242,43 @@ text-align: center;
                         
                         </div>
 
+                         <div class="form-group row">
+                          <label for="cost-centre" class="col-sm-2 col-form-label">PPC number </label>
+                          <div class="col-sm-4">
+                              <input type="number" class="form-control" value="{{Request::old('pcc')}}" name='ppc'>
+                          </div>
+                        <label for="cost-centre" class="col-sm-2 col-form-label">PPC Expired </label>
+                       
+                        <div class="col-sm-4">
+                        <div class="input-group date" id="ppc_expired" data-target-input="nearest">
+                        <input type="text" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{Request::old('trn')}}' data-target="#ppc_expired"/>
+                        <div class="input-group-append" data-target="#tcc_expired" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                        </div>
+                        
+                        </div>
+                        
+                        </div>
 
-                      </div>
-
-                      
                         
 
+
+                       </div>
+
                       <div class="form-group row">
-                        <label for="date-of-last" class="col-sm-2 col-form-label">Cost Variance</label>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Percentage Variance</label>
                         <div class="col-sm-4">
                          
                          
                          <input type="number" class="form-control" value="" id='cost_variance' name='cost_variance' readonly>
+                        </div>
+
+                        <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
+                        <div class="col-sm-4">
+                         
+                         <input type="number" class="form-control" value="{{Request::old('trn')}}" id='trn' name='trn'>
+                         
                         </div>
                         
                         </div>
@@ -472,18 +488,34 @@ $('#contract_sum,#estimated_cost' ).on('input',function(){
 let cost_variance;
 var contractSum = parseFloat($('#contract_sum').val());
 var estimated_cost = parseFloat($('#estimated_cost').val());
-cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
+cost_variance =parseFloat((contractSum-estimated_cost)/estimated_cost * 100);
 console.log(cost_variance);
- $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost- contractSum)/estimated_cost  *100 : 0).toFixed(2));
- if(cost_variance  > 15 ){
-  $('.variance').show();
+ $('#cost_variance').val(((contractSum-estimated_cost)/estimated_cost * 100  ? (contractSum-estimated_cost)/estimated_cost  *100 : 0).toFixed(2));
+ var requisition_type = $('#requisition_type').val();
+ console.log(requisition_type);
+ if(cost_variance  > 15 || cost_variance  > 15 ){
+ //alert('error cost variance is 15% above contract sum');
  }else{
-  $('.variance').hide();
+ // alert('error cost variance is 15% below contract sum');
  }
 
 });
 
 
+
+$('#contract_sum').on('input',function(){
+let cost_variance;
+var contractSum = parseFloat($('#contract_sum').val());
+var estimated_cost = parseFloat($('#estimated_cost').val());
+//var requisition_type = $('#requisition_type').val());
+if(contractSum >= 1500000){
+ $('.above').show();
+ console.log(requisition_type);
+}else{
+  $('.above').hide();
+}
+
+});
 </script>
   
  
