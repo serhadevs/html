@@ -28,8 +28,10 @@ class CreateRequisitionsTable extends Migration
             $table->string('description');
             $table->integer('category_id')->references('id')->on('stock_categories');;
             $table->integer('tcc')->nullable();
+            $table->integer('ppc')->nullable();
             $table->integer('trn')->nullable();
             $table->string('tcc_expired_date')->nullable();
+            $table->string('ppc_expired_date')->nullable();
             //$table->decimal('estimated_cost',12,2);
             $table->decimal('contract_sum',12,2);
             $table->integer('cost_variance');
@@ -45,8 +47,8 @@ class CreateRequisitionsTable extends Migration
             // $table->unsignedInteger('check_id');
             // $table->integer('check_id')->references('id')->on('checks')->nullable();
             // $table->string('date_ordered');
-            $table->string('date_require')->nullable();
-            $table->string('date_last_ordered')->nullable();
+            // $table->string('date_require')->nullable();
+            // $table->string('date_last_ordered')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

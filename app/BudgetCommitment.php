@@ -15,4 +15,11 @@ class BudgetCommitment extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+
+
+    public function internalrequisition()
+    {
+        return $this->HasOne('App\InternalRequisition','id','internal_requisition_id');
+    }
 }

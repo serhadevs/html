@@ -131,8 +131,10 @@ class RequisitionController extends Controller
         $requisition->description = $request->description;
         $requisition->category_id = $request->category;
         $requisition->tcc = $request->tcc;
+        $requisition->ppc = $request->ppc;
         $requisition->trn = $request->trn;
         $requisition->tcc_expired_date = $request->tcc_expired_date;
+        $requisition->ppc_expired_date = $request->ppc_expired_date;
         // $requisition->estimated_cost = $request->estimated_cost;
         $requisition->contract_sum = $request->contract_sum;
         $requisition->cost_variance = $request->cost_variance;
@@ -248,8 +250,10 @@ class RequisitionController extends Controller
         $requisition->description = $request->description;
         $requisition->category_id = $request->category;
         $requisition->tcc = $request->tcc;
+        $requisition->ppc = $request->ppc;
         $requisition->trn = $request->trn;
         $requisition->tcc_expired_date = $request->tcc_expired_date;
+        $requisition->ppc_expired_date = $request->ppc_expired_date;
         // $requisition->estimated_cost = $request->estimated_cost;
         $requisition->contract_sum = $request->contract_sum;
         $requisition->procurement_method_id = $request->procurement_method;

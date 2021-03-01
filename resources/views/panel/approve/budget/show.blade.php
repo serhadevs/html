@@ -53,7 +53,7 @@ text-align: center;
                         The Towers, 25 Dominica Drive, Kingston 5</p><br>
                         </div>
 
-                          Requester:  <b>{{$internalRequisition->user->firstname[0]}}. {{$internalRequisition->user->lastname}}</b>
+                          Requester:  <b>{{$internalRequisition->user->abbrName()}}</b>
 
                           <p><br>Institution: {{$internalRequisition->institution->name}}</br>
                           Departmentent: {{$internalRequisition->department->name}} </br>
@@ -134,7 +134,7 @@ text-align: center;
               <!-- textarea -->
               <div class="form-group">
                 <label>Comments/Justification</label>
-              <textarea  readonly class="form-control" name="comments" rows="3" placeholder="{{$internalRequisition->comments}}"></textarea>
+              <textarea  readonly class="form-control" name="comments" rows="3" >{{$internalRequisition->comments}}</textarea>
               </div>
             </div>
             
@@ -157,15 +157,19 @@ text-align: center;
                          
                           <div class="col-sm-6">
                             @if($internalRequisition->approve_internal_requisition)
-                            Approved by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->firstname[0]}}. {{$internalRequisition->approve_internal_requisition->user->lastname}} </span></br>
-                            Date:  <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->created_at}}</span>
+                            Approved by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->abbrName()}} </span></br>
+                            Date:  <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->created_at}}</span></br>
                             @else
                               Approve  by: <span class='badge badge-success'></span>
                               @endif
+
+                              Budget Commitment by: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->abbrName()}} </span></br>
+                              Date:  <span class='badge badge-success'>{{$internalRequisition->budget_commitment->created_at}}</span>
+
                           </div>
   
                           
-                          <div class="col-sm-5">
+                          <div class="col-sm-6">
                         @if($internalRequisition->approve_budget)
                         Budget Approve by: <span class='badge badge-success'>{{$internalRequisition->approve_budget->user->abbrName()}} </span></br>
                         Date:  <span class='badge badge-success'>{{$internalRequisition->approve_budget->created_at}}</span>

@@ -15,6 +15,17 @@ class ApproveBudgetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(Request $request)
+    {
+
+        $this->middleware(function ($request, $next) {
+            if (!in_array(auth()->user()->role_id, [1,7])) {
+                return redirect('/dashboard');
+            } else {
+                return $next($request);
+            }
+        });
+    }
     public function index()
     {
         //
@@ -125,15 +136,15 @@ class ApproveBudgetController extends Controller
     {
         $data = [
             'title' => 'First PDF for Medium',
-            'heading' => 'South East Regional Health Authority
-                        The Towers, 25 Dominica Drive, Kingston 5',
+            'heading' => 'South East Regional Health Authority',
+            'heading2' => 'The Towers, 25 Dominica Drive, Kingston 5',
             'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'
         ];
 
          //
               $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
               $pdf = PDF::loadView('/panel/approve/budget.pdf_view', $data,compact('internalRequisition')); 
-              return $pdf->download('medium.pdf');
+              return $pdf->download('budgetapprove.pdf');
     }
     
 

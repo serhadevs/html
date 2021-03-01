@@ -160,7 +160,7 @@
                     
                    
                     <td>
-                     <a  href="/purchase-order/{{$internal->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     <a  href="/budgetcommitment/{{$internal->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
                     <a href="" class="btn btn-block btn-danger btn-m">Delete</a>
