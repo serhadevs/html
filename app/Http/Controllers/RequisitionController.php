@@ -138,8 +138,8 @@ class RequisitionController extends Controller
         // $requisition->estimated_cost = $request->estimated_cost;
         $requisition->contract_sum = $request->contract_sum;
         $requisition->cost_variance = $request->cost_variance;
-        $requisition->date_require = $request->date_require;
-        $requisition->date_last_ordered = $request->date_last_ordered;
+        // $requisition->date_require = $request->date_require;
+        // $requisition->date_last_ordered = $request->date_last_ordered;
         $requisition->internal_requisition_id = $request->id;
         // $requisition->recommended_cost = $request->recommended_cost;
 
