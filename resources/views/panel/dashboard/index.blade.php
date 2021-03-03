@@ -116,7 +116,7 @@
             {!! $chart3->script() !!}
           </div>
           @endif
-          <div class="col-lg-5 col-5">
+          {{-- <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
                   Alerts
@@ -131,15 +131,7 @@
                     </thead>
                     <tbody>
                     
-                      {{-- <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>Call of Duty IV</td>
-                      <td><span class="badge badge-success">Shipped</span></td>
-                      
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-warning">Pending</span></td> --}}
+                    
    
                       @foreach($alerts as $alert)
                       <tr>
@@ -156,7 +148,7 @@
                 </div>
                 <!-- /.table-responsive -->
               </div>
-          </div>
+          </div> --}}
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
