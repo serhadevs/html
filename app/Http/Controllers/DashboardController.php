@@ -75,7 +75,7 @@ class DashboardController extends Controller
     ->leftJoin('stock_categories','stock_categories.id','=','requisitions.category_id')
     ->select('stock_categories.name as categoryname', DB::raw('sum(contract_sum) as sums'))   
     // ->where('parishes.id', '=', auth()->user()->institution->parish->id)
-    ->groupBy('requisitions.category_id')
+    ->groupBy('requisitions.category_id','categoryname')
     ->get();
   
       $chart2 = new DataChart;
