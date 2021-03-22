@@ -75,7 +75,7 @@ class DashboardController extends Controller
     ->leftJoin('stock_categories','stock_categories.id','=','requisitions.category_id')
     ->select('stock_categories.name as categoryname', DB::raw('sum(contract_sum) as sums'))   
     // ->where('parishes.id', '=', auth()->user()->institution->parish->id)
-    ->groupBy('requisitions.category_id','stock_categories.name')
+    ->groupBy('requisitions.category_id')
     ->get();
   
       $chart2 = new DataChart;
@@ -112,16 +112,14 @@ class DashboardController extends Controller
    
 
      // $alerts = Notification::where('data->user_id',auth()->user()->id)->get();
-      $alerts = DB::table('notifications')
-      ->where('data->user_id',auth()->user()->id)
-      // ->select('data->requisition_no as num ','created_at' ,'type')
-      ->select('type','created_at','data->requisition_no as num')
-      // ->groupBy('num','type','created_at')
-      // ->distinct('type')
-      ->get();
-    //dd($alerts);
+      // $alerts = DB::table('notifications')
+      // ->where('data->user_id',auth()->user()->id)
+      // // ->select('data->requisition_no as num ','created_at' ,'type')
+      // ->select(\DB::raw("JSON_UNQUOTE(JSON_EXTRACT(data, '$.requisition_no')) as num"),'type','created_at')
+      // ->get();
+     //dd($alerts[0]->type);
             
-        return view('panel.dashboard.index',['alerts'=>$alerts,'internalRequisitionApprove'=>$internalRequisitionApprove,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
+        return view('panel.dashboard.index',['internalRequisitionApprove'=>$internalRequisitionApprove,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
     }
 }
 
