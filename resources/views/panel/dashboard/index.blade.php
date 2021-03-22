@@ -116,11 +116,13 @@
             {!! $chart3->script() !!}
           </div>
           @endif
-          {{-- <div class="col-lg-5 col-5">
+
+          {{-- alerts --}}
+          <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
                   Alerts
-                  <table class="table m-0">
+                  <table class="table m-0" id ="table-alert">
                     <thead>
                     <tr>
                       <th>Date</th>
@@ -148,12 +150,14 @@
                 </div>
                 <!-- /.table-responsive -->
               </div>
-          </div> --}}
+          </div> 
+          {{-- end alerts --}}
+          
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
                   Notifications
-                  <table class="table m-0">
+                  <table class="table m-0" id="table">
                     <thead>
                     <tr>
                       {{-- <th>Track</th> --}}
@@ -166,7 +170,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                 
                       @foreach(auth()->user()->notifications as $notification)
                       <tr>
                       <td>{{$notification->data['requisition_no']}} </td>
@@ -175,13 +179,14 @@
                       <td>{{\App\Institution::find($notification->data['institution_id'])->name}}</td>
                       
                       <td>{{\App\Department::find($notification->data['department_id'])->name}} </td>
+                      <td>{{$notification->created_at}}</td>
                       {{-- <td>{{$notification->data['email']}} </td> --}}
                        {{-- <td>
                        <a  href="" class="btn btn-block btn-danger btn-m" >remove</a> 
                       </td> --}}
                     </tr>
                       @endforeach
-                    </tr>
+                  
                     </tbody>
                   </table>
                 </div>
@@ -211,6 +216,7 @@
 
  @include('partials.datatable-scripts')
 
+
   @push('styles')
       <meta name="csrf-token" content="{{ csrf_token() }}">
   @endpush 
@@ -219,13 +225,25 @@
  <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
  <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+ <script src="/js/dataTables.select.min.js"></script>
+ <script src="/plugins/datatables/dataTables.select.min.js"></script>
 <script>
 
 
 $(document).ready( function () {
     $('#table').DataTable({
          "scrollX": true,
-         "searching": false
+       "searching": false,
+       "pageLength": 5
+    });
+    
+} );
+
+$(document).ready( function () {
+    $('#table-alert').DataTable({
+         "scrollX": true,
+       "searching": false,
+       "pageLength": 5
     });
     
 } );
