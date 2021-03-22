@@ -118,7 +118,7 @@
           @endif
 
           {{-- alerts --}}
-          <div class="col-lg-5 col-5">
+          {{-- <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
                   Alerts
@@ -150,7 +150,7 @@
                 </div>
                 <!-- /.table-responsive -->
               </div>
-          </div> 
+          </div>  --}}
           {{-- end alerts --}}
           
           <div class="col-lg-5 col-5">
