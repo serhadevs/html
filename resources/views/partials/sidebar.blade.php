@@ -256,13 +256,13 @@
                   <p>User Control</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="/assign_requisition" class="nav-link">
                   <i class="far fa-address-book nav-icon"></i>
                   <p>Assign Requisition</p>
                 </a>
               </li>
-       
+        --}}
           
         </ul>
         <div class="nav-item">
