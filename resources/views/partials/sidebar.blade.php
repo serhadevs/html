@@ -114,7 +114,7 @@
               </li>
               @endif
 
-              @if(in_array(Auth::user()->role_id, [1,8]))
+              @if(in_array(Auth::user()->role_id, [1,5,8,9,12]))
               <li class="nav-item">
                 <a href="/approve-budget-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -134,7 +134,7 @@
             </ul>
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,7,8,12]))
+          @if(in_array(Auth::user()->role_id, [1,7,8]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-balance-scale"></i>
