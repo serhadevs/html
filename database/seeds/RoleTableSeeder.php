@@ -25,7 +25,7 @@ class RoleTableSeeder extends Seeder
 "description" => "Mid Level"
 ],
 [
-"name" => "Clerk",
+"name" => "User",
 "description" => "Low Level"
 ],
 [
@@ -39,6 +39,26 @@ class RoleTableSeeder extends Seeder
 [
     "name" => "Budget officer",
     "description" => "Accounting department"
+],
+[
+    "name" => "Budget manager",
+    "description" => "Approve budget commitment"
+],
+[
+    "name" => "Senior Procurement Officer",
+    "description" => "senior procurement officer"
+],
+[
+    "name" => "CEO",
+    "description" => "CEO of hospital"
+],
+[
+    "name" => "Parish Manager",
+    "description" => "High Level "
+],
+[
+    "name" => "Director Procurement",
+    "description" => "the procurement director"
 ]
  ]);
     }

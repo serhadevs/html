@@ -65,7 +65,7 @@
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" required>
-                          <option>select type </option>
+                          <option value="">select type </option>
                           @foreach($roles as $role)
                          <option  value="{{$role->id}}" >{{$role->name}}</option>
 
@@ -95,7 +95,7 @@
                       
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="department" id="department" required>
-                          <option>select type </option>
+                          <option >select type </option>
                           @foreach($departments as $department)
                          <option  value="{{$department->id}}" >{{$department->name}}</option>
 

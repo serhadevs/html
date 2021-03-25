@@ -132,7 +132,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Requisition_no</th>
-                    <th>Date Receive in Procurement</th>
+                    <th>Date Received in Procurement</th>
                     <th>Date returned to Institution</th>
                     <th>Date Re-submitted to Procurement</th>
                     {{-- <th>Type of Servi ce</th> --}}

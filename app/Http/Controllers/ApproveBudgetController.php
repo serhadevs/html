@@ -19,7 +19,7 @@ class ApproveBudgetController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,7])) {
+            if (!in_array(auth()->user()->role_id, [1,8,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -69,7 +69,7 @@ class ApproveBudgetController extends Controller
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',['1,2,5'])
+                ->whereIn('role_id',['1,2,8'])
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);

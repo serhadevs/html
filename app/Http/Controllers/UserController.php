@@ -26,7 +26,7 @@ class UserController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,3,5])) {
+            if (!in_array(auth()->user()->role_id, [1,2,3,9,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -68,12 +68,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-
+        try{
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'role' => 'required',
-            'telephone' => 'required|min:11|numeric',
+            // 'telephone' => 'required|min:11|numeric',
             'institution' => 'required',
             'department' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -89,9 +89,12 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt(('password123'));
         $user->save();
+        }catch(QueryException $ex ){
+          //  dd($ex->getMessage());
+        abort(500,'something went wrong');
+        }
 
         return redirect('/user')->with('status', 'User was created successfully');
-
     }
 
     /**

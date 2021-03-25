@@ -79,6 +79,16 @@ class DepartmentTableSeeder extends Seeder
         'abbr' => 'IR',
 
     ],
+    [
+        'name' => 'Parish Senior Management Team',
+        'abbr' => 'PSMT',
+
+    ],
+    [
+        'name' => 'Hospital Senior Management Team',
+        'abbr' => 'HSMT',
+
+    ],
 
 ]);
 

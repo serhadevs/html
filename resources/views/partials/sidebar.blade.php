@@ -45,10 +45,12 @@
             <a href="/internal_requisition" class="nav-link ">
               <i class="nav-icon fas fa-file"></i>
               <p>
-               Internal Requisition
+               Internal Request
               </p>
             </a>
           </li>
+
+          @if(in_array(auth()->user()->role_id,[1,5,9,12]))
           <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
             <a href="/requisition" accesskey="2"  class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -58,6 +60,8 @@
               </p>
             </a>
           </li>
+          @endif
+          @if(in_array(auth()->user()->role_id,[1,5,9,12]))
           <li class="nav-item has-treeview">
             <a href="/check-purchase" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
@@ -75,7 +79,8 @@
             </a>
          
           </li>
-          
+          @endif
+          @if(in_array(Auth::user()->role_id, [1,2,8,9,10,11,12]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-archive"></i>
@@ -85,7 +90,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if(in_array(Auth::user()->role_id, [1,2]))
+              @if(in_array(Auth::user()->role_id, [1,2,10,11,12]))
               <li class="nav-item">
                 <a href="/approve-internal-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -93,20 +98,24 @@
                 </a>
               </li>
               @endif
+              @if(in_array(Auth::user()->role_id, [10,11,12,9]))
               <li class="nav-item">
                 <a href="/approve-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Requisition</p>
                 </a>
               </li>
+              @endif
 
+              @if(in_array(Auth::user()->role_id, [1,8]))
               <li class="nav-item">
                 <a href="/approve-budget-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Approve Budget</p>
                 </a>
               </li>
-              @if(in_array(Auth::user()->role_id, [1,8]))
+              @endif
+              @if(in_array(Auth::user()->role_id, [1]))
                 <li class="nav-item">
                 <a href="/certifying-voucher" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -117,6 +126,8 @@
              
             </ul>
           </li>
+          @endif
+          @if(in_array(Auth::user()->role_id, [1,7,8,12]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-balance-scale"></i>
@@ -132,7 +143,7 @@
                   <p>Commitment Budget</p>
                 </a>
               </li>
-             
+              @if(in_array(Auth::user()->role_id, [1]))
                <li class="nav-item">
                 <a href="/payment-voucher" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -145,6 +156,7 @@
                   <p>Voucher Checked</p>
                 </a>
               </li>
+              @endif
               {{-- <li class="nav-item">
                 <a href="pages/forms/validation.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -153,6 +165,7 @@
               </li> --}}
             </ul>
           </li> 
+          @endif
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
@@ -195,6 +208,7 @@
             </ul> --}}
           </li>
           {{-- <li class="nav-header">Settings</li> --}}
+          @if(in_array(Auth::user()->role_id, [1,5,9,12]))
          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -203,6 +217,7 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
+            @endif
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/department" class="nav-link">
@@ -225,7 +240,7 @@
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-ruler nav-icon"></i>
-                  <p>Add Measuremet</p>
+                  <p>Add Measurement</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -240,6 +255,7 @@
                   <p>Assign Requisition</p>
                 </a>
               </li>
+       
           
         </ul>
         <div class="nav-item">

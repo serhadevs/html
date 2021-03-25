@@ -20,7 +20,7 @@ class ChangeInstitutionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,5,6])) {
+            if (!in_array(auth()->user()->role_id, [1,6,9,11,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);

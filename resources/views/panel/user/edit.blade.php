@@ -101,8 +101,8 @@
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="department" id="department" required>
                           @foreach($departments as $department)
-                          @if($department->id === $user->department->id)
-                          <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
+                          @if($department->id === $user->department_id)
+                          <option selected value="{{ $department->id }}" >{{ $department->name }}</option>
                           @else
                          <option  value="{{$department->id}}" >{{$department->name}}</option>
                         @endif
