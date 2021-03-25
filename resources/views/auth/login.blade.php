@@ -69,7 +69,7 @@
         </div>
       </form>
 
-      <div class="social-auth-links text-center mb-3">
+      {{-- <div class="social-auth-links text-center mb-3">
         <p>- OR -</p>
         <a href="#" class="btn btn-block btn-primary">
         I forgot my password
@@ -77,7 +77,8 @@
         <a href="#" class="btn btn-block btn-danger">
         Register a new membership
         </a>
-      </div>
+      </div> --}}
+      
       <!-- /.social-auth-links -->
 
       {{-- <p class="mb-1">

@@ -33,14 +33,14 @@
             </a>
            
           </li>
-          <li class="nav-item has-treeview">
+          {{-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-truck"></i>
               <p>
                Requisition Tracker
               </p>
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item has-treeview">
             <a href="/internal_requisition" class="nav-link ">
               <i class="nav-icon fas fa-file"></i>
@@ -49,7 +49,14 @@
               </p>
             </a>
           </li>
-
+          @if(in_array(auth()->user()->role_id,[1,9,12]))
+          <li class="nav-item">
+            <a href="/assign_requisition" class="nav-link">
+              <i class="far fa-address-book nav-icon"></i>
+              <p>Assign internal request</p>
+            </a>
+          </li>
+          @endif
           @if(in_array(auth()->user()->role_id,[1,5,9,12]))
           <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
             <a href="/requisition" accesskey="2"  class="nav-link">
@@ -66,7 +73,7 @@
             <a href="/check-purchase" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Check PR
+                Accept Requisition
               </p>
             </a>
           </li>
