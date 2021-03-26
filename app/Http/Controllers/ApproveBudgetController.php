@@ -19,7 +19,7 @@ class ApproveBudgetController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,8,12])) {
+            if (!in_array(auth()->user()->role_id, [1,3,8,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -60,6 +60,9 @@ class ApproveBudgetController extends Controller
     public function store(Request $request)
     {
         try {
+            if(!in_array(auth()->user()->role_id,[1,8]) ){
+                abort_if(in_array(auth()->user()->role_id,[2,5,12,9]),redirect('/panel/approve/budget.index')->with('error','No access granted'));
+                }else{
             if ($request->all()) {
                 $approve = new ApproveBudget();
                 $approve->internal_requisition_id = $request->data['internal_requisition_id'];
@@ -79,7 +82,7 @@ class ApproveBudgetController extends Controller
                
             }
             return 'success';
-        
+        }
         } catch (Exception $e) {
             return 'fail';
         }

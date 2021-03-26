@@ -185,8 +185,11 @@ text-align: center;
                         <button type="button"   class="btn btn-primary float-right"   disabled>Approve</button></br>
                         @else
                         <button type="button"   class="btn btn-warning">Refuse</button>
+                        @if(in_array(auth()->user()->role_id,[1,2,10,11,12]))
                         <button type="button"   class="btn btn-primary float-right"  onclick="Approve('{{$internalRequisition->id}}');">Approve</button></br>
-                       
+                       @else
+                       <button type="button"   class="btn btn-primary float-right"   disabled>Approve</button></br>
+                       @endif
 
                         @endif
                       </div> 

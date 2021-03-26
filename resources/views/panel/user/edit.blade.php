@@ -60,13 +60,12 @@
                         <div class="col-sm-4">
                         <input type="text" id="last_name" name ="last_name" class="form-control" value="{{$user->lastname}}" required>
                           </div>
-                        
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control" name="role" id="role" disabled required>
-                          @foreach($roles as $role)
+                        <select type="input" class="form-control" name="role" id="role" >
+                          @foreach($roles->except([1,3,12]) as $role)
                           @if($role->id === $user->role->id)
                           <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
                           @else

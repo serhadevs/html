@@ -18,12 +18,13 @@ class AssignRequisitionController extends Controller
     public function index()
     {
         //
-        $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
+        $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
  
         ->has('budget_commitment')
+        ->doesnthave('assignto')
         ->get();
 
         return view('/panel.assign.index',compact('internal_requisitions'));
@@ -36,8 +37,12 @@ class AssignRequisitionController extends Controller
      */
     public function create($id)
     {
+       // dd(auth()->user()->institution_id);
         $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
-        $users = User::all();  
+        $users = User::whereIn('role_id',[5,9])
+        ->where('institution_id','=',auth()->user()->institution->id)
+        ->get();
+         
         if ($internalRequisition->assignto) {
             return redirect('/assign_requisition')->with('error', 'The Internal Requisition is already assign to'.' ' . $internalRequisition->assignto->user->lastname);
         }

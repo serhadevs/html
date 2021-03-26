@@ -53,11 +53,12 @@ class RequisitionController extends Controller
         }
 
         // dd($requisitions);
-        $internalrequisitions = InternalRequisition::with(['requisition','approve_internal_requisition','budget_commitment','assignto','approve_budget'])
+        $internalrequisitions = InternalRequisition::with(['assignto','requisition','approve_internal_requisition','budget_commitment','assignto','approve_budget'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
        ->doesnthave('requisition')
+       ->wherehas('assignto')
         
         ->has('approve_budget')
         ->get();

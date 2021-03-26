@@ -97,9 +97,9 @@
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          
+          {{-- @if(in_array(auth()->user()->role_id,[1,5,9,12])) --}}
          
-              @if(auth()->user()->role_id ===1 OR auth()->user()->role_id ===2)
+              @if(in_array(auth()->user()->role_id,[1,9,12]))
           <div class="col-lg-6 col-6">
             <!-- small box -->
             {!! $chart->container() !!}
@@ -234,7 +234,7 @@ $(document).ready( function () {
     $('#table').DataTable({
          "scrollX": true,
        "searching": false,
-       "pageLength": 5
+       "pageLength": 3
     });
     
 } );
@@ -243,7 +243,7 @@ $(document).ready( function () {
     $('#table-alert').DataTable({
          "scrollX": true,
        "searching": false,
-       "pageLength": 5
+       "pageLength": 3
     });
     
 } );
