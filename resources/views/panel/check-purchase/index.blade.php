@@ -120,6 +120,8 @@ table.dataTable tbody td {
             <!-- /.card -->
           </div>
         </div>
+      </div>
+    </div>
 
 @endsection
 

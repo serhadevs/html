@@ -90,6 +90,8 @@
             <!-- /.card -->
           </div>
         </div>
+      </div>
+    </div>
 
 @endsection
 
