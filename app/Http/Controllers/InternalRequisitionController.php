@@ -221,6 +221,13 @@ class InternalRequisitionController extends Controller
     public function destroy($id)
     {
         
+        try {
+            $internal_requisition = InternalRequisition::find($id);
+            $internal_requisition->delete();
+            return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
         
     }
 }

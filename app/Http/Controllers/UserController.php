@@ -138,7 +138,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->firstname = $request->first_name;
         $user->lastname = $request->last_name;
-        // $user->role_id = $request->role;
+        $user->role_id = $request->role;
         $user->telephone = $request->telephone;
         $user->institution_id = $request->institution;
         $user->department_id = $request->department;

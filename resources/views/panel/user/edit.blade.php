@@ -6,7 +6,7 @@
     @section('content')
 
 
-
+    <div class="card-body">
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -63,6 +63,20 @@
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
+                        @if(in_array(auth()->user()->role_id,[1,2]))
+                        <div class="col-sm-4">
+                          <select type="input" class="form-control" name="role" id="role" required>
+                            <option value="">select type </option>
+                            @foreach($roles as $role)
+                           <option  value="{{$role->id}}" >{{$role->name}}</option>
+  
+                            @endforeach
+                            
+                           </select> 
+                          </div>
+
+
+                      @else
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" >
                           @foreach($roles->except([1,3,12]) as $role)
@@ -75,6 +89,7 @@
                           
                          </select> 
                         </div>
+                        @endif
 
                         <label for="address" class="col-sm-2 col-form-label">Telephone</label>
                         <div class="col-sm-4">
@@ -158,6 +173,7 @@
               
             
             </div>
+          </div>
             
     
          

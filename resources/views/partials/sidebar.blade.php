@@ -250,12 +250,14 @@
                   <p>Add Measurement</p>
                 </a>
               </li>
+              @if(in_array(Auth::user()->role_id, [1,3,9,12]))
               <li class="nav-item">
                 <a href="/user" class="nav-link">
                   <i class="far fa-user nav-icon"></i>
                   <p>User Control</p>
                 </a>
               </li>
+              @endif
               {{-- <li class="nav-item">
                 <a href="/assign_requisition" class="nav-link">
                   <i class="far fa-address-book nav-icon"></i>
