@@ -41,9 +41,6 @@ text-align: center;
                         @if(count($errors)>0)
                         <div class="col-sm-10">
                   <div class="alert alert-danger">
-                   {{-- <a class="alert alert-danger-close"></a> --}}
-
-
                     <ul>
                         @foreach($errors->all() as $error)
                         <li>{{$error}}</li>
