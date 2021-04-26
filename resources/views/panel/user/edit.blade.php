@@ -82,7 +82,7 @@
                       @else
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" >
-                          @foreach($roles->except([1,3,12]) as $role)
+                          @foreach($roles->except([1,12]) as $role)
                           @if($role->id === $user->role->id)
                           <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
                           @else
