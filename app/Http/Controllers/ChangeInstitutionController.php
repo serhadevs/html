@@ -20,8 +20,8 @@ class ChangeInstitutionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,6,9,11,12])) {
-                return redirect('/dashboard');
+            if (!in_array(auth()->user()->role_id, [1,6,12])) {
+                return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
             }
@@ -32,8 +32,6 @@ class ChangeInstitutionController extends Controller
         //
         //dd('change institution');
         $institutions = Institution::all();
-
-
         return view('/auth.change-institution',compact('institutions'));
 
     }

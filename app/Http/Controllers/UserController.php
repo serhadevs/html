@@ -27,7 +27,7 @@ class UserController extends Controller
 
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,2,3,9,12])) {
-                return redirect('/dashboard');
+                return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
             }
@@ -36,8 +36,13 @@ class UserController extends Controller
     public function index()
     {
         //
-
+        if(in_array(auth()->user()->role_id,[1,12])){
         $users = User::all();
+        }else{
+        $users = User::where('institution_id','=',auth()->user()->department_id)->get();
+        }
+
+        //dd($users);
         return view('/panel.user.index', compact('users'));
 
     }

@@ -66,10 +66,13 @@
                         @if(in_array(auth()->user()->role_id,[1,2]))
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="role" id="role" required>
-                            <option value="">select type </option>
+                            {{-- <option value="">select type </option> --}}
                             @foreach($roles as $role)
-                           <option  value="{{$role->id}}" >{{$role->name}}</option>
-  
+                            @if($role->id === $user->role->id)
+                            <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
+                            @else
+                            <option  value="{{$role->id}}" >{{$role->name}}</option>
+                            @endif
                             @endforeach
                             
                            </select> 

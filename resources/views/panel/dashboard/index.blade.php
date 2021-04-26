@@ -227,6 +227,37 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
  <script src="/js/dataTables.select.min.js"></script>
  <script src="/plugins/datatables/dataTables.select.min.js"></script>
+ <script src="/js/dataTables.select.min.js"></script>
+ <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ <script src="/js/pages/dashboard.min.js"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ <script src="/js/sweet/sweetalert.min.js"></script> 
+ @endpush
+
+
+ @if(session('status'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('status') !!}", "", "success");
+    });
+    </script>
+  @endpush
+@endif
+
+@if(session('error'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('error') !!}", "", "error");
+    });
+    </script>
+  @endpush
+@endif
+
+
+@push('scripts')
 <script>
 
 
