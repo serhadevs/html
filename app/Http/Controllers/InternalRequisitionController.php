@@ -113,12 +113,11 @@ class InternalRequisitionController extends Controller
         ->where('department_id', auth()->user()->department_id)
         ->whereIn('role_id',[1,2])
         ->get();
-       
+       //dd($users);
         $users->each->notify(new InternalRequisitionPublish($internal_requisition));
 
         return redirect('/internal_requisition')->with('status', 'Internal Requisition was created successfully');
 
-        // Users::whereIn('id', [1, 2, 3])->get();
     }
 
     /**
