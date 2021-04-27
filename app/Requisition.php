@@ -15,7 +15,7 @@ class Requisition extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User')>withTrashed();
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     public function purchase_order()

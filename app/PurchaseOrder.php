@@ -29,7 +29,7 @@ public function approvePurchaseOrder()
     
     public function user()
     {
-        return $this->belongsTo('App\User')>withTrashed();
+        return $this->belongsTo('App\User')->withTrashed();
         
     }
 
