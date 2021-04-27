@@ -87,7 +87,7 @@
          
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,3,2,8,9,10,11,12]))
+          @if(in_array(Auth::user()->role_id, [1,3,5,8,9,10,11,12]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-archive"></i>

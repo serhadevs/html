@@ -62,6 +62,7 @@ class AssignRequisitionController extends Controller
        $assignee = new AssignRequisition();
        $assignee->user_id = $request->user_id;
        $assignee->internal_requisition_id = $request->requisition_id;
+       //send email to assigned task
        $assignee->save();
 
 
