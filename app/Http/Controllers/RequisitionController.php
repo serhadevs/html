@@ -259,8 +259,8 @@ class RequisitionController extends Controller
         $requisition->contract_sum = $request->contract_sum;
         $requisition->procurement_method_id = $request->procurement_method;
         $requisition->cost_variance = $request->cost_variance;
-        $requisition->date_require = $request->date_require;
-        $requisition->date_last_ordered = $request->date_last_ordered;
+        // $requisition->date_require = $request->date_require;
+        // $requisition->date_last_ordered = $request->date_last_ordered;
 
         //update stock
 
