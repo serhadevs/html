@@ -56,7 +56,7 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/irf/{{$ir->id}}" enctype="multipart/form-data">
+                <form class="form-horizontal" method="Post" autocomplete="off" action="/internal_requisition/{{$ir->id}}" enctype="multipart/form-data">
                   @csrf
                   @method('PATCH') 
                   
