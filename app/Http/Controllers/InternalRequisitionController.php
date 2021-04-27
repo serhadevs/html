@@ -208,7 +208,7 @@ class InternalRequisitionController extends Controller
 
         }
 
-        return redirect('/irf')->with('status', 'Internal requisition was updated successfully');
+        return redirect('/internal_requisition')->with('status', 'Internal requisition was updated successfully');
 
      
     }

@@ -103,14 +103,16 @@ text-align: center;
                         <div class="col-sm-4">
                          
                          <select type="input" class="form-control" name="budget_approve" id="budget_approve">
-                          {{-- <option value="">Select method </option> --}}
-                          {{-- <option value="yes">Yes</option>
-                          <option value="no">No</option> --}}
                           @if($ir->budget_approve === 'no')
-                          <option selected value="{{ $ir->budget_approve }}" >Yes</option>
-                          @else
-                         <option  value="no" >No</option>
-                         @endif
+                          <option selected value="{{ $ir->budget_approve }}" >No</option>
+                          <option value="yes">Yes</option>
+                          {{-- <option value="no">No</option> --}}
+                          @endif
+                          {{-- @if($ir->budget_approve === 'no')
+                          <option selected value="{{ $ir->budget_approve }}" >No</option>
+                          @els
+                         <option  value="yes" >Yes</option>
+                         @endif --}}
  
                          </select>  
                          
