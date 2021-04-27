@@ -31,7 +31,8 @@ class ApproveBudgetController extends Controller
         //
     
         $internalRequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
-       ->whereHas('approve_internal_requisition',function($query){
+       ->where('institution_id','=',auth()->user()->institution_id)
+        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
 
@@ -72,7 +73,7 @@ class ApproveBudgetController extends Controller
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',['1,2,8'])
+                ->whereIn('role_id',[1,2,8])
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
