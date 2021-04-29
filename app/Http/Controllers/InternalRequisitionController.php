@@ -65,6 +65,13 @@ class InternalRequisitionController extends Controller
     'requisition_type' => 'required',
     'priority' => 'required',
     
+                        'quantity' => 'required',
+                        'description' => 'required',
+                        'part_number' => 'required',
+                        'unit'=>'required',
+                        'unit_cost' =>'required',
+                      
+    
 ]);
     $requisition_no = new RequisitionNumberGenerator();
     $internal_requisition = new InternalRequisition();
@@ -96,7 +103,7 @@ class InternalRequisitionController extends Controller
                         'description' => $input['description'][$key],
                         'part_number' => $input['part_number'][$key],
                         'unit_of_measurement_id' => $input['unit'][$key],
-                        'unit_cost' => $input['unit'][$key],
+                        'unit_cost' => $input['unit_cost'][$key],
                         'internal_requisition_id' => $internal_requisition->id,
                     ]);
                    

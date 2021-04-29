@@ -18,12 +18,12 @@ class AssignRequisitionController extends Controller
     public function index()
     {
         //
-        $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment'])
+        $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment','approve_budget'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
  
-        ->has('budget_commitment')
+        ->has('approve_budget')
         ->doesnthave('assignto')
         ->get();
 

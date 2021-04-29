@@ -134,7 +134,7 @@ text-align: center;
               <!-- textarea -->
               <div class="form-group">
                 <label>Comments/Justification</label>
-              <textarea  readonly class="form-control" name="comments" rows="3" placeholder="{{$internalRequisition->comments}}"></textarea>
+              <textarea  readonly class="form-control" name="comments" rows="3" placeholder="">{{$internalRequisition->comments}}</textarea>
               </div>
             </div>
             

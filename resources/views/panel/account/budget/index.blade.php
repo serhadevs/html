@@ -135,7 +135,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach($internalcomplete as $internal)
+                    @foreach($budgetCommitment as $commitment)
                     <tr>
                        {{-- <td>{{$order->id}}</td>
                       @if($order->approvePurchaseOrder)
@@ -144,23 +144,23 @@
                     <td> <span class ="badge bg-red">Not approved</span></td>
                     @endif --}}
                    
-                    <td>{{$internal->requisition_no}}</td>
-                    <td>{{$internal->estimated_cost}}</td>
-                    <td>{{$internal->budget_approve}}</td>
-                    <td>{{$internal->department->name}}</td>
-                    <td>{{$internal->institution->name}}</td>
-                    <td>{{$internal->requisition_type->name}}</td>
-                    <td>{{$internal->priority}}</td>
-                    <td>{{$internal->budget_commitment->commitment_no}}</td>
-                    <td>{{$internal->budget_commitment->account_code}}</td>
-                    <td>{{$internal->budget_commitment->comment}}</td>
-                    <td>{{$internal->budget_commitment->created_at}}</td>
+                    <td>{{$commitment->internalrequisition->requisition_no}}</td>
+                    <td>{{$commitment->internalrequisition->estimated_cost}}</td>
+                    <td>{{$commitment->internalrequisition->budget_approve}}</td>
+                    <td>{{$commitment->internalrequisition->department->name}}</td>
+                    <td>{{$commitment->internalrequisition->institution->name}}</td>
+                    <td>{{$commitment->internalrequisition->requisition_type->name}}</td>
+                    <td>{{$commitment->internalrequisition->priority}}</td>
+                    <td>{{$commitment->commitment_no}}</td>
+                    <td>{{$commitment->account_code}}</td>
+                    <td>{{$commitment->comment}}</td>
+                    <td>{{$commitment->created_at}}</td>
                     
 
                     
                    
                     <td>
-                     <a  href="/budgetcommitment/{{$internal->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
                     <a href="" class="btn btn-block btn-danger btn-m">Delete</a>

@@ -44,7 +44,14 @@
                   <tr>
                     <td>Estimated Cost: {{$internalRequisition->estimated_cost}}</td>
                   </tr>
+
+                  <tr>
+                    <td>Requisition no:{{$internalRequisition->requisition_no}}</td>
+                  </tr>
                     
+
+
+
                 </table>
               </p>
               </br>

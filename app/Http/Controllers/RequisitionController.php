@@ -272,7 +272,11 @@ class RequisitionController extends Controller
             $check_id = Check::where('requisition_id',$requisition->id)
             ->where('is_refuse',1)
             ->first();
+            if($check_id != null){
             $check_id->delete();
+            }else{
+                $check_id = 0;
+            }
             //$check_delete = Check::find($check_id->id);
             
 

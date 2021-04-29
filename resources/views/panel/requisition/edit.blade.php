@@ -89,7 +89,7 @@ text-align: center;
                       <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                       <div class="col-sm-4">
                        
-                        <input type="number" class="form-control" value="{{$requisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
+                        <input type="number" class="form-control" value="{{$requisition->internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
                        
                       </div>
                       </div>

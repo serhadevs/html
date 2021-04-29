@@ -42,17 +42,19 @@ class BudgetCommitmentController extends Controller
 
 
 
-       $internalcomplete = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
-       ->whereHas('approve_internal_requisition',function($query){
-        $query->where('is_granted','=', 1);
-       })
+    //    $internalcomplete = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
+    //    ->whereHas('approve_internal_requisition',function($query){
+    //     $query->where('is_granted','=', 1);
+    //    })
 
-       ->has('budget_commitment')
-       ->get();
+    //    ->has('budget_commitment')
+    //    ->get();
+
+        $budgetCommitment = BudgetCommitment::all();
 
 
        
-       return view('/panel.account.budget.index',compact('internalrequisitions','internalcomplete'));
+       return view('/panel.account.budget.index',compact('internalrequisitions','budgetCommitment'));
     }
 
     /**

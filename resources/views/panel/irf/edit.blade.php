@@ -220,7 +220,7 @@ text-align: center;
                 
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;'>
+                  <input name='unit_cost[]'size="5" class='unitcost' value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;'>
                 </td>
                 <td>
                 <input name='part_number[]' class='part_number' value="{{$stock->part_number}}" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;'>
@@ -240,7 +240,7 @@ text-align: center;
               <!-- textarea -->
               <div class="form-group">
                 <label>Comments/Justification</label>
-              <textarea class="form-control" name="comments" rows="3" placeholder="{{$ir->comments}}"></textarea>
+              <textarea class="form-control" name="comments" rows="3" >{{$ir->comments}}</textarea>
               </div>
             </div>
             

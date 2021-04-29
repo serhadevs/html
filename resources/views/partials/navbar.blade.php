@@ -74,7 +74,7 @@
                @if(auth()->user()->notifications->count() !== 0)
               <a href="#" class="dropdown-item">
                <i class="fas fa-envelope mr-2"></i>
-              <span ="float-right text-muted text-sm"></span>
+              <span class="float-right text-muted text-sm"></span>
               </a>
 
               {{-- <a href="#" class="dropdown-item">

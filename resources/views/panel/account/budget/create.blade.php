@@ -129,6 +129,59 @@ text-align: center;
                                  
                                 </div>
                                 </div>
+                                <div class="form-group row">
+                                  <label for="cost-centre" class="col-sm-2 col-form-label">Requisition no.</label>
+                                  <div class="col-sm-4">
+                                      <input type="input" class="form-control" value="{{$internalrequisition->requisition_no}}" readonly>
+                                  
+                                  </div> 
+                                  {{-- <label for="date-of-last" class="col-sm-2 col-form-label">Priority</label>
+                                  <div class="col-sm-4">
+                                  <input type="input" class="form-control" value="{{$internalrequisition->priority}}" readonly>
+                                   
+                                  </div> --}}
+                                  </div>
+
+
+
+
+
+
+                                <div id="table" class="table-editable">
+                                  <span class="table-add float-right mb-3 mr-2"></span>
+                            <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
+                              <thead>
+                                <tr>
+                                  <th class="text-center">Item No.</th>
+                                  <th class="text-center">Description</th>
+                                  <th class="text-center">Quantity</th>
+                                  <th class="text-center">Measurement</th>
+                                  <th class="text-center">Unit Cost</th>
+                                  <th class="text-center">Part Number</th>
+                                  
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @foreach($internalrequisition->stocks as $stock)
+                                <tr>
+                                
+                                  <td>{{$stock->item_number}}</td>
+                                  <td>{{$stock->description}}</td>
+                                  <td>{{$stock->quantity}}</td>
+                                  <td>{{$stock->unit_of_measurement_id}}</td>
+                                  <td>{{$stock->unit_cost}}</td>
+                                  <td>{{$stock->part_number}}</td>
+                              
+                         
+                                
+                                </tr>
+                                 
+                             @endforeach
+                           
+                    
+                              </tbody>
+                            </table>
+                          </div>
 
 
 
@@ -166,7 +219,20 @@ text-align: center;
                       </div>
                     </div>
                             
-                    
+                    <div class="col-10">
+                       
+                      {{-- <div class="col-sm-5">
+                      Approve Internal Requisition by: <span class='badge badge-success'></span>
+                      </div> --}}
+                      <div class="col-sm-5">
+                       @if($internalrequisition->approve_internal_requisition)
+                      Approve by: <span class='badge badge-success'>{{$internalrequisition->approve_internal_requisition->user->firstname[0]}}. {{$internalrequisition->approve_internal_requisition->user->lastname}} </span></br>
+                      Date:  <span class='badge badge-success'>{{$internalrequisition->approve_internal_requisition->created_at}}</span>
+                      @else
+                        Approve  by: <span class='badge badge-success'></span>
+                        @endif
+                      </div>
+                    </div>
                     
                         </div>
                         </div>

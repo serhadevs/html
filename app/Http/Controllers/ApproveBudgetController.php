@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Notifications\ApproveBudgetPublish;
 use App\User;
 use PDF;
+use App\Comment;
 class ApproveBudgetController extends Controller
 {
     /**
@@ -64,21 +65,39 @@ class ApproveBudgetController extends Controller
             if(!in_array(auth()->user()->role_id,[1,8]) ){
                 abort_if(in_array(auth()->user()->role_id,[2,5,12,9]),redirect('/panel/approve/budget.index')->with('error','No access granted'));
                 }else{
-            if ($request->all()) {
+   
                 $approve = new ApproveBudget();
+                $permission = $request->data['permission'];
                 $approve->internal_requisition_id = $request->data['internal_requisition_id'];
                 $approve->user_id = auth()->user()->id;
-                $approve->is_granted = true;
+                $approve->is_granted = $permission ;
                 $approve->save();
+            
+                if($permission ==0){
+                    $comment = new Comment();
+                    $comment->check_id = $approve->id;
+                    $comment->type ='budget approve';
+                    $comment->comment =  $request->data['comment'];
+                    $comment->save();
+
+                    
+                    $requisition = Requisition::find($request->data['internal_requisition_id']);
+                    $user = User::find($requisition->user_id);
+                    $user->notify(new RefuseRequisitionPublish($requisition,$comment));
+                   $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+
+            
+
+                }else{
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
                 ->whereIn('role_id',[1,2,8,9])
                 ->get();
       
-                $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+                // $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
-                $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+                // $users->each->notify(new ApproveBudgetPublish($internalRequisition));
 
                
             }
