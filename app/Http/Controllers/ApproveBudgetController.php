@@ -95,9 +95,9 @@ class ApproveBudgetController extends Controller
                 ->whereIn('role_id',[1,2,8,9])
                 ->get();
       
-                // $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+                $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
-                // $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+                $users->each->notify(new ApproveBudgetPublish($internalRequisition));
 
                
             }
