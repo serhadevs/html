@@ -15,6 +15,7 @@ use App\SystemOperations\RequisitionNumberGenerator;
 use App\UnitOfMeasurement;
 use Illuminate\Http\Request;
 use App\InternalRequisition;
+use Illuminate\Support\Facades\Storage;
 
 class RequisitionController extends Controller
 {
@@ -226,7 +227,7 @@ class RequisitionController extends Controller
         $categories = StockCategory::all();
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
-       
+      // $content = Storage::url('app\public\Maintenance Manager JD.docx');
         if ($requisition->approve) {
             return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
         }
