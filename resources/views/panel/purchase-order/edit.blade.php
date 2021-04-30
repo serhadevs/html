@@ -344,7 +344,7 @@ text-align: center;
 <td>
 <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
 </td> 
-<td> <a class="btn btn-primary " href="{{ asset('/documents/'.$file->filename)}}">View</a></td>
+<td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
 <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" >Remove</button></td>
 </tr>
 @endforeach
