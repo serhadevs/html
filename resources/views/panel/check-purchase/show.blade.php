@@ -53,7 +53,7 @@ text-align: center;
                         The Towers, 25 Dominica Drive, Kingston 5</p><br>
                         </div>
 
-                      Requester:  <b>{{$requisition->user->firstname[0]}}. {{$requisition->user->lastname}}</b>
+                      Requester:  <b>{{$requisition->internalrequisition->user->firstname[0]}}. {{$requisition->internalrequisition->user->lastname}}</b>
 
                         <p><br>Institution: {{$requisition->institution->name}}</br>
                           Departmentent: {{$requisition->department->name}} </br>
@@ -71,7 +71,9 @@ text-align: center;
                         TCC Number: {{$requisition->tcc}}</br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
                         Contract Sum: {{$requisition->contract_sum}}</br>
-                        Date Required: {{$requisition->date_require}}</br>
+                        {{-- Date Required: {{$requisition->date_require}}</br> --}}
+                        Requisition no.: {{$requisition->internalrequisition->requisition_no}}</br> 
+
                         </div>
                         
                         <div class="col-sm-6">
@@ -81,7 +83,7 @@ text-align: center;
                         TRN: {{$requisition->trn}}</br>
                         Estimate Cost: {{$requisition->internalrequisition->estimated_cost}} </br>
                         Cost Variance: {{$requisition->cost_variance}} </br>
-                        Date Last Order: {{$requisition->date_last_ordered}} </br>
+                       
                         
 
                         </div>

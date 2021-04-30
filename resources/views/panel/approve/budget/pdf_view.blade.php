@@ -48,9 +48,12 @@
                   <tr>
                     <td>Requisition no:{{$internalRequisition->requisition_no}}</td>
                   </tr>
-                    
-
-
+                  <tr>
+                    <td>Commitment : {{$internalRequisition->budget_commitment->commitment_no}}</td>
+                  </tr>
+                  <tr>
+                    <td>Accounting : {{$internalRequisition->budget_commitment->account_code}}</td>
+                  </tr>
 
                 </table>
               </p>

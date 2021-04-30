@@ -68,7 +68,8 @@ text-align: center;
                         Phone: {{$internalRequisition->phone}}</br>
                         Email: {{$internalRequisition->email}}</br>
                         Procurement Type: {{$internalRequisition->requisition_type->name}}</br>
-                        Priority:{{$internalRequisition->priority}}</br>
+                        Priority: {{$internalRequisition->priority}}</br>
+                        Requisition no : {{$internalRequisition->requisition_no}}</br>
                         </div>
                         
                         <div class="col-sm-6">

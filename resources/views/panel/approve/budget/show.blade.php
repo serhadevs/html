@@ -70,6 +70,8 @@ text-align: center;
                         Procurement Type: {{$internalRequisition->requisition_type->name}}</br>
                         Priority:{{$internalRequisition->priority}}</br>
                         Requisition no: {{$internalRequisition->requisition_no}}</br>
+                        Commitment : {{$internalRequisition->budget_commitment->commitment_no}}</br>
+                        Accounting : {{$internalRequisition->budget_commitment->account_code}}
                         </div>
                         
                         <div class="col-sm-6">

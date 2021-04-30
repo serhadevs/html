@@ -23,9 +23,8 @@ class InternalRequisitionController extends Controller
      */
     public function index()
     {
-        $internal_requisitions =  InternalRequisition::all()
-      ->where('department_id',auth()->user()->department_id)
-      ->where('institution_id',auth()->user()->institution_id);
+        $internal_requisitions =  InternalRequisition::where('department_id',auth()->user()->department_id)
+      ->where('institution_id',auth()->user()->institution_id)->get();
 
         return view('/panel.irf.index',compact('internal_requisitions'));
 
@@ -136,6 +135,8 @@ class InternalRequisitionController extends Controller
     public function show($id)
     {
         //
+        $internal_requisition = InternalRequisition::find($id);
+        return view('/panel.irf.show', compact('internal_requisition'));
     }
 
     /**
@@ -155,7 +156,7 @@ class InternalRequisitionController extends Controller
       $types = RequisitionType::all();
 
       if ($ir->approve_internal_requisition) {
-        return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already accepted');
+        return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already approved.');
     }
 
         return view('/panel.irf.edit', compact('units','ir','types'));

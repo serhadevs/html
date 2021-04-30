@@ -56,6 +56,7 @@
 
                     <th>Option</th>
                     <th></th>
+                    <th></th>
                     
                   </tr>
                   </thead>
@@ -87,6 +88,9 @@
                     <td>
                      <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
+                    <td>
+                      <a  href="/internal_requisition/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m" >View</a> 
+                     </td>
                     <td>
                     <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteinternal_requisition({{$internal_requisition->id}})" >Delete</a>
                     </td> 

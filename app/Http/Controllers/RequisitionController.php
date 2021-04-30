@@ -211,7 +211,7 @@ class RequisitionController extends Controller
     public function show(Requisition $requisition)
     {
         //
-        dd('test');
+        return view('panel.requisition.show', ['requisition' => $requisition]);
     }
 
     /**
@@ -346,6 +346,20 @@ class RequisitionController extends Controller
         try {
             $requisition = Requisition::find($id);
             $requisition->delete();
+            return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+
+    public function deleteFile($id)
+    {
+
+        // dd('destroy');
+        try {
+            $file = File_Upload::find($id);
+            $file->delete();
             return "success";
         } catch (Exception $e) {
             return 'fail';

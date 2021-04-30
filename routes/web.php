@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/requisition/create/{id}', 'RequisitionController@create');
     Route::post('/requisition/store', 'RequisitionController@store');
     Route::get('/requisition/delete/{id}', 'RequisitionController@destroy');
+    Route::get('/file/delete/{id}', 'RequisitionController@deleteFile');
 
 //purchase-order
     Route::resource('/purchase-order', 'PurchaseOrderController');

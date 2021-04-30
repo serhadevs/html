@@ -38,7 +38,7 @@ text-align: center;
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
-                        <h3 class="card-title">Edit Purchase Requisition</h3>
+                        <h3 class="card-title">View Purchase Requisition</h3>
                         </div>
                         </div>
                         </div>
@@ -47,9 +47,9 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}"  enctype="multipart/form-data" >
+                {{-- <form class="form-horizontal" method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}"  enctype="multipart/form-data" >
                   @csrf
-                  @method('PATCH') 
+                  @method('PATCH')  --}}
             
     
                         <div id="first">
@@ -58,17 +58,17 @@ text-align: center;
                            <div class="col-m-10">
 
                             <div class="form-group row">
-                              <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
-                              <div class="col-sm-4">
-                              <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
-                                </div>
-      
-                                {{-- <label for="inputEmail4" class="col-sm-2 col-form-label">Date Ordered</label>
-                              <div class="col-sm-4">
-                              <input type="input" class="form-control"  value="{{$internal_requisition->created_at->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
-                              </div> --}}
-                              
-                            </div>
+                                <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
+                                <div class="col-sm-4">
+                                <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
+                                  </div>
+        
+                                  {{-- <label for="inputEmail4" class="col-sm-2 col-form-label">Date Ordered</label>
+                                <div class="col-sm-4">
+                                <input type="input" class="form-control"  value="{{$internal_requisition->created_at->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
+                                </div> --}}
+                                
+                              </div>
                              <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Requester</label>
                         <div class="col-sm-4">
@@ -122,23 +122,25 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Recommended Supplier </label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control"name ='supplier_id' id="supplier" required>
+                            <input type="input" class="form-control" value="{{$requisition->supplier->name}}"  disabled>
+                        {{-- <select type="input" class="form-control"name ='supplier_id' id="supplier" required>
                         <option value='{{$requisition->supplier->id}}'>{{$requisition->supplier->name}}</option>
                          @foreach($suppliers->except($requisition->supplier->id) as $supplier)
                  
                         <option value="{{$supplier->id}}">{{$supplier->name}}</option>
                         
                         @endforeach 
-                        </select>
+                        </select> --}}
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Term</label>
                         <div class="col-sm-4">
-                          <select type="input" class="form-control" name="delivery" id="delivery" required>
+                          {{-- <select type="input" class="form-control" name="delivery" id="delivery" required>
                           <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
                           <option value="COD">COD</option>
                            <option value="Credit">Credit</option>
                            
-                         </select>  
+                         </select>   --}}
+                         <input type="input" class="form-control" value="{{$requisition->delivery}}"  disabled>
                        
                          
                         </div>
@@ -147,12 +149,12 @@ text-align: center;
                         <div class="form-group row">
                           <label for="cost-centre" class="col-sm-2 col-form-label">Description </label>
                           <div class="col-sm-4">
-                              <textarea type="text" class="form-control" value="" name='description'>{{$requisition->description}}</textarea>
+                              <textarea type="text" class="form-control" disabled name='description'>{{$requisition->description}}</textarea>
                           </div>
                           <label for="date-of-last" class="col-sm-2 col-form-label">Category</label>
                           <div class="col-sm-4">
-                           
-                          <select type="input" class="form-control"name ='category' id="category">
+                            <input type="input" class="form-control" value="{{$requisition->category->name}}"  disabled>
+                          {{-- <select type="input" class="form-control"name ='category' id="category">
                           <option value="{{$requisition->category_id}}" >{{$requisition->category->name}}</option>
                           
                           @foreach($categories as $category)
@@ -162,7 +164,7 @@ text-align: center;
                         <option value="{{$category->id}}">{{$category->name}}</option>
                         @endif
                          @endforeach
-                          </select>
+                          </select> --}}
                            
                           </div>
                           </div>
@@ -181,20 +183,21 @@ text-align: center;
                           <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                             <div class="col-sm-4">
-                            <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" name='contract_sum'>
+                            <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" disabled  name='contract_sum'>
                             </div>
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                           <div class="col-sm-4">
-                             <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
+                            <input type="input" class="form-control" value="{{$requisition->procurement_method_id}}"  disabled>
+                             {{-- <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
                             {{-- <option value="">Select method </option> --}}
-                        @foreach($methods as $method)
+                        {{-- @foreach($methods as $method)
                         @if($requisition->procurement_method_id === $method->id)
                         <option value="{{$method->id}}">{{$method->name}}</option>
                         @else
                         <option value="{{$method->id}}">{{$method->name}}</option>
                         @endif
                          @endforeach
-                           </select>  
+                           </select>   --}}
                         
                           </div>
                             </div>
@@ -252,10 +255,10 @@ text-align: center;
                               <input type="number" class="form-control" value="{{$requisition->cost_variance}}" id='cost_variance' name='cost_variance' readonly>
                               </div>
       
-                              <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
+                              <label for="date-of-last"  class="col-sm-2 col-form-label">TRN</label>
                               <div class="col-sm-4">
                                
-                               <input type="number" class="form-control" value="{{$requisition->trn}}" id='trn' name='trn'>
+                               <input type="number" disabled class="form-control" value="{{$requisition->trn}}" id='trn' name='trn'>
                                
                               </div>
                               
@@ -311,7 +314,7 @@ text-align: center;
           </table>
         </div>
         <div class="form-group row img_div ">
-                        <div class="col-sm-6">
+                        {{-- <div class="col-sm-6">
                        
                        <div class="form-group">
                        <label for="exampleInputFile">Support Documents</label>
@@ -324,7 +327,7 @@ text-align: center;
                       </div>
                       </div>
                       </div>
-                      </div> 
+                      </div>  --}}
                      
 
 
@@ -370,7 +373,7 @@ text-align: center;
                     <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                     </td> 
                   <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
-                    <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" >Remove</button></td>
+                    {{-- <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" >Remove</button></td> --}}
                   </tr>
                     @endforeach
                   </tbody>
@@ -415,7 +418,7 @@ text-align: center;
                         <div class="row">
                         <div class="col-10">
                        
-                        <button type="Submit"   class="btn btn-success float-right">Submit</button>
+                        <a type="button" href="/requisition"   class="btn btn-success float-left">back</a>
                         </div>
                         </div>
                         </div>
@@ -449,7 +452,7 @@ text-align: center;
                   
                     
                 
-                  </form>  
+                  {{-- </form>   --}}
               
             
             </div>
@@ -569,7 +572,7 @@ function deleteFile(id){
     closeOnConfirm: false
   }).then(isConfirm => {
     if (isConfirm) {
-      $.get( {!! json_encode(url('/')) !!} + "/file/delete/"+id).then(function (data) {
+      $.get( {!! json_encode(url('/')) !!} + "/requisition/delete/"+id).then(function (data) {
         console.log(data);
         if (data == "success") {
           swal(

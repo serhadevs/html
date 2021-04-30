@@ -21,7 +21,7 @@ class ApproveInternalRequisitionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,3,12,10,11,12])) {
+            if (!in_array(auth()->user()->role_id, [1,2,3,10,11,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -33,9 +33,8 @@ class ApproveInternalRequisitionController extends Controller
         //
 
        // dd('arrived');
-      $internalRequisitions = InternalRequisition::all()
-    ->where('department_id', auth()->user()->department_id)
-    ->where('institution_id', auth()->user()->institution_id);
+      $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
+    ->where('institution_id', auth()->user()->institution_id)->get();
 
 
     
@@ -75,7 +74,7 @@ class ApproveInternalRequisitionController extends Controller
                 ->where('department_id', auth()->user()->department_id)
                 ->whereIn('role_id',[1,2])
                 ->get();
-      
+                // dd($users);
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
                 $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));

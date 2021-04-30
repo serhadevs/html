@@ -7,6 +7,7 @@ use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\RequisitionType;
 use App\User;
+use App\Notifications\AssignInternalRequisition;
 
 class AssignRequisitionController extends Controller
 {
@@ -62,8 +63,18 @@ class AssignRequisitionController extends Controller
        $assignee = new AssignRequisition();
        $assignee->user_id = $request->user_id;
        $assignee->internal_requisition_id = $request->requisition_id;
-       //send email to assigned task
+      
        $assignee->save();
+
+        //send email to assigned task
+       $internal_requisition = InternalRequisition::find($request->requisition_id);
+       $user = User::where('id',$request->user_id)->get();
+    //    $users = User::where('institution_id',auth()->user()->institution_id )
+    //             ->where('department_id', auth()->user()->department_id)
+    //             ->whereIn('role_id',[1,2])
+    //             ->get();
+        //dd($user);
+       $user->each->notify(new AssignInternalRequisition($internal_requisition));
 
 
        return redirect('/assign_requisition')->with('status', 'The internal requisition was assign to procurement officer successfully');
