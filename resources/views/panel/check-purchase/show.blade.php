@@ -273,9 +273,10 @@ text-align: center;
 
                         {{-- //end --}}
                         </div>
+                      </br>
                       </div>
                     </div>
-</br>
+
 
 @endsection
 

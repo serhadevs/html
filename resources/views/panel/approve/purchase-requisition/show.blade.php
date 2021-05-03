@@ -58,7 +58,7 @@ text-align: center;
                         <p><br>Institution: {{$requisition->institution->name}}</br>
                           Departmentent: {{$requisition->department->name}} </br>
                           Cost Centre: {{$requisition->cost_centre}}    </br>
-                          Date Ordered: {{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}
+                          Date Ordered: {{Carbon\Carbon::parse($requisition->internalrequisition->created_at)->format('Y-M-d')}}
                          
                         </p>
 
@@ -71,7 +71,8 @@ text-align: center;
                         TCC Number: {{$requisition->tcc}}</br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
                         Contract Sum: {{$requisition->contract_sum}}</br>
-                        Date Required: {{$requisition->date_require}}</br>
+                        {{-- Date Required: {{$requisition->date_require}}</br> --}}
+                        Requisition no: {{$requisition->requisition_no}} </br>
                         </div>
                         
                         <div class="col-sm-6">
@@ -81,7 +82,7 @@ text-align: center;
                         TRN: {{$requisition->trn}}</br>
                         Estimate Cost: {{$requisition->estimated_cost}} </br>
                         Cost Variance: {{$requisition->cost_variance}} </br>
-                        Date Last Order: {{$requisition->date_last_ordered}} </br>
+                       
                         
 
                         </div>
@@ -193,15 +194,23 @@ text-align: center;
                 <br>
                         <div class="form-group row">
                         <div class="col-sm-6">
-                      
-                        Accepted by: <span class='badge badge-success'>{{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}} </span>
-                        </div>
-                        <div class="col-sm-6">
-                     
-                         @if($requisition->approve)
-                        Approve by: <span class='badge badge-success'> {{$requisition->approve->user->firstname[0]}}. {{$requisition->approve->user->lastname}} </span>
+                        
+                          Approved IR by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_internal_requisition->user->abbrName()}} </span></br>
+                          Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_internal_requisition->created_at}}</span></br>
+                       
+                        Budget Commitment by: <span class='badge badge-success'>{{$requisition->internalRequisition->budget_commitment->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->budget_commitment->created_at}}</span></br>
+                        @if($requisition->approve)
+                        Approve Requisition by: <span class='badge badge-success'> {{$requisition->approve->user->firstname[0]}}. {{$requisition->approve->user->lastname}} </span>
                        
                           @endif
+                      </div>
+                        <div class="col-sm-6">
+                          Accepted by: <span class='badge badge-success'>{{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}} </span></br>
+                          Date:  <span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
+                          Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
+                          Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span></br>
+                        
                     
                    
                         </div>
@@ -219,12 +228,59 @@ text-align: center;
                         <button type="button"   class="btn btn-warning" disabled>Refuse</button>
                         <button type="button"   class="btn btn-primary float-right"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
                       @else
-                        <button type="button"   class="btn btn-warning" >Refuse</button>
+                      <button type="button"   class="btn btn-warning"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                         <button type="button"   class="btn btn-primary float-right"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
                           @endif
                       </div>
                         </br>
                         </div>
+
+
+                           {{-- //modal  --}}
+
+             <div class="modal fade" id="modal-lg">
+              <div class="modal-dialog modal-m">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Refuse Requisition</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="card-body">
+                      <form  id='form-refuse' class="form-horizontal" method="Post" autocomplete="off" action="/approve-budget-requisition" >
+                        @csrf 
+                         <div class="form-group row">
+                        <label for="cost-centre" class="col-m-4 col-form-label">Comments</label>
+                        <div class="col-m-8">
+                            <textarea type="text" style="width:400px; height:200px;" value="{{Request::old('comment')}}" id="comment" name='comment'></textarea>
+                        </div>
+                        <input type="hidden" name='requisition_id' id="requisition_id" value="{{$requisition->id}}"> 
+                        </div>
+
+
+                     
+                    </form>
+
+            
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                    <button type="submit"  class="btn btn-primary float-right" id="post" onclick="Refuse('{{$requisition->id}}');">Send</button>
+                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            {{-- //end --}}
 
 
         </div>
@@ -291,7 +347,7 @@ function Accept(requisitionId){
       }).then(isConfirm => {
         if (isConfirm) {
           // console.log("app type:" +  requisitionId);
-          $.post( {!! json_encode(url('/')) !!} + "/approve-requisition",{ _method: "POST",data:{requisitionId:requisitionId},_token: "{{ csrf_token() }}"}).then(function (data) {
+          $.post( {!! json_encode(url('/')) !!} + "/approve-requisition",{ _method: "POST",data:{requisitionId:requisitionId,permission:1},_token: "{{ csrf_token() }}"}).then(function (data) {
           console.log(data);
             if (data == "success") {
               swal(
@@ -316,6 +372,46 @@ function Accept(requisitionId){
         });
 }
 
+
+function Refuse(requisitionId){
+  var comment = $('#comment').val();
+  // console.log(internal_requisition_id);
+   swal({
+        title: "Are you sure you want to refuse the selected applications?",
+        // text: "Tip: Always ensure that you review each purchase requisition thoroughly before approval.",
+        icon: "warning",
+        buttons: [
+          'No, cancel it!',
+          'Yes, I am sure!'
+        ]
+      }).then(isConfirm => {
+        if (isConfirm) {
+          // console.log("app type:" +  requisitionId);
+          $.post( {!! json_encode(url('/')) !!} + "/approve-requisition",{ _method: "POST",data:{requisitionId:requisitionId,permission:0,comment:comment},_token: "{{ csrf_token() }}"}).then(function (data) {
+          console.log(data);
+            if (data == "success") {
+              swal(
+                "Done!",
+                "Purchase requisition was refuse and will send an email to the requester.",
+                "success").then(esc => {
+                  if(esc){
+                    location.reload();
+                  }
+                });
+              }else{
+                swal(
+                  "Oops! Something went wrong.",
+                  "Application(s) were NOT approved",
+                  "error");
+                }
+                location.href='/approve-requisition';
+               
+              });
+            }
+       
+        });
+        $('#modal-lg').modal('hide');
+}
 
   
 </script>

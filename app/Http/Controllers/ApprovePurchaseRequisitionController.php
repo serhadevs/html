@@ -6,7 +6,9 @@ use App\Approve;
 use DB;
 use App\InternalRequisition;
 use App\Notifications\ApproveRequisitionPublish;
+use App\Notifications\RefuseRequisitionPublish;
 use App\User;
+use App\Comment;
 
 
 use Illuminate\Http\Request;
@@ -75,15 +77,29 @@ class ApprovePurchaseRequisitionController extends Controller
         try {
     if ($request->all()) {
         $approve = new Approve();
-       // $approve->requisition_type = 1;
+        $permission = $request->data['permission'];
         $approve->requisition_id= $request->data['requisitionId'];
         // $approve->purchase_order_id = null;
         $approve->user_id = auth()->user()->id;
-        $approve->is_granted = true;
-        // $approve->approve_date=now();
-
-
+        $approve->is_granted = $permission;
         $approve->save();
+
+        if($permission ==0){
+            $comment = new Comment();
+            $comment->check_id = $approve->id;
+            $comment->type ='approve requisition';
+            $comment->comment =  $request->data['comment'];
+            $comment->save();
+
+            
+            $requisition = Requisition::find($request->data['requisitionId']);
+            $user = User::find($requisition->user_id);
+            $user->notify(new RefuseRequisitionPublish($requisition,$comment));
+         //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+
+    
+
+        }else{
 
         $users = User::where('institution_id',auth()->user()->institution_id )
         ->where('department_id', auth()->user()->department_id)
@@ -93,8 +109,10 @@ class ApprovePurchaseRequisitionController extends Controller
                 $requisition = Requisition::find($request->data['requisitionId']);
             
                 $users->each->notify(new ApproveRequisitionPublish($requisition));
+        }
+        return 'success';
     }
-    return 'success';
+   
 
 } catch (Exception $e) {
     return 'fail';

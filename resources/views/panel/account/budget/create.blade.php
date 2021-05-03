@@ -56,7 +56,7 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/budgetcommitment" enctype="multipart/form-data">
+                <form class="form-horizontal" method="Post" id='budget_commitment_form' autocomplete="off" action="/budgetcommitment" enctype="multipart/form-data">
                   @csrf
                             <div class="card" style="width:82.9%">
                           <div class="card-body">
@@ -241,7 +241,7 @@ text-align: center;
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="Submit" class="btn btn-danger float-right" >Submit</button>
+                        <button type="Submit" id="btnSubmit" class="btn btn-danger float-right" >Submit</button>
                         </div>
                         </div>
 
@@ -310,6 +310,22 @@ text-align: center;
   
 
 
+  $(document).ready(function () {
+
+$("#budget_commitment_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+   // e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
+});
 
 
 

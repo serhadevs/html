@@ -105,7 +105,7 @@
                 </a>
               </li>
               @endif
-              @if(in_array(Auth::user()->role_id, [3,10,11,12,9]))
+              @if(in_array(Auth::user()->role_id, [1,3,10,11,12,9]))
               <li class="nav-item">
                 <a href="/approve-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

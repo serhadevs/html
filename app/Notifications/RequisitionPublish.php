@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\InternalRequisition;
+use App\Requisition;
 
 class RequisitionPublish extends Notification
 {
@@ -17,9 +17,11 @@ class RequisitionPublish extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Requisition $requisition)
     {
         //
+        $this->requisition = $requisition;
+
     }
 
     /**
@@ -30,7 +32,7 @@ class RequisitionPublish extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -42,9 +44,11 @@ class RequisitionPublish extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        ->subject('Requisition')
+        ->greeting('Good day , ' .$notifiable->firstname )
+        ->line('A new requisition was recieved, requisition number is '.$this->requisition->requisition_no.'.')
+        ->action('View requisition', url('check-purchase/'. $this->requisition->id))
+        ->line('Thank you for using this application!');
     }
 
     /**
@@ -55,8 +59,6 @@ class RequisitionPublish extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        return $this->requisition->toArray();
     }
 }

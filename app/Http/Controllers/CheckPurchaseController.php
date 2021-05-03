@@ -145,32 +145,7 @@ class CheckPurchaseController extends Controller
 
     }
 
-    //  public function refuse(Request $request)
-    // {
-    //     try {
-    //         if ($request->all()) {
-    //             $check = new Check();
-    //             $check->is_checked = null;
-    //             $check->is_refuse = 1;
-    //             $check->check_date = now();
-    //             $check->requisition_id = $request->data['requisitionId'];
-    //             $check->user_id = auth()->user()->id;
-    //             $check->save();
-    //         }
-
-    //         // $requisition =  Requisition::find($request->data['requisitionId']);
-    //         // $requisition->institution_id  = auth()->user()->institution_id;
-    //         // $requisition->update();
-           
-    //         return 'success';
-
-           
-    //     } catch (Exception $e) {
-    //         return 'fail';
-    //     }
-    //     return redirect('/requisition')->with('status', 'Requisition was created successfully');
-
-    // }
+ 
 
     /**
      * Display the specified resource.

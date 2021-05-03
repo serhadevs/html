@@ -167,7 +167,7 @@ text-align: center;
                            
                         </div>
 
-                        <form class="form-horizontal" method="Post" autocomplete="off" action="/assign_requisition" enctype="multipart/form-data">
+                        <form class="form-horizontal" id="assign_form" method="Post" autocomplete="off" action="/assign_requisition" enctype="multipart/form-data">
                         <label for="date-of-last" class="col-sm-5 col-form-label">Assign procurement Officer</label>
                         <div class="col-sm-5">
                   
@@ -203,7 +203,7 @@ text-align: center;
                         <div class="col-10">
                      
                          
-                        <button type="submit"   class="btn btn-primary float-right" >Submit</button></br>
+                        <button type="submit"  id="#btnSubmit"  class="btn btn-primary float-right" >Submit</button></br>
                         
                       </div> 
                        
@@ -301,6 +301,24 @@ function Assign(internal_requisition_id){
 }
 
   
+$(document).ready(function () {
+
+$("#assign_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+   // e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
+});
+
+
 </script>
 
 @endpush

@@ -82,7 +82,7 @@ input[type="checkbox"]{
                     @if($internal->approve_internal_requisition)
                     <td> <span class ="badge bg-green">Approve</span></td>
                     @else
-                    <td> <span class ="badge bg-red">unapprove</span></td>
+                    <td> <span class ="badge bg-red">Uncheck</span></td>
                     @endif
                   <td>{{$internal->requisition_no}}</td>
                   <td>{{$internal->created_at}}</td>

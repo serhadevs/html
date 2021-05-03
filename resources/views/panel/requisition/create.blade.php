@@ -59,7 +59,7 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/requisition" enctype="multipart/form-data">
+                <form class="form-horizontal" id="requisition_form" method="Post" autocomplete="off" action="/requisition" enctype="multipart/form-data">
                   @csrf
                   
                       
@@ -348,7 +348,7 @@ text-align: center;
 
                         <div class="row">
                         <div class="col-10">
-                        <button type="submit" class="btn btn-primary float-right">Submit</button>
+                        <button type="submit" id="btnSubmit" class="btn btn-primary float-right">Submit</button>
                         </div>
                         </div>
 
@@ -401,36 +401,24 @@ text-align: center;
     @push('scripts')
     <script>
    
+   $(document).ready(function () {
+
+$("#requisition_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+    //e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
+});
 
 
-
-
-// function myfunction(){
-// $('#page').ready(function(){
- 
-// //   for(var i =0;products.length >i;i++)
-// //   {
-// //  // alert(products[i].value);
-// //   //console.log(products[i].value)
-// //   stocks.push(products[i].value);
-// //   }
-// var $div=$('#content');
-
-// $("input[class=productname]").each(function() {
-// productname.push($(this).val());
-//  });
-
-// $("input[class=quantity]").each(function() {
-// quantity.push($(this).val());
-//  });
-
-// $("input[class=des]").each(function() {
-// des.push($(this).val());
-//  });
-
-//  $("input[class=unitcost]").each(function() {
-// unitcost.push($(this).val());
-//  });
 
 
 
@@ -476,20 +464,6 @@ $(document).ready(function(){
 });
 
 
-// function varianceCheck(){
-// $('#variance').ready(function(){
-//   var contractSum = parseFloat($('#contract_sum').val());
-// var estimated_cost = parseFloat($('#estimated_cost').val());
-// var cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
-//  if(cost_variance > 15)
-//  var html = $('.variance').html();
-//     $('.variance').after(html);
-
-//     $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost- contractSum)/estimated_cost  *100 : 0).toFixed(2));
-//     console.log(cost_variance);
-    
-// });
-// }
 
   </script>
 

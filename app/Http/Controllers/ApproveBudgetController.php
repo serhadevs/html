@@ -84,7 +84,7 @@ class ApproveBudgetController extends Controller
                     $requisition = Requisition::find($request->data['internal_requisition_id']);
                     $user = User::find($requisition->user_id);
                     $user->notify(new RefuseRequisitionPublish($requisition,$comment));
-                   $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+                 //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
 
             
 

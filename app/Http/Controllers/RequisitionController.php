@@ -15,6 +15,8 @@ use App\SystemOperations\RequisitionNumberGenerator;
 use App\UnitOfMeasurement;
 use Illuminate\Http\Request;
 use App\InternalRequisition;
+use App\User;
+use App\Notifications\RequisitionPublish;
 use Illuminate\Support\Facades\Storage;
 
 class RequisitionController extends Controller
@@ -148,34 +150,7 @@ class RequisitionController extends Controller
         // add stocks to requisition
         if ($requisition->save()) {
 
-            // $input = $request->all();
-            // $product = $request->input('product_name', []);
-            // //  dd($request->all());
-
-            // if ($input['product_name'][0]) {
-            //     foreach ($input['product_name'] as $key => $stocks) {
-            //         $stock = Stock::create([
-            //             'product_name' => $input['product_name'][$key],
-            //             'quantity' => $input['quantity'][$key],
-            //             'description' => $input['descriptions'][$key],
-            //             'unit_cost' => $input['unit_cost'][$key],
-            //             'unit_of_measurement_id' => $input['unit'][$key],
-            //             'stock_category_id' => $input['categorys'][$key],
-            //             'requisition_id' => $requisition->id,
-            //         ]);
-            //         // Stock::create($stocks);
-            //         $total += $input['quantity'][$key] * $input['unit_cost'][$key];
-            //     }
-            //     // dd('true',$product);
-            // } else {
-            //     //  dd('false',$product);
-            //     $total = 0;
-
-            // }
-            //add total value to requisition total
-
-          
-           // $requisition->save();
+           
 
             if ($request->file('file_upload')) {
                 $files = $request->file('file_upload');
@@ -195,6 +170,15 @@ class RequisitionController extends Controller
                 }
 
             }
+            $users = User::where('institution_id',auth()->user()->institution_id )
+            ->where('department_id', auth()->user()->department_id)
+            ->whereIn('role_id',[1,9])
+            ->get();
+  
+            $internalRequisition = Requisition::find($requisition->id);
+        
+            $users->each->notify(new RequisitionPublish($internalRequisition));
+
 
         }
 
@@ -228,7 +212,7 @@ class RequisitionController extends Controller
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
       // $content = Storage::url('app\public\Maintenance Manager JD.docx');
-        if ($requisition->approve) {
+        if ($requisition->approve->is_granted===1) {
             return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
         }
 
@@ -277,35 +261,7 @@ class RequisitionController extends Controller
             }else{
                 $check_id = 0;
             }
-            //$check_delete = Check::find($check_id->id);
-            
-
-            // $products = Stock::find($requisition->id);
-            // dd($products);
-            // foreach ($requisition->stock as $products) {
-            //     $products->delete();
-            // }
-
-            // if ($request->product_name) {
-            //     foreach ($input['product_name'] as $key => $stocks) {
-            //         $stock = Stock::create([
-            //             'product_name' => $input['product_name'][$key],
-            //             'quantity' => $input['quantity'][$key],
-            //             'description' => $input['descriptions'][$key],
-            //             'unit_cost' => $input['unit_cost'][$key],
-            //             'unit_of_measurement_id' => $input['unit'][$key],
-            //             'stock_category_id' => $input['categorys'][$key],
-            //             'requisition_id' => $requisition->id,
-            //         ]);
-            //         // Stock::create($stocks);
-            //         $total += $input['quantity'][$key] * $input['unit_cost'][$key];
-            //     }
-            // }
-
-            //add total value to requisition total
-
-            // $requisition['total'] = $total;
-            // $requisition->update();
+          
 
             if ($request->file('file_upload')) {
                 $files = $request->file('file_upload');
