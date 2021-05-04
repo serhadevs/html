@@ -102,7 +102,7 @@ text-align: center;
                       <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                       <div class="col-sm-4">
                        
-                        <input type="number" class="form-control" value="{{$requisition->internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
+                        <input type="number" class="form-control" required value="{{$requisition->internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
                        
                       </div>
                       </div>
@@ -181,11 +181,11 @@ text-align: center;
                           <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                             <div class="col-sm-4">
-                            <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" name='contract_sum'>
+                            <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" name='contract_sum'required>
                             </div>
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                           <div class="col-sm-4">
-                             <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
+                             <select type="input" class="form-control" name="procurement_method" id="rocurement_method"required>
                             {{-- <option value="">Select method </option> --}}
                         @foreach($methods as $method)
                         @if($requisition->procurement_method_id === $method->id)
@@ -255,7 +255,7 @@ text-align: center;
                               <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
                               <div class="col-sm-4">
                                
-                               <input type="number" class="form-control" value="{{$requisition->trn}}" id='trn' name='trn'>
+                               <input type="number" class="form-control" value="{{$requisition->trn}}" id='trn' name='trn'required>
                                
                               </div>
                               

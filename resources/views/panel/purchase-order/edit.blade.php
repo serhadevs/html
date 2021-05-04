@@ -143,7 +143,7 @@ text-align: center;
                             <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">TCC number </label>
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" value="{{$requisition->tcc}}" name='tcc' readonly>
+                                <input type="number" class="form-control" value="{{$purchaseOrder->requisition->tcc}}" name='tcc' readonly>
                             </div>
                             <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
                             <div class="col-sm-4">
@@ -189,7 +189,7 @@ text-align: center;
     
                        
                             
-                             <div class="form-group row">
+                             {{-- <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">Date Required</label>
                             <div class="col-sm-4">
                              
@@ -209,17 +209,21 @@ text-align: center;
                             </div>
                              </div>
                             </div>
-                            </div>
+                            </div> --}}
                            <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Purchase Order#</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control" id ='purchase_order_number' name="purchase_order_number" value="{{$purchaseOrder->purchase_order_no}}">
+                        <input type="input" class="form-control" id ='purchase_order_number' name="purchase_order_number" value="{{$purchaseOrder->purchase_order_no}}"required>
                           </div>
+                          <label for="requisition" class="col-sm-2 col-form-label">Requisition no.</label>
+                          <div class="col-sm-4">
+                          <input type="input" class="form-control" name="requisition_no" value="{{$purchaseOrder->requisition_no}}" readonly>
+                            </div>
                           </div>
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Comments</label>
                         <div class="col-sm-4">
-                        <textarea class="form-control" name ="comments" id="comments" value="{{$purchaseOrder->comments}}" rows="3" placeholder="{{$requisition->purchase_order->comments}}"></textarea>
+                        <textarea class="form-control" name ="comments" id="comments" value="" rows="3" placeholder="">{{$purchaseOrder->comments}}</textarea>
                           </div>
                         </div>
                        
@@ -339,7 +343,7 @@ text-align: center;
 </tr>
 </thead>
 <tbody>
-@foreach($requisition->files as $file)
+@foreach($purchaseOrder->requisition->files as $file)
 <tr> 
 <td>
 <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
@@ -355,7 +359,7 @@ text-align: center;
 </div> 
 </br>
 <p>
- Prepared PO by:  <b>{{$requisition->purchaseorder->user->firstname[0]}}. {{$requisition->user->lastname}}</b>         
+ Prepared PO by:  <b>{{$purchaseOrder->requisition->purchaseorder->user->firstname[0]}}. {{$purchaseOrder->requisition->user->lastname}}</b>         
 </p>  
               </div>
               <!-- /.card-body -->
@@ -373,7 +377,7 @@ text-align: center;
       <div class="row">
                         <div class="col-10">
                      
-                        <button type="submit"  class="btn btn-danger float-right">Submit</button>
+                        <button type="submit"  class="btn btn-primary float-right">Update</button>
                         </div>
       </div>
                         <br>

@@ -151,7 +151,7 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Recommend Supplier </label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control"name ='supplier_id' id="supplier" >
+                        <select type="input" class="form-control"name ='supplier_id' id="supplier" required>
                         <option value=''>Select supplier</option>
                          @foreach($suppliers as $supplier) 
                  
@@ -162,7 +162,7 @@ text-align: center;
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
                         <div class="col-sm-4">
-                          <select type="input" class="form-control" name="delivery" id="delivery">
+                          <select type="input" class="form-control" name="delivery" id="delivery"required>
                           <option value=""  >Select specification </option>
                           <option value="cod">COD</option>
                            <option value="credit">Credit</option>
@@ -180,12 +180,12 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Description </label>
                         <div class="col-sm-4">
-                            <textarea type="text" class="form-control" value="{{Request::old('description')}}" name='description'></textarea>
+                            <textarea type="text" class="form-control" value="{{Request::old('description')}}" name='description' required></textarea>
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Category</label>
                         <div class="col-sm-4">
                          
-                        <select type="input" class="form-control"name ='category' id="category">
+                        <select type="input" class="form-control"name ='category' id="category" required>
                         <option value="" >select</option>
                         @foreach ($categories as $category)
                         <option name='category[]' value="{{$category->id}}">{{$category->name}}</option>
@@ -197,11 +197,11 @@ text-align: center;
                         <div class="form-group row">
                           <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                           <div class="col-sm-4">
-                              <input type="number" class="form-control" value="{{Request::old('contract_sum')}}" id="contract_sum" name='contract_sum'>
+                              <input type="number" class="form-control" value="{{Request::old('contract_sum')}}" id="contract_sum" name='contract_sum' required>
                           </div>
                           <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                         <div class="col-sm-4">
-                           <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
+                           <select type="input" class="form-control" name="procurement_method" id="rocurement_method" required>
                           <option value="">Select method </option>
                       @foreach($methods as $method)
                       <option value="{{$method->id}}">{{$method->name}}</option>
@@ -289,7 +289,7 @@ text-align: center;
                         <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
                         <div class="col-sm-4">
                          
-                         <input type="number" class="form-control" value="{{Request::old('trn')}}" id='trn' name='trn'>
+                         <input type="number" class="form-control" value="{{Request::old('trn')}}" id='trn' name='trn'required>
                          
                         </div>
                         

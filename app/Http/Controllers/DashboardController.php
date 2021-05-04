@@ -55,7 +55,7 @@ class DashboardController extends Controller
                       // DB::raw('YEAR(requisitions.created_at) year '),
                       // DB::raw('MONTH(requisitions.created_at) month ')
                      )
-    ->whereYear('requisitions.created_at', '=', 2020)
+    ->whereYear('requisitions.created_at', '=', 2021)
     ->groupBy('parish')
     // ->where('parishes.id','=',auth()->user()->institution->parish->id)
     
@@ -93,7 +93,7 @@ class DashboardController extends Controller
         DB::raw('sum(contract_sum) as sums'), 'institutions.name as institution'
         
     )
-    ->whereYear('requisitions.created_at', '=', 2020)
+    ->whereYear('requisitions.created_at', '=', 2021)
     ->groupBy('institution')
     
 // ->where('parishes.id','=',auth()->user()->institution->parish->id)
@@ -111,15 +111,16 @@ class DashboardController extends Controller
       $internalRequisitionApprove =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionApprovePublish')->get();
    
 
-     // $alerts = Notification::where('data->user_id',auth()->user()->id)->get();
-      // $alerts = DB::table('notifications')
-      // ->where('data->user_id',auth()->user()->id)
-      // // ->select('data->requisition_no as num ','created_at' ,'type')
-      // ->select(\DB::raw("JSON_UNQUOTE(JSON_EXTRACT(data, '$.requisition_no')) as num"),'type','created_at')
-      // ->get();
+     $alerts = Notification::where('notifiable_id',auth()->user()->id)->get();
+    //   $alerts = DB::table('notifications')
+    //   ->where('data->user_id',auth()->user()->id)
+    //   // ->select('data->requisition_no as num ','created_at' ,'type')
+    //  // ->select(\DB::raw("JSON_UNQUOTE(JSON_EXTRACT(data, '$.requisition_no')) as num"),'type','created_at')
+    //   ->select('data','type','created_at')
+    //   ->get();
      //dd($alerts[0]->type);
             
-        return view('panel.dashboard.index',['internalRequisitionApprove'=>$internalRequisitionApprove,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
+        return view('panel.dashboard.index',['alerts'=>$alerts,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
     }
 }
 
