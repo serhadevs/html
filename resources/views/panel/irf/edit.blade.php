@@ -272,7 +272,7 @@ text-align: center;
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="Submit" class="btn btn-danger float-right" >Submit</button>
+                        <button type="Submit" class="btn btn-primary float-right" >Update</button>
                         </div>
                         </div>
 

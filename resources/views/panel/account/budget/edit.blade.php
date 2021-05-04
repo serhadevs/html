@@ -56,8 +56,9 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/budgetcommitment" enctype="multipart/form-data">
+                <form class="form-horizontal" method="Post" autocomplete="off" action="/budgetcommitment/{{$budgetCommitment->id}}" enctype="multipart/form-data">
                   @csrf
+                  @method('PATCH') 
                             <div class="card" style="width:82.9%">
                           <div class="card-body">
                            <div class="col-m-10">
@@ -187,11 +188,11 @@ text-align: center;
                         <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Commitment No:</label>
                         <div class="col-sm-4">
-                        <input type="number" name="commitment_no" class="form-control" value="{{$budgetCommitment->commitment_no}}">
+                        <input type="number" name="commitment_no" class="form-control" value="{{$budgetCommitment->commitment_no}}" required>
                         </div> 
                         <label for="institute" class="col-sm-2 col-form-label">Accounting Code:</label>
                         <div class="col-sm-4">
-                        <input type="text" name="account_code" class="form-control" value="{{$budgetCommitment->account_code}}">
+                        <input type="text" name="account_code" class="form-control" value="{{$budgetCommitment->account_code}}"required>
                         </div>
 
                         {{-- <div class="form-group row">

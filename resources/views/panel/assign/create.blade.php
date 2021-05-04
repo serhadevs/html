@@ -173,7 +173,7 @@ text-align: center;
                   
                           @csrf
                           <input type="hidden" class="form-control"  value="{{$internalRequisition->id}}"name='requisition_id' id="requisition_id" readonly>
-                         <select type="input" class="form-control" name="user_id" id="user_id">
+                         <select type="input" class="form-control" name="user_id" id="user_id" required>
                           <option value="">Select Officer</option>
                           @foreach($users as $user)
                          <option value="{{$user->id}}">{{$user->firstname[0]}}. {{$user->lastname}}</option>

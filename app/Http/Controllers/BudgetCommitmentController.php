@@ -139,9 +139,16 @@ class BudgetCommitmentController extends Controller
      * @param  \App\BudgetCommitment  $budgetCommitment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BudgetCommitment $budgetCommitment)
+    public function update($id,Request $request)
     {
-        //
+       // dd($request->all());
+        $budgetCommitment = BudgetCommitment::find($id);
+        $budgetCommitment->account_code=$request->account_code;
+        $budgetCommitment->commitment_no=$request->commitment_no;
+        $budgetCommitment->comment=$request->comments;
+        $budgetCommitment->update();
+      
+        return redirect('/budgetcommitment')->with('status', 'Budget Commitment was updated successfully');
     }
 
     /**

@@ -172,7 +172,7 @@ class InternalRequisitionController extends Controller
      */
     public function update(Request $request,$id)
     {
-       // dd('test');
+      //dd($request->all());
           $internal_requisition = InternalRequisition::with(['stocks'])->find($id);
          
             // $internal_requisition->user_id = auth()->user()->id;
@@ -205,7 +205,7 @@ class InternalRequisitionController extends Controller
             'description' => $input['description'][$key],
             'part_number' => $input['part_number'][$key],
             'unit_of_measurement_id' => $input['unit'][$key],
-            'unit_cost' => $input['unit'][$key],
+            'unit_cost' => $input['unit_cost'][$key],
             'internal_requisition_id' => $internal_requisition->id,
         ]);
 
