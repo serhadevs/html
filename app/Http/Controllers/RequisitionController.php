@@ -212,9 +212,11 @@ class RequisitionController extends Controller
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
       // $content = Storage::url('app\public\Maintenance Manager JD.docx');
+      if ($requisition->approve){
         if ($requisition->approve->is_granted===1) {
             return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
         }
+    }
 
         return view('panel.requisition.edit', ['methods' => $methods, 'types' => $types, 'categories' => $categories, 'units' => $units, 'requisition' => $requisition, 'suppliers' => $suppliers]);
 

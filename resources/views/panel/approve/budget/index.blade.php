@@ -82,7 +82,7 @@ input[type="checkbox"]{
 
                     @if($internal->approve_budget)
                      @if($internal->approve_budget->is_granted===1)
-                    <td> <span class ="badge bg-green">Accepted</span></td>
+                    <td> <span class ="badge bg-green">Approved</span></td>
                     @elseif($internal->approve_budget->is_granted===0)
                     <td> <span class ="badge bg-yellow">Refused</span></td>
                     @endif
