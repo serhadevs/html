@@ -199,25 +199,37 @@ text-align: center;
                         <input type="text" name="account_code" class="form-control" value="" required>
                         </div>
 
-                        {{-- <div class="form-group row">
-                        <label for="institute" class="col-sm-4 col-form-label">Accounting Code:</label>
-                        <div class="col-sm-6">
-                        <input type="text" name="account_code" class="form-control" value="">
-                        </div>
-                         
                         
-                      </div> --}}
-
-                      
-                      <div class="form-group row">
-                        <label for="institute" class="col-sm-4 col-form-label">Comments/Justification</label>
-                        <div class="col-sm-8">
-                        <textarea class="form-control" name="comments" rows="3" ></textarea>
-                        </div>
                          
                         
                       </div>
-                    </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <!-- textarea -->
+                          <div class="form-group">
+                            <label>Comments/Justification</label>
+                          <textarea class="form-control" name="comments" rows="3" disabled>{{$internalrequisition->comments}}</textarea>
+                          </div>
+                        </div>
+                        @if($internalrequisition->comment->isNotEmpty())
+                        <div class="col-sm-6">
+                          <!-- textarea -->
+                          <div class="form-group">
+                    <label>Refusal Comments</label>
+                    <textarea  class="form-control" rows="3" disabled>
+@foreach($internalrequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+@endforeach
+                    </textarea>
+                          </div>
+                        </div>
+                        @endif
+                        
+                      </div>
+
+                      
+                      
                             
                     <div class="col-10">
                        

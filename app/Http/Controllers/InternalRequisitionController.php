@@ -9,8 +9,10 @@ use App\UnitOfMeasurement;
 use App\ProcurementMethod;
 use App\RequisitionType;
 use App\User;
+use App\Comment;
 use App\Notifications\InternalRequisitionPublish;
 use App\SystemOperations\RequisitionNumberGenerator;
+use App\ApproveInternalRequisition;
 
 
 
@@ -150,12 +152,13 @@ class InternalRequisitionController extends Controller
   
         $units = UnitOfMeasurement::all();
        //  dd(('test'));
-        $ir = InternalRequisition::with(['stocks'])
+        $ir = InternalRequisition::with(['stocks','comment'])
         ->find($id);
-      //  dd($ir);
+      // dd($ir->comment);
       $types = RequisitionType::all();
 
       if ($ir->approve_internal_requisition) {
+        if($ir->approve_internal_requisition->is_granted===1)
         return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already approved.');
     }
 
@@ -188,6 +191,15 @@ class InternalRequisitionController extends Controller
             $internal_requisition->comments = $request->comments;
            // dd( $internal_requisition);
              if ($internal_requisition->update()) {
+
+                $approve = ApproveInternalRequisition::where('internal_requisition_id',$id)
+            ->where('is_granted',0)
+            ->first();
+            if($approve != null){
+            $approve->delete();
+            }else{
+                $approve = null;
+            }
 
             $input = $request->all();
 

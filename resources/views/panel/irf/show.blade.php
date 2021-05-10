@@ -237,6 +237,19 @@ text-align: center;
               <textarea class="form-control" name="comments" rows="3" disabled>{{$internal_requisition->comments}}</textarea>
               </div>
             </div>
+            @if($internal_requisition->comment->isNotEmpty())
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>Refusal Comments</label>
+              <textarea class="form-control" rows="3" disabled   >
+            @foreach($internal_requisition->comment as $comment)
+            {{$comment->user->abbrName()}}  : {{$comment->comment}}
+            @endforeach
+              </textarea>
+              </div>
+            </div>
+            @endif
             
           </div>
         </div>

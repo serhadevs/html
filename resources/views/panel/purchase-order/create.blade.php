@@ -234,14 +234,40 @@ text-align: center;
                           <input type="input" class="form-control" name="requisition_no" value="{{$requisition->requisition_no}}" readonly>
                             </div>
                           </div>
+
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Comments</label>
                         <div class="col-sm-4"> 
                         <textarea class="form-control" name ="comments" id="comments" value="" rows="3" placeholder="Enter ..."></textarea>
                           </div>
+
+                          @if($requisition->internalrequisition->comment->isNotEmpty())
+                         
+                            <label for="" class="col-sm-2 col-form-label">Refusal Comments</label>
+                            <div class="col-sm-4"> 
+                            <textarea class="form-control" name ="" id="" value="" rows="3" >
+                              @foreach($requisition->internalrequisition->comment as $comment)
+                                    {{$comment->user->abbrName()}}: {{$comment->comment}}
+                            @endforeach
+                            </textarea>
+
+                     
+                              </div>
+                             
+
+                              @endif
+
+
                           </div>
 
                         
+
+
+
+
+
+
+
                         {{-- <div class="form-group row">
                         <div class="col-sm-6">
                       

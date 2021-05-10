@@ -313,6 +313,21 @@ text-align: center;
             </tbody>
           </table>
         </div>
+
+
+        @if($requisition->internalrequisition->comment->isNotEmpty())
+          <div class="col-sm-6">
+            <!-- textarea -->
+            <div class="form-group">
+              <label>Refusal Comments</label>
+<textarea class="form-control" rows="3" disabled>
+@foreach($requisition->internalrequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+@endforeach
+</textarea>
+            </div>
+          </div>
+          @endif
         <div class="form-group row img_div ">
                         {{-- <div class="col-sm-6">
                        

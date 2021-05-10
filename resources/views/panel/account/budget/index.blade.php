@@ -163,7 +163,7 @@
                      <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
-                    <a href="" class="btn btn-block btn-danger btn-m">Delete</a>
+                    <a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$commitment->id}})">Delete</a>
                     </td> 
 
                       
@@ -235,6 +235,45 @@ $(document).ready( function () {
     });
     
 } );
+
+
+function deleteCommitment(Id){
+  swal({
+    title: "Are you sure?",
+    text: "You will not be able to undo this action once it is completed!",
+    dangerMode: true,
+    cancel: true,
+    confirmButtonText: "Yes, Delete it!",
+    closeOnConfirm: false
+  }).then(isConfirm => {
+    if (isConfirm) {
+      $.get( {!! json_encode(url('/')) !!} + "/budgetcommitment/destroy/" + Id).then(function (data) {
+        console.log(data);
+        if (data == "success") {
+          swal(
+            "Done!",
+            "Permit Application was successfully deleted!",
+            "success").then(esc => {
+              if(esc){
+                location.reload();
+              }
+            });
+          }
+          else if(data=="fail"){
+            swal("Error",
+            "This application is already approved and is not allowed to be deleted.",
+            "error");
+          }
+          else{
+            swal(
+              "Oops! Something went wrong.",
+              "Permit Application was NOT deleted.",
+              "error");
+            }
+          });
+        }
+      });
+    }
 </script>
 
 @endpush

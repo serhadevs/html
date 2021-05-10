@@ -195,24 +195,37 @@ text-align: center;
                         <input type="text" name="account_code" class="form-control" value="{{$budgetCommitment->account_code}}"required>
                         </div>
 
-                        {{-- <div class="form-group row">
-                        <label for="institute" class="col-sm-4 col-form-label">Accounting Code:</label>
-                        <div class="col-sm-6">
-                        <input type="text" name="account_code" class="form-control" value="">
-                        </div>
+                        
                          
                         
-                      </div> --}}
+                      </div> 
 
-                      
-                      <div class="form-group row">
-                        <label for="institute" class="col-sm-4 col-form-label">Comments/Justification</label>
-                        <div class="col-sm-8">
-                        <textarea class="form-control" name="comments" rows="3" >{{$budgetCommitment->comment}}</textarea>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <!-- textarea -->
+                          <div class="form-group">
+                            <label>Comments/Justification</label>
+                          <textarea class="form-control" name="comments" rows="3" disabled>{{$budgetCommitment->internalrequisition->comments}}</textarea>
+                          </div>
                         </div>
-                         
+                        @if($budgetCommitment->internalrequisition->comment->isNotEmpty())
+                        <div class="col-sm-6">
+                          <!-- textarea -->
+                          <div class="form-group">
+                    <label>Refusal Comments</label>
+                    <textarea  class="form-control" rows="3" disabled>
+@foreach($budgetCommitment->internalrequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+@endforeach
+                    </textarea>
+                          </div>
+                        </div>
+                        @endif
                         
                       </div>
+
+                      
+                      
                     </div>
                             
                     <div class="col-10">
@@ -232,14 +245,19 @@ text-align: center;
                     
                         </div>
                         </div>
-                        </div>
+
 
                         <div class="row">
-                        <div class="col-10">
-                        {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="Submit" class="btn btn-primary float-right" >Update</button>
+                          <div class="col-10">
+                          {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
+                          <button type="Submit" class="btn btn-primary float-right" >Update</button>
+                          </div>
+                          </div>
                         </div>
-                        </div>
+
+                        
+
+                      </br>
 
                        
 

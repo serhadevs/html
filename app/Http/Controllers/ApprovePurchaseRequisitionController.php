@@ -9,6 +9,7 @@ use App\Notifications\ApproveRequisitionPublish;
 use App\Notifications\RefuseRequisitionPublish;
 use App\User;
 use App\Comment;
+use App\Check;
 
 
 use Illuminate\Http\Request;
@@ -79,23 +80,36 @@ class ApprovePurchaseRequisitionController extends Controller
         $approve = new Approve();
         $permission = $request->data['permission'];
         $approve->requisition_id= $request->data['requisitionId'];
-        // $approve->purchase_order_id = null;
         $approve->user_id = auth()->user()->id;
         $approve->is_granted = $permission;
         $approve->save();
 
+        $requisition = Requisition::find($request->data['requisitionId']);
+
+
+
         if($permission ==0){
+            
+
             $comment = new Comment();
-            $comment->check_id = $approve->id;
-            $comment->type ='approve requisition';
+            $comment->internal_requisition_id = $requisition->internal_requisition_id;
+            $comment->type ='refuse requisition';
             $comment->comment =  $request->data['comment'];
+            $comment->user_id = auth()->user()->id;
             $comment->save();
 
-            
-            $requisition = Requisition::find($request->data['requisitionId']);
-            $user = User::find($requisition->user_id);
+            $user = User::find($requisition->check->user_id);
             $user->notify(new RefuseRequisitionPublish($requisition,$comment));
-         //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+            
+
+            $acceptRequisition = Check::where('requisition_id',$requisition->id);
+            $acceptRequisition->delete();
+
+
+            
+           
+            
+     
 
     
 

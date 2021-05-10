@@ -58,4 +58,9 @@ class InternalRequisition extends Model
         return  $this->hasOne('App\AssignRequisition');
     }
 
+    public function comment()
+    {
+        return  $this->hasMany('App\Comment');
+    }
+
 }

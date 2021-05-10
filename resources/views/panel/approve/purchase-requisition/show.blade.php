@@ -161,6 +161,19 @@ text-align: center;
     <!-- Editable table -->
                       
     </div>
+    @if($requisition->internalrequisition->comment->isNotEmpty())
+    <div class="col-sm-6">
+      <!-- textarea -->
+      <div class="form-group">
+        <label>Refusal Comments</label>
+<textarea class="form-control" rows="3" disabled>
+@foreach($requisition->internalrequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+@endforeach
+</textarea>
+      </div>
+    </div>
+    @endif
      <div class="col-sm-6">
                             <label for="exampleInputFile">Support Documents</label>
                        <div class="card-body p-0">

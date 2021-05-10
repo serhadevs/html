@@ -253,10 +253,25 @@ text-align: center;
               <!-- textarea -->
               <div class="form-group">
                 <label>Comments/Justification</label>
-              <textarea class="form-control" rows="3"   >{{$ir->comments}}</textarea>
+              <textarea class="form-control" rows="3"  name='comments' >
+              {{$ir->comments}}
+              </textarea>
               </div>
             </div>
-            
+            {{-- {{$ir->comment}} --}}
+            @if($ir->comment->isNotEmpty())
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>Refusal Comments</label>
+<textarea class="form-control" rows="3" disabled>
+                  @foreach($ir->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+                  @endforeach
+</textarea>
+              </div>
+            </div>
+            @endif
           </div>
         </div>
 

@@ -101,12 +101,6 @@ class PurchaseOrderController extends Controller
                 $purchaseorder->comments = $request->comments;
                 $purchaseorder->requisition_id = $request->id;
                 $purchaseorder->requisition_no = $request->requisition_no;
-                // $purchaseorder->subtotal = $request->subtotal;
-                // $purchaseorder->trade_discount = $request->trade_discount;
-                // $purchaseorder->freight = $request->freight;
-                // $purchaseorder->miscellaneous = $request->miscellaneous;
-                // $purchaseorder->tax = $request->tax;
-                // $purchaseorder->order_total = $request->order_total;
                 $purchaseorder->user_id = auth()->user()->id;
 
                $purchaseorder->save();

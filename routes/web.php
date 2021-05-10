@@ -123,6 +123,7 @@ Route::get('/print_pdf/{id}', 'ApproveBudgetController@printPDF');
 //budgetcommitment
 Route::resource('/budgetcommitment', 'BudgetCommitmentController');
 Route::get('/budgetcommitment/create/{id}', 'BudgetCommitmentController@create');
+Route::get('/budgetcommitment/destroy/{id}', 'BudgetCommitmentController@destroy');
 
 //Assign
 Route::resource('assign_requisition','AssignRequisitionController');

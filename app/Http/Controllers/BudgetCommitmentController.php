@@ -128,7 +128,11 @@ class BudgetCommitmentController extends Controller
     public function edit($id)
     {
         $budgetCommitment = BudgetCommitment::find($id);
-      // dd($budgetCommitment->internalrequisition);
+    
+        if ($budgetCommitment->internalrequisition->approve_budget) {
+            if($budgetCommitment->internalrequisition->approve_budget->is_granted===1)
+            return redirect('/budgetcommitment')->with('error', ' ' . $budgetCommitment->internalrequisition->requisition_no . ' is already approved.');
+        }
         return view('/panel.account.budget.edit',compact('budgetCommitment'));
     }
 
@@ -157,8 +161,19 @@ class BudgetCommitmentController extends Controller
      * @param  \App\BudgetCommitment  $budgetCommitment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BudgetCommitment $budgetCommitment)
+    public function destroy($id)
     {
-        //
+        try {
+            $budgetCommitment = BudgetCommitment::find($id);
+            if ($budgetCommitment->internalrequisition->approve_budget) {
+                if($budgetCommitment->internalrequisition->approve_budget->is_granted===1)
+                return 'fail';
+            }
+            $budgetCommitment->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
     }
 }

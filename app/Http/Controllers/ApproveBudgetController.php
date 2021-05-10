@@ -6,6 +6,7 @@ use App\ApproveBudget;
 use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\Notifications\ApproveBudgetPublish;
+use App\Notifications\RefuseInternalRequisitionPublish;
 use App\User;
 use PDF;
 use App\Comment;
@@ -75,15 +76,16 @@ class ApproveBudgetController extends Controller
             
                 if($permission ==0){
                     $comment = new Comment();
-                    $comment->check_id = $approve->id;
-                    $comment->type ='budget approve';
+                    $comment->internal_requisition_id = $approve->internal_requisition_id ;
+                    $comment->type ='budget refuse';
+                    $comment->user_id = auth()->user()->id;
                     $comment->comment =  $request->data['comment'];
                     $comment->save();
 
                     
-                    $requisition = Requisition::find($request->data['internal_requisition_id']);
-                    $user = User::find($requisition->user_id);
-                    $user->notify(new RefuseRequisitionPublish($requisition,$comment));
+                    $internalrequisition = internalrequisition::find($request->data['internal_requisition_id']);
+                    $user = User::find($internalrequisition->user_id);
+                    $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
                  //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
 
             
