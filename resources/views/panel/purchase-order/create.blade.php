@@ -337,7 +337,7 @@ text-align: center;
 
       </div>
           </form>  
-
+</div
 @endsection
 
 

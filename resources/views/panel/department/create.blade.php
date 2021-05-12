@@ -7,7 +7,7 @@
 
 
 
-
+    <div class="card-body" >
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
        
@@ -127,19 +127,19 @@
                   </div>
 
                   </div>
+                </div>
                     
-                  
-                    
+              
           
               
             
-            </div>
+           
             
     
          
     @endsection
 
-
+      
     @include('partials.datatable-scripts')
 
     @push('styles')

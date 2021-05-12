@@ -97,9 +97,9 @@
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          
+          {{-- @if(in_array(auth()->user()->role_id,[1,5,9,12])) --}}
          
-              @if(auth()->user()->role_id ===1 OR auth()->user()->role_id ===2)
+              @if(in_array(auth()->user()->role_id,[1,9,12]))
           <div class="col-lg-6 col-6">
             <!-- small box -->
             {!! $chart->container() !!}
@@ -116,11 +116,13 @@
             {!! $chart3->script() !!}
           </div>
           @endif
-          <div class="col-lg-5 col-5">
+
+          {{-- alerts --}}
+          {{-- <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
                   Alerts
-                  <table class="table m-0">
+                  <table class="table m-0" id ="table-alert">
                     <thead>
                     <tr>
                       <th>Date</th>
@@ -131,15 +133,7 @@
                     </thead>
                     <tbody>
                     
-                      {{-- <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>Call of Duty IV</td>
-                      <td><span class="badge badge-success">Shipped</span></td>
-                      
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-warning">Pending</span></td> --}}
+                    
    
                       @foreach($alerts as $alert)
                       <tr>
@@ -156,12 +150,14 @@
                 </div>
                 <!-- /.table-responsive -->
               </div>
-          </div>
+          </div>  --}}
+          {{-- end alerts --}}
+          
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
                   Notifications
-                  <table class="table m-0">
+                  <table class="table m-0" id="table">
                     <thead>
                     <tr>
                       {{-- <th>Track</th> --}}
@@ -174,7 +170,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                 
                       @foreach(auth()->user()->notifications as $notification)
                       <tr>
                       <td>{{$notification->data['requisition_no']}} </td>
@@ -183,13 +179,14 @@
                       <td>{{\App\Institution::find($notification->data['institution_id'])->name}}</td>
                       
                       <td>{{\App\Department::find($notification->data['department_id'])->name}} </td>
+                      <td>{{$notification->created_at}}</td>
                       {{-- <td>{{$notification->data['email']}} </td> --}}
                        {{-- <td>
                        <a  href="" class="btn btn-block btn-danger btn-m" >remove</a> 
                       </td> --}}
                     </tr>
                       @endforeach
-                    </tr>
+                  
                     </tbody>
                   </table>
                 </div>
@@ -200,7 +197,7 @@
     </div>
 
 </div>
-
+</div>
 
     
             
@@ -219,6 +216,7 @@
 
  @include('partials.datatable-scripts')
 
+
   @push('styles')
       <meta name="csrf-token" content="{{ csrf_token() }}">
   @endpush 
@@ -227,13 +225,56 @@
  <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
  <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+ <script src="/js/dataTables.select.min.js"></script>
+ <script src="/plugins/datatables/dataTables.select.min.js"></script>
+ <script src="/js/dataTables.select.min.js"></script>
+ <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ <script src="/js/pages/dashboard.min.js"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ <script src="/js/sweet/sweetalert.min.js"></script> 
+ @endpush
+
+
+ @if(session('status'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('status') !!}", "", "success");
+    });
+    </script>
+  @endpush
+@endif
+
+@if(session('error'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('error') !!}", "", "error");
+    });
+    </script>
+  @endpush
+@endif
+
+
+@push('scripts')
 <script>
 
 
 $(document).ready( function () {
     $('#table').DataTable({
          "scrollX": true,
-         "searching": false
+       "searching": false,
+       "pageLength": 3
+    });
+    
+} );
+
+$(document).ready( function () {
+    $('#table-alert').DataTable({
+         "scrollX": true,
+       "searching": false,
+       "pageLength": 3
     });
     
 } );

@@ -6,7 +6,7 @@
     @section('content')
 
 
-
+    <div class="card-body">
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -63,9 +63,10 @@
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
+                        @if(in_array(auth()->user()->role_id,[1,2]))
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" required>
-                          <option>select type </option>
+                          <option value="">select type </option>
                           @foreach($roles as $role)
                          <option  value="{{$role->id}}" >{{$role->name}}</option>
 
@@ -73,6 +74,22 @@
                           
                          </select> 
                         </div>
+
+                        @else
+
+                        <div class="col-sm-4">
+                          <select type="input" class="form-control" name="role" id="role" required>
+                            <option value="">select type </option>
+                            @foreach($roles->except([1,12]) as $role)
+                           <option  value="{{$role->id}}" >{{$role->name}}</option>
+  
+                            @endforeach
+                            
+                           </select> 
+                          </div>
+
+
+                        @endif
 
                         <label for="address" class="col-sm-2 col-form-label">Telephone</label>
                         <div class="col-sm-4">
@@ -95,7 +112,7 @@
                       
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="department" id="department" required>
-                          <option>select type </option>
+                          <option >select type </option>
                           @foreach($departments as $department)
                          <option  value="{{$department->id}}" >{{$department->name}}</option>
 
@@ -122,7 +139,7 @@
                         </div>
                         </div> --}}
                         
-
+                      
 
                         </div>
                         
@@ -143,10 +160,10 @@
                       </form>
 
                   </div>
-
+              
                   </div>
                     
-                  
+                
                     
           
               
@@ -154,7 +171,8 @@
             </div>
             
     
-         
+        
+              
     @endsection
 
 

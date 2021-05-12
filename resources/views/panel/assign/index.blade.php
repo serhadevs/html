@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Assign Internal Requisition Form</h1>
+            <h1>Assign Internal Request</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -23,6 +23,7 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- Main content -->
+    <section class="content">
       <div class="container-fluid">
           
         <div class="row">
@@ -32,7 +33,7 @@
               <div class="card-header">
                   
                   {{-- <a href="irf/create" class="btn btn-success float-right">Create IR</a> --}}
-                <h3 class="card-title">A list of all Internal Requisition Form</h3>
+                <h3 class="card-title">A list of all Internal Request</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -118,6 +119,9 @@
             </div>
             <!-- /.card -->
           </div>
+        </div>
+        </div>
+    </section>
         </div>
 
 @endsection

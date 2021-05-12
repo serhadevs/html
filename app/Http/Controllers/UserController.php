@@ -26,8 +26,8 @@ class UserController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,3,5])) {
-                return redirect('/dashboard');
+            if (!in_array(auth()->user()->role_id, [1,2,3,9,12])) {
+                return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
             }
@@ -36,8 +36,13 @@ class UserController extends Controller
     public function index()
     {
         //
-
+        if(in_array(auth()->user()->role_id,[1,12])){
         $users = User::all();
+        }else{
+        $users = User::where('institution_id','=',auth()->user()->institution_id)->get();
+        }
+
+        //dd($users);
         return view('/panel.user.index', compact('users'));
 
     }
@@ -68,12 +73,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-
+        try{
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'role' => 'required',
-            'telephone' => 'required|min:11|numeric',
+            // 'telephone' => 'required|min:11|numeric',
             'institution' => 'required',
             'department' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -89,9 +94,12 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt(('password123'));
         $user->save();
+        }catch(QueryException $ex ){
+          //  dd($ex->getMessage());
+        abort(500,'something went wrong');
+        }
 
         return redirect('/user')->with('status', 'User was created successfully');
-
     }
 
     /**
@@ -135,7 +143,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->firstname = $request->first_name;
         $user->lastname = $request->last_name;
-        // $user->role_id = $request->role;
+        $user->role_id = $request->role;
         $user->telephone = $request->telephone;
         $user->institution_id = $request->institution;
         $user->department_id = $request->department;

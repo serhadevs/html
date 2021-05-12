@@ -23,6 +23,7 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- Main content -->
+    
       <div class="container-fluid">
           
         <div class="row">
@@ -111,6 +112,8 @@
             <!-- /.card -->
           </div>
         </div>
+      </div>
+    </div>
 
 @endsection
 

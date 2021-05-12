@@ -21,7 +21,7 @@ class BudgetCommitmentController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,7])) {
+            if (!in_array(auth()->user()->role_id, [1,7,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);

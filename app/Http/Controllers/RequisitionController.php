@@ -29,7 +29,7 @@ class RequisitionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,5])) {
+            if (!in_array(auth()->user()->role_id, [1,2,5,9,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -53,11 +53,12 @@ class RequisitionController extends Controller
         }
 
         // dd($requisitions);
-        $internalrequisitions = InternalRequisition::with(['requisition','approve_internal_requisition','budget_commitment','assignto','approve_budget'])
+        $internalrequisitions = InternalRequisition::with(['assignto','requisition','approve_internal_requisition','budget_commitment','assignto','approve_budget'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
        ->doesnthave('requisition')
+       ->wherehas('assignto')
         
         ->has('approve_budget')
         ->get();
@@ -138,8 +139,8 @@ class RequisitionController extends Controller
         // $requisition->estimated_cost = $request->estimated_cost;
         $requisition->contract_sum = $request->contract_sum;
         $requisition->cost_variance = $request->cost_variance;
-        $requisition->date_require = $request->date_require;
-        $requisition->date_last_ordered = $request->date_last_ordered;
+        // $requisition->date_require = $request->date_require;
+        // $requisition->date_last_ordered = $request->date_last_ordered;
         $requisition->internal_requisition_id = $request->id;
         // $requisition->recommended_cost = $request->recommended_cost;
 

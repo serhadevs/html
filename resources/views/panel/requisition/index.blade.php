@@ -5,6 +5,7 @@
 {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
 
 @section('content')
+<div class="card-body">
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -132,7 +133,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Requisition_no</th>
-                    <th>Date Receive in Procurement</th>
+                    <th>Date Received in Procurement</th>
                     <th>Date returned to Institution</th>
                     <th>Date Re-submitted to Procurement</th>
                     {{-- <th>Type of Servi ce</th> --}}
@@ -231,6 +232,9 @@
             <!-- /.card -->
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 

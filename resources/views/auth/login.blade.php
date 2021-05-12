@@ -13,8 +13,21 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 @section('content')
 <div class="container">
+  @if(count($errors)>0)
+  <div class="col-sm-11">
+<div class="alert alert-danger">
+<ul>
+  @foreach($errors->all() as $error)
+  <span >{{ $error }}</span><br>
+  @endforeach
+</ul>
+</div>
+</div>
+@endif 
   <body class="hold-transition login-page">
+       
 <div class="login-box">
+ 
   <div class="login-logo">
     <a href="#"><b>E-Procurement System</b></a>
   </div>
@@ -69,7 +82,7 @@
         </div>
       </form>
 
-      <div class="social-auth-links text-center mb-3">
+      {{-- <div class="social-auth-links text-center mb-3">
         <p>- OR -</p>
         <a href="#" class="btn btn-block btn-primary">
         I forgot my password
@@ -77,7 +90,8 @@
         <a href="#" class="btn btn-block btn-danger">
         Register a new membership
         </a>
-      </div>
+      </div> --}}
+      
       <!-- /.social-auth-links -->
 
       {{-- <p class="mb-1">

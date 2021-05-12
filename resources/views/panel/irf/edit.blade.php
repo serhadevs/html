@@ -106,7 +106,7 @@ text-align: center;
                           {{-- <option value="">Select method </option> --}}
                           {{-- <option value="yes">Yes</option>
                           <option value="no">No</option> --}}
-                          @if($ir->budget_approve === 'noo')
+                          @if($ir->budget_approve === 'no')
                           <option selected value="{{ $ir->budget_approve }}" >Yes</option>
                           @else
                          <option  value="no" >No</option>
@@ -146,7 +146,7 @@ text-align: center;
                         @endif
                          @endforeach
                            </select>  
-                         </select>  
+                          
                         
                         </div> 
                         <label for="date-of-last" class="col-sm-2 col-form-label">Priority</label>

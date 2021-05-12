@@ -6,7 +6,7 @@
     @section('content')
 
 
-
+    <div class="card-body">
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -60,13 +60,29 @@
                         <div class="col-sm-4">
                         <input type="text" id="last_name" name ="last_name" class="form-control" value="{{$user->lastname}}" required>
                           </div>
-                        
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
+                        @if(in_array(auth()->user()->role_id,[1,2]))
                         <div class="col-sm-4">
-                        <select type="input" class="form-control" name="role" id="role" disabled required>
-                          @foreach($roles as $role)
+                          <select type="input" class="form-control" name="role" id="role" required>
+                            {{-- <option value="">select type </option> --}}
+                            @foreach($roles as $role)
+                            @if($role->id === $user->role->id)
+                            <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
+                            @else
+                            <option  value="{{$role->id}}" >{{$role->name}}</option>
+                            @endif
+                            @endforeach
+                            
+                           </select> 
+                          </div>
+
+
+                      @else
+                        <div class="col-sm-4">
+                        <select type="input" class="form-control" name="role" id="role" >
+                          @foreach($roles->except([1,12]) as $role)
                           @if($role->id === $user->role->id)
                           <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
                           @else
@@ -76,6 +92,7 @@
                           
                          </select> 
                         </div>
+                        @endif
 
                         <label for="address" class="col-sm-2 col-form-label">Telephone</label>
                         <div class="col-sm-4">
@@ -101,8 +118,8 @@
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="department" id="department" required>
                           @foreach($departments as $department)
-                          @if($department->id === $user->department->id)
-                          <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
+                          @if($department->id === $user->department_id)
+                          <option selected value="{{ $department->id }}" >{{ $department->name }}</option>
                           @else
                          <option  value="{{$department->id}}" >{{$department->name}}</option>
                         @endif
@@ -159,6 +176,7 @@
               
             
             </div>
+          </div>
             
     
          

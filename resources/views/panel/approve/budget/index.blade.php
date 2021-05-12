@@ -117,6 +117,10 @@ input[type="checkbox"]{
             <!-- /.card -->
           </div>
         </div>
+      </div>
+    </div>
+        
+
 
 @endsection
 
