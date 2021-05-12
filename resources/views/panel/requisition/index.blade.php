@@ -157,6 +157,7 @@
                     <th>Date submmited to Accounts for Payment</th> 
                     <th>Option</th>
                     <th></th>
+                    <th></th>
                     
                   </tr>
                   </thead>
@@ -205,9 +206,12 @@
                      <a  href="/requisition/{{$requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
+                      <a  href="/requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-m" >view</a> 
+                     </td>
+                    <td>
                     <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteRequisition({{$requisition->id}})" >Delete</a>
                     </td> 
-                      {{-- onclick="deleteFile({{$file->id}})" --}}
+            
 
 
                     </tr>

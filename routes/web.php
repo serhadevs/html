@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/requisition/create/{id}', 'RequisitionController@create');
     Route::post('/requisition/store', 'RequisitionController@store');
     Route::get('/requisition/delete/{id}', 'RequisitionController@destroy');
+    Route::get('/file/delete/{id}', 'RequisitionController@deleteFile');
 
 //purchase-order
     Route::resource('/purchase-order', 'PurchaseOrderController');
@@ -81,12 +82,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/approve-purchase-order', 'ApprovePurchaseOrderController');
 
 
-//Departments Controllers
+//Departments 
+Route::resource('/unit', 'UnitController');
+Route::get('/units/delete/{id}', 'UnitController@destroy');
+
+//Departments 
 Route::resource('/department', 'DepartmentController');
 Route::get('/department/delete/{id}', 'DepartmentController@destroy');
 
 
-//Institution Controllers
+//Institution 
 Route::resource('/institution', 'InstitutionController');
 Route::get('/institution/delete/{id}', 'InstitutionController@destroy');
 
@@ -122,6 +127,7 @@ Route::get('/print_pdf/{id}', 'ApproveBudgetController@printPDF');
 //budgetcommitment
 Route::resource('/budgetcommitment', 'BudgetCommitmentController');
 Route::get('/budgetcommitment/create/{id}', 'BudgetCommitmentController@create');
+Route::get('/budgetcommitment/destroy/{id}', 'BudgetCommitmentController@destroy');
 
 //Assign
 Route::resource('assign_requisition','AssignRequisitionController');

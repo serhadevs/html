@@ -13,7 +13,16 @@ class Comment extends Model
     protected $fillable = ['check_id','type','comment'];
 
 
-    public function check(){
-        return $this->belongsTo('App\Check');
+   
+
+
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withTrashed();
+    }
+
+    public function internalrequisition()
+    {
+        return $this->HasMany('App\InternalRequisition','id','internal_requisition_id');
     }
 }

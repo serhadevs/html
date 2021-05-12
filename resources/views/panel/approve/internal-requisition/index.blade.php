@@ -79,10 +79,14 @@ input[type="checkbox"]{
                   @foreach($internalRequisitions as $internal)
                     <tr>
                      {{-- <td>{{$internal->id}}</td> --}}
-                    @if($internal->approve_internal_requisition)
-                    <td> <span class ="badge bg-green">Approve</span></td>
+                     @if($internal->approve_internal_requisition)
+                     @if($internal->approve_internal_requisition->is_granted===1)
+                    <td> <span class ="badge bg-green">Approved</span></td>
+                    @elseif($internal->approve_internal_requisition->is_granted===0)
+                    <td> <span class ="badge bg-yellow">Refused</span></td>
+                    @endif
                     @else
-                    <td> <span class ="badge bg-red">unapprove</span></td>
+                    <td> <span class ="badge bg-red">Uncheck</span></td>
                     @endif
                   <td>{{$internal->requisition_no}}</td>
                   <td>{{$internal->created_at}}</td>

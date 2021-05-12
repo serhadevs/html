@@ -9,6 +9,7 @@ use App\UnitOfMeasurement;
 use App\ApproveInternalRequisition;
 use App\Notifications\InternalRequisitionApprovePublish;
 use App\User;
+use App\Comment;
 
 class ApproveInternalRequisitionController extends Controller
 {
@@ -21,7 +22,7 @@ class ApproveInternalRequisitionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,3,12,10,11,12])) {
+            if (!in_array(auth()->user()->role_id, [1,2,3,10,11,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -33,9 +34,8 @@ class ApproveInternalRequisitionController extends Controller
         //
 
        // dd('arrived');
-      $internalRequisitions = InternalRequisition::all()
-    ->where('department_id', auth()->user()->department_id)
-    ->where('institution_id', auth()->user()->institution_id);
+      $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
+    ->where('institution_id', auth()->user()->institution_id)->get();
 
 
     
@@ -66,16 +66,35 @@ class ApproveInternalRequisitionController extends Controller
         try {
             if ($request->all()) {
                 $approve = new ApproveInternalRequisition();
+                $permission = $request->data['permission'];
                 $approve->internal_requisition_id = $request->data['internal_requisition_id'];
                 $approve->user_id = auth()->user()->id;
-                $approve->is_granted = true;
+                $approve->is_granted = $permission;
                 $approve->save();
+
+                if($permission ==0){
+                    $comment = new Comment();
+                    $comment->internal_requisition_id = $approve->internal_requisition_id;
+                    $comment->type ='refuse internal requisition';
+                    $comment->comment =  $request->data['comment'];
+                    $comment->user_id = auth()->user()->id;
+                    $comment->save();
+    
+                    
+                    // $internalrequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+                    // $user = User::find($internalrequisition->user_id);
+                    // $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
+                
+        
+            
+        
+                }else{
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',['1,2'])
+                ->whereIn('role_id',[1,2])
                 ->get();
-      
+                
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
                 $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
@@ -83,6 +102,7 @@ class ApproveInternalRequisitionController extends Controller
                
             }
             return 'success';
+        }
         
         } catch (Exception $e) {
             return 'fail';
@@ -100,7 +120,7 @@ class ApproveInternalRequisitionController extends Controller
     public function show($id)
     {
         //
-          $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
+          $internalRequisition = InternalRequisition::with(['stocks','comment'])->find($id);
         //  dd( $internalRequisition);
         return view('/panel/approve/internal-requisition.show', compact('internalRequisition'));
 

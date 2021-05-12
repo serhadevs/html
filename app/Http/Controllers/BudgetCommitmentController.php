@@ -42,17 +42,19 @@ class BudgetCommitmentController extends Controller
 
 
 
-       $internalcomplete = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
-       ->whereHas('approve_internal_requisition',function($query){
-        $query->where('is_granted','=', 1);
-       })
+    //    $internalcomplete = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
+    //    ->whereHas('approve_internal_requisition',function($query){
+    //     $query->where('is_granted','=', 1);
+    //    })
 
-       ->has('budget_commitment')
-       ->get();
+    //    ->has('budget_commitment')
+    //    ->get();
+
+        $budgetCommitment = BudgetCommitment::all();
 
 
        
-       return view('/panel.account.budget.index',compact('internalrequisitions','internalcomplete'));
+       return view('/panel.account.budget.index',compact('internalrequisitions','budgetCommitment'));
     }
 
     /**
@@ -93,7 +95,7 @@ class BudgetCommitmentController extends Controller
 
         $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',['1,5,2'])
+                ->whereIn('role_id',[1,5,2])
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($request->id);
@@ -126,7 +128,11 @@ class BudgetCommitmentController extends Controller
     public function edit($id)
     {
         $budgetCommitment = BudgetCommitment::find($id);
-      // dd($budgetCommitment->internalrequisition);
+    
+        if ($budgetCommitment->internalrequisition->approve_budget) {
+            if($budgetCommitment->internalrequisition->approve_budget->is_granted===1)
+            return redirect('/budgetcommitment')->with('error', ' ' . $budgetCommitment->internalrequisition->requisition_no . ' is already approved.');
+        }
         return view('/panel.account.budget.edit',compact('budgetCommitment'));
     }
 
@@ -137,9 +143,16 @@ class BudgetCommitmentController extends Controller
      * @param  \App\BudgetCommitment  $budgetCommitment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BudgetCommitment $budgetCommitment)
+    public function update($id,Request $request)
     {
-        //
+       // dd($request->all());
+        $budgetCommitment = BudgetCommitment::find($id);
+        $budgetCommitment->account_code=$request->account_code;
+        $budgetCommitment->commitment_no=$request->commitment_no;
+        $budgetCommitment->comment=$request->comments;
+        $budgetCommitment->update();
+      
+        return redirect('/budgetcommitment')->with('status', 'Budget Commitment was updated successfully');
     }
 
     /**
@@ -148,8 +161,19 @@ class BudgetCommitmentController extends Controller
      * @param  \App\BudgetCommitment  $budgetCommitment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BudgetCommitment $budgetCommitment)
+    public function destroy($id)
     {
-        //
+        try {
+            $budgetCommitment = BudgetCommitment::find($id);
+            if ($budgetCommitment->internalrequisition->approve_budget) {
+                if($budgetCommitment->internalrequisition->approve_budget->is_granted===1)
+                return 'fail';
+            }
+            $budgetCommitment->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
     }
 }

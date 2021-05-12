@@ -87,7 +87,7 @@
          
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,3,2,8,9,10,11,12]))
+          @if(in_array(Auth::user()->role_id, [1,3,5,8,9,10,11,12]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-archive"></i>
@@ -105,7 +105,7 @@
                 </a>
               </li>
               @endif
-              @if(in_array(Auth::user()->role_id, [3,10,11,12,9]))
+              @if(in_array(Auth::user()->role_id, [1,3,10,11,12,9]))
               <li class="nav-item">
                 <a href="/approve-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -248,6 +248,11 @@
                 <a href="#" class="nav-link">
                   <i class="far fa-ruler nav-icon"></i>
                   <p>Add Measurement</p>
+                </a>
+              </li> <li class="nav-item">
+                <a href="/unit" class="nav-link">
+                  <i class="far fa-ruler nav-icon"></i>
+                  <p>Add Units</p>
                 </a>
               </li>
               @if(in_array(Auth::user()->role_id, [1,3,9,12]))

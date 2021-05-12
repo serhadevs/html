@@ -94,18 +94,13 @@ class PurchaseOrderController extends Controller
             ]);
              //'pp_no' => 'required| max:30 |unique:infant_records,pp_no'
             $requisition_id = $request->id;
-         //  dd( $request->all());
+          //dd( $request->all());
             if ($request->all()) {
                 $purchaseorder = new PurchaseOrder();
                 $purchaseorder->purchase_order_no = $request->purchase_order_no;
                 $purchaseorder->comments = $request->comments;
                 $purchaseorder->requisition_id = $request->id;
-                // $purchaseorder->subtotal = $request->subtotal;
-                // $purchaseorder->trade_discount = $request->trade_discount;
-                // $purchaseorder->freight = $request->freight;
-                // $purchaseorder->miscellaneous = $request->miscellaneous;
-                // $purchaseorder->tax = $request->tax;
-                // $purchaseorder->order_total = $request->order_total;
+                $purchaseorder->requisition_no = $request->requisition_no;
                 $purchaseorder->user_id = auth()->user()->id;
 
                $purchaseorder->save();
@@ -151,11 +146,12 @@ class PurchaseOrderController extends Controller
     public function edit(PurchaseOrder $purchaseOrder)
     {
 
-       // $requisition = Requisition::find($purchaseOrder->requisition_id);
-      //  dd($purchaseOrder);
-        if ($purchaseOrder->paymentVoucher->voucherCheck->is_check==1) {
-            return redirect('/purchase-order')->with('error', 'Purchase Order ' . $purchaseOrder->requisition->requisition_no . ' is already Accepted');
-        }
+     //dd($purchaseOrder->paymentVoucher->voucherCheck);
+    //    $requisition = Requisition::find($purchaseOrder->requisition_id);
+        //  dd($purchaseOrder->paymentVoucher->voucherCheck);
+        // if ($purchaseOrder->paymentVoucher->voucherCheck->is_check==1) {
+        //     return redirect('/purchase-order')->with('error', 'Purchase Order ' . $purchaseOrder->requisition->requisition_no . ' is already Accepted');
+        // }
 
         // dd($requisition->stock);
         //     $purchase_order = DB::table('requisitions')
@@ -185,27 +181,28 @@ class PurchaseOrderController extends Controller
      * @param  \App\PurchaseOrder  $purchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PurchaseOrder $purchaseOrder)
+    public function update(Request $request,$id)
     {
         //
-        //dd('update Purchase Order');
+      // dd($request->all());
         try {
             $request->validate([
                 'purchase_order_number' => 'required',
-                'order_total'=>'required',
+                // 'order_total'=>'required',
 
             ]);
 
+            $purchaseOrder = PurchaseOrder::find($id);
             $purchaseOrder->purchase_order_no = $request->purchase_order_number;
             $purchaseOrder->comments = $request->comments;
             // $purchaseOrder->requisition_id = $request->requisition_id;
-            $purchaseOrder->subtotal = $request->subtotal;
-            $purchaseOrder->trade_discount = $request->trade_discount;
-            $purchaseOrder->freight = $request->freight;
-            $purchaseOrder->miscellaneous = $request->miscellaneous;
-            $purchaseOrder->tax = $request->tax;
-            $purchaseOrder->order_total = $request->order_total;
-            $purchaseOrder->user_id = auth()->user()->id;
+            // $purchaseOrder->subtotal = $request->subtotal;
+            // $purchaseOrder->trade_discount = $request->trade_discount;
+            // $purchaseOrder->freight = $request->freight;
+            // $purchaseOrder->miscellaneous = $request->miscellaneous;
+            // $purchaseOrder->tax = $request->tax;
+            // $purchaseOrder->order_total = $request->order_total;
+            // $purchaseOrder->user_id = auth()->user()->id;
 
             $purchaseOrder->update();
 

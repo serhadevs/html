@@ -138,7 +138,7 @@
                       @foreach($alerts as $alert)
                       <tr>
                       <td><a href="#">{{Carbon\Carbon::parse($alert->created_at)->format('Y-M-d')}}</a></td>
-                      <td><a href="#">{{$alert->num}}</a></td>
+                      <td><a href="#">{{$alert->data}}</a></td>
                       <td><a href="#">{{substr($alert->type,18,26)}}</a></td>
                       </tr>
                       @endforeach
@@ -164,26 +164,27 @@
                       <th>Requisition No.</th>
                       <th>Sender</th>
                       <th>Type</th>
-                      <th>Institution</th>
-                      <th>Department</th>
+                      {{-- <th>Institution</th>
+                      <th>Department</th> --}}
                       <th>Date</th>
+                      <th>Option></th>
                     </tr>
                     </thead>
                     <tbody>
                  
                       @foreach(auth()->user()->notifications as $notification)
                       <tr>
-                      <td>{{$notification->data['requisition_no']}} </td>
+                      <td>{{($notification->data['requisition_no'])}} </td>
                       <td>{{\App\User::find($notification->data['user_id'])->abbrName()}} </td>
                       <td>{{substr($notification->type,18,19)}} </td>
-                      <td>{{\App\Institution::find($notification->data['institution_id'])->name}}</td>
+                      {{-- <td>{{\App\Institution::find($notification->data['institution_id'])->name}}</td>
                       
-                      <td>{{\App\Department::find($notification->data['department_id'])->name}} </td>
+                      <td>{{\App\Department::find($notification->data['department_id'])->name}} </td> --}}
                       <td>{{$notification->created_at}}</td>
                       {{-- <td>{{$notification->data['email']}} </td> --}}
-                       {{-- <td>
+                       <td>
                        <a  href="" class="btn btn-block btn-danger btn-m" >remove</a> 
-                      </td> --}}
+                      </td>
                     </tr>
                       @endforeach
                   

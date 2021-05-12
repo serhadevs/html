@@ -16,6 +16,7 @@ class CreatePurchaseOrdersTable extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('requisition_id')->references('id')->on('requisitions');
+            $table->string('requisition_no');
             // $table->integer('stock_id')->references('id')->on('stocks');
             $table->string('purchase_order_no');
             $table->string('comments')->nullable();

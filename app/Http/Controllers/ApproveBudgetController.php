@@ -6,8 +6,10 @@ use App\ApproveBudget;
 use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\Notifications\ApproveBudgetPublish;
+use App\Notifications\RefuseInternalRequisitionPublish;
 use App\User;
 use PDF;
+use App\Comment;
 class ApproveBudgetController extends Controller
 {
     /**
@@ -19,7 +21,7 @@ class ApproveBudgetController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,3,8,12])) {
+            if (!in_array(auth()->user()->role_id, [1,3,5,8,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -31,7 +33,8 @@ class ApproveBudgetController extends Controller
         //
     
         $internalRequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
-       ->whereHas('approve_internal_requisition',function($query){
+       ->where('institution_id','=',auth()->user()->institution_id)
+        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
 
@@ -63,16 +66,35 @@ class ApproveBudgetController extends Controller
             if(!in_array(auth()->user()->role_id,[1,8]) ){
                 abort_if(in_array(auth()->user()->role_id,[2,5,12,9]),redirect('/panel/approve/budget.index')->with('error','No access granted'));
                 }else{
-            if ($request->all()) {
+   
                 $approve = new ApproveBudget();
+                $permission = $request->data['permission'];
                 $approve->internal_requisition_id = $request->data['internal_requisition_id'];
                 $approve->user_id = auth()->user()->id;
-                $approve->is_granted = true;
+                $approve->is_granted = $permission ;
                 $approve->save();
+            
+                if($permission ==0){
+                    $comment = new Comment();
+                    $comment->internal_requisition_id = $approve->internal_requisition_id ;
+                    $comment->type ='budget refuse';
+                    $comment->user_id = auth()->user()->id;
+                    $comment->comment =  $request->data['comment'];
+                    $comment->save();
+
+                    
+                    $internalrequisition = internalrequisition::find($request->data['internal_requisition_id']);
+                    $user = User::find($internalrequisition->user_id);
+                    $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
+                 //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+
+            
+
+                }else{
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',['1,2,8'])
+                ->whereIn('role_id',[1,2,8,9])
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);

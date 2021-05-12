@@ -3,26 +3,25 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use App\Requisition;
-use App\Comment;
+use App\InternalRequisition;
 
-class RefuseRequisitionPublish extends Notification
+class AssignInternalRequisition extends Notification
 {
     use Queueable;
+    protected $internal;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Requisition $requisition, Comment $comment)
+    public function __construct(InternalRequisition $internal)
     {
         //
-        $this->requisition = $requisition;
-        $this->comment =$comment;
+        $this->internal = $internal;
     }
 
     /**
@@ -45,11 +44,10 @@ class RefuseRequisitionPublish extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Refuse Requisition')
+        ->subject('Internal Requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
-        ->line('Your requisition was refuse,the requisition number is '.$this->requisition->requisition_no.'.')
-        ->line($this->comment->comment)
-        ->action('View Requisition', url('/check-purchase'. $this->requisition->id.'/edit'))
+        ->line('A new internal requisition  was assigned to you,the requisition number is '.$this->internal->requisition_no.'.')
+        ->action('Create it Now', url('/requisition'))
         ->line('Thank you for using this application!');
     }
 
@@ -61,6 +59,6 @@ class RefuseRequisitionPublish extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->requisition->toArray();
+        return $this->internal->toArray();
     }
 }

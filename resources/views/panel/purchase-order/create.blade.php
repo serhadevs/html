@@ -203,7 +203,7 @@ text-align: center;
         
                            
                                 
-                                 <div class="form-group row">
+                                 {{-- <div class="form-group row">
                                 <label for="cost-centre" class="col-sm-2 col-form-label">Date Required</label>
                                 <div class="col-sm-4">
                                  
@@ -223,21 +223,51 @@ text-align: center;
                                 </div>
                                  </div>
                                 </div>
-                                </div>
+                                </div> --}}
                            <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Purchase Order#</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control" id ='purchase_order_no' name="purchase_order_no" value="">
+                        <input type="input" class="form-control" id ='purchase_order_no' name="purchase_order_no" value=""required>
                           </div>
+                          <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
+                          <div class="col-sm-4">
+                          <input type="input" class="form-control" name="requisition_no" value="{{$requisition->requisition_no}}" readonly>
+                            </div>
                           </div>
+
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Comments</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4"> 
                         <textarea class="form-control" name ="comments" id="comments" value="" rows="3" placeholder="Enter ..."></textarea>
                           </div>
+
+                          @if($requisition->internalrequisition->comment->isNotEmpty())
+                         
+                            <label for="" class="col-sm-2 col-form-label">Refusal Comments</label>
+                            <div class="col-sm-4"> 
+                            <textarea class="form-control" name ="" id="" value="" rows="3" >
+                              @foreach($requisition->internalrequisition->comment as $comment)
+                                    {{$comment->user->abbrName()}}: {{$comment->comment}}
+                            @endforeach
+                            </textarea>
+
+                     
+                              </div>
+                             
+
+                              @endif
+
+
                           </div>
 
                         
+
+
+
+
+
+
+
                         {{-- <div class="form-group row">
                         <div class="col-sm-6">
                       
@@ -281,8 +311,8 @@ text-align: center;
                   <td>
                   <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                   </td> 
-                <td> <a class="btn btn-primary " href="{{ asset('/documents/'.$file->filename)}}">View</a></td>
-                  <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" >Remove</button></td>
+                <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  <td> <button class="btn btn-danger" onclick="" type="button" disabled >Remove</button></td>
                 </tr>
                   @endforeach
                 </tbody>

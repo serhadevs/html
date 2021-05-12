@@ -135,7 +135,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach($internalcomplete as $internal)
+                    @foreach($budgetCommitment as $commitment)
                     <tr>
                        {{-- <td>{{$order->id}}</td>
                       @if($order->approvePurchaseOrder)
@@ -144,26 +144,26 @@
                     <td> <span class ="badge bg-red">Not approved</span></td>
                     @endif --}}
                    
-                    <td>{{$internal->requisition_no}}</td>
-                    <td>{{$internal->estimated_cost}}</td>
-                    <td>{{$internal->budget_approve}}</td>
-                    <td>{{$internal->department->name}}</td>
-                    <td>{{$internal->institution->name}}</td>
-                    <td>{{$internal->requisition_type->name}}</td>
-                    <td>{{$internal->priority}}</td>
-                    <td>{{$internal->budget_commitment->commitment_no}}</td>
-                    <td>{{$internal->budget_commitment->account_code}}</td>
-                    <td>{{$internal->budget_commitment->comment}}</td>
-                    <td>{{$internal->budget_commitment->created_at}}</td>
+                    <td>{{$commitment->internalrequisition->requisition_no}}</td>
+                    <td>{{$commitment->internalrequisition->estimated_cost}}</td>
+                    <td>{{$commitment->internalrequisition->budget_approve}}</td>
+                    <td>{{$commitment->internalrequisition->department->name}}</td>
+                    <td>{{$commitment->internalrequisition->institution->name}}</td>
+                    <td>{{$commitment->internalrequisition->requisition_type->name}}</td>
+                    <td>{{$commitment->internalrequisition->priority}}</td>
+                    <td>{{$commitment->commitment_no}}</td>
+                    <td>{{$commitment->account_code}}</td>
+                    <td>{{$commitment->comment}}</td>
+                    <td>{{$commitment->created_at}}</td>
                     
 
                     
                    
                     <td>
-                     <a  href="/budgetcommitment/{{$internal->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
-                    <a href="" class="btn btn-block btn-danger btn-m">Delete</a>
+                    <a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$commitment->id}})">Delete</a>
                     </td> 
 
                       
@@ -235,6 +235,45 @@ $(document).ready( function () {
     });
     
 } );
+
+
+function deleteCommitment(Id){
+  swal({
+    title: "Are you sure?",
+    text: "You will not be able to undo this action once it is completed!",
+    dangerMode: true,
+    cancel: true,
+    confirmButtonText: "Yes, Delete it!",
+    closeOnConfirm: false
+  }).then(isConfirm => {
+    if (isConfirm) {
+      $.get( {!! json_encode(url('/')) !!} + "/budgetcommitment/destroy/" + Id).then(function (data) {
+        console.log(data);
+        if (data == "success") {
+          swal(
+            "Done!",
+            "Permit Application was successfully deleted!",
+            "success").then(esc => {
+              if(esc){
+                location.reload();
+              }
+            });
+          }
+          else if(data=="fail"){
+            swal("Error",
+            "This application is already approved and is not allowed to be deleted.",
+            "error");
+          }
+          else{
+            swal(
+              "Oops! Something went wrong.",
+              "Permit Application was NOT deleted.",
+              "error");
+            }
+          });
+        }
+      });
+    }
 </script>
 
 @endpush

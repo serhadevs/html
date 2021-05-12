@@ -59,7 +59,7 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/requisition" enctype="multipart/form-data">
+                <form class="form-horizontal" id="requisition_form" method="Post" autocomplete="off" action="/requisition" enctype="multipart/form-data">
                   @csrf
                   
                       
@@ -85,6 +85,18 @@ text-align: center;
                             <div class="card" style="width:82.9%">
                           <div class="card-body">
                            <div class="col-m-10">
+                            <div class="form-group row">
+                              <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
+                              <div class="col-sm-4">
+                              <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
+                                </div>
+      
+                                {{-- <label for="inputEmail4" class="col-sm-2 col-form-label">Date Ordered</label>
+                              <div class="col-sm-4">
+                              <input type="input" class="form-control"  value="{{$internal_requisition->created_at->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
+                              </div> --}}
+                              
+                            </div>
 
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Requester</label>
@@ -139,7 +151,7 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Recommend Supplier </label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control"name ='supplier_id' id="supplier" >
+                        <select type="input" class="form-control"name ='supplier_id' id="supplier" required>
                         <option value=''>Select supplier</option>
                          @foreach($suppliers as $supplier) 
                  
@@ -150,7 +162,7 @@ text-align: center;
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
                         <div class="col-sm-4">
-                          <select type="input" class="form-control" name="delivery" id="delivery">
+                          <select type="input" class="form-control" name="delivery" id="delivery"required>
                           <option value=""  >Select specification </option>
                           <option value="cod">COD</option>
                            <option value="credit">Credit</option>
@@ -168,12 +180,12 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Description </label>
                         <div class="col-sm-4">
-                            <textarea type="text" class="form-control" value="{{Request::old('description')}}" name='description'></textarea>
+                            <textarea type="text" class="form-control" value="{{Request::old('description')}}" name='description' required></textarea>
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Category</label>
                         <div class="col-sm-4">
                          
-                        <select type="input" class="form-control"name ='category' id="category">
+                        <select type="input" class="form-control"name ='category' id="category" required>
                         <option value="" >select</option>
                         @foreach ($categories as $category)
                         <option name='category[]' value="{{$category->id}}">{{$category->name}}</option>
@@ -185,11 +197,11 @@ text-align: center;
                         <div class="form-group row">
                           <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                           <div class="col-sm-4">
-                              <input type="number" class="form-control" value="{{Request::old('contract_sum')}}" id="contract_sum" name='contract_sum'>
+                              <input type="number" class="form-control" value="{{Request::old('contract_sum')}}" id="contract_sum" name='contract_sum' required>
                           </div>
                           <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                         <div class="col-sm-4">
-                           <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
+                           <select type="input" class="form-control" name="procurement_method" id="rocurement_method" required>
                           <option value="">Select method </option>
                       @foreach($methods as $method)
                       <option value="{{$method->id}}">{{$method->name}}</option>
@@ -277,11 +289,38 @@ text-align: center;
                         <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
                         <div class="col-sm-4">
                          
-                         <input type="number" class="form-control" value="{{Request::old('trn')}}" id='trn' name='trn'>
+                         <input type="number" class="form-control" value="{{Request::old('trn')}}" id='trn' name='trn'required>
                          
                         </div>
                         
                         </div>
+
+                        <div class="row">
+                          {{-- <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                              <label>Comments/Justification</label>
+                            <textarea  readonly class="form-control" name="comments" rows="3" placeholder=""></textarea>
+                            </div>
+                          </div> --}}
+              
+              
+              
+                          @if($requisition->comment->isNotEmpty())
+                          <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                              <label>Refusal Comments</label>
+              <textarea class="form-control" rows="3" disabled>
+  @foreach($requisition->comment as $comment)
+  {{$comment->user->abbrName()}}: {{$comment->comment}}
+  @endforeach
+              </textarea>
+                            </div>
+                          </div>
+                          @endif
+                          
+                        </div>        
               
                         <div class="form-group row img_div ">
                         <div class="col-sm-4">
@@ -336,7 +375,7 @@ text-align: center;
 
                         <div class="row">
                         <div class="col-10">
-                        <button type="submit" class="btn btn-primary float-right">Submit</button>
+                        <button type="submit" id="btnSubmit" class="btn btn-primary float-right">Submit</button>
                         </div>
                         </div>
 
@@ -389,36 +428,24 @@ text-align: center;
     @push('scripts')
     <script>
    
+   $(document).ready(function () {
+
+$("#requisition_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+    //e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
+});
 
 
-
-
-// function myfunction(){
-// $('#page').ready(function(){
- 
-// //   for(var i =0;products.length >i;i++)
-// //   {
-// //  // alert(products[i].value);
-// //   //console.log(products[i].value)
-// //   stocks.push(products[i].value);
-// //   }
-// var $div=$('#content');
-
-// $("input[class=productname]").each(function() {
-// productname.push($(this).val());
-//  });
-
-// $("input[class=quantity]").each(function() {
-// quantity.push($(this).val());
-//  });
-
-// $("input[class=des]").each(function() {
-// des.push($(this).val());
-//  });
-
-//  $("input[class=unitcost]").each(function() {
-// unitcost.push($(this).val());
-//  });
 
 
 
@@ -464,20 +491,6 @@ $(document).ready(function(){
 });
 
 
-// function varianceCheck(){
-// $('#variance').ready(function(){
-//   var contractSum = parseFloat($('#contract_sum').val());
-// var estimated_cost = parseFloat($('#estimated_cost').val());
-// var cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
-//  if(cost_variance > 15)
-//  var html = $('.variance').html();
-//     $('.variance').after(html);
-
-//     $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost- contractSum)/estimated_cost  *100 : 0).toFixed(2));
-//     console.log(cost_variance);
-    
-// });
-// }
 
   </script>
 

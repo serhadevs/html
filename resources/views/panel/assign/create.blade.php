@@ -68,7 +68,8 @@ text-align: center;
                         Phone: {{$internalRequisition->phone}}</br>
                         Email: {{$internalRequisition->email}}</br>
                         Procurement Type: {{$internalRequisition->requisition_type->name}}</br>
-                        Priority:{{$internalRequisition->priority}}</br>
+                        Priority: {{$internalRequisition->priority}}</br>
+                        Requisition no : {{$internalRequisition->requisition_no}}</br>
                         </div>
                         
                         <div class="col-sm-6">
@@ -134,9 +135,25 @@ text-align: center;
               <!-- textarea -->
               <div class="form-group">
                 <label>Comments/Justification</label>
-              <textarea  readonly class="form-control" name="comments" rows="3" placeholder="{{$internalRequisition->comments}}"></textarea>
+              <textarea  readonly class="form-control" name="comments" rows="3" placeholder="">{{$internalRequisition->comments}}</textarea>
               </div>
             </div>
+
+
+
+            @if($internalRequisition->comment->isNotEmpty())
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>Refusal Comments</label>
+<textarea class="form-control" rows="3" disabled>
+                  @foreach($internalRequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+                  @endforeach
+</textarea>
+              </div>
+            </div>
+            @endif
             
           </div>        
     </div>
@@ -166,13 +183,13 @@ text-align: center;
                            
                         </div>
 
-                        <form class="form-horizontal" method="Post" autocomplete="off" action="/assign_requisition" enctype="multipart/form-data">
+                        <form class="form-horizontal" id="assign_form" method="Post" autocomplete="off" action="/assign_requisition" enctype="multipart/form-data">
                         <label for="date-of-last" class="col-sm-5 col-form-label">Assign procurement Officer</label>
                         <div class="col-sm-5">
                   
                           @csrf
                           <input type="hidden" class="form-control"  value="{{$internalRequisition->id}}"name='requisition_id' id="requisition_id" readonly>
-                         <select type="input" class="form-control" name="user_id" id="user_id">
+                         <select type="input" class="form-control" name="user_id" id="user_id" required>
                           <option value="">Select Officer</option>
                           @foreach($users as $user)
                          <option value="{{$user->id}}">{{$user->firstname[0]}}. {{$user->lastname}}</option>
@@ -202,7 +219,7 @@ text-align: center;
                         <div class="col-10">
                      
                          
-                        <button type="submit"   class="btn btn-primary float-right" >Submit</button></br>
+                        <button type="submit"  id="#btnSubmit"  class="btn btn-primary float-right" >Submit</button></br>
                         
                       </div> 
                        
@@ -300,6 +317,24 @@ function Assign(internal_requisition_id){
 }
 
   
+$(document).ready(function () {
+
+$("#assign_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+   // e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
+});
+
+
 </script>
 
 @endpush

@@ -13,6 +13,7 @@ use App\Supplier;
 // use App\StockCategory;
 use App\InternalRequisition;
 use App\User;
+use App\Approve;
 use App\Comment;
 use App\Notifications\AcceptRequisitionPublish;
 use App\Notifications\RefuseRequisitionPublish;
@@ -94,6 +95,8 @@ class CheckPurchaseController extends Controller
         // $selected_items->data['appTypeId'];
    
         try {
+            
+                $requisition = Requisition::find($request->data['requisitionId']);
                 $refuse =  $request->data['refuse'];
                 $check = new Check();
                 $check->is_check =  $request->data['check'];
@@ -105,11 +108,13 @@ class CheckPurchaseController extends Controller
               
                 if($refuse ==1){
                     $comment = new Comment();
-                    $comment->check_id = $check->id;
-                    $comment->type ='requisition check';
+                    $comment->internal_requisition_id =  $requisition->internal_requisition_id;
+                    $comment->type ='refuse acceptance';
+                    $comment->user_id = auth()->user()->id;
                     $comment->comment =  $request->data['comment'];
                     $comment->save();
 
+                    
                     
                     $requisition = Requisition::find($request->data['requisitionId']);
                     $user = User::find($requisition->user_id);
@@ -124,9 +129,17 @@ class CheckPurchaseController extends Controller
             $requisition->institution_id  = auth()->user()->institution_id;
             $requisition->update();
 
+            //delete or reset any approved requisition
+            if($requisition->approve)
+            {
+                $approve = Approve::where('requisition_id',$requisition->id);
+                $approve->delete();
+             
+            }
+
             $users = User::where('institution_id',auth()->user()->institution_id )
             ->where('department_id', auth()->user()->department_id)
-            ->whereIn('role_id',['1,5,2'])
+            ->whereIn('role_id',[1,5,2])
             ->get();
 
                     $requisition = Requisition::find($request->data['requisitionId']);
@@ -145,32 +158,7 @@ class CheckPurchaseController extends Controller
 
     }
 
-    //  public function refuse(Request $request)
-    // {
-    //     try {
-    //         if ($request->all()) {
-    //             $check = new Check();
-    //             $check->is_checked = null;
-    //             $check->is_refuse = 1;
-    //             $check->check_date = now();
-    //             $check->requisition_id = $request->data['requisitionId'];
-    //             $check->user_id = auth()->user()->id;
-    //             $check->save();
-    //         }
-
-    //         // $requisition =  Requisition::find($request->data['requisitionId']);
-    //         // $requisition->institution_id  = auth()->user()->institution_id;
-    //         // $requisition->update();
-           
-    //         return 'success';
-
-           
-    //     } catch (Exception $e) {
-    //         return 'fail';
-    //     }
-    //     return redirect('/requisition')->with('status', 'Requisition was created successfully');
-
-    // }
+ 
 
     /**
      * Display the specified resource.
@@ -180,7 +168,8 @@ class CheckPurchaseController extends Controller
      */
     public function show($id)
     {
-      
+       // $internal_requisition_id = Requisition::find($id)->pluck('internal_requisition_id');
+       // dd(  $internal_requisition_id);
         $requisition=  Requisition::with('internalrequisition')->find($id);
        
         

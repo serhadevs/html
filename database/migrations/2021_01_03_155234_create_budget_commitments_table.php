@@ -18,7 +18,7 @@ class CreateBudgetCommitmentsTable extends Migration
             $table->integer('internal_requisition_id')->references('id')->on('internal_requisitions');
             $table->string('commitment_no');
             $table->string('account_code');
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->integer('user_id');
             $table->softDeletes();
             $table->timestamps();

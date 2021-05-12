@@ -15,6 +15,9 @@ use App\SystemOperations\RequisitionNumberGenerator;
 use App\UnitOfMeasurement;
 use Illuminate\Http\Request;
 use App\InternalRequisition;
+use App\User;
+use App\Notifications\RequisitionPublish;
+use Illuminate\Support\Facades\Storage;
 
 class RequisitionController extends Controller
 {
@@ -147,34 +150,7 @@ class RequisitionController extends Controller
         // add stocks to requisition
         if ($requisition->save()) {
 
-            // $input = $request->all();
-            // $product = $request->input('product_name', []);
-            // //  dd($request->all());
-
-            // if ($input['product_name'][0]) {
-            //     foreach ($input['product_name'] as $key => $stocks) {
-            //         $stock = Stock::create([
-            //             'product_name' => $input['product_name'][$key],
-            //             'quantity' => $input['quantity'][$key],
-            //             'description' => $input['descriptions'][$key],
-            //             'unit_cost' => $input['unit_cost'][$key],
-            //             'unit_of_measurement_id' => $input['unit'][$key],
-            //             'stock_category_id' => $input['categorys'][$key],
-            //             'requisition_id' => $requisition->id,
-            //         ]);
-            //         // Stock::create($stocks);
-            //         $total += $input['quantity'][$key] * $input['unit_cost'][$key];
-            //     }
-            //     // dd('true',$product);
-            // } else {
-            //     //  dd('false',$product);
-            //     $total = 0;
-
-            // }
-            //add total value to requisition total
-
-          
-           // $requisition->save();
+           
 
             if ($request->file('file_upload')) {
                 $files = $request->file('file_upload');
@@ -194,6 +170,15 @@ class RequisitionController extends Controller
                 }
 
             }
+            $users = User::where('institution_id',auth()->user()->institution_id )
+            ->where('department_id', auth()->user()->department_id)
+            ->whereIn('role_id',[1,9])
+            ->get();
+  
+            $internalRequisition = Requisition::find($requisition->id);
+        
+            $users->each->notify(new RequisitionPublish($internalRequisition));
+
 
         }
 
@@ -210,7 +195,7 @@ class RequisitionController extends Controller
     public function show(Requisition $requisition)
     {
         //
-        dd('test');
+        return view('panel.requisition.show', ['requisition' => $requisition]);
     }
 
     /**
@@ -226,10 +211,12 @@ class RequisitionController extends Controller
         $categories = StockCategory::all();
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
-       
-        if ($requisition->approve) {
+      // $content = Storage::url('app\public\Maintenance Manager JD.docx');
+      if ($requisition->approve){
+        if ($requisition->approve->is_granted===1) {
             return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
         }
+    }
 
         return view('panel.requisition.edit', ['methods' => $methods, 'types' => $types, 'categories' => $categories, 'units' => $units, 'requisition' => $requisition, 'suppliers' => $suppliers]);
 
@@ -259,8 +246,8 @@ class RequisitionController extends Controller
         $requisition->contract_sum = $request->contract_sum;
         $requisition->procurement_method_id = $request->procurement_method;
         $requisition->cost_variance = $request->cost_variance;
-        $requisition->date_require = $request->date_require;
-        $requisition->date_last_ordered = $request->date_last_ordered;
+        // $requisition->date_require = $request->date_require;
+        // $requisition->date_last_ordered = $request->date_last_ordered;
 
         //update stock
 
@@ -271,36 +258,12 @@ class RequisitionController extends Controller
             $check_id = Check::where('requisition_id',$requisition->id)
             ->where('is_refuse',1)
             ->first();
+            if($check_id != null){
             $check_id->delete();
-            //$check_delete = Check::find($check_id->id);
-            
-
-            // $products = Stock::find($requisition->id);
-            // dd($products);
-            // foreach ($requisition->stock as $products) {
-            //     $products->delete();
-            // }
-
-            // if ($request->product_name) {
-            //     foreach ($input['product_name'] as $key => $stocks) {
-            //         $stock = Stock::create([
-            //             'product_name' => $input['product_name'][$key],
-            //             'quantity' => $input['quantity'][$key],
-            //             'description' => $input['descriptions'][$key],
-            //             'unit_cost' => $input['unit_cost'][$key],
-            //             'unit_of_measurement_id' => $input['unit'][$key],
-            //             'stock_category_id' => $input['categorys'][$key],
-            //             'requisition_id' => $requisition->id,
-            //         ]);
-            //         // Stock::create($stocks);
-            //         $total += $input['quantity'][$key] * $input['unit_cost'][$key];
-            //     }
-            // }
-
-            //add total value to requisition total
-
-            // $requisition['total'] = $total;
-            // $requisition->update();
+            }else{
+                $check_id = 0;
+            }
+          
 
             if ($request->file('file_upload')) {
                 $files = $request->file('file_upload');
@@ -341,6 +304,20 @@ class RequisitionController extends Controller
         try {
             $requisition = Requisition::find($id);
             $requisition->delete();
+            return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+
+    public function deleteFile($id)
+    {
+
+        // dd('destroy');
+        try {
+            $file = File_Upload::find($id);
+            $file->delete();
             return "success";
         } catch (Exception $e) {
             return 'fail';

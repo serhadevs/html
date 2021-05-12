@@ -53,7 +53,7 @@ text-align: center;
                         The Towers, 25 Dominica Drive, Kingston 5</p><br>
                         </div>
 
-                      Requester:  <b>{{$requisition->user->firstname[0]}}. {{$requisition->user->lastname}}</b>
+                      Requester:  <b>{{$requisition->internalrequisition->user->firstname[0]}}. {{$requisition->internalrequisition->user->lastname}}</b>
 
                         <p><br>Institution: {{$requisition->institution->name}}</br>
                           Departmentent: {{$requisition->department->name}} </br>
@@ -71,7 +71,9 @@ text-align: center;
                         TCC Number: {{$requisition->tcc}}</br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
                         Contract Sum: {{$requisition->contract_sum}}</br>
-                        Date Required: {{$requisition->date_require}}</br>
+                        {{-- Date Required: {{$requisition->date_require}}</br> --}}
+                        Requisition no.: {{$requisition->internalrequisition->requisition_no}}</br> 
+
                         </div>
                         
                         <div class="col-sm-6">
@@ -81,7 +83,7 @@ text-align: center;
                         TRN: {{$requisition->trn}}</br>
                         Estimate Cost: {{$requisition->internalrequisition->estimated_cost}} </br>
                         Cost Variance: {{$requisition->cost_variance}} </br>
-                        Date Last Order: {{$requisition->date_last_ordered}} </br>
+                       
                         
 
                         </div>
@@ -154,6 +156,21 @@ text-align: center;
     <!-- Editable table -->
                       
     </div>
+
+
+    @if($requisition->internalrequisition->comment->isNotEmpty())
+    <div class="col-sm-6">
+      <!-- textarea -->
+      <div class="form-group">
+        <label>Refusal Comments</label>
+<textarea class="form-control" rows="3" disabled>
+@foreach($requisition->internalrequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+@endforeach
+</textarea>
+      </div>
+    </div>
+    @endif
      <div class="col-sm-6">
                             <label for="exampleInputFile">Support Documents</label>
                        <div class="card-body p-0">
@@ -174,7 +191,7 @@ text-align: center;
                     <td>
                     <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                     </td> 
-                  <td> <a class="btn btn-primary " href="{{ asset('/documents/'.$file->filename)}}">View</a></td>
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
                     <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td>
                   </tr>
                     @endforeach
@@ -188,7 +205,7 @@ text-align: center;
                         <div class="form-group row">
                         <div class="col-sm-6">
                           @if($requisition->check)
-                          @if($requisition->check->is_checked===1)
+                          @if($requisition->check->is_check===1)
                           Accepted by: <span class='badge badge-success'> {{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}}</span>
                           @else
                           Accepted by: 
@@ -271,9 +288,10 @@ text-align: center;
 
                         {{-- //end --}}
                         </div>
+                      </br>
                       </div>
                     </div>
-</br>
+
 
 @endsection
 

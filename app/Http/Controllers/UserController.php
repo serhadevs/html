@@ -7,6 +7,7 @@ use App\Institution;
 use App\Parish;
 use App\Role;
 use App\User;
+use App\Unit;
 use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
 use Illuminate\Support\Facades\Auth;
@@ -59,8 +60,9 @@ class UserController extends Controller
         $departments = Department::all();
         $institutions = Institution::all();
         $roles = Role::all();
-        //  dd($departments);
-        return view('/panel.user.create', compact('institutions', 'roles', 'departments', 'parishes'));
+        $units = Unit::all();
+        
+        return view('/panel.user.create', compact('units','institutions', 'roles', 'departments', 'parishes'));
 
     }
 
@@ -126,8 +128,9 @@ class UserController extends Controller
         $departments = Department::all();
         $institutions = Institution::all();
         $roles = Role::all();
+        $units = Unit::all();
 
-        return view('panel.user.edit', compact('institutions', 'roles', 'departments', 'parishes', 'user'));
+        return view('panel.user.edit', compact('units','institutions', 'roles', 'departments', 'parishes', 'user'));
 
     }
 

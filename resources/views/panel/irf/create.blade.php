@@ -53,7 +53,7 @@ text-align: center;
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/internal_requisition" enctype="multipart/form-data">
+                <form class="form-horizontal" id="internal_request_form" method="Post" autocomplete="off" action="/internal_requisition" enctype="multipart/form-data">
                   @csrf
                   
                       
@@ -93,12 +93,12 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" value="{{Request::old('estimated_cost')}}" name='estimated_cost' >
+                            <input type="number" class="form-control" value="{{Request::old('estimated_cost')}}" name='estimated_cost'required >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget Activity</label>
                         <div class="col-sm-4">
                          
-                         <select type="input" class="form-control" name="budget_approve" id="budget_approve">
+                         <select type="input" class="form-control" name="budget_approve" id="budget_approve" required>
                           <option value="">Select method </option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
@@ -112,12 +112,12 @@ text-align: center;
                         <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Phone </label>
                         <div class="col-sm-4">
-                            <input type="tele" class="form-control" value="{{Request::old('phone')}}" name='phone'>
+                            <input type="tele" class="form-control" value="{{Request::old('phone')}}" name='phone'required>
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">E-Mail</label>
                         <div class="col-sm-4">
                          
-                         <input type="email" class="form-control" value="{{Request::old('email')}}" id='email' name='email'>
+                         <input type="email" class="form-control" value="{{Request::old('email')}}" id='email' name='email'required>
                          
                         </div>
                         </div>
@@ -126,7 +126,7 @@ text-align: center;
                         <label for="cost-centre" class="col-sm-2 col-form-label">Procurement type</label>
                        
                         <div class="col-sm-4">
-                          <select type="input" class="form-control" name="requisition_type" id="requisition_type">
+                          <select type="input" class="form-control" name="requisition_type" id="requisition_type" required>
                             <option value="">Select type </option>
                         @foreach($types as $type)
                         <option value="{{$type->id}}">{{$type->name}}</option>
@@ -137,7 +137,7 @@ text-align: center;
                         </div> 
                         <label for="date-of-last" class="col-sm-2 col-form-label">Priority</label>
                         <div class="col-sm-4">
-                         <select type="input" class="form-control" name="priority" id="priority">
+                         <select type="input" class="form-control" name="priority" id="priority" required>
                           <option value="">Select priority</option>
                           <option value="very high">Very High</option>
                           <option value="high">High</option>
@@ -179,17 +179,17 @@ text-align: center;
                 <td>
                 
                   {{-- <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'> --}}
-                   <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;'>
+                   <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'>
+                <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>
                 </td>
                 {{-- <td>
                 <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;'>
               
                 </td> --}}
                 <td>
-                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'>
+                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'required>
                   <option value="">select</option>
                   @foreach ($units as $unit)
                   <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
@@ -198,10 +198,10 @@ text-align: center;
                   </select>
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;'>
+                  <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                  <input name='part_number[]' class='part_number' id="part_number" type='text' size="5" style='border:none;outline:none;background: transparent;'>
+                  <input name='part_number[]' class='part_number' id="part_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                 </td>
         
 
@@ -238,7 +238,7 @@ text-align: center;
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="Submit" class="btn btn-primary float-right" >Submit</button>
+                        <button type="Submit" id ="btnSubmit" class="btn btn-primary float-right" >Submit</button>
                         </div>
                         </div>
 
@@ -304,6 +304,25 @@ text-align: center;
       
     @push('scripts')
     <script>
+
+$(document).ready(function () {
+
+$("#internal_request_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+    //e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
+});
+
+
     $(document).ready(function(){
 $('#next-1').click(function(){
 $('#second').show();

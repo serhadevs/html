@@ -22,4 +22,10 @@ class BudgetCommitment extends Model
     {
         return $this->HasOne('App\InternalRequisition','id','internal_requisition_id');
     }
+
+    // public function approve_budget()
+    // {
+    //     return  $this->hasOne('App\ApproveBudget');
+    // }
+
 }

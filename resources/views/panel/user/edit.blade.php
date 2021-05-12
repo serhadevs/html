@@ -134,10 +134,12 @@
                         <div class="col-sm-4">
                         <input type="text" class="form-control"  name="email" id="email" value="{{$user->email}}"required>
                         </div>
-                        {{-- <label for="date-of-last" class="col-sm-2 col-form-label">Phone</label>
+                        
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Unit</label>
                         <div class="col-sm-4">
-                        <input type="tele" class="form-control" name="phone" value="">
-                        </div> --}}
+                          <select type="input" class="form-control" value="{{Request::old('department')}}" name="department" id="department" required>
+                            <option >Select unit </option>
+                        </div> 
                         </div>
                          {{-- <div class="form-group row">
                          <label for="cost-centre" class="col-sm-2 col-form-label">FAX</label>

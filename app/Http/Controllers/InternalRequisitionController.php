@@ -9,8 +9,10 @@ use App\UnitOfMeasurement;
 use App\ProcurementMethod;
 use App\RequisitionType;
 use App\User;
+use App\Comment;
 use App\Notifications\InternalRequisitionPublish;
 use App\SystemOperations\RequisitionNumberGenerator;
+use App\ApproveInternalRequisition;
 
 
 
@@ -23,9 +25,8 @@ class InternalRequisitionController extends Controller
      */
     public function index()
     {
-        $internal_requisitions =  InternalRequisition::all()
-      ->where('department_id',auth()->user()->department_id)
-      ->where('institution_id',auth()->user()->institution_id);
+        $internal_requisitions =  InternalRequisition::where('department_id',auth()->user()->department_id)
+      ->where('institution_id',auth()->user()->institution_id)->get();
 
         return view('/panel.irf.index',compact('internal_requisitions'));
 
@@ -65,6 +66,13 @@ class InternalRequisitionController extends Controller
     'requisition_type' => 'required',
     'priority' => 'required',
     
+                        'quantity' => 'required',
+                        'description' => 'required',
+                        'part_number' => 'required',
+                        'unit'=>'required',
+                        'unit_cost' =>'required',
+                      
+    
 ]);
     $requisition_no = new RequisitionNumberGenerator();
     $internal_requisition = new InternalRequisition();
@@ -96,7 +104,7 @@ class InternalRequisitionController extends Controller
                         'description' => $input['description'][$key],
                         'part_number' => $input['part_number'][$key],
                         'unit_of_measurement_id' => $input['unit'][$key],
-                        'unit_cost' => $input['unit'][$key],
+                        'unit_cost' => $input['unit_cost'][$key],
                         'internal_requisition_id' => $internal_requisition->id,
                     ]);
                    
@@ -111,13 +119,12 @@ class InternalRequisitionController extends Controller
         // $user = auth()->user();
         $users = User::where('institution_id',auth()->user()->institution_id )
         ->where('department_id', auth()->user()->department_id)
-        ->whereIn('role_id',['1,2'])
+        ->whereIn('role_id',[1,2])
         ->get();
-        //dd($internal_requisition);
+       //dd($users);
         $users->each->notify(new InternalRequisitionPublish($internal_requisition));
 
         return redirect('/internal_requisition')->with('status', 'Internal Requisition was created successfully');
-
 
     }
 
@@ -130,6 +137,8 @@ class InternalRequisitionController extends Controller
     public function show($id)
     {
         //
+        $internal_requisition = InternalRequisition::find($id);
+        return view('/panel.irf.show', compact('internal_requisition'));
     }
 
     /**
@@ -143,13 +152,14 @@ class InternalRequisitionController extends Controller
   
         $units = UnitOfMeasurement::all();
        //  dd(('test'));
-        $ir = InternalRequisition::with(['stocks'])
+        $ir = InternalRequisition::with(['stocks','comment'])
         ->find($id);
-      //  dd($ir);
+      // dd($ir->comment);
       $types = RequisitionType::all();
 
       if ($ir->approve_internal_requisition) {
-        return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already accepted');
+        if($ir->approve_internal_requisition->is_granted===1)
+        return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already approved.');
     }
 
         return view('/panel.irf.edit', compact('units','ir','types'));
@@ -165,6 +175,7 @@ class InternalRequisitionController extends Controller
      */
     public function update(Request $request,$id)
     {
+      //dd($request->all());
           $internal_requisition = InternalRequisition::with(['stocks'])->find($id);
          
             // $internal_requisition->user_id = auth()->user()->id;
@@ -180,6 +191,15 @@ class InternalRequisitionController extends Controller
             $internal_requisition->comments = $request->comments;
            // dd( $internal_requisition);
              if ($internal_requisition->update()) {
+
+                $approve = ApproveInternalRequisition::where('internal_requisition_id',$id)
+            ->where('is_granted',0)
+            ->first();
+            if($approve != null){
+            $approve->delete();
+            }else{
+                $approve = null;
+            }
 
             $input = $request->all();
 
@@ -197,7 +217,7 @@ class InternalRequisitionController extends Controller
             'description' => $input['description'][$key],
             'part_number' => $input['part_number'][$key],
             'unit_of_measurement_id' => $input['unit'][$key],
-            'unit_cost' => $input['unit'][$key],
+            'unit_cost' => $input['unit_cost'][$key],
             'internal_requisition_id' => $internal_requisition->id,
         ]);
 
@@ -207,7 +227,7 @@ class InternalRequisitionController extends Controller
 
         }
 
-        return redirect('/irf')->with('status', 'Internal requisition was updated successfully');
+        return redirect('/internal_requisition')->with('status', 'Internal requisition was updated successfully');
 
      
     }

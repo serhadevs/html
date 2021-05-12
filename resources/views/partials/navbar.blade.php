@@ -73,8 +73,8 @@
            
                @if(auth()->user()->notifications->count() !== 0)
               <a href="#" class="dropdown-item">
-               <i class="fas fa-envelope mr-2"></i> {{\App\Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->count()}} {{substr(\App\Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->get()[0]->type,18,19)}}
-              <span ="float-right text-muted text-sm"></span>
+               <i class="fas fa-envelope mr-2"></i>
+              <span class="float-right text-muted text-sm"></span>
               </a>
 
               {{-- <a href="#" class="dropdown-item">
