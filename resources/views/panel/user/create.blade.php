@@ -52,12 +52,12 @@
                           <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Frist Name</label>
                         <div class="col-sm-4">
-                        <input type="text" name ="first_name" class="form-control" value="" required>
+                        <input type="text" name ="first_name" class="form-control" value="{{Request::old('first_name')}}" required>
                           </div>
 
                         <label for="supplier_code" class="col-sm-2 col-form-label">Last Name</label>
                         <div class="col-sm-4">
-                        <input type="text" id="last_name" name ="last_name" class="form-control" value="" required>
+                        <input type="text" id="last_name" name ="last_name" class="form-control" value="{{Request::old('last_name')}}" required>
                           </div>
                         
                          </div>
@@ -93,7 +93,7 @@
 
                         <label for="address" class="col-sm-2 col-form-label">Telephone</label>
                         <div class="col-sm-4">
-                        <input type="text" class="form-control"  value=""name='telephone' id="tele" required>
+                        <input type="text" class="form-control"  value="{{Request::old('telephone')}}" name='telephone' id="tele" required>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -111,8 +111,8 @@
                         <label for="date-required" class="col-sm-2 col-form-label">Department</label>
                       
                         <div class="col-sm-4">
-                         <select type="input" class="form-control" name="department" id="department" required>
-                          <option >select type </option>
+                         <select type="input" class="form-control" value="{{Request::old('department')}}" name="department" id="department" required>
+                          <option >Select Department </option>
                           @foreach($departments as $department)
                          <option  value="{{$department->id}}" >{{$department->name}}</option>
 
@@ -125,12 +125,17 @@
                       <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-4">
-                          <input type="text" class="form-control"  name="email" id="email" placeholder=""required>
+                          <input type="text" class="form-control"  name="email" id="email" value="{{Request::old('email')}}"required>
                         </div>
-                        {{-- <label for="date-of-last" class="col-sm-2 col-form-label">Phone</label>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Unit</label>
                         <div class="col-sm-4">
-                        <input type="tele" class="form-control" name="phone" value="">
-                        </div> --}}
+                          <select type="input" class="form-control" value="{{Request::old('unit')}}" name="unit_id" id="unit_id" required>
+                            <option >Select unit </option>
+                            @foreach($units as $units)
+                           <option  value="{{$units->id}}" >{{$units->name}}</option>
+  
+                            @endforeach
+                        </div> 
                         </div>
                          {{-- <div class="form-group row">
                          <label for="cost-centre" class="col-sm-2 col-form-label">FAX</label>

@@ -249,6 +249,11 @@
                   <i class="far fa-ruler nav-icon"></i>
                   <p>Add Measurement</p>
                 </a>
+              </li> <li class="nav-item">
+                <a href="/unit" class="nav-link">
+                  <i class="far fa-ruler nav-icon"></i>
+                  <p>Add Units</p>
+                </a>
               </li>
               @if(in_array(Auth::user()->role_id, [1,3,9,12]))
               <li class="nav-item">

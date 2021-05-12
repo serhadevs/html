@@ -82,12 +82,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/approve-purchase-order', 'ApprovePurchaseOrderController');
 
 
-//Departments Controllers
+//Departments 
+Route::resource('/unit', 'UnitController');
+Route::get('/units/delete/{id}', 'UnitController@destroy');
+
+//Departments 
 Route::resource('/department', 'DepartmentController');
 Route::get('/department/delete/{id}', 'DepartmentController@destroy');
 
 
-//Institution Controllers
+//Institution 
 Route::resource('/institution', 'InstitutionController');
 Route::get('/institution/delete/{id}', 'InstitutionController@destroy');
 

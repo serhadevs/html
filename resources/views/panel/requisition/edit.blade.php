@@ -186,7 +186,6 @@ text-align: center;
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                           <div class="col-sm-4">
                              <select type="input" class="form-control" name="procurement_method" id="rocurement_method"required>
-                            {{-- <option value="">Select method </option> --}}
                         @foreach($methods as $method)
                         @if($requisition->procurement_method_id === $method->id)
                         <option value="{{$method->id}}">{{$method->name}}</option>

@@ -67,9 +67,9 @@ class VoucherCheckController extends Controller
                 $comment->save();
 
                 
-                $voucher = PaymentVoucher::find($request->data['voucherId']);
-                $user = User::find($voucher->purchaseOrder->user_id);
-                $user->notify(new RefuseVoucherCheck($voucher, $comment ));
+                // $voucher = PaymentVoucher::find($request->data['voucherId']);
+                // $user = User::find($voucher->purchaseOrder->user_id);
+                // $user->notify(new RefuseVoucherCheck($voucher, $comment ));
             }else{
 
         // $requisition =  Requisition::find($request->data['requisitionId']);
