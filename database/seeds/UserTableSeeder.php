@@ -21,7 +21,8 @@ class UserTableSeeder extends Seeder
             'email'=>'dwayneb@serha.gov.jm',
             'role_id'=>1,
             'institution_id'=>1,
-            'department_id'=>1
+            'department_id'=>1,
+            'unit_id'=>1
             ],
             [
                 'firstname'=>'Dan',
@@ -31,7 +32,8 @@ class UserTableSeeder extends Seeder
                 'email'=>'dbrown@gmail.com',
                 'role_id'=>3,
                 'institution_id'=>1,
-                'department_id'=>1
+                'department_id'=>1,
+                'unit_id'=>1
             ]
 
 

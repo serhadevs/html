@@ -43,7 +43,7 @@
                 <th class="text-center">Last Name</th>
                 <th class="text-center">Role</th>
                 <th class="text-center">Telephone</th>
-                <th class="text-center">Institution</th>
+                <th class="text-center">Unit</th>
                 <th class="text-center">Department</th>
                 <th class="text-center">Email</th>
                 <th class="text-center">Option</th>
@@ -60,7 +60,7 @@
                     <td>{{$user->lastname}}</td>  
                      <td>{{$user->role->name}}</td>  
                       <td>{{$user->telephone}}</td>  
-                       <td>{{$user->institution->name}}</td>  
+                       <td>{{$user->department->unit->name}}</td>  
                         <td>{{$user->department->name}}</td>
                          <td>{{$user->email}}</td>      
                            <td>

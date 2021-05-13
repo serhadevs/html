@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('telephone');
             $table->integer('institution_id')->references('id')->on('institutions');
             $table->integer('department_id')->references('id')->on('departments');
+            $table->integer('unit_id')->references('id')->on('units');
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

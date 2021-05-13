@@ -26,7 +26,7 @@ class DepartmentTableSeeder extends Seeder
     ],
     [
         "name" => "Procurement Dept.",
-        "abbr" => "procure",
+        "abbr" => "proc",
 
     ],
     [

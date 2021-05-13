@@ -83,6 +83,7 @@ class UserController extends Controller
             // 'telephone' => 'required|min:11|numeric',
             'institution' => 'required',
             'department' => 'required',
+            'unit_id' => 'required',
             'email' => 'required|email|unique:users,email',
         ]);
 
@@ -94,6 +95,7 @@ class UserController extends Controller
         $user->institution_id = $request->institution;
         $user->department_id = $request->department;
         $user->email = $request->email;
+        $user->unit_id = $request->unit_id;
         $user->password = bcrypt(('password123'));
         $user->save();
         }catch(QueryException $ex ){
@@ -143,6 +145,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'role' => 'required',
+            'institution' => 'required',
+            'department' => 'required',
+            'unit_id' => 'required',
+            'email' => 'required|email',
+        ]);
         $user = User::find($id);
         $user->firstname = $request->first_name;
         $user->lastname = $request->last_name;
@@ -151,6 +162,7 @@ class UserController extends Controller
         $user->institution_id = $request->institution;
         $user->department_id = $request->department;
         $user->email = $request->email;
+        $user->unit_id = $request->unit_id;
         $user->update();
 
         return redirect('/user')->with('status', 'User profile was updated successfully');

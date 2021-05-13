@@ -15,4 +15,8 @@ class Department extends Model
     public function institution(){
         return $this->belongsTo('App\Institution');
     } 
+    public function unit(){
+     return $this->hasOne(Unit::class,'department_id');
+       // return $this->HasOne('App\Unit','id','department_id');
+    } 
 }

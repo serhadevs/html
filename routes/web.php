@@ -100,6 +100,11 @@ Route::get('/institution/delete/{id}', 'InstitutionController@destroy');
 Route::resource('/user','UserController');
 Route::get('/user/delete/{id}', 'UserController@destroy');
 Route::get('/user/reset/{id}', 'UserController@reset');
+Route::get('/getUnits',function(){
+    $units = App\Unit::all();
+
+    return response()->json($units);
+});
 
 
 //change Institution

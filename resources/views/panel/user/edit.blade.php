@@ -102,6 +102,8 @@
                       <div class="form-group row">
                         <label for="department" class="col-sm-2 col-form-label">Institution</label>
                         <div class="col-sm-4">
+
+                        @if(in_array(auth()->user()->role_id,[1,12]))
                         <select type="input" class="form-control" name="institution" id="institution" required>
                            @foreach($institutions as $institution)
                           @if($institution->id === $user->institution->id)
@@ -110,8 +112,25 @@
                          <option  value="{{$institution->id}}" >{{$institution->name}}</option>
                         @endif
                           @endforeach
-                          
                          </select> 
+                         @else
+
+                         <select type="input" class="form-control" name="institution" id="institution" disabled required>
+                          @foreach($institutions as $institution)
+                         @if($institution->id === $user->institution->id)
+                         <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
+                         @else
+                        <option  value="{{$institution->id}}" >{{$institution->name}}</option>
+                       @endif
+                         @endforeach
+                        </select> 
+
+
+
+
+                         @endif
+
+
                         </div>
                         <label for="date-required" class="col-sm-2 col-form-label">Department</label>
                       
@@ -137,9 +156,11 @@
                         
                         <label for="date-of-last" class="col-sm-2 col-form-label">Unit</label>
                         <div class="col-sm-4">
-                          <select type="input" class="form-control" value="{{Request::old('department')}}" name="department" id="department" required>
-                            <option >Select unit </option>
-                        </div> 
+                          <select type="input" class="form-control" value="" name="unit_id" id="unit" required>
+                            {{-- <option >Select unit </option> --}}
+                            <option  value="{{$user->department->unit->id}}" >{{$user->department->unit->name}}</option>
+                          </select>
+                          </div> 
                         </div>
                          {{-- <div class="form-group row">
                          <label for="cost-centre" class="col-sm-2 col-form-label">FAX</label>
@@ -213,6 +234,41 @@
     @push('scripts')
     <script src="/js/dataTables.select.min.js"></script>
     <script src="/js/editable-table.js"></script> 
+
+    <script>
+      $(document).ready(function(){
+ $('#department').change(function() {
+   department = $(this).val();
+   $("#unit").empty();
+$.ajax({
+type:"GET",
+url:"/getUnits",
+dataType:'json', 
+success: function (data) {  
+              var len = 0;
+              if(data != null){
+              len= data.length;
+           
+              }
+              if(len>0){
+                for(var i =0; i< len;i++){
+                 if(data[i].department_id == department){
+                  var id = data[i].id;
+                  var name = data[i].name;
+                  var option = "<option value='"+id+"'>"+name+"</option>";
+                 
+                  $("#unit").append(option);
+                  
+                 }
+                }
+              }
+           }  
+
+});
+});
+});
+
+    </script>
     @endpush
       
    
