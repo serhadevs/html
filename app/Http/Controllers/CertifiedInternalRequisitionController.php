@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\InternalRequisition;
-use App\Stock;
-use App\UnitOfMeasurement;
-use App\ApproveInternalRequisition;
-use App\Notifications\InternalRequisitionApprovePublish;
-use App\User;
-use App\Comment;
 use App\CertifiedInternalRequisition;
+use App\InternalRequisition;
+use Illuminate\Http\Request;
+use App\Comment;
+use App\User;
+use App\Notifications\CertifiedInternalRequisitionPublish;
+use App\Notifications\RefuseInternalRequisitionPublish;
 
-class ApproveInternalRequisitionController extends Controller
+
+
+class CertifiedInternalRequisitionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class ApproveInternalRequisitionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,3,10,11,12])) {
+            if (!in_array(auth()->user()->role_id, [1,3,13])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -33,18 +33,9 @@ class ApproveInternalRequisitionController extends Controller
     public function index()
     {
         //
-
-      $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
-        ->whereHas('certified_internal_requisition',function($query){
-            $query->where('is_granted','=', 1);
-           })
-      ->where('institution_id', auth()->user()->institution_id)->get();
-
-
-    
-
-        return view('/panel/approve/internal-requisition.index',compact('internalRequisitions'));
-
+        $internalRequisitions = InternalRequisition::where('department_id',auth()->user()->department_id)
+        ->where('institution_id',auth()->user()->institution_id)->get();
+        return view('/panel/approve/certified-internal.index',compact('internalRequisitions'));
     }
 
     /**
@@ -65,10 +56,9 @@ class ApproveInternalRequisitionController extends Controller
      */
     public function store(Request $request)
     {
-        //
         try {
             if ($request->all()) {
-                $approve = new ApproveInternalRequisition();
+                $approve = new CertifiedInternalRequisition();
                 $permission = $request->data['permission'];
                 $approve->internal_requisition_id = $request->data['internal_requisition_id'];
                 $approve->user_id = auth()->user()->id;
@@ -78,21 +68,15 @@ class ApproveInternalRequisitionController extends Controller
                 if($permission ==0){
                     $comment = new Comment();
                     $comment->internal_requisition_id = $approve->internal_requisition_id;
-                    $comment->type ='refuse internal requisition';
+                    $comment->type ='refuse certify requisition';
                     $comment->comment =  $request->data['comment'];
                     $comment->user_id = auth()->user()->id;
                     $comment->save();
-
-                    $refuseIR=CertifiedInternalRequisition::where('internal_requisition_id',$request->data['internal_requisition_id']);
-                    $refuseIR->delete();
-
-
-
     
                     
-                    // $internalrequisition = InternalRequisition::find($request->data['internal_requisition_id']);
-                    // $user = User::find($internalrequisition->user_id);
-                    // $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
+                    $internalrequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+                    $user = User::find($internalrequisition->user_id);
+                    $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
                 
         
             
@@ -104,9 +88,9 @@ class ApproveInternalRequisitionController extends Controller
                 ->whereIn('role_id',[1,2])
                 ->get();
                 
-                $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+               $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
-                $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
+               $users->each->notify(new CertifiedInternalRequisitionPublish($internalRequisition));
 
                
             }
@@ -116,32 +100,30 @@ class ApproveInternalRequisitionController extends Controller
         } catch (Exception $e) {
             return 'fail';
         }
-
-        return redirect('/panel/approve/internal-requisition.index')->with('status', 'Requisition was created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\CertifiedInternalRequisition  $certifiedInternalRequisition
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-          $internalRequisition = InternalRequisition::with(['stocks','comment'])->find($id);
+        //
+        $internalRequisition = InternalRequisition::with(['stocks','comment'])->find($id);
         //  dd( $internalRequisition);
-        return view('/panel/approve/internal-requisition.show', compact('internalRequisition'));
-
+        return view('/panel/approve/certified-internal.show', compact('internalRequisition'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\CertifiedInternalRequisition  $certifiedInternalRequisition
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CertifiedInternalRequisition $certifiedInternalRequisition)
     {
         //
     }
@@ -150,10 +132,10 @@ class ApproveInternalRequisitionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\CertifiedInternalRequisition  $certifiedInternalRequisition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CertifiedInternalRequisition $certifiedInternalRequisition)
     {
         //
     }
@@ -161,10 +143,10 @@ class ApproveInternalRequisitionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\CertifiedInternalRequisition  $certifiedInternalRequisition
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CertifiedInternalRequisition $certifiedInternalRequisition)
     {
         //
     }

@@ -10,9 +10,11 @@ use App\ProcurementMethod;
 use App\RequisitionType;
 use App\User;
 use App\Comment;
+use App\Unit;
 use App\Notifications\InternalRequisitionPublish;
 use App\SystemOperations\RequisitionNumberGenerator;
 use App\ApproveInternalRequisition;
+use App\CertifiedInternalRequisition;
 
 
 
@@ -114,15 +116,39 @@ class InternalRequisitionController extends Controller
 
         }
 
+       
+
+       $unit_count = Unit::where('department_id',auth()->user()->department_id)->count();
+
+       if($unit_count==1){
+
+        $certify = new CertifiedInternalRequisition();
+        $certify->internal_requisition_id = $internal_requisition->id;
+        $certify->user_id = auth()->user()->id;
+        $certify->is_granted = 1;
+        $certify->save();
 
 
-        // $user = auth()->user();
         $users = User::where('institution_id',auth()->user()->institution_id )
         ->where('department_id', auth()->user()->department_id)
         ->whereIn('role_id',[1,2])
         ->get();
-       //dd($users);
         $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+
+       }else{
+
+        $users = User::where('institution_id',auth()->user()->institution_id )
+        ->where('department_id', auth()->user()->department_id)
+        ->whereIn('role_id',[13])
+        ->get();
+        $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+
+
+       }
+    
+
+
+       
 
         return redirect('/internal_requisition')->with('status', 'Internal Requisition was created successfully');
 

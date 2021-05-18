@@ -3,16 +3,16 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use App\InternalRequisition;
 
-class InternalRequisitionApprovePublish extends Notification
+
+class CertifiedInternalRequisitionPublish extends Notification
 {
     use Queueable;
     protected $internal;
-    
     /**
      * Create a new notification instance.
      *
@@ -44,10 +44,10 @@ class InternalRequisitionApprovePublish extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Approved internal requisition ')
+        ->subject('Certified internal requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
-        ->line('The internal requisition was approved and ready for budget commitment,the requisition number is '.$this->internal->requisition_no.'.')
-        ->action('Commit Now', url('budgetcommitment'))
+        ->line('The internal requisition was certified by '.auth()->user()->abbrName().',the requisition number is '.$this->internal->requisition_no.'.')
+        ->action('Approve Now', url('/approve-internal-requisition'))
         ->line('Thank you for using this application!');
     }
 

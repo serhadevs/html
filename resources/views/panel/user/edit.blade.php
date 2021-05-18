@@ -115,7 +115,7 @@
                          </select> 
                          @else
 
-                         <select type="input" class="form-control" name="institution" id="institution" disabled required>
+                         <select type="input" class="form-control" name="institution" id="institution" disabled>
                           @foreach($institutions as $institution)
                          @if($institution->id === $user->institution->id)
                          <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
@@ -124,6 +124,7 @@
                        @endif
                          @endforeach
                         </select> 
+                        <input type="hidden" class="form-control"  value="{{$user->institution->id}}"name='institution' id="institution">
 
 
 

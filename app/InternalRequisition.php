@@ -42,6 +42,11 @@ class InternalRequisition extends Model
         return  $this->hasOne('App\ApproveInternalRequisition');
     }
 
+    public function certified_internal_requisition()
+    {
+        return  $this->hasOne('App\CertifiedInternalRequisition');
+    }
+
 
     public function budget_commitment()
     {

@@ -151,6 +151,8 @@ Route::get("/voucher-check/show/{id}", "VoucherCheckController@show");
 //Certyfing Voucher
 Route::resource('/certifying-voucher','CertifyingPaymentVoucherController');
 
+Route::resource('/certify-internal-requisition','CertifiedInternalRequisitionController');
+
 
 
 
