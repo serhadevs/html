@@ -172,7 +172,7 @@
                     </thead>
                     <tbody>
                  
-                      @foreach(auth()->user()->notifications as $notification)
+                      @foreach(auth()->user()->unreadNotifications as $notification)
                       <tr>
                       <td>{{($notification->data['requisition_no'])}} </td>
                       <td>{{\App\User::find($notification->data['user_id'])->abbrName()}} </td>
