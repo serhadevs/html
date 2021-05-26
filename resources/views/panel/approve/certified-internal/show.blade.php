@@ -170,11 +170,11 @@ text-align: center;
                         Approve Internal Requisition by: <span class='badge badge-success'></span>
                         </div> --}}
                         <div class="col-sm-5">
-                         @if($internalRequisition->approve_internal_requisition)
-                        Approve by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->firstname[0]}}. {{$internalRequisition->approve_internal_requisition->user->lastname}} </span></br>
-                        Date:  <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->created_at}}</span>
+                         @if($internalRequisition->certified_internal_requisition)
+                        Certify by: <span class='badge badge-success'>{{$internalRequisition->certified_internal_requisition->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$internalRequisition->certified_internal_requisition->created_at}}</span>
                         @else
-                          Approve  by: <span class='badge badge-success'></span>
+                         Certift by: <span class='badge badge-success'></span>
                           @endif
                         </div>
                       </div>

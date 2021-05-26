@@ -122,6 +122,19 @@ class DashboardController extends Controller
             
         return view('panel.dashboard.index',['alerts'=>$alerts,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
     }
+
+    public function markAsRead($id)
+    {
+     $notification = Notification::find($id);
+     // dd($id);
+     //auth()->user()->unreadNotifications->where('id',$id)->markAsRead();
+
+    DB::table('notifications')->where('id',$id)->update(['read_at'=>1]);
+
+    return redirect('/dashboard')->with('status', 'Remove notification successfully');;
+    }
+
+
 }
 
 // JSON_VALUE(@data,'$.employees') AS 'Result'

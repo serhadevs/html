@@ -48,7 +48,7 @@ Route::get('/logout', function () {
 
 Auth::routes();
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-// Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/dashboard-notification/{id}', 'DashboardController@markAsRead');
 
 // Panel Routes
 

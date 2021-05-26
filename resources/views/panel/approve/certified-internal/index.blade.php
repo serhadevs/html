@@ -80,9 +80,9 @@ input[type="checkbox"]{
                     <tr>
                     {{-- <td>{{$internal->id}}</td> --}}
                      @if($internal->certified_internal_requisition)
-                     @if($internal->certified_internal_requisition->is_granted===1)
+                     @if($internal->certified_internal_requisition['is_granted']==1)
                     <td> <span class ="badge bg-green">Certified</span></td>
-                    @elseif($internal->approve_internal_requisition->is_granted===0)
+                    @elseif($internal->approve_internal_requisition['is_granted']==0)
                     <td> <span class ="badge bg-yellow">Refused</span></td>
                     @endif
                     @else

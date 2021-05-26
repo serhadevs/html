@@ -152,7 +152,7 @@
               </div>
           </div>  --}}
           {{-- end alerts --}}
-          
+          @if(auth()->user()->unreadNotifications)
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -167,7 +167,7 @@
                       {{-- <th>Institution</th>
                       <th>Department</th> --}}
                       <th>Date</th>
-                      <th>Option></th>
+                      <th>Option</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -183,7 +183,7 @@
                       <td>{{$notification->created_at}}</td>
                       {{-- <td>{{$notification->data['email']}} </td> --}}
                        <td>
-                       <a  href="" class="btn btn-block btn-danger btn-m" >remove</a> 
+                       <a  href="/dashboard-notification/{{$notification->id}}" class="btn btn-block btn-danger btn-m" >remove</a> 
                       </td>
                     </tr>
                       @endforeach
@@ -194,6 +194,7 @@
                 <!-- /.table-responsive -->
               </div>
           </div>
+          @endif
      
     </div>
 

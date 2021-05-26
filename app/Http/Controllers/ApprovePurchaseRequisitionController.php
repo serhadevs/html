@@ -26,7 +26,7 @@ class ApprovePurchaseRequisitionController extends Controller
     {
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,10,11,12])) {
+            if (!in_array(auth()->user()->role_id, [1,2,9,10,11,12])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
@@ -117,7 +117,7 @@ class ApprovePurchaseRequisitionController extends Controller
 
         $users = User::where('institution_id',auth()->user()->institution_id )
         ->where('department_id', auth()->user()->department_id)
-        ->whereIn('role_id',[1,5,2])
+        ->whereIn('role_id',[1,9,12])
         ->get();
 
                 $requisition = Requisition::find($request->data['requisitionId']);

@@ -186,6 +186,9 @@ class InternalRequisitionController extends Controller
       if ($ir->approve_internal_requisition) {
         if($ir->approve_internal_requisition->is_granted===1)
         return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already approved.');
+    }else{
+        if($ir->certified_internal_requisition->is_granted===1)
+        return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already certified.');
     }
 
         return view('/panel.irf.edit', compact('units','ir','types'));
@@ -225,6 +228,14 @@ class InternalRequisitionController extends Controller
             $approve->delete();
             }else{
                 $approve = null;
+            }
+            $certify = CertifiedInternalRequisition::where('internal_requisition_id',$id)
+            ->where('is_granted',0)
+            ->first();
+            if($certify != null){
+            $certify->delete();
+            }else{
+            $certify = null;
             }
 
             $input = $request->all();
