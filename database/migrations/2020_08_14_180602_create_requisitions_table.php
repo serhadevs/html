@@ -27,8 +27,8 @@ class CreateRequisitionsTable extends Migration
             $table->string('delivery');
             $table->string('description');
             $table->integer('category_id')->references('id')->on('stock_categories');;
-            $table->integer('tcc')->nullable();
-            $table->integer('ppc')->nullable();
+            $table->bigInteger('tcc')->nullable();
+            $table->bigInteger('ppc')->nullable();
             $table->integer('trn')->nullable();
             $table->string('tcc_expired_date')->nullable();
             $table->string('ppc_expired_date')->nullable();

@@ -69,11 +69,7 @@ class AssignRequisitionController extends Controller
         //send email to assigned task
        $internal_requisition = InternalRequisition::find($request->requisition_id);
        $user = User::where('id',$request->user_id)->get();
-    //    $users = User::where('institution_id',auth()->user()->institution_id )
-    //             ->where('department_id', auth()->user()->department_id)
-    //             ->whereIn('role_id',[1,2])
-    //             ->get();
-        //dd($user);
+   
        $user->each->notify(new AssignInternalRequisition($internal_requisition));
 
 

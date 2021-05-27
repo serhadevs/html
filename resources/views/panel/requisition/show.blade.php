@@ -207,13 +207,13 @@ text-align: center;
                               <div class="form-group row">
                               <label for="cost-centre" class="col-sm-2 col-form-label">TCC number </label>
                               <div class="col-sm-4">
-                              <input type="number" class="form-control" value="{{$requisition->tcc}}" name='tcc'>
+                              <input type="number" class="form-control" value="{{$requisition->tcc}}" name='tcc' disabled>
                               </div>
                               <label for="cost-centre" class="col-sm-2 col-form-label">TCC Expired </label>
                              
                               <div class="col-sm-4">
                               <div class="input-group date" id="tcc_expired" data-target-input="nearest">
-                              <input type="text" class="form-control datepicker-input" name='tcc_expired_date' id='tcc_expired_date' value='{{$requisition->tcc_expired_date}}' data-target="#tcc_expired"/>
+                              <input type="text" class="form-control datepicker-input" name='tcc_expired_date' id='tcc_expired_date' value='{{$requisition->tcc_expired_date}}' data-target="#tcc_expired" disabled/>
                               <div class="input-group-append" data-target="#tcc_expired" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
@@ -226,13 +226,13 @@ text-align: center;
                                <div class="form-group row">
                                 <label for="cost-centre" class="col-sm-2 col-form-label">PPC number </label>
                                 <div class="col-sm-4">
-                                    <input type="number" class="form-control" value="{{$requisition->pcc}}" name='ppc'>
+                                    <input type="number" class="form-control" value="{{$requisition->ppc}}" name='ppc' disabled>
                                 </div>
                               <label for="cost-centre" class="col-sm-2 col-form-label">PPC Expired </label>
                              
                               <div class="col-sm-4">
                               <div class="input-group date" id="ppc_expired" data-target-input="nearest">
-                              <input type="text" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{Request::old('trn')}}' data-target="#ppc_expired"/>
+                              <input type="text" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{$requisition->ppc_expired_date}}' data-target="#ppc_expired" disabled/>
                               <div class="input-group-append" data-target="#tcc_expired" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
@@ -497,43 +497,7 @@ text-align: center;
       
     @push('scripts')
     <script>
-    $(document).ready(function(){
-$('#next-1').click(function(){
-$('#second').show();
-$('#first').hide();
-$('#third').hide();
-$('#progressBar').css("width","67%")
-$('#progressText').html('Step -2')
-});
 
-
-$('#next-2').click(function(){
-    $('#first').hide();
-    $('#second').hide();
-    $('#third').show();
-    $('#progressBar').css("width","100%")
-    $('#progressText').html('Step -3')
-
-})
-
-$('#previous').click(function(){
-    $('#first').show();
-    $('#second').hide();
-    $('#progressBar').css("width","33.5%")
-    $('#progressText').html('Step -1')
-
-})
-$('#previous-1').click(function(){
-    $('#first').hide();
-    $('#third').hide();
-    $('#second').show();
-
-    $('#progressBar').css("width","67%")
-    $('#progressText').html('Step -2')
-
-})
-
-});
 
 
 
@@ -640,8 +604,24 @@ console.log(cost_variance);
 
 
 
-$('#contract_sum').on('input',function(){
-let cost_variance;
+// $('#contract_sum').on('input',function(){
+// let cost_variance;
+// var contractSum = parseFloat($('#contract_sum').val());
+// var estimated_cost = parseFloat($('#estimated_cost').val());
+// //var requisition_type = $('#requisition_type').val());
+// if(contractSum >= 1500000){
+//  $('.above').show();
+//  console.log(requisition_type);
+// }else{
+//   $('.above').hide();
+// }
+
+// });
+
+
+
+$(document).ready(function(){
+  let cost_variance;
 var contractSum = parseFloat($('#contract_sum').val());
 var estimated_cost = parseFloat($('#estimated_cost').val());
 //var requisition_type = $('#requisition_type').val());

@@ -156,7 +156,7 @@
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                  Notifications
+                  Task List
                   <table class="table m-0" id="table">
                     <thead>
                     <tr>

@@ -33,6 +33,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+   // dd(auth()->user()->unreadNotifications[0]->id);
       $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
       $purchase_Orders = PurchaseOrder::with(['requisition'])
       ->whereHas('requisition', function ($query) {
@@ -109,18 +110,8 @@ class DashboardController extends Controller
 
       $internalrequisition =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->get();
       $internalRequisitionApprove =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionApprovePublish')->get();
-   
-
-     $alerts = Notification::where('notifiable_id',auth()->user()->id)->get();
-    //   $alerts = DB::table('notifications')
-    //   ->where('data->user_id',auth()->user()->id)
-    //   // ->select('data->requisition_no as num ','created_at' ,'type')
-    //  // ->select(\DB::raw("JSON_UNQUOTE(JSON_EXTRACT(data, '$.requisition_no')) as num"),'type','created_at')
-    //   ->select('data','type','created_at')
-    //   ->get();
-     //dd($alerts[0]->type);
-            
-        return view('panel.dashboard.index',['alerts'=>$alerts,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
+           
+        return view('panel.dashboard.index',['internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
     }
 
     public function markAsRead($id)

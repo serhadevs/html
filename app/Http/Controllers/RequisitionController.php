@@ -62,6 +62,7 @@ class RequisitionController extends Controller
         })
        ->doesnthave('requisition')
        ->wherehas('assignto')
+       ->where('institution_id',auth()->user()->institution_id)
         
         ->has('approve_budget')
         ->get();
@@ -110,7 +111,7 @@ class RequisitionController extends Controller
             'category' => 'required',
             'description' => 'required',
             // 'tcc' => 'required|integer|digits_between:3,10',
-            // 'trn' => 'required|integer|digits:9',
+             'trn' => 'required|integer|digits:9',
             // 'tcc_expired_date' => 'required|date',
             // 'estimated_cost' => 'required|numeric',
             'contract_sum' => 'required|numeric',

@@ -44,7 +44,7 @@ class AssignInternalRequisition extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Internal Requisition ')
+        ->subject('Assign Internal Requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('A new internal requisition  was assigned to you,the requisition number is '.$this->internal->requisition_no.'.')
         ->action('Create it Now', url('/requisition'))
