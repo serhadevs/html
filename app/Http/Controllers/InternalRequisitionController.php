@@ -285,9 +285,17 @@ class InternalRequisitionController extends Controller
     {
         
         try {
+
+          
             $internal_requisition = InternalRequisition::find($id);
-            $internal_requisition->delete();
-            return "success";
+            if($internal_requisition->approve_internal_requisition){
+            if($internal_requisition->approve_internal_requisition->is_granted===1){
+                return 'fail';
+           
+            }
+        }
+        $internal_requisition->delete();
+        return "success";
         } catch (Exception $e) {
             return 'fail';
         }

@@ -107,7 +107,7 @@ class PurchaseOrderController extends Controller
                $purchaseorder->save();
 
                //update internal requisition status
-               $status = Status::where('internal_requisition_id',$request->id)->first();
+               $status = Status::where('internal_requisition_id',$purchaseorder->requisition->internal_requisition_id)->first();
                 $status->name = 'Purchase Order';
                 $status->update();
                
@@ -224,8 +224,15 @@ class PurchaseOrderController extends Controller
      * @param  \App\PurchaseOrder  $purchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PurchaseOrder $purchaseOrder)
+    public function destroy($id)
     {
         //
+        try {
+        $purchaseOrder= PurchaseOrder::find($id);
+        $purchaseOrder->delete();
+        return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
     }
 }

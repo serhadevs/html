@@ -186,22 +186,22 @@ function deleteinternal_requisition(Id){
         if (data == "success") {
           swal(
             "Done!",
-            "Permit Application was successfully deleted!",
+            "Internal Requisition was successfully deleted!",
             "success").then(esc => {
               if(esc){
                 location.reload();
               }
             });
           }
-          else if(data=="existing_sign_off"){
+          else if(data=="fail"){
             swal("Error",
-            "This permit is already signed off and is not allowed to be deleted.",
+            "This Internal requisition is already approved and is not allowed to be deleted.",
             "error");
           }
           else{
             swal(
               "Oops! Something went wrong.",
-              "Permit Application was NOT deleted.",
+              "Internal Requisition was NOT deleted.",
               "error");
             }
           });

@@ -97,7 +97,8 @@ class CheckPurchaseController extends Controller
    
         try {
             
-                $requisition = Requisition::find($request->data['requisitionId']);
+               // $requisition = Requisition::find($request->data['requisitionId']);
+                $id =$request->data['requisitionId'];
                 $refuse =  $request->data['refuse'];
                 $check = new Check();
                 $check->is_check =  $request->data['check'];
@@ -138,10 +139,7 @@ class CheckPurchaseController extends Controller
              
             }
 
-            $status = Status::where('internal_requisition_id',$request->data['requisitionId'])->first();
-            $status->name = 'Requisition Accepted';
-            $status->update();
-
+          
             $users = User::where('institution_id',auth()->user()->institution_id )
             ->where('department_id', auth()->user()->department_id)
             ->whereIn('role_id',[1,9,12])
@@ -150,6 +148,11 @@ class CheckPurchaseController extends Controller
                     $requisition = Requisition::find($request->data['requisitionId']);
                 
                     $users->each->notify(new AcceptRequisitionPublish($requisition));
+
+            //update requisition status
+            $status = Status::where('internal_requisition_id', $requisition->internalrequisition->id)->first();
+            $status->name = 'Accept Requisition';
+            $status->update();
                 }
         
            

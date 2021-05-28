@@ -115,7 +115,7 @@ class ApprovePurchaseRequisitionController extends Controller
     
 
         }else{
-            $status = Status::where('internal_requisition_id',$request->data['requisitionId'])->first();
+            $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
             $status->name = 'Approved Requisition ';
             $status->update();
 

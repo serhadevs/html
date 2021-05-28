@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
 //purchase-order
     Route::resource('/purchase-order', 'PurchaseOrderController');
     Route::get('/purchase-order/create/{id}', 'PurchaseOrderController@create');
+    Route::get('/purchase-order/delete/{id}', 'PurchaseOrderController@destroy');
 
 //checkpurchase-order
     Route::resource('/check-purchase', 'CheckPurchaseController');

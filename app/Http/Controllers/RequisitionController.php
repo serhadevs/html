@@ -183,13 +183,13 @@ class RequisitionController extends Controller
             ->get();
             }
   
-            $internalRequisition = Requisition::find($requisition->id);
+            // $requisition = Requisition::find($requisition->id);
         
-            $users->each->notify(new RequisitionPublish($internalRequisition));
+            $users->each->notify(new RequisitionPublish($requisition));
             
             //update requisition status
-            $status = Status::where('internal_requisition_id',$request->id)->first();
-            $status->name = 'Purchase Requisition';
+            $status = Status::where('internal_requisition_id',$requisition->internalrequisition->id)->first();
+            $status->name = 'Requisition';
             $status->update();
 
 
@@ -225,8 +225,8 @@ class RequisitionController extends Controller
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
       // $content = Storage::url('app\public\Maintenance Manager JD.docx');
-      if ($requisition->approve){
-        if ($requisition->approve->is_granted===1) {
+      if ($requisition->check){
+        if ($requisition->check->is_check===1) {
             return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
         }
     }
@@ -316,6 +316,11 @@ class RequisitionController extends Controller
         // dd('destroy');
         try {
             $requisition = Requisition::find($id);
+            if ($requisition->check){
+                if ($requisition->check->is_check===1) {
+                    return 'fail';
+                }
+            }
             $requisition->delete();
             return "success";
         } catch (Exception $e) {

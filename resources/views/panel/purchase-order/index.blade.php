@@ -116,7 +116,7 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    {{-- <th>ID</th> --}}
                     {{-- <th>Approve</td> --}}
                     <th>Requisition_no</th>
                     <th>Purchase Order No.</th>
@@ -137,7 +137,7 @@
                   <tbody>
                     @foreach($purchase_orders as $order)
                     <tr>
-                       <td>{{$order->id}}</td>
+                       {{-- <td>{{$order->id}}</td> --}}
                       {{-- @if($order->approvePurchaseOrder)
                     <td> <span class ="badge bg-green">Approved</span></td>
                     @else
@@ -164,9 +164,9 @@
                      <a  href="/purchase-order/{{$order->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
-                    <a href="" class="btn btn-block btn-danger btn-m">Delete</a>
+                    <a href="#" onclick= "deletePurchaseOrder({{$order->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
                     </td> 
-
+                   
                       
                     </tr>  
                
@@ -238,6 +238,46 @@ $(document).ready( function () {
     });
     
 } );
+
+
+
+function deletePurchaseOrder(Id){
+  swal({
+    title: "Are you sure?",
+    text: "You will not be able to undo this action once it is completed!",
+    dangerMode: true,
+    cancel: true,
+    confirmButtonText: "Yes, Delete it!",
+    closeOnConfirm: false
+  }).then(isConfirm => {
+    if (isConfirm) {
+      $.get( {!! json_encode(url('/')) !!} + "/purchase-order/delete/" + Id).then(function (data) {
+        console.log(data);
+        if (data == "success") {
+          swal(
+            "Done!",
+            "Purchase Order was successfully deleted!",
+            "success").then(esc => {
+              if(esc){
+                location.reload();
+              }
+            });
+          }
+          else if(data=="existing"){
+            swal("Error",
+            "This permit is already signed off and is not allowed to be deleted.",
+            "error");
+          }
+          else{
+            swal(
+              "Oops! Something went wrong.",
+              "Purchase Order was NOT deleted.",
+              "error");
+            }
+          });
+        }
+      });
+    }
 </script>
 
 @endpush

@@ -102,7 +102,7 @@ input[type="checkbox"]{
                      
                    
                     <td> <a href="/approve-budget-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      <td> <a href="" class="btn btn-block btn-danger btn-sm">Remove</a>
+                      <td> <a href="" class="btn btn-block btn-warning btn-sm">Undo</a>
                     </td> 
 
 

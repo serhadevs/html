@@ -40,7 +40,7 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    {{-- <th>ID</th> --}}
                     <th>Requisition Number</th>
                     <th>Requested by</th>
                     <th>Estimated Cost</th>
@@ -63,7 +63,7 @@
                   <tbody>
                     @foreach($internal_requisitions as $internal_requisition)
                     <tr>
-                    <td>{{$internal_requisition->id}}</td>
+                    {{-- <td>{{$internal_requisition->id}}</td> --}}
                     <td>{{$internal_requisition->requisition_no}}</td>
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>

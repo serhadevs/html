@@ -131,7 +131,7 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    {{-- <th>ID</th> --}}
                     <th>Requisition_no</th>
                     <th>Date Received in Procurement</th>
                     <th>Date returned to Institution</th>
@@ -164,7 +164,7 @@
                   <tbody>
                     @foreach($requisitions as $requisition)
                     <tr>
-                    <td>{{$requisition->id}}</td>
+                    {{-- <td>{{$requisition->id}}</td> --}}
                     <td>{{$requisition->requisition_no}}</td>
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     <td></td>
@@ -312,16 +312,16 @@ function deleteRequisition(Id){
         if (data == "success") {
           swal(
             "Done!",
-            "Permit Application was successfully deleted!",
+            "Requisition was successfully deleted!",
             "success").then(esc => {
               if(esc){
                 location.reload();
               }
             });
           }
-          else if(data=="existing_sign_off"){
+          else if(data=="fail"){
             swal("Error",
-            "This permit is already signed off and is not allowed to be deleted.",
+            "This Requisition is already accepted and is not allowed to be deleted.",
             "error");
           }
           else{

@@ -120,7 +120,7 @@ input[type="checkbox"]{
                       --}}
                      {{-- <button  class="btn btn-block btn-primary btn-sm"  id ="checks" type='submit'>check</button> </td>  --}}
                     <td> <a href="/approve-requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      <td> <a href="" class="btn btn-block btn-danger btn-sm">Remove</a>
+                      <td> <a href="" class="btn btn-block btn-warning btn-sm">Undo</a>
                     </td> 
 
 
