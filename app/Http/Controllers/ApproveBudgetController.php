@@ -10,6 +10,7 @@ use App\Notifications\RefuseInternalRequisitionPublish;
 use App\User;
 use PDF;
 use App\Comment;
+use App\Status;
 class ApproveBudgetController extends Controller
 {
     /**
@@ -83,6 +84,8 @@ class ApproveBudgetController extends Controller
                     $comment->save();
 
                     
+
+                    
                     $internalrequisition = internalrequisition::find($request->data['internal_requisition_id']);
                     $user = User::find($internalrequisition->user_id);
                     $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
@@ -91,6 +94,11 @@ class ApproveBudgetController extends Controller
             
 
                 }else{
+
+                    //update requisition status
+                $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+                $status->name = 'Budget Approve';
+                $status->update();
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 // ->where('department_id', auth()->user()->department_id)

@@ -11,6 +11,7 @@ use App\RequisitionType;
 use App\User;
 use App\Comment;
 use App\Unit;
+use App\Status;
 use App\Notifications\InternalRequisitionPublish;
 use App\SystemOperations\RequisitionNumberGenerator;
 use App\ApproveInternalRequisition;
@@ -113,6 +114,11 @@ class InternalRequisitionController extends Controller
                 }
           
             } 
+            //update status
+            $status = new Status();
+            $status->internal_requisition_id =$internal_requisition->id;
+            $status->name= 'Internal Requisition';
+            $status->save();
 
         }
 

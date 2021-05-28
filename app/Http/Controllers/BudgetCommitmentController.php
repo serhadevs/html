@@ -6,6 +6,7 @@ use App\BudgetCommitment;
 use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\User;
+use App\Status;
 use App\Notifications\BugetCommitmentPublish ;
 
 
@@ -93,8 +94,11 @@ class BudgetCommitmentController extends Controller
         $commitment->user_id = auth()->user()->id;
         $commitment->save();
 
+        $status = Status::where('internal_requisition_id',$request->id)->first();
+        $status->name = 'Budget Commitment';
+        $status->update();
+
         $users = User::where('institution_id',auth()->user()->institution_id )
-                // ->where('department_id', auth()->user()->department_id)
                 ->whereIn('role_id',[1,8])
                 ->get();
       

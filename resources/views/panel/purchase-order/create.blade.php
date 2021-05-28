@@ -18,9 +18,10 @@ text-align: center;
 }
 </style>
 <div class="content-wrapper">
+  <div class="container-fluid">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
+      
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Create Purchase Order</h1>
@@ -32,25 +33,15 @@ text-align: center;
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+     
     </section>
     <!-- Main content -->
-      <div class="container-fluid">
+
           
-        <div class="row">
-              
-          <div class="col-10">
-            <div class="card">
-              {{-- <div class="card-header">
-                  
-                  <a href="requisition/create" class="btn btn-success float-right">Create Requisition</a>
-                <h3 class="card-title">A list of all procurement requisition </h3>
-              </div> --}}
-              <!-- /.card-header -->
                  @if(count($errors)>0)
                         <div class="col-m-10">
                   <div class="alert alert-danger">
-                   {{-- <a class="alert alert-danger-close"></a> --}}
+                 
 
 
                     <ul>
@@ -63,8 +54,12 @@ text-align: center;
             @endif  
               <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/purchase-order" >
+                <form class="form-horizontal" id='purchase_order_form' method="Post" autocomplete="off" action="/purchase-order" >
                   @csrf
+
+                  <div class="card" style="width:82.9%">
+                    <div class="card-body">
+                     <div class="col-m-10"> 
                   
                <div class="title">
                         <p><h4>South East Regional Health Authority</h4>
@@ -245,7 +240,7 @@ text-align: center;
                          
                             <label for="" class="col-sm-2 col-form-label">Refusal Comments</label>
                             <div class="col-sm-4"> 
-                            <textarea class="form-control" name ="" id="" value="" rows="3" >
+                            <textarea class="form-control" name ="" id="" value="" rows="3" disabled >
                               @foreach($requisition->internalrequisition->comment as $comment)
                                     {{$comment->user->abbrName()}}: {{$comment->comment}}
                             @endforeach
@@ -260,37 +255,7 @@ text-align: center;
 
                           </div>
 
-                        
-
-
-
-
-
-
-
-                        {{-- <div class="form-group row">
-                        <div class="col-sm-6">
-                      
-                    
-                        <h3 class="card-title">Recommended Supplier</h3>
-                        <input type="text" class="form-control" value="{{$requisition->supplier->name}}" readonly >
-                        </div>
-                 
-                     
-                        <div class="col-sm-6">
-                  
-                     
-                        <h3 class="card-title"> Supplier Address</h3>
-                        <input type="text" class="form-control" id="inputEmail3" value="{{$requisition->supplier->address}}" readonly>
-                   
-                        </div>
-                      
-                        </div> --}}
-
-
-
-                        
-                        </p>
+                
                         <div class="col-sm-6">
                           <label for="exampleInputFile">Support Documents</label>
                      <div class="card-body p-0">
@@ -344,30 +309,35 @@ text-align: center;
                       </div>
                     
                       </div> 
-              </div>
-              <!-- /.card-body -->
-              
-              
-            </div>
+             
+                     </div>
+                    </div>
+                  </div>
+           
             <!-- /.card -->
             
             
-          </div>
+          
          
-        </div>
+        
 
 <div id="get_name"></div>
       <div class="row">
                         <div class="col-10">
                      
-                        <button type="submit"  class="btn btn-primary float-right">Submit</button>
+                        <button type="submit" id='btnSubmit'  class="btn btn-primary float-right">Submit</button>
                         </div>
       </div>
                         <br>
 
-      </div>
-          </form>  
-</div
+    </form>
+                      
+                      </div><!-- /.card-body -->
+                      
+
+      
+                      </div><!-- /.container-fluid -->
+        </div>
 @endsection
 
 
@@ -416,15 +386,32 @@ text-align: center;
 <script>
 
 
-$('#tax ,#freight ,#trade_discount ,#miscellaneous, #subtotal' ).on('input',function(){
-var tax = parseInt($('#tax').val());
-var freight = parseInt($('#freight').val());
-var trade_discount = parseInt($('#trade_discount').val());
-var miscellaneous = parseInt($('#miscellaneous').val());
-var subtotal =parseInt($('#subtotal').val()); 
-console.log(subtotal);
-$('#order_total').val((subtotal +tax + freight + trade_discount + miscellaneous  ? subtotal + tax + freight + trade_discount + miscellaneous : 0).toFixed(2));
+// $('#tax ,#freight ,#trade_discount ,#miscellaneous, #subtotal' ).on('input',function(){
+// var tax = parseInt($('#tax').val());
+// var freight = parseInt($('#freight').val());
+// var trade_discount = parseInt($('#trade_discount').val());
+// var miscellaneous = parseInt($('#miscellaneous').val());
+// var subtotal =parseInt($('#subtotal').val()); 
+// console.log(subtotal);
+// $('#order_total').val((subtotal +tax + freight + trade_discount + miscellaneous  ? subtotal + tax + freight + trade_discount + miscellaneous : 0).toFixed(2));
 
+// });
+
+$(document).ready(function () {
+
+$("#purchase_order_form").submit(function (e) {
+
+    //stop submitting the form to see the disabled button effect
+   // e.preventDefault();
+
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+
+    
+
+    return true;
+
+});
 });
 
 

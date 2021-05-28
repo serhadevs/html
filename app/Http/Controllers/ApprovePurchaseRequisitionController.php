@@ -10,6 +10,7 @@ use App\Notifications\RefuseRequisitionPublish;
 use App\User;
 use App\Comment;
 use App\Check;
+use App\Status;
 
 
 use Illuminate\Http\Request;
@@ -114,6 +115,9 @@ class ApprovePurchaseRequisitionController extends Controller
     
 
         }else{
+            $status = Status::where('internal_requisition_id',$request->data['requisitionId'])->first();
+            $status->name = 'Approved Requisition ';
+            $status->update();
 
         $users = User::where('institution_id',auth()->user()->institution_id )
         ->where('department_id', auth()->user()->department_id)

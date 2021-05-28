@@ -16,6 +16,7 @@ use App\UnitOfMeasurement;
 use Illuminate\Http\Request;
 use App\InternalRequisition;
 use App\User;
+use App\Status;
 use App\Notifications\RequisitionPublish;
 use Illuminate\Support\Facades\Storage;
 
@@ -185,6 +186,11 @@ class RequisitionController extends Controller
             $internalRequisition = Requisition::find($requisition->id);
         
             $users->each->notify(new RequisitionPublish($internalRequisition));
+            
+            //update requisition status
+            $status = Status::where('internal_requisition_id',$request->id)->first();
+            $status->name = 'Purchase Requisition';
+            $status->update();
 
 
         }

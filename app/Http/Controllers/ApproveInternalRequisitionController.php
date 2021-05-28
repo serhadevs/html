@@ -9,6 +9,7 @@ use App\UnitOfMeasurement;
 use App\ApproveInternalRequisition;
 use App\Notifications\InternalRequisitionApprovePublish;
 use App\User;
+use App\Status;
 use App\Comment;
 use App\CertifiedInternalRequisition;
 
@@ -75,6 +76,9 @@ class ApproveInternalRequisitionController extends Controller
                 $approve->is_granted = $permission;
                 $approve->save();
 
+
+               
+
                 if($permission ==0){
                     $comment = new Comment();
                     $comment->internal_requisition_id = $approve->internal_requisition_id;
@@ -98,6 +102,9 @@ class ApproveInternalRequisitionController extends Controller
             
         
                 }else{
+                    $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+                    $status->name = 'Approved Internal Requisition';
+                    $status->update();
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)

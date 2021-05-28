@@ -10,6 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\User;
 use App\Notifications\PurchaseOrderPublish;
+use App\Status;
 
 class PurchaseOrderController extends Controller
 {
@@ -105,7 +106,10 @@ class PurchaseOrderController extends Controller
 
                $purchaseorder->save();
 
-              
+               //update internal requisition status
+               $status = Status::where('internal_requisition_id',$request->id)->first();
+                $status->name = 'Purchase Order';
+                $status->update();
                
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)

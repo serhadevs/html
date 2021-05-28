@@ -32,7 +32,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="internal_requisition/create" class="btn btn-success float-right">Create IR</a>
+                  <a href="internal_requisition/create" class="btn btn-success float-right">Create IPR</a>
                 <h3 class="card-title">A list of all Internal Requisition Form</h3>
               </div>
               <!-- /.card-header -->
@@ -40,7 +40,7 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Status</th>
                     <th>Requisition No.</th>
                     <th>Requested by</th>
                     <th>Estimated Cost</th>
@@ -53,7 +53,6 @@
                     <th>Priority</th>
                     <th>Date Created</th>
                     <th>Date Approved</th>
-
                     <th>Option</th>
                     <th></th>
                     <th></th>
@@ -63,7 +62,8 @@
                   <tbody>
                     @foreach($internal_requisitions as $internal_requisition)
                     <tr>
-                    <td>{{$internal_requisition->id}}</td>
+                    {{-- <td>{{$internal_requisition->id}}</td> --}}
+                    <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>
@@ -81,6 +81,8 @@
                     @else
                     <td></td>
                     @endif
+                  
+                   
                    
                     
                   

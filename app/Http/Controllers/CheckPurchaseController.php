@@ -13,6 +13,7 @@ use App\Supplier;
 // use App\StockCategory;
 use App\InternalRequisition;
 use App\User;
+use App\Status;
 use App\Approve;
 use App\Comment;
 use App\Notifications\AcceptRequisitionPublish;
@@ -136,6 +137,10 @@ class CheckPurchaseController extends Controller
                 $approve->delete();
              
             }
+
+            $status = Status::where('internal_requisition_id',$request->data['requisitionId'])->first();
+            $status->name = 'Requisition Accepted';
+            $status->update();
 
             $users = User::where('institution_id',auth()->user()->institution_id )
             ->where('department_id', auth()->user()->department_id)

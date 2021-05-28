@@ -7,6 +7,7 @@ use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\User;
+use App\Status;
 use App\Notifications\CertifiedInternalRequisitionPublish;
 use App\Notifications\RefuseInternalRequisitionPublish;
 
@@ -67,6 +68,7 @@ class CertifiedInternalRequisitionController extends Controller
                 $approve->is_granted = $permission;
                 $approve->save();
 
+
                 if($permission ==0){
                     $comment = new Comment();
                     $comment->internal_requisition_id = $approve->internal_requisition_id;
@@ -84,6 +86,11 @@ class CertifiedInternalRequisitionController extends Controller
             
         
                 }else{
+
+                    $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+                    $status->name = 'Certified Internal Requisition';
+                    $status->update();
+
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->where('department_id', auth()->user()->department_id)
