@@ -155,6 +155,31 @@ class CertifiedInternalRequisitionController extends Controller
      * @param  \App\CertifiedInternalRequisition  $certifiedInternalRequisition
      * @return \Illuminate\Http\Response
      */
+
+    public function undo(Request $request)
+    {
+        //
+        try {
+            $internal = InternalRequisition::find($request->data['certify_id']);
+            $certified = CertifiedInternalRequisition::where('internal_requisition_id',$request->data['certify_id'])->first();
+           
+            if ($internal->approve_internal_requisition) {
+                if($internal->approve_internal_requisition->is_granted===1)
+                return 'fail';
+            }
+            $status = Status::where('internal_requisition_id',$request->data['certify_id'])->first();
+            $status->name = 'Internal Requisition';
+            $status->update();
+            $certified->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+
+
     public function destroy(CertifiedInternalRequisition $certifiedInternalRequisition)
     {
         //

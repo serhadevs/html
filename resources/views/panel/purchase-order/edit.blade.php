@@ -145,15 +145,6 @@ text-align: center;
                             <div class="col-sm-4">
                                 <input type="number" class="form-control" value="{{$purchaseOrder->requisition->tcc}}" name='tcc' readonly>
                             </div>
-                            <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
-                            <div class="col-sm-4">
-                             
-                             <input type="number" class="form-control" value="{{$purchaseOrder->requisition->trn}}" name='trn' readonly>
-                             
-                            </div>
-                            </div>
-    
-                             <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">TCC Expired </label>
                            
                             <div class="col-sm-4">
@@ -165,6 +156,32 @@ text-align: center;
                             </div>
                             
                             </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="cost-centre" class="col-sm-2 col-form-label">PPC number </label>
+                              <div class="col-sm-4">
+                                  <input type="number" class="form-control" value="{{$purchaseOrder->requisition->ppc}}" name='ppc' readonly>
+                              </div>
+                              <label for="cost-centre" class="col-sm-2 col-form-label">PPC Expired </label>
+                             
+                              <div class="col-sm-4">
+                              <div class="input-group date" id="ppc_expired" data-target-input="nearest">
+                              <input type="text" class="form-control datepicker-input" name='ppc_expired_date' value="{{$purchaseOrder->requisition->ppc_expired_date}}" data-target="#ppc_expired" readonly/>
+                              <div class="input-group-append" data-target="#ppc_expired" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
+                              </div>
+                              
+                              </div>
+                              </div>
+    
+                             <div class="form-group row">
+                              <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
+                              <div class="col-sm-4">
+                               
+                               <input type="number" class="form-control" value="{{$purchaseOrder->requisition->trn}}" name='trn' readonly>
+                               
+                              </div>
                             <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                             <div class="col-sm-4">
                              
@@ -359,8 +376,29 @@ text-align: center;
 </div> 
 </br>
 <p>
- Prepared PO by:  <b>{{$purchaseOrder->requisition->purchaseorder->user->firstname[0]}}. {{$purchaseOrder->requisition->user->lastname}}</b>         
+ 
 </p>  
+
+<div class="form-group row">
+  <div class="col-sm-6">
+    Approve IRF by: <span class='badge badge-success'>{{$purchaseOrder->requisition->internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$purchaseOrder->requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
+  
+    Accepted by: <span class='badge badge-success'>{{$purchaseOrder->requisition->check->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$purchaseOrder->requisition->check->created_at}}</span></br>
+  </div>
+  <div class="col-sm-6">
+    
+
+    Approve Requisition by:  <span class='badge badge-success'>{{$purchaseOrder->requisition->approve->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$purchaseOrder->requisition->approve->created_at}}</span></br>
+    Prepared PO by: :<span class='badge badge-success'>  <b>{{$purchaseOrder->requisition->purchaseorder->user->firstname[0]}}. {{$purchaseOrder->requisition->user->lastname}}</span></b> </br>
+    Date:<span class='badge badge-success'>  <b>{{$purchaseOrder->created_at}}</span></b>                 
+
+
+  </div>
+
+  </div> 
               </div>
               <!-- /.card-body -->
               

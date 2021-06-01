@@ -214,6 +214,30 @@ class CheckPurchaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+    public function undo(Request $request)
+    {
+        //
+        try {
+            $requisition = Requisition::find($request->data['requisition_id']);
+            $check = Check::where('requisition_id',$requisition->id)->first();
+           
+            if ($requisition->approve) {
+                // if($internal->approve_internal_requisition->is_granted===1)
+                return 'fail';
+            }
+            // $status = Status::where('requisition_id',$request->data['requisition_id'])->first();
+            // $status->name = 'Requisition';
+            // $status->update();
+            $check->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
     public function destroy($id)
     {
         //

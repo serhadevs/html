@@ -75,9 +75,10 @@ return redirect('/department')->with('status', 'Department was created successfu
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Department $department)
     {
         //
+        return view('/panel.department.edit',compact('department'));
     }
 
     /**
@@ -89,7 +90,18 @@ return redirect('/department')->with('status', 'Department was created successfu
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'department_code' => 'required|max:3',
+            // 'parish_id' => 'required',
+        
+        ]);
+        
+        $department = Department::find($id);
+        $department->name = $request->name;
+        $department->abbr = $request->department_code;
+        $department->update();
+        return redirect('/department')->with('status', 'Department was updated successfully');
     }
 
     /**

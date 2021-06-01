@@ -53,7 +53,7 @@ text-align: center;
                         The Towers, 25 Dominica Drive, Kingston 5</p><br>
                         </div>
 
-                      Requester:  <b>{{$requisition->user->firstname[0]}}. {{$requisition->user->lastname}}</b>
+                      Requester:  <b>{{$requisition->internalrequisition->user-> abbrName()}}</b>
 
                         <p><br>Institution: {{$requisition->institution->name}}</br>
                           Departmentent: {{$requisition->department->name}} </br>
@@ -69,7 +69,8 @@ text-align: center;
                         Cost Centre: {{$requisition->cost_centre}}</br>
                         Description: {{$requisition->description}}</br>
                         TCC Number: {{$requisition->tcc}}</br>
-                        TCC Expired: {{$requisition->tcc_expired_date}}</br>
+                        PPC Number: {{$requisition->ppc}}</br>
+                        TRN: {{$requisition->trn}}</br>
                         Contract Sum: {{$requisition->contract_sum}}</br>
                         {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no: {{$requisition->requisition_no}} </br>
@@ -79,9 +80,11 @@ text-align: center;
                         Procurement Method: {{$requisition->procurement_method->name}}</br>
                         Commitment: {{$requisition->commitment_no}}</br>
                         Category: {{$requisition->category->name}} </br>
-                        TRN: {{$requisition->trn}}</br>
-                        Estimate Cost: {{$requisition->estimated_cost}} </br>
-                        Cost Variance: {{$requisition->cost_variance}} </br>
+                        TCC Expired: {{$requisition->tcc_expired_date}}</br>
+                        PPC Expired: {{$requisition->ppc_expired_date}}</br>
+                        Estimated Cost: {{$requisition->internalrequisition->estimated_cost}} </br>
+                        Cost Variance: {{$requisition->cost_variance/100}}%</br>
+                        Term: {{$requisition->delivery}} </br>
                        
                         
 

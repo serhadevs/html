@@ -69,13 +69,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/check-purchase', 'CheckPurchaseController');
     Route::get("/check-purchase/show", "CheckPurchaseController@show");
     Route::post('/refuse-purchase', 'CheckPurchaseController@refuse');
+    Route::get('/undo-check-requisition','CheckPurchaseController@undo');
 
 
 //suppliers controllers
     Route::resource('/suppliers', 'SuppliersController');
+    Route::get('/suppliers/delete/{id}', 'SuppliersController@destroy');
 
-//aprove-requisition
+//approve-requisition
     Route::resource('/approve-requisition', 'ApprovePurchaseRequisitionController');
+    Route::get('/undo-approve-requisition','ApprovePurchaseRequisitionController@undo');
     // Route::get("/approve-requisition/show{id}", "ApprovePurchaseRequisitionController@show");
 
 
@@ -83,9 +86,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/approve-purchase-order', 'ApprovePurchaseOrderController');
 
 
-//Departments 
+//department's Units
 Route::resource('/unit', 'UnitController');
-Route::get('/units/delete/{id}', 'UnitController@destroy');
+Route::get('/unit/delete/{id}', 'UnitController@destroy');
+
+//units of measurement
+Route::resource('/measurement', 'UnitMeasurementController');
+Route::get('/measurement/delete/{id}', 'UnitMeasurementController@destroy');
 
 //Departments 
 Route::resource('/department', 'DepartmentController');
@@ -122,12 +129,14 @@ Route::get('/internal_requisition/delete/{id}', 'InternalRequisitionController@d
 
 //Approve IRF controller
 Route::resource('/approve-internal-requisition', 'ApproveInternalRequisitionController');
+Route::get('/undo-approve-internal-requisition','ApproveInternalRequisitionController@undo');
 
 //Approve budget controller
 Route::resource('/approve-budget-requisition', 'ApproveBudgetController');
 // Route::get("/approve-budget/show", "ApproveBudgetController@show");
 //print pdf controller
 Route::get('/print_pdf/{id}', 'ApproveBudgetController@printPDF');
+Route::get('/undo-budget-requisition','ApproveBudgetController@undo');
 
 
 //budgetcommitment
@@ -152,7 +161,9 @@ Route::get("/voucher-check/show/{id}", "VoucherCheckController@show");
 //Certyfing Voucher
 Route::resource('/certifying-voucher','CertifyingPaymentVoucherController');
 
+//Certify internal requisition
 Route::resource('/certify-internal-requisition','CertifiedInternalRequisitionController');
+Route::get('/undo-internal-requisition','CertifiedInternalRequisitionController@undo');
 
 
 

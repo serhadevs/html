@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ApproveInternalRequisition extends Model
 {
      
+    use SoftDeletes;
 
     protected $fillable = ['internal_requisition_id','is_granted','user_id'];
     public function user(){

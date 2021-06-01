@@ -85,9 +85,10 @@ class InstitutionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Institution $institution)
     {
-        //
+        $parishes = Parish::all();
+        return view('/panel.institution.edit',compact('institution','parishes'));
     }
 
     /**
@@ -99,7 +100,25 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+          
+        $request->validate([
+            'name' => 'required',
+            'institution_code' => 'required|max:3',
+            'parish_id' => 'required',
+            'code'=> 'required',
+            
+                ]);
+        
+                $institution = Institution::find($id);
+                $institution->name = $request->name;
+                $institution ->abbr = $request->institution_code;
+                $institution->code = $request->code;
+                $institution ->parish_id = $request->parish_id;
+                
+                $institution ->update();
+
+                return redirect('/institution')->with('status', 'Institution was updated successfully');
     }
 
     /**

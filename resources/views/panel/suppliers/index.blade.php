@@ -67,10 +67,10 @@
                           <td>{{$supplier->phone}}</td>  
                            <td>{{$supplier->fax}}</td>
                            <td>
-                     <a  href="" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                           <a  href="/suppliers/{{$supplier->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
-                    <a href="" class="btn btn-block btn-danger btn-m">Delete</a>
+                    <a href="#" onclick="deleteSupplier({{$supplier->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
                     </td> 
 
                              
@@ -148,7 +148,7 @@ $(document).ready( function () {
 
 
 <script>
-function deleteUser(Id){
+function deleteSupplier(Id){
     swal({
         title: "Are you sure?",
         text: "You will not be able to undo this action once it is completed!",
@@ -158,12 +158,12 @@ function deleteUser(Id){
         closeOnConfirm: false
     }).then(isConfirm => {
             if (isConfirm) {
-                $.get( {!! json_encode(url('/')) !!} + "/user/delete/" + Id).then(function (data) {
+                $.get( {!! json_encode(url('/')) !!} + "/suppliers/delete/" + Id).then(function (data) {
                    console.log(Id);
                     if (data == "success") {
                         swal(
                             "Done!",
-                            "User delete was successful!.",
+                            "Supplier delete was successful!.",
                             "success").then(esc => {
                                 if(esc){
                                     location.reload();
@@ -172,44 +172,13 @@ function deleteUser(Id){
                     }else{
                         swal(
                             "Oops! Something went wrong.",
-                            "User delete was NOT successful.",
+                            "Supplier delete was NOT successful.",
                             "error");
                     }
                 });
             }
         });
     }
-
-
-
-
-    function resetPassword(Id){
-    swal({
-        title: "Are you sure?",
-        text: "You will not be able to undo this action once it is completed!",
-        dangerMode: true,
-        cancel: true,
-        buttons: ["Cancel", "Yes, Reset Password!"],
-        closeOnConfirm: false
-    }).then(isConfirm => {
-            if (isConfirm) {
-                $.get( {!! json_encode(url('/')) !!} + "/user/reset/" + Id).then(function (data) {
-                    if (data == "success") {
-                        swal(
-                            "Done!",
-                            "User Password reset was successful!.",
-                            "success")
-                    }else{
-                        swal(
-                            "Oops! Something went wrong.",
-                            "User Password reset was NOT successful.",
-                            "error");
-                    }
-                });
-            }
-        });
-    }
-
 </script>  
 
 @endpush

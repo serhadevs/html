@@ -102,7 +102,11 @@ input[type="checkbox"]{
                      
                    
                     <td> <a href="/approve-budget-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      <td> <a href="" class="btn btn-block btn-warning btn-sm">Undo</a>
+                    @if($internal->approve_budget)
+                    <td> <button href="#" onclick="undo({{$internal->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
+                    @else
+                    <td> <button href="#" class="btn btn-block btn-warning btn-sm" disabled>Undo</button>
+                    @endif
                     </td> 
 
 
@@ -194,7 +198,41 @@ $(document).ready( function () {
  // $.post( {!! json_encode(url('/sign-off/approve')) !!}, { _method: "POST", data: {selected_items: selected_items, appTypeId: appTypeId}, _token: "{{ csrf_token() }}" }).then(function (data)
 
 
-
+ function undo(internal_requisition_id){
+   
+   swal({
+   title: "Are you sure you want to undo the selected budget commitment?",
+   text: "Tip: Always ensure that you review each budget commitment form",
+   icon: "warning",
+   buttons: [ 
+     'No, cancel it!',
+     'Yes, I am sure!'
+   ]
+ }).then(isConfirm => {
+   if (isConfirm) {
+     console.log("approve");
+     $.get( {!! json_encode(url('/')) !!} + "/undo-budget-requisition",{ _method: "POST",data:{internal_requisition_id:internal_requisition_id},_token: "{{ csrf_token() }}"}).then(function (data) {
+     console.log(data);
+       if (data == "success") {
+         swal(
+           "Done!",
+           "Internal Requisition budget commitment was unapproved",
+           "success").then(esc => {
+             if(esc){
+               location.reload();
+             }
+           });
+         }else{
+           swal(
+             "Oops! Something went wrong.",
+             "The budget commitment cannot undo approval because it is already process to requisition",
+             "error");
+           }
+         });
+       }
+  
+   });
+}
  
 
 

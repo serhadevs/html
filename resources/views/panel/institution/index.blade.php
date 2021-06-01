@@ -53,6 +53,7 @@
                 <th class="text-center">Code</th>
                 <th class="text-center">created</th>
                 <th>Option</th>
+                <th></th>
         
                   </tr>
                   </thead>
@@ -68,7 +69,7 @@
                    <td>{{$institution->created_at}}</td>  
                         
                            <td> 
-                     <a  href="" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                           <a  href="institution/{{$institution->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
                     <button class="btn btn-block btn-danger btn-m" onclick="deleteInstitution({{$institution->id}})">Delete</button>
@@ -162,7 +163,7 @@ function deleteInstitution(Id){
                     if (data == "success") {
                         swal(
                             "Done!",
-                            "User delete was successful!.",
+                            "Institution delete was successful!.",
                             "success").then(esc => {
                                 if(esc){
                                     location.reload();
@@ -171,7 +172,7 @@ function deleteInstitution(Id){
                     }else{
                         swal(
                             "Oops! Something went wrong.",
-                            "User delete was NOT successful.",
+                            "Institution delete was NOT successful.",
                             "error");
                     }
                 });

@@ -78,14 +78,14 @@ class UnitController extends Controller
             $unit->name = $request->name;
             $unit->department_id = $request->department_id;
             $unit->update();
-            return redirect('/unit')->with('status', 'Unit profile was updated successfully');
+            return redirect('/unit')->with('status', 'Department Unit was updated successfully');
     }
 
 
     public function destroy($id)
     {
         try {
-    $unit = Department::find($id);
+    $unit = Unit::find($id);
     $unit->delete();
     return "success";
 } catch (Exception $e) {

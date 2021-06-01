@@ -120,9 +120,11 @@ input[type="checkbox"]{
                       --}}
                      {{-- <button  class="btn btn-block btn-primary btn-sm"  id ="checks" type='submit'>check</button> </td>  --}}
                     <td> <a href="/approve-requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      <td> <a href="" class="btn btn-block btn-warning btn-sm">Undo</a>
-                    </td> 
-
+                      @if($requisition->approve)
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm">Undo</button></td> 
+                      @else
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm" disabled>Undo</button></td> 
+                      @endif
 
                     </tr>
                     @endforeach
@@ -206,43 +208,79 @@ $(document).ready( function () {
 
   // $.get( {!! json_encode(url('/')) !!} + "/foodhandlers/delete/" + permitId).then(function (data) 
  // $.post( {!! json_encode(url('/sign-off/approve')) !!}, { _method: "POST", data: {selected_items: selected_items, appTypeId: appTypeId}, _token: "{{ csrf_token() }}" }).then(function (data)
-function ApproveRquisition(requisitionId){
+// function ApproveRquisition(requisitionId){
    
-        swal({
-        title: "Are you sure you want to approve the selected applications?",
-        text: "Tip: Always ensure that you review each purchase requisition thoroughly before approval.",
-        icon: "warning",
-        buttons: [
-          'No, cancel it!',
-          'Yes, I am sure!'
-        ]
-      }).then(isConfirm => {
-        if (isConfirm) {
-          console.log("approve");
-          $.post( {!! json_encode(url('/')) !!} + "/approve-requisition",{ _method: "POST",data:{requisitionId:requisitionId},_token: "{{ csrf_token() }}"}).then(function (data) {
-          console.log(data);
-            if (data == "success") {
-              swal(
-                "Done!",
-                "Purchase requisition was approve and will shortly be forwarded for purchase order.",
-                "success").then(esc => {
-                  if(esc){
-                    location.reload();
-                  }
-                });
-              }else{
-                swal(
-                  "Oops! Something went wrong.",
-                  "Application(s) were NOT approved",
-                  "error");
-                }
-              });
-            }
+//         swal({
+//         title: "Are you sure you want to approve the selected applications?",
+//         text: "Tip: Always ensure that you review each purchase requisition thoroughly before approval.",
+//         icon: "warning",
+//         buttons: [
+//           'No, cancel it!',
+//           'Yes, I am sure!'
+//         ]
+//       }).then(isConfirm => {
+//         if (isConfirm) {
+//           console.log("approve");
+//           $.post( {!! json_encode(url('/')) !!} + "/approve-requisition",{ _method: "POST",data:{requisitionId:requisitionId},_token: "{{ csrf_token() }}"}).then(function (data) {
+//           console.log(data);
+//             if (data == "success") {
+//               swal(
+//                 "Done!",
+//                 "Purchase requisition was approve and will shortly be forwarded for purchase order.",
+//                 "success").then(esc => {
+//                   if(esc){
+//                     location.reload();
+//                   }
+//                 });
+//               }else{
+//                 swal(
+//                   "Oops! Something went wrong.",
+//                   "Application(s) were NOT approved",
+//                   "error");
+//                 }
+//               });
+//             }
        
-        });
+//         });
+// }
+
+
+function undo(requisition_id){
+   
+   swal({
+   title: "Are you sure you want to undo?",
+   text: "Tip: Always ensure that you review each requisition.",
+   icon: "warning",
+   buttons: [ 
+     'No, cancel it!',
+     'Yes, I am sure!'
+   ]
+ }).then(isConfirm => {
+   if (isConfirm) {
+     console.log("approve");
+     $.get( {!! json_encode(url('/')) !!} + "/undo-approve-requisition",{ _method: "POST",data:{requisition_id:requisition_id},_token: "{{ csrf_token() }}"}).then(function (data) {
+     console.log(data);
+       if (data == "success") {
+         swal(
+           "Done!",
+           "The Requisition approval was undo.",
+           "success").then(esc => {
+             if(esc){
+               location.reload();
+             }
+           });
+         }else{
+           swal(
+             "Oops! Something went wrong.",
+             "Requisition cannot undo because it was already process to purchase order.",
+             "error");
+           }
+         });
+       }
+  
+   });
 }
-
-
+ 
 
  
 

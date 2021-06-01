@@ -171,6 +171,29 @@ class ApproveInternalRequisitionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function undo(Request $request)
+    {
+        //
+        try {
+            $internal = InternalRequisition::find($request->data['internal_requisition_id']);
+            $approve = ApproveInternalRequisition::where('internal_requisition_id',$internal->id)->first();
+           
+            if ($internal->approve_budget) {
+               // if($internal->approve_internal_requisition->is_granted===1)
+                return 'fail';
+            }
+            $status = Status::where('internal_requisition_id',$internal->id)->first();
+            $status->name = 'Internal Requisition';
+            $status->update();
+            $approve->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+
     public function destroy($id)
     {
         //

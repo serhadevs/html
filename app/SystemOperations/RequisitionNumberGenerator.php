@@ -12,7 +12,7 @@ class RequisitionNumberGenerator
 
         do {
             $institution_code = Auth::user()->institution->code;
-            $digits_limit = 2;
+            $digits_limit = 4;
             $current_date = date("Y");
             $random_digits = str_pad(rand(0, pow(10, $digits_limit) - 1), $digits_limit, '0', STR_PAD_LEFT);
             $requi_no = $service . $institution_code . $current_date .$random_digits;

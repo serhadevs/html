@@ -62,7 +62,7 @@ table.dataTable tbody td {
                     {{-- <th>Commitment #</th> --}}
                     {{-- <th>Invoice Number</th> --}}
                     <th>Option</th>
-                    {{-- <th></th> --}}
+                    <th></th>
                     {{-- <th></th> --}}
                     {{-- //class="badge bg-yellow" --}}
                   </tr>
@@ -101,8 +101,12 @@ table.dataTable tbody td {
                       --}}
                      {{-- <button  class="btn btn-block btn-primary btn-sm"  id ="checks" type='submit'>check</button> </td>  --}}
                     <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      {{-- <td> <a href="" class="btn btn-block btn-warning btn-sm">return</a> --}}
-                    </td> 
+                      @if($requisition->check)
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
+                    @else 
+                    <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm" disabled >Undo</button>
+                    @endif
+                      </td> 
 
 
                     </tr>
@@ -221,6 +225,43 @@ function checkPR(requisitionId){
         });
 }
 
+
+function undo(requisition_id){
+   
+   swal({
+   title: "Are you sure you want to undo?",
+   text: "Tip: Always ensure that you review each requisition",
+   icon: "warning",
+   buttons: [ 
+     'No, cancel it!',
+     'Yes, I am sure!'
+   ]
+ }).then(isConfirm => {
+   if (isConfirm) {
+     console.log("approve");
+     $.get( {!! json_encode(url('/')) !!} + "/undo-check-requisition",{ _method: "POST",data:{requisition_id:requisition_id},_token: "{{ csrf_token() }}"}).then(function (data) {
+     console.log(data);
+       if (data == "success") {
+         swal(
+           "Done!",
+           "Requisition was unchecked",
+           "success").then(esc => {
+             if(esc){
+               location.reload();
+             }
+           });
+         }else{
+           swal(
+             "Oops! Something went wrong.",
+             "Requisition was already approved.",
+             "error");
+           }
+         });
+       }
+  
+   });
+}
+ 
 
 
 

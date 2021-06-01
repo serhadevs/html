@@ -1,26 +1,21 @@
 
 
-
-
-
 @extends('layouts.panel-master')
 
 {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
 
 @section('content')
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Units List</h1>
+            <h1>Unit Measurements</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              
-              <li class="breadcrumb-item "><a href="/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
               {{-- <li class="breadcrumb-item active">DataTables</li> --}}
             </ol>
           </div>
@@ -28,62 +23,63 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- Main content -->
+    
       <div class="container-fluid">
-      
+          
         <div class="row">
               
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                   
-                  <a href="unit/create" class="btn btn-success float-right">create  units</a>
-                <h3 class="card-title">Units </h3>
+                  <a href="measurement/create" class="btn btn-success float-right">Create measurement</a>
+                <h3 class="card-title">A list of all unit of measurements</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                {{-- <form class="form-horizontal" method="Post" autocomplete="off" action="/check-purchase" >
-                  @csrf --}}
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Department</th>
-                <th class="text-center">created</th>
-                <th>Option</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Abbr</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th></th>
+                    <th></th>
+                    
                   </tr>
                   </thead>
                   <tbody>
-                  @foreach($units as $unit)
-                  <tr>
-                 
-                    <td>{{$unit->id}}</td> 
-                   <td>{{$unit->name}}</td>  
-                    <td>{{$unit->department->name}}</td>  
-                     <td>{{$unit->created_at}}</td>  
-                     
-                       
-                    <td>  
-                     <a  href="/unit/{{$unit->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                @foreach($measurements as $measurement)
+                    <tr>
+                    <td>{{$measurement->id}}</td>
+                    <td> {{$measurement->name}}</td>
+                    <td>{{$measurement->abbr}}
+                    <td>{{$measurement->description}}</td>
+                    <td>{{$measurement->created_at}}</td>
+                    <td>
+                    <a  href="/measurement/{{$measurement->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>
                     <td>
-                    <button class="btn btn-block btn-danger btn-m" onclick="deleteUnit({{$unit->id}})">Delete</button>
+                    <a href="#" onclick="deleteMeasurement({{$measurement->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
                     </td> 
-
-                             
-                          
-
-
-                  </tr>  
-
-                  @endforeach
-                    
+                    </tr>
+                    @endforeach 
+            
                  
                  
                   </tbody>
-                  
+                  {{-- <tfoot>
+                  <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                  </tr>
+                  </tfoot> --}}
                 </table>
-              </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -92,6 +88,7 @@
         </div>
       </div>
     </div>
+
 @endsection
 
 
@@ -101,18 +98,14 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
-
 @push('scripts')
-{{-- <script src="/plugins/datatables/dataTables.select.min.js"></script> --}}
-{{-- <script src="/js/dataTables.select.min.js"></script> --}}
-
+<script src="/plugins/datatables/dataTables.select.min.js"></script>
+<script src="/js/dataTables.select.min.js"></script>
 <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="/js/pages/dashboard.min.js"></script>
  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
- 
  <script src="/js/sweet/sweetalert.min.js"></script> 
- 
 @endpush
   
 @if(session('status'))
@@ -140,14 +133,12 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-        //  "scrollX": true,
+      //   "scrollX": true
     });
     
 } );
 
-
-
-function deleteUnit(Id){
+function deleteMeasurement(Id){
     swal({
         title: "Are you sure?",
         text: "You will not be able to undo this action once it is completed!",
@@ -157,12 +148,12 @@ function deleteUnit(Id){
         closeOnConfirm: false
     }).then(isConfirm => {
             if (isConfirm) {
-                $.get( {!! json_encode(url('/')) !!} + "/unit/delete/" + Id).then(function (data) {
+                $.get( {!! json_encode(url('/')) !!} + "/measurement/delete/" + Id).then(function (data) {
                    console.log(Id);
                     if (data == "success") {
                         swal(
                             "Done!",
-                            "Unit delete was successful!.",
+                            "Unit of measurement delete was successful!.",
                             "success").then(esc => {
                                 if(esc){
                                     location.reload();
@@ -171,18 +162,14 @@ function deleteUnit(Id){
                     }else{
                         swal(
                             "Oops! Something went wrong.",
-                            "Unit delete was NOT successful.",
+                            "Unit of measurement delete was NOT successful.",
                             "error");
                     }
                 });
             }
         });
-    }
-
-  // $.get( {!! json_encode(url('/')) !!} + "/foodhandlers/delete/" + permitId).then(function (data) 
- // $.post( {!! json_encode(url('/sign-off/approve')) !!}, { _method: "POST", data: {selected_items: selected_items, appTypeId: appTypeId}, _token: "{{ csrf_token() }}" }).then(function (data)
+}
 
 </script>
 
 @endpush
-

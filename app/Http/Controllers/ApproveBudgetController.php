@@ -181,6 +181,29 @@ class ApproveBudgetController extends Controller
     }
     
 
+    public function undo(Request $request)
+    {
+        //
+        try {
+            $internal = InternalRequisition::find($request->data['internal_requisition_id']);
+            $approved = ApproveBudget::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+           
+            if ($internal->requisition) {
+                // if($internal->approve_internal_requisition->is_granted===1)
+                return 'fail';
+            }
+            $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+            $status->name = 'Approve Internal Requisition';
+            $status->update();
+            $approved->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+
     public function destroy(ApproveBudget $approveBudget)
     {
         //

@@ -38,7 +38,7 @@
                           <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-4">
-                        <input type="text" name ="name" class="form-control" value="">
+                        <input type="text" name ="name" class="form-control" value="" required>
                           </div>
 
                         <label for="supplier_code" class="col-sm-2 col-form-label">Supplier Code</label>
@@ -50,7 +50,7 @@
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">TRN</label>
                         <div class="col-sm-4">
-                        <input type="number" name="trn" class="form-control" value="">
+                        <input type="number" name="trn" class="form-control" value="" required>
                           </div>
 
                         <label for="address" class="col-sm-2 col-form-label">Address</label>
@@ -67,7 +67,7 @@
                       
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="parish_id" id="parish_id" required>
-                          <option>select type </option>
+                          <option value="">Select type </option>
                           @foreach($parishes as $parish)
                          <option  value="{{$parish->id}}" >{{$parish->name}}</option>
 
@@ -80,7 +80,7 @@
                       <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Country</label>
                         <div class="col-sm-4">
-                          <input type="text" class="form-control"  name="country" id="country" placeholder="">
+                          <input type="text" class="form-control"  name="country" id="country" placeholder="" required>
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-4">
@@ -102,7 +102,7 @@
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-success float-right">Save</button>
+                        <button type="submit"   class="btn btn-primary float-right">Save</button>
                         </div>
                         </div>
                         </div>

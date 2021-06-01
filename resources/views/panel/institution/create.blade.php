@@ -18,7 +18,7 @@
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
-                        <h3 class="card-title">Create institution</h3>
+                        <h3 class="card-title">Create Institution</h3>
                         </div>
                         </div>
                         </div>
@@ -56,7 +56,7 @@
                         <input type="text" name ="name" class="form-control" value="">
                           </div>
 
-                        <label for="supplier_code" class="col-sm-2 col-form-label">institution Code</label>
+                        <label for="supplier_code" class="col-sm-2 col-form-label">Institutiion abbr</label>
                         <div class="col-sm-4">
                         <input type="text" id="institution_code" name ="institution_code" class="form-control" value="">
                           </div>
@@ -124,7 +124,7 @@
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-success float-right">Save</button>
+                        <button type="submit"   class="btn btn-primary float-right">Save</button>
                         </div>
                         </div>
                         </div>

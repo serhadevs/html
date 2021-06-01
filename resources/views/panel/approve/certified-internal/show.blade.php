@@ -330,7 +330,7 @@ function Certify(internal_requisition_id){
             if (data == "success") {
               swal(
                 "Done!",
-                "Internal Requisition was approve and will shortly be forwarded to budget commitment.",
+                "Internal Requisition was approve and will shortly be forwarded to the manager for approval.",
                 "success").then(esc => {
                   if(esc){
                     location.reload();

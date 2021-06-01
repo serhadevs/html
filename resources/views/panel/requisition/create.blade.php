@@ -244,7 +244,7 @@ text-align: center;
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="tcc_expired" data-target-input="nearest">
-                        <input type="text" class="form-control datepicker-input" name='tcc_expired_date' id='tcc_expired_date' value='{{Request::old('tcc')}}' data-target="#tcc_expired"/>
+                        <input type="text" class="form-control datepicker-input" name='tcc_expired_date' id='tcc_expired_date' value='{{Request::old('tcc_expired_date')}}' data-target="#tcc_expired"/>
                         <div class="input-group-append" data-target="#tcc_expired" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -263,7 +263,7 @@ text-align: center;
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="ppc_expired" data-target-input="nearest">
-                        <input type="text" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{Request::old('ppc')}}' data-target="#ppc_expired"/>
+                        <input type="text" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{Request::old('ppc_expired_date')}}' data-target="#ppc_expired"/>
                         <div class="input-group-append" data-target="#ppc_expired" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>

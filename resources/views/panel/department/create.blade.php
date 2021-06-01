@@ -52,12 +52,12 @@
                           <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-4">
-                        <input type="text" name ="name" class="form-control" value="">
+                        <input type="text" name ="name" class="form-control" value="" required>
                           </div>
 
                         <label for="supplier_code" class="col-sm-2 col-form-label">Dept. Code</label>
                         <div class="col-sm-4">
-                        <input type="text" id="department_code" name ="department_code" class="form-control" value="">
+                        <input type="text" id="department_code" name ="department_code" class="form-control" value="" required>
                           </div>
                         
                          </div>
@@ -112,7 +112,7 @@
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-success float-right">Save</button>
+                        <button type="submit"   class="btn btn-primary float-right">Save</button>
                         </div>
                         </div>
                         </div>

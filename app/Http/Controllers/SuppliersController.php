@@ -47,7 +47,18 @@ class SuppliersController extends Controller
     {
         //
 
-       //dd($request->all());
+      
+        $request->validate([
+            'name' => 'required',
+            'supplier_code' => 'required',
+            'trn' => 'required',
+            'phone'=> 'required',
+            'address'=> 'required',
+            'city'=> 'required',
+            'parish_id'=> 'required',
+            'country'=> 'required'
+            
+                ]);
         $supplier = new Supplier();
         $supplier->name = $request->name;
         $supplier->supplier_code = $request->supplier_code;
@@ -81,9 +92,14 @@ class SuppliersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Supplier $supplier)
     {
         //
+       // dd('test');
+       $parishes = Parish::all();
+
+        return view('/panel.suppliers.edit',compact('supplier','parishes'));
+
     }
 
     /**
@@ -96,6 +112,31 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'supplier_code' => 'required',
+            'trn' => 'required',
+            'phone'=> 'required',
+            'address'=> 'required',
+            'city'=> 'required',
+            'parish_id'=> 'required',
+            'country'=> 'required'
+            
+                ]);
+        $supplier = Supplier::find($id);
+        $supplier->name = $request->name;
+        $supplier->supplier_code = $request->supplier_code;
+        $supplier->trn =$request->trn;
+        $supplier->phone = $request->phone;
+        $supplier->address = $request->address;
+        $supplier->city = $request->city;
+        $supplier->fax = $request->fax;
+        $supplier->parish_id= $request->parish_id;
+        $supplier->country = $request->country;
+
+        $supplier->update();
+        return redirect('/suppliers')->with('status', 'Suppliers was updated successfully');
+
     }
 
     /**
@@ -107,5 +148,12 @@ class SuppliersController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            $supplier = Supplier::find($id);
+            $supplier->delete();
+            return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
     }
 }

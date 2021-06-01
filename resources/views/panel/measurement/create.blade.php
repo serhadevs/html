@@ -7,7 +7,7 @@
 
 
 
-    <div class="card-body" >
+    <div class="card-body">
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
        
@@ -18,11 +18,12 @@
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
-                        <h3 class="card-title">Edit Department</h3>
+                        <h3 class="card-title">Create a unit of measurement</h3>
                         </div>
                         </div>
                         </div>
-                         @if(count($errors)>0)
+
+                           @if(count($errors)>0)
                         <div class="col-sm-10">
                   <div class="alert alert-danger">
                    {{-- <a class="alert alert-danger-close"></a> --}}
@@ -41,9 +42,9 @@
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/department/{{$department->id}}" >
+                <form class="form-horizontal" method="Post" autocomplete="off" action="/measurement/" >
                   @csrf
-                  @method('patch')
+
                   
                        
                             <div class="card" style="width:82.9%">
@@ -53,22 +54,28 @@
                           <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-4">
-                        <input type="text" name ="name" class="form-control" value="{{$department->name}}" required>
+                        <input type="text" name ="name" class="form-control" value="{{Request::old('name')}}" required>
                           </div>
 
-                        <label for="supplier_code" class="col-sm-2 col-form-label">Dept. Code</label>
+                        <label for="supplier_code" class="col-sm-2 col-form-label">Abbr</label>
                         <div class="col-sm-4">
-                        <input type="text" id="department_code" name ="department_code" class="form-control" value="{{$department->abbr}}" required>
+                        <input type="text" id="abbr" name ="abbr" class="form-control" value="{{Request::old('abbr')}}" required>
                           </div>
                         
                          </div>
-                        
+                          
                       <div class="form-group row">
                        
+                        <label for="date-required" class="col-sm-2 col-form-label">Description</label>
+                      
+                        <div class="col-sm-4">
+                            <input type="text" id="description" name ="description" required class="form-control" value="{{Request::old('description')}}">
+                          
+                         </select>  
+                        </div>
                       </div>
                       </div>
-                     
-                        
+                      
 
 
                         </div>
@@ -76,8 +83,8 @@
                         </div>
                         <div class="row">
                         <div class="col-10">
-                        {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-primary float-right">Update</button>
+                        
+                        <button type="submit"   class="btn btn-primary float-right">Save</button>
                         </div>
                         </div>
                         </div>
@@ -90,21 +97,19 @@
                       </form>
 
                   </div>
-
+                
                   </div>
                 </div>
+               
                     
-              
-          
-              
-            
-           
-            
-    
-         
-    @endsection
-
+                  
       
+            
+          
+    @endsection
+  
+      
+
     @include('partials.datatable-scripts')
 
     @push('styles')

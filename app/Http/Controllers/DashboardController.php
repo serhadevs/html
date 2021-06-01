@@ -122,7 +122,7 @@ class DashboardController extends Controller
 
     DB::table('notifications')->where('id',$id)->update(['read_at'=>1]);
 
-    return redirect('/dashboard')->with('status', 'Remove notification successfully');;
+    return redirect('/dashboard')->with('status', 'Remove notification successfully');
     }
 
 

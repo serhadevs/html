@@ -61,7 +61,7 @@ input[type="checkbox"]{
                   <thead>
                   <tr>
                     {{-- <th></th>  --}}
-                    <th>Certified</th>
+                    <th>Certify</th>
                     <th>Requisition_no</th>
                     <th>Date Receive</th>
                     <th>Parish</th>
@@ -100,10 +100,12 @@ input[type="checkbox"]{
                    
                      
                    
-                    <td> <a href="/certify-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                    <td> <a href="" class="btn btn-block btn-danger btn-sm">Remove</a>
-                     </td>
-
+                    <td> <a href="/certify-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm" disabled>View</a>
+                    @if($internal->certified_internal_requisition OR $internal->approve_internal_requisition )
+                    <td> <a class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})">Undo</a></td>
+                    @else
+                    <td> <button  class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
+                    @endif
 
                     </tr>
                     @endforeach
@@ -185,48 +187,41 @@ $(document).ready( function () {
     
 } );
 
-
-
-  // $.get( {!! json_encode(url('/')) !!} + "/foodhandlers/delete/" + permitId).then(function (data) 
- // $.post( {!! json_encode(url('/sign-off/approve')) !!}, { _method: "POST", data: {selected_items: selected_items, appTypeId: appTypeId}, _token: "{{ csrf_token() }}" }).then(function (data)
-function ApprovePurchaseOrder(purchase_id){
+function undo(certify_id){
    
-        swal({
-        title: "Are you sure you want to approve the selected applications?",
-        text: "Tip: Always ensure that you review each internal requisition thoroughly before approval.",
-        icon: "warning",
-        buttons: [
-          'No, cancel it!',
-          'Yes, I am sure!'
-        ]
-      }).then(isConfirm => {
-        if (isConfirm) {
-          console.log("approve");
-          $.post( {!! json_encode(url('/')) !!} + "/approve-purchase-order",{ _method: "POST",data:{purchase_id:purchase_id},_token: "{{ csrf_token() }}"}).then(function (data) {
-          console.log(data);
-            if (data == "success") {
-              swal(
-                "Done!",
-                "Internal requisition was approve and ready for requisition.",
-                "success").then(esc => {
-                  if(esc){
-                    location.reload();
-                  }
-                });
-              }else{
-                swal(
-                  "Oops! Something went wrong.",
-                  "Application(s) were NOT approved",
-                  "error");
-                }
-              });
-            }
-       
-        });
+   swal({
+   title: "Are you sure you want to undo the selected internal requisition form?",
+   text: "Tip: Always ensure that you review each internal requisition",
+   icon: "warning",
+   buttons: [ 
+     'No, cancel it!',
+     'Yes, I am sure!'
+   ]
+ }).then(isConfirm => {
+   if (isConfirm) {
+     console.log("approve");
+     $.get( {!! json_encode(url('/')) !!} + "/undo-internal-requisition",{ _method: "POST",data:{certify_id:certify_id},_token: "{{ csrf_token() }}"}).then(function (data) {
+     console.log(data);
+       if (data == "success") {
+         swal(
+           "Done!",
+           "Internal Requisition was uncertified ",
+           "success").then(esc => {
+             if(esc){
+               location.reload();
+             }
+           });
+         }else{
+           swal(
+             "Oops! Something went wrong.",
+             "Internal Requisition was already approve by a senior manager",
+             "error");
+           }
+         });
+       }
+  
+   });
 }
-
-
-
  
 
 

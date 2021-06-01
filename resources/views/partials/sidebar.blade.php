@@ -254,7 +254,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/measurement" class="nav-link">
                   <i class="far fa-ruler nav-icon"></i>
                   <p>Add Measurement</p>
                 </a>

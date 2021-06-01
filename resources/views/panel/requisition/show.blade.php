@@ -187,7 +187,7 @@ text-align: center;
                             </div>
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                           <div class="col-sm-4">
-                            <input type="input" class="form-control" value="{{$requisition->procurement_method_id}}"  disabled>
+                            <input type="input" class="form-control" value="{{$requisition->procurement_method->name}}"  disabled>
                              {{-- <select type="input" class="form-control" name="procurement_method" id="rocurement_method">
                             {{-- <option value="">Select method </option> --}}
                         {{-- @foreach($methods as $method)
