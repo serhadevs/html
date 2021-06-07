@@ -23,6 +23,8 @@ class CertifiedInternalRequisitionController extends Controller
     public function __construct(Request $request)
     {
 
+        $this->middleware('password.expired');
+
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,3,13])) {
                 return redirect('/dashboard');

@@ -23,6 +23,8 @@ class ApproveInternalRequisitionController extends Controller
     public function __construct(Request $request)
     {
 
+        $this->middleware('password.expired');
+
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,2,3,10,11,12])) {
                 return redirect('/dashboard');

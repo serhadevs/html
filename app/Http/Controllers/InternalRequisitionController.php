@@ -26,6 +26,11 @@ class InternalRequisitionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct(Request $request)
+    {
+
+        $this->middleware('password.expired');
+    }
     public function index()
     {
         $internal_requisitions =  InternalRequisition::where('department_id',auth()->user()->department_id)

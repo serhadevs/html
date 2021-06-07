@@ -8,6 +8,7 @@ use App\Parish;
 use App\Role;
 use App\User;
 use App\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
 use Illuminate\Support\Facades\Auth;
@@ -195,6 +196,9 @@ class UserController extends Controller
 
         $user = auth::user();
         $user->password = bcrypt($request->new_password);
+        $user->password = bcrypt($request->new_password);
+        $user->password_changed_at = Carbon::now()->toDateTimeString();
+
         $user->update();
 
         return redirect('/change-password')->with('status', 'Password was successfully changed.');

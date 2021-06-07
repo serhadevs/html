@@ -125,11 +125,11 @@
   @endpush
 @endif
 
-@if(session('error'))
+@if(session('warning'))
   @push('scripts')
     <script>
     $(document).ready(function(){
-      swal("{!! session('error') !!}", "", "error");
+      swal("{!! session('warning') !!}", "", "warning");
     });
     </script>
   @endpush

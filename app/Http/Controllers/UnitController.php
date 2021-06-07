@@ -9,6 +9,19 @@ use App\Department;
 class UnitController extends Controller
 {
     //
+     public function __construct(Request $request)
+    {
+
+        $this->middleware('password.expired');
+
+        $this->middleware(function ($request, $next) {
+            if (!in_array(auth()->user()->role_id, [1,9,12])) {
+                return redirect('/dashboard');
+            } else {
+                return $next($request);
+            }
+        });
+    }
 
     public function index()
     {

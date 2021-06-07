@@ -47,12 +47,14 @@ Route::get('/logout', function () {
 });
 
 Auth::routes();
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-Route::get('/dashboard-notification/{id}', 'DashboardController@markAsRead');
+
 
 // Panel Routes
 
 Route::group(['middleware' => ['auth']], function () {
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/dashboard-notification/{id}', 'DashboardController@markAsRead');
+
 //Requisition
     Route::resource('/requisition', 'RequisitionController');
     Route::get('/requisition/create/{id}', 'RequisitionController@create');
@@ -121,7 +123,9 @@ Route::patch('/change-institution/{id}', 'ChangeInstitutionController@update');
 
 //change Password
 Route::post('/change-password/user','UserController@changePassword');
-Route::view("/change-password/", "auth.change-password");
+Route::view("/change-password/", "auth.change-password")->name('password.expired');
+//Route::view("/password/expired", "auth.change-password")->name('password.expired');
+
 
 //IPR controller
 Route::resource('/internal_requisition', 'InternalRequisitionController');

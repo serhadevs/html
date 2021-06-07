@@ -21,6 +21,8 @@ class ApproveBudgetController extends Controller
     public function __construct(Request $request)
     {
 
+        $this->middleware('password.expired');
+
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,3,5,8,12])) {
                 return redirect('/dashboard');

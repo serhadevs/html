@@ -12,9 +12,24 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+      public function __construct(Request $request)
+    {
+
+        $this->middleware('password.expired');
+
+        $this->middleware(function ($request, $next) {
+            if (!in_array(auth()->user()->role_id, [1,9,12])) {
+                return redirect('/dashboard');
+            } else {
+                return $next($request);
+            }
+        });
+    }
     public function index()
     {
         //dd('test');
+        
         $departments = Department::all();
 
         return view('/panel.department.index',compact('departments'));
