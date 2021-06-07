@@ -24,6 +24,7 @@ input[type="checkbox"]{
 
 
 </style>
+<div class="card-body">
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -142,6 +143,7 @@ input[type="checkbox"]{
             <!-- /.card -->
           </div>
         </div>
+      </div>
 
 @endsection
 

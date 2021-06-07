@@ -5,6 +5,7 @@
 {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
 
 @section('content')
+<div class="card-body">
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -120,6 +121,7 @@
         </div>
       </div>
     </div>
+     </div>
 
 @endsection
 

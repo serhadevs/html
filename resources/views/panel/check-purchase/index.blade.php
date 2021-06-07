@@ -13,6 +13,7 @@ table.dataTable tbody td {
     outline: none;
 }
 </style>
+<div class="card-body">
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -126,6 +127,7 @@ table.dataTable tbody td {
         </div>
       </div>
     </div>
+     </div>
 
 @endsection
 
