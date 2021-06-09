@@ -45,7 +45,7 @@ class ApprovePurchaseRequisitionController extends Controller
       ->where('institution_id','=',auth()->user()->institution_id)
     ->where('department_id','=',auth()->user()->department_id)
       ->whereHas('check',function($query){
-          $query->where('is_check','=',1);
+          $query->where('is_checked','=',1);
       })
       ->get();
 

@@ -15,8 +15,8 @@ class CreateChecksTable extends Migration
     {
         Schema::create('checks', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('is_check');
-            $table->boolean('is_refuse');
+            $table->boolean('is_checked');
+            // $table->boolean('is_refuse');
             // $table->string('check_date');
             // $table->integer('requisition_id');
             $table->integer('requisition_id')->references('id')->on('requisition');

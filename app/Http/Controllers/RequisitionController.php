@@ -271,7 +271,7 @@ class RequisitionController extends Controller
             $input = $request->all();
             //reset refuse requisition
             $check_id = Check::where('requisition_id',$requisition->id)
-            ->where('is_refuse',1)
+            ->where('is_checked',0)
             ->first();
             if($check_id != null){
             $check_id->delete();

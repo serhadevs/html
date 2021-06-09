@@ -74,9 +74,9 @@ table.dataTable tbody td {
                       {{-- <td> <span class ="badge bg-blue">Uncheck</span></td> --}}
                     {{-- <td>{{$requisition->id}}</td> --}}
                      @if($requisition->check)
-                     @if($requisition->check->is_check===1)
+                     @if($requisition->check->is_checked===1)
                     <td> <span class ="badge bg-green">Accepted</span></td>
-                    @elseif($requisition->check->is_refuse===1)
+                    @elseif($requisition->check->is_checked===0)
                     <td> <span class ="badge bg-red">Refused</span></td>
                     @endif
                     @else

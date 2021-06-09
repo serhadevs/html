@@ -352,7 +352,7 @@ function Accept(requisitionId){
       }).then(isConfirm => {
         if (isConfirm) {
           // console.log("app type:" +  requisitionId);
-          $.post( {!! json_encode(url('/')) !!} + "/check-purchase",{ _method: "POST",data:{requisitionId:requisitionId,refuse:0,check:1},_token: "{{ csrf_token() }}"}).then(function (data) {
+          $.post( {!! json_encode(url('/')) !!} + "/check-purchase",{ _method: "POST",data:{requisitionId:requisitionId,checked:1},_token: "{{ csrf_token() }}"}).then(function (data) {
           console.log(data);
             if (data == "success") {
               swal(
@@ -444,7 +444,7 @@ function Refuse(requisitionId){
       }).then(isConfirm => {
         if (isConfirm) {
           // console.log("app type:" +  requisitionId);
-          $.post( {!! json_encode(url('/')) !!} + "/check-purchase",{ _method: "POST",data:{requisitionId:requisitionId,refuse:1,check:0,comment:comment},_token: "{{ csrf_token() }}"}).then(function (data) {
+          $.post( {!! json_encode(url('/')) !!} + "/check-purchase",{ _method: "POST",data:{requisitionId:requisitionId,checked:0,comment:comment},_token: "{{ csrf_token() }}"}).then(function (data) {
           console.log(data);
             if (data == "success") {
               swal(

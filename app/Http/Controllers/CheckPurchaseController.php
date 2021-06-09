@@ -96,75 +96,68 @@ class CheckPurchaseController extends Controller
     public function store(Request $request)
     {
         // $selected_items->data['appTypeId'];
-   
-        try {
-            
-               // $requisition = Requisition::find($request->data['requisitionId']);
-                $id =$request->data['requisitionId'];
-                $refuse =  $request->data['refuse'];
-                $check = new Check();
-                $check->is_check =  $request->data['check'];
-                $check->is_refuse =  $refuse;
-                // $check->check_date = now();
-                $check->requisition_id = $request->data['requisitionId'];
-                $check->user_id = auth()->user()->id;
-                $check->save();
-              
-                if($refuse ==1){
-                    $comment = new Comment();
-                    $comment->internal_requisition_id =  $requisition->internal_requisition_id;
-                    $comment->type ='refuse acceptance';
-                    $comment->user_id = auth()->user()->id;
-                    $comment->comment =  $request->data['comment'];
-                    $comment->save();
 
-                    
-                    
-                    $requisition = Requisition::find($request->data['requisitionId']);
-                    $user = User::find($requisition->user_id);
-                    $user->notify(new RefuseRequisitionPublish($requisition,$comment));
-                   // $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ))
+try {
 
-            
+    // $requisition = Requisition::find($request->data['requisitionId']);
+    $is_checked = $request->data['checked'];
+    $check = new Check();
+    $check->is_checked = $is_checked;
+    $check->requisition_id = $request->data['requisitionId'];
+    $check->user_id = auth()->user()->id;
+    $check->save();
+    $requisition = Requisition::find($request->data['requisitionId']);
 
-                }else{
+    if ($is_checked == 0) {
+        $comment = new Comment();
+        $comment->internal_requisition_id = $requisition->internal_requisition_id;
+        $comment->type = 'refuse acceptance';
+        $comment->user_id = auth()->user()->id;
+        $comment->comment = $request->data['comment'];
+        $comment->save();
+        $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
+        $status->name = 'Refuse Requisition';
+        $status->update();
 
-            $requisition =  Requisition::find($request->data['requisitionId']);
-            $requisition->institution_id  = auth()->user()->institution_id;
-            $requisition->update();
+        $user = User::find($requisition->user_id);
+        $user->notify(new RefuseRequisitionPublish($requisition, $comment));
+        // $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
 
-            //delete or reset any approved requisition
-            if($requisition->approve)
-            {
-                $approve = Approve::where('requisition_id',$requisition->id);
-                $approve->delete();
-             
-            }
+    } else {
 
-          
-            $users = User::where('institution_id',auth()->user()->institution_id )
+        $requisition = Requisition::find($request->data['requisitionId']);
+        $requisition->institution_id = auth()->user()->institution_id;
+        $requisition->update();
+
+        //delete or reset any approved requisition
+        if ($requisition->approve) {
+            $approve = Approve::where('requisition_id', $requisition->id);
+            $approve->delete();
+
+        }
+
+        $users = User::where('institution_id', auth()->user()->institution_id)
             ->where('department_id', auth()->user()->department_id)
-            ->whereIn('role_id',[1,9,12])
+            ->whereIn('role_id', [1, 9, 12])
             ->get();
 
-                    $requisition = Requisition::find($request->data['requisitionId']);
-                
-                    $users->each->notify(new AcceptRequisitionPublish($requisition));
+        $requisition = Requisition::find($request->data['requisitionId']);
 
-            //update requisition status
-            $status = Status::where('internal_requisition_id', $requisition->internalrequisition->id)->first();
-            $status->name = 'Accept Requisition';
-            $status->update();
-                }
-        
-           
-            return 'success';
+        $users->each->notify(new AcceptRequisitionPublish($requisition));
 
-           
-        } catch (Exception $e) {
-            return 'fail';
-        }
-        return redirect('/requisition')->with('status', 'Requisition was created successfully');
+        //update requisition status
+        $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
+        $status->name = 'Accept Requisition';
+        $status->update();
+    }
+
+    return 'success';
+
+} catch (Exception $e) {
+    return 'fail';
+}
+return redirect('/requisition')->with('status', 'Requisition was created successfully');
+
 
     }
 

@@ -40,7 +40,7 @@ class PurchaseOrderController extends Controller
         $requisitions = Requisition::with(['check','approve','purchaseOrder'])
             ->where('institution_id', '=', auth()->user()->institution_id)
             ->whereHas('check', function ($query) {
-                $query->where('is_check', '=', 1);
+                $query->where('is_checked', '=', 1);
             })
             ->whereHas('approve', function ($query) {
                 $query->where('is_granted', '=', 1);
