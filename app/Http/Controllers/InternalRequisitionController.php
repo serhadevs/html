@@ -33,6 +33,15 @@ class InternalRequisitionController extends Controller
     }
     public function index()
     {
+        // $internal = InternalRequisition::find(3);
+        // $internal_audit = $internal->audits;
+        // $audits = \OwenIt\Auditing\Models\Audit::all();
+
+        // dd($audits);
+
+
+
+      //dd($internal_audit);
         $internal_requisitions =  InternalRequisition::where('department_id',auth()->user()->department_id)
       ->where('institution_id',auth()->user()->institution_id)->get();
 

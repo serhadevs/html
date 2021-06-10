@@ -123,7 +123,7 @@ Route::patch('/change-institution/{id}', 'ChangeInstitutionController@update');
 
 //change Password
 Route::post('/change-password/user','UserController@changePassword');
-Route::view("/change-password/", "auth.change-password")->name('password.expired');
+Route::view("/change-password", "auth.change-password")->name('password.expired');
 //Route::view("/password/expired", "auth.change-password")->name('password.expired');
 
 
