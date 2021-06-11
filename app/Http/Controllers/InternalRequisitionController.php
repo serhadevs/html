@@ -29,7 +29,7 @@ class InternalRequisitionController extends Controller
      public function __construct(Request $request)
     {
 
-        $this->middleware('password.expired');
+        // $this->middleware('password.expired');
     }
     public function index()
     {
