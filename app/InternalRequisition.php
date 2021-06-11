@@ -12,7 +12,7 @@ class InternalRequisition extends Model
     //
 
     use SoftDeletes;
-    ///   use \OwenIt\Auditing\Auditable;
+      // use \OwenIt\Auditing\Auditable;
     
 
     public function requisition()
