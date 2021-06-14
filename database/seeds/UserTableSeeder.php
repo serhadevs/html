@@ -25,14 +25,14 @@ class UserTableSeeder extends Seeder
             'unit_id'=>1
             ],
             [
-                'firstname'=>'Dan',
-                'lastname'=>'Brown',
-                'password'=>bcrypt('secret'),
+                'firstname'=>'Dwayne',
+                'lastname'=>'Bailey',
+                'password'=>bcrypt('password123'),
                 'telephone'=>'9088666',
-                'email'=>'dbrown@gmail.com',
-                'role_id'=>3,
+                'email'=>'dwaynerb@serha.gov.jm',
+                'role_id'=>12,
                 'institution_id'=>1,
-                'department_id'=>1,
+                'department_id'=>3,
                 'unit_id'=>1
             ]
 
