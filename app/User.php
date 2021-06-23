@@ -5,12 +5,16 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements Auditable
 {
     use Notifiable;
     use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
+
 
 
     /**

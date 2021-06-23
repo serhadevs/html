@@ -4,10 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class BudgetCommitment extends Model
+use OwenIt\Auditing\Contracts\Auditable;
+
+class BudgetCommitment extends Model implements Auditable
 {
     //
     use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
+
+    
 
     protected $guarded = ['*'];
 

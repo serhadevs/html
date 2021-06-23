@@ -3,10 +3,14 @@
 namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class AssignRequisition extends Model
+
+class AssignRequisition extends Model implements Auditable
 {
     use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
+
 
     protected $guarded = ['*'];
 
