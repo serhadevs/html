@@ -169,6 +169,9 @@ Route::resource('/certifying-voucher','CertifyingPaymentVoucherController');
 Route::resource('/certify-internal-requisition','CertifiedInternalRequisitionController');
 Route::get('/undo-internal-requisition','CertifiedInternalRequisitionController@undo');
 
+//Audit Trail
+Route::resource('audit-trail','AuditTrailController');
+//Route::post('audit-trail', 'AuditTrailController@store');
 
 
 

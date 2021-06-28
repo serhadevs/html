@@ -182,6 +182,19 @@
             </ul>
           </li> 
           @endif
+
+
+          @if(in_array(auth()->user()->role_id,[1,12]))
+          <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
+            <a href="/audit-trail" accesskey="2"  class="nav-link">
+              <i class="nav-icon fas fa-trailer"></i>
+              <p>
+                Audit Trail
+                
+              </p>
+            </a>
+          </li>
+          @endif
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
@@ -279,6 +292,7 @@
                 </a>
               </li>
         --}}
+          </li>
           
         </ul>
         <div class="nav-item">
