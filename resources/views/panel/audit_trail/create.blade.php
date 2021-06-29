@@ -43,7 +43,7 @@
                 <th class="text-center">New Values</th>
                 <th class="text-center">Old Values</th>
                 <th class="text-center">Created at</th>
-                {{-- <th class="text-center">View</th> --}}
+                <th class="text-center">View</th>
             
                     
                   </tr>
@@ -60,7 +60,7 @@
                 <td>
                   @foreach($auditable->new_values as $values)
                  
-                 {{$values}}
+                 {{$values. "  ". ''}}
                
                   @endforeach
 
@@ -74,9 +74,9 @@
 
                 </td>
                   <td>{{$auditable->created_at}}</td>
-                {{-- <td> 
+                <td> 
                 <button  href="#" class="btn btn-block btn-primary btn-m" >View</button> 
-                </td> --}}
+                </td>
                 </tr>
 
                 @endforeach
