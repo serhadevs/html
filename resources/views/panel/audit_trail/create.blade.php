@@ -42,8 +42,12 @@
                 <th class="text-center">Auditable ID</th>
                 <th class="text-center">New Values</th>
                 <th class="text-center">Old Values</th>
+                
+                <th class="text-center">URL</th>
+                <th class="text-center">IP Address</th>
+
+                <th class="text-center">Browser</th>
                 <th class="text-center">Created at</th>
-                <th class="text-center">View</th>
             
                     
                   </tr>
@@ -56,6 +60,9 @@
                 <td>{{$auditable->event}}</td>
                 <td>{{$auditable->auditable_type}}</td>
                 <td>{{$auditable->auditable_id}}</td>
+               
+                {{-- <td>{{$auditable->created_at}}</td> --}}
+                
               
                 <td>
                   @foreach($auditable->new_values as $values)
@@ -73,11 +80,14 @@
                   @endforeach
 
                 </td>
-                  <td>{{$auditable->created_at}}</td>
-                <td> 
+                <td>{{$auditable->url}}</td>
+                <td>{{$auditable->ip_address}}</td>
+                <td>{{$auditable->user_agent}}</td>
+                <td>{{$auditable->created_at}}</td>
+                {{-- <td> 
                 <button  href="#" class="btn btn-block btn-primary btn-m" >View</button> 
                 </td>
-                </tr>
+                </tr> --}}
 
                 @endforeach
                  
