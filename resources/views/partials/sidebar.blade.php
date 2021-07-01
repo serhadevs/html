@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <img src={{asset("dist/img/boxed-bg.png")}} alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src={{asset("dist/img/serha_logo2.png")}} alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: 4">
       <span class="brand-text font-weight-light">E-Procurement</span>
     </a>
