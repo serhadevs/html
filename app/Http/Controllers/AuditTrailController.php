@@ -15,6 +15,20 @@ class AuditTrailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct(Request $request)
+    {
+
+        $this->middleware('password.expired');
+
+        $this->middleware(function ($request, $next) {
+            if (!in_array(auth()->user()->role_id, [1,3,12])) {
+                return redirect('/dashboard')->with('error', 'Access Denied');
+            } else {
+                return $next($request);
+            }
+        });
+    }
     public function index()
     {
         //

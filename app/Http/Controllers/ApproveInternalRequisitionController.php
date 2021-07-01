@@ -27,7 +27,7 @@ class ApproveInternalRequisitionController extends Controller
 
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,2,3,10,11,12])) {
-                return redirect('/dashboard');
+                return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
             }

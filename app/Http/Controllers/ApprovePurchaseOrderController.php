@@ -20,7 +20,7 @@ class ApprovePurchaseOrderController extends Controller
 
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,12,9])) {
-                return redirect('/dashboard');
+                return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
             }

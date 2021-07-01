@@ -57,7 +57,7 @@
             </a>
           </li>
           @endif
-          @if(in_array(auth()->user()->role_id,[1,3,5,9,12]))
+          @if(in_array(auth()->user()->role_id,[1,5,9,12]))
           <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
             <a href="/requisition" accesskey="2"  class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -68,7 +68,7 @@
             </a>
           </li>
           @endif
-          @if(in_array(auth()->user()->role_id,[1,3,5,9,12]))
+          @if(in_array(auth()->user()->role_id,[1,5,9,12]))
           <li class="nav-item has-treeview">
             <a href="/check-purchase" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
@@ -87,7 +87,7 @@
          
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,2,3,5,8,9,10,11,12,13]))
+          @if(in_array(Auth::user()->role_id, [1,2,5,8,9,10,11,12,13]))
           <li class="nav-item has-treeview">
             
             <a href="#" class="nav-link">
@@ -143,7 +143,7 @@
             </ul>
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,3,7,8]))
+          @if(in_array(Auth::user()->role_id, [1,7,8]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-balance-scale"></i>
@@ -184,7 +184,7 @@
           @endif
 
 
-          @if(in_array(auth()->user()->role_id,[1,12]))
+          @if(in_array(auth()->user()->role_id,[1,3,6,12]))
           <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
             <a href="/audit-trail" accesskey="2"  class="nav-link">
               <i class="nav-icon fas fa-trailer"></i>
@@ -250,7 +250,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/department" class="nav-link">
-                  <i class="far fa-archway nav-icon"></i>
+                  <i class="far fa-building nav-icon"></i>
                   <p>Add Department</p>
                 </a>
               </li>
@@ -262,18 +262,18 @@
               </li>
               <li class="nav-item">
                 <a href="/suppliers" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
+                  <i class="far fa-circle nav-icon"></i>
                   <p>Add Supplier</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/measurement" class="nav-link">
-                  <i class="far fa-ruler nav-icon"></i>
+                  <i class="far fa-square nav-icon"></i>
                   <p>Add Measurement</p>
                 </a>
               </li> <li class="nav-item">
                 <a href="/unit" class="nav-link">
-                  <i class="far fa-ruler nav-icon"></i>
+                  <i class="far fa-map nav-icon"></i>
                   <p>Add Units</p>
                 </a>
               </li>

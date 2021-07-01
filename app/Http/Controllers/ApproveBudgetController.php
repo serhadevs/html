@@ -25,7 +25,7 @@ class ApproveBudgetController extends Controller
 
         $this->middleware(function ($request, $next) {
             if (!in_array(auth()->user()->role_id, [1,3,5,8,12])) {
-                return redirect('/dashboard');
+                return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
             }
