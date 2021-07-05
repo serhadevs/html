@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewUserAccountPublish;
+
 
 
 
@@ -102,6 +104,10 @@ class UserController extends Controller
         $user->unit_id = $request->unit_id;
         $user->password = bcrypt(('password123'));
         $user->save();
+
+
+        $user->notify(new NewUserAccountPublish());
+
         }catch(QueryException $ex ){
           //  dd($ex->getMessage());
         abort(500,'something went wrong');
