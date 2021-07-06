@@ -178,7 +178,9 @@ text-align: center;
                   
                         </div>
                         <div class="col-sm-5">
-                        Budget Officer’s Name: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->firstname[0]}}. {{$internalRequisition->approve_internal_requisition->user->lastname}} </span><br>
+                        Budget Officer’s Name: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->firstname[0]}}. {{$internalRequisition->budget_commitment->user->lastname}} </span><br>
+                        Date:  {{$internalRequisition->budget_commitment->created_at}}
+                        Budget Manager: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->firstname[0]}}. {{$internalRequisition->budget_commitment->user->lastname}} </span><br>
                         Date:  {{$internalRequisition->budget_commitment->created_at}}
                            
                         </div>

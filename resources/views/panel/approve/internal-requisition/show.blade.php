@@ -166,9 +166,10 @@ text-align: center;
 
                            <div class="col-10">
                        
-                        {{-- <div class="col-sm-5">
-                        Approve Internal Requisition by: <span class='badge badge-success'></span>
-                        </div> --}}
+                        <div class="col-sm-5">
+                        Certify by: <span class='badge badge-success'>{{$internalRequisition->certified_internal_requisition->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$internalRequisition->certified_internal_requisition->created_at}}</span>
+                        </div> 
                         <div class="col-sm-5">
                          @if($internalRequisition->approve_internal_requisition)
                         Approve by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->firstname[0]}}. {{$internalRequisition->approve_internal_requisition->user->lastname}} </span></br>

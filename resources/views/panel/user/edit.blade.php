@@ -159,7 +159,17 @@
                         <div class="col-sm-4">
                           <select type="input" class="form-control" value="" name="unit_id" id="unit" required>
                             {{-- <option >Select unit </option> --}}
-                            <option  value="{{$user->department->unit->id}}" >{{$user->department->unit->name}}</option>
+                            {{-- <option  value="{{$user->unit->id}}" >{{$user->unit->name}}</option> --}}
+                            @foreach($units as $unit)
+                          @if($unit->id === $user->unit_id)
+                          <option selected value="{{ $unit->id }}" >{{ $unit->name }}</option>
+                          @else
+                         <option  value="{{$unit->id}}" >{{$unit->name}}</option>
+                        @endif 
+                          @endforeach
+
+
+                            
                           </select>
                           </div> 
                         </div>

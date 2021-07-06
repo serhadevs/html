@@ -47,7 +47,7 @@ class CertifiedInternalRequisitionPublish extends Notification
         ->subject('Certified internal requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The internal requisition was certified by '.auth()->user()->abbrName().',the requisition number is '.$this->internal->requisition_no.'.')
-        ->action('Approve Now', url('/approve-internal-requisition'))
+        ->action('Certify Now', url('/certify-internal-requisition'))
         ->line('Thank you for using this application!');
     }
 
