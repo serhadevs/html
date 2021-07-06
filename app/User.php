@@ -56,6 +56,10 @@ class User extends Authenticatable implements Auditable
     {
         return $this->belongsTo('App\Department');
     }
+     public function unit()
+    {
+        return $this->belongsTo('App\Unit');
+    }
 
     public function abbrName()
     {

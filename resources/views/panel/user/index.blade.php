@@ -60,7 +60,7 @@
                     <td>{{$user->lastname}}</td>  
                      <td>{{$user->role->name}}</td>  
                       <td>{{$user->telephone}}</td>  
-                       <td>{{$user->department->unit->name}}</td>  
+                       <td>{{$user->unit->name}}</td>  
                         <td>{{$user->department->name}}</td>
                          <td>{{$user->email}}</td>      
                            <td>

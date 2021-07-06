@@ -20,7 +20,7 @@ class Department extends Model implements Auditable
         return $this->belongsTo('App\Institution');
     } 
     public function unit(){
-     return $this->hasOne(Unit::class,'department_id');
+     return $this->hasOne(Unit::class,'department_id')->withTrashed();
        // return $this->HasOne('App\Unit','id','department_id');
     } 
 }
