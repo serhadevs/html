@@ -399,6 +399,16 @@ text-align: center;
                   </tr>
                     @endforeach
                   </tbody>
+                   <tbody>
+                    @foreach($requisition->internalrequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach
+                  </tbody>
                 </table>
               {{-- </form> --}}
               </div>

@@ -96,6 +96,16 @@
    </table>
 
         </p>
+        <div class="row">
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>General Description</label>
+              <textarea  readonly class="form-control" name="comments" rows="3">{{$internalRequisition->description}}</textarea>
+              </div>
+            </div>
+            
+          </div>        
   </br>
   </br>
   <br>

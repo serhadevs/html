@@ -93,9 +93,9 @@
                     </div>
                     </div>
                      <div class="form-group row">
-                     <label for="cost-centre" class="col-sm-2 col-form-label">FAX</label>
+                     <label for="cost-centre" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-4">
-                      <input type="tele" class="form-control"  name="fax" id="fax" value="{{$supplier->fax}}">
+                      <input type="tele" class="form-control"  name="email" id="email" value="{{$supplier->email}}">
                     </div>
                     </div>
                     

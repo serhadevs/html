@@ -130,6 +130,8 @@ Route::view("/change-password", "auth.change-password")->name('password.expired'
 //IPR controller
 Route::resource('/internal_requisition', 'InternalRequisitionController');
 Route::get('/internal_requisition/delete/{id}', 'InternalRequisitionController@destroy');
+Route::get('/attached/delete/{id}', 'InternalRequisitionController@deleteAttached');
+
 
 //Approve IRF controller
 Route::resource('/approve-internal-requisition', 'ApproveInternalRequisitionController');
@@ -151,6 +153,8 @@ Route::get('/budgetcommitment/destroy/{id}', 'BudgetCommitmentController@destroy
 //Assign
 Route::resource('assign_requisition','AssignRequisitionController');
 Route::get('assign-requisition/{id}/create','AssignRequisitionController@create');
+Route::get('assign-requisition/show/{id}', 'AssignRequisitionController@show');
+
 
 //Payment Voucher
 Route::resource('payment-voucher','PaymentVoucherController');

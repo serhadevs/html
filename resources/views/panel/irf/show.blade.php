@@ -69,7 +69,7 @@ text-align: center;
                            <div class="col-m-10">
 
                            
-                          <div class="form-group row">
+                          {{-- <div class="form-group row">
                             <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
                             <div class="col-sm-4">
                             <input type="input" class="form-control" value="{{$internal_requisition->requisition_no}}" readonly>
@@ -79,8 +79,8 @@ text-align: center;
                             <div class="col-sm-4">
                             <input type="input" class="form-control"  value="{{$internal_requisition->created_at->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
                             </div> --}}
-                            
-                          </div>
+{{--                             
+                          </div> --}}
 
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Requester</label>
@@ -163,6 +163,17 @@ text-align: center;
                         <div class="col-sm-4">
                         <input type="text" class="form-control" value="{{$internal_requisition->priority}}" id='priority' name='priority' disabled> 
                         </div>
+                        </div>
+                         <div class="form-group row">
+                        <label for="cost-centre" class="col-sm-2 col-form-label">General Description </label>
+                        <div class="col-sm-4">
+                            <textarea type="text" class="form-control" readonly  name='description' required>{{$internal_requisition->description}}</textarea>
+                        </div>
+                        <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
+                            <div class="col-sm-4">
+                            <input type="input" class="form-control" value="{{$internal_requisition->requisition_no}}" readonly>
+                       
+                       
                         </div>
 
           
@@ -251,6 +262,36 @@ text-align: center;
             </div>
             @endif
             
+
+
+             <div class="col-sm-6">
+                            <label for="exampleInputFile">Attached Files</label>
+                       <div class="card-body p-0">
+                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+                  @csrf
+                  @method('delete')  --}}
+                <table class="table table-sm" id="filetable">
+                  <thead>
+                    <tr>
+                      <th>Filename</th>
+                      <th>Option</th>
+                      <th><th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($internal_requisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach 
+                  </tbody>
+                </table>
+              {{-- </form> --}}
+              </div>
+               </div> 
           </div>
         </div>
 
@@ -262,11 +303,12 @@ text-align: center;
                         </div>
                         </div>
                         </div>
+                         </div>
 
                         <div class="row">
                         <div class="col-10">
                         <a type="button"  href="/internal_requisition" class="btn btn-success">Back</a>
-                        {{-- <button type="Submit" class="btn btn-danger float-right" >Submit</button>
+                        
                         </div>
                         </div>
 
@@ -282,7 +324,7 @@ text-align: center;
 
                       
 
-                      {{-- </form>     --}}
+                      </form>    
 
 
                   

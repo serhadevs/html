@@ -47,7 +47,7 @@
                 <th class="text-center">Parish</th>
                 <th class="text-center">Country</th>
                 <th class="text-center">Phone #</th>
-                <th class="text-center">FAX</th>
+                <th class="text-center">Email</th>
                 <th class="text-center">Option</th>
                 <th></th>
                   </tr>
@@ -65,7 +65,7 @@
                         <td>{{$supplier->parish->name}}</td>
                          <td>{{$supplier->country}}</td>      
                           <td>{{$supplier->phone}}</td>  
-                           <td>{{$supplier->fax}}</td>
+                           <td>{{$supplier->email}}</td>
                            <td>
                            <a  href="/suppliers/{{$supplier->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
                     </td>

@@ -38,30 +38,30 @@
                           <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-4">
-                        <input type="text" name ="name" class="form-control" value="" required>
+                        <input type="text" name ="name" class="form-control" value="{{Request::old('name')}}" required>
                           </div>
 
                         <label for="supplier_code" class="col-sm-2 col-form-label">Supplier Code</label>
                         <div class="col-sm-4">
-                        <input type="text" id="supplier_code" name ="supplier_code" class="form-control" value=""required>
+                        <input type="text" id="supplier_code" name ="supplier_code" class="form-control" value="{{Request::old('suplier_code')}}"required>
                           </div>
                         
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">TRN</label>
                         <div class="col-sm-4">
-                        <input type="number" name="trn" class="form-control" value="" required>
+                        <input type="number" name="trn" class="form-control" value="{{Request::old('trn')}}" required>
                           </div>
 
                         <label for="address" class="col-sm-2 col-form-label">Address</label>
                         <div class="col-sm-4">
-                        <input type="text" class="form-control"  value=""name='address' id="address"required>
+                        <input type="text" class="form-control"  value="{{Request::old('address')}}"name='address' id="address"required>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="department" class="col-sm-2 col-form-label">City</label>
                         <div class="col-sm-4">
-                        <input type="text" class="form-control" name="city" value=""required>
+                        <input type="text" class="form-control" name="city" value="{{Request::old('city')}}"required>
                         </div>
                         <label for="date-required" class="col-sm-2 col-form-label">Parish</label>
                       
@@ -84,13 +84,13 @@
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-4">
-                        <input type="tele" class="form-control" name="phone" value=""required>
+                        <input type="tele" class="form-control" name="phone" value="{{Request::old('phone')}}"required>
                         </div>
                         </div>
                          <div class="form-group row">
-                         <label for="cost-centre" class="col-sm-2 col-form-label">FAX</label>
+                         <label for="cost-centre" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-4">
-                          <input type="tele" class="form-control"  name="fax" id="fax" placeholder="">
+                          <input type="email" class="form-control"  name="email" id="email" value="{{Request::old('email')}}">
                         </div>
                         </div>
                         

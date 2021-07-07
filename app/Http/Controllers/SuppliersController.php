@@ -79,7 +79,7 @@ class SuppliersController extends Controller
         $supplier->phone = $request->phone;
         $supplier->address = $request->address;
         $supplier->city = $request->city;
-        $supplier->fax = $request->fax;
+        $supplier->email = $request->email;
         $supplier->parish_id= $request->parish_id;
         $supplier->country = $request->country;
 
@@ -143,7 +143,7 @@ class SuppliersController extends Controller
         $supplier->phone = $request->phone;
         $supplier->address = $request->address;
         $supplier->city = $request->city;
-        $supplier->fax = $request->fax;
+        $supplier->email = $request->email;
         $supplier->parish_id= $request->parish_id;
         $supplier->country = $request->country;
 

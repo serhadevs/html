@@ -129,6 +129,46 @@ text-align: center;
          
             </tbody>
           </table>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>General Description</label>
+              <textarea  readonly class="form-control" name="comments" rows="3">{{$internalRequisition->description}}</textarea>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+                            <label for="exampleInputFile">Attached Files</label>
+                       <div class="card-body p-0">
+                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+                  @csrf
+                  @method('delete')  --}}
+                <table class="table table-sm" id="filetable">
+                  <thead>
+                    <tr>
+                      <th>Filename</th>
+                      <th>Option</th>
+                      <th><th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($internalRequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach 
+                  </tbody>
+                </table>
+              {{-- </form> --}}
+              </div>
+               </div> 
+            
+          </div>        
     
           <div class="row">
             <div class="col-sm-6">

@@ -57,6 +57,7 @@
                     <th>Assignee</th>
                     <th>Assign Date</th>
                     <th>Option</th>
+                    <th></th>
               
                     
                   </tr>
@@ -95,8 +96,12 @@
                   
                    
                     <td>
-                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m" >Assign</a> 
-                     {{-- <a  href="/irf/{{$internal_requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a>  --}}
+                      @if($internal_requisition->assignto)
+                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assigned</a></td>
+                    @else
+                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assign</a></td>
+                    @endif
+                   <td> <a  href="/assign-requisition/show/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m">View</a>
                     </td>
                    
                     </tr>

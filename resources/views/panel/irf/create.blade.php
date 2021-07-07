@@ -148,6 +148,14 @@ text-align: center;
                          
                         </div>
                         </div>
+                         <div class="form-group row">
+                        <label for="cost-centre" class="col-sm-2 col-form-label">General Description </label>
+                        <div class="col-sm-4">
+                            <textarea type="text" class="form-control" value="{{Request::old('general_description')}}" name='general_description' required></textarea>
+                        </div>
+                       
+                       
+                        </div>
 
           
 
@@ -178,16 +186,13 @@ text-align: center;
                 </td>
                 <td>
                 
-                  {{-- <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'> --}}
+                  
                    <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
                 <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>
                 </td>
-                {{-- <td>
-                <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;'>
-              
-                </td> --}}
+                
                 <td>
                   <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'required>
                   <option value="">select</option>
@@ -201,7 +206,7 @@ text-align: center;
                   <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                  <input name='part_number[]' class='part_number' id="part_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                  <input name='part_number[]' class='part_number' id="part_number" type='text' size="5" style='border:none;outline:none;background: transparent;'>
                 </td>
         
 
@@ -221,6 +226,45 @@ text-align: center;
                 <textarea class="form-control" name="comments" rows="3" placeholder="Enter ..."></textarea>
               </div>
             </div>
+
+                         
+                        <div class="col-sm-6">
+                       <div class="form-group row img_div ">
+                     
+                       <label for="exampleInputFile">Support Documents</label>
+                       <div class="input-group">
+                       <div class="custom-file">
+                      <input type="file" name="file_upload[]" class="form-control" id="file_upload" accept="docs/*">
+                      </div>
+                      <div class="input-group-append">
+                      <button class="btn btn-default btn-add-more" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
+                      </div>
+                      </div>
+                      
+                      </div>
+
+                   <div class ='hide'>
+                      <div class="form-group row">
+                      {{-- <div class="col-sm-6"> --}}
+  
+                      <div class="input-group">
+                      <div class="custom-file">
+                      <input type="file" name="file_upload[]" class="form-control" id="file_upload">
+
+                      </div>
+                      <div class="input-group-append">
+                      <button class="btn btn-default btn-remove" type="button"><i class="glyphicon glyphicon-plus"></i>Remove</button>
+                      </div>
+                      </div>
+                      {{-- </div> --}}
+                      </div>
+                     </div> 
+
+
+
+                      </div> 
+                  
+            
             
           </div>
           

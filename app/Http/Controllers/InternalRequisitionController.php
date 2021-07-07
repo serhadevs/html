@@ -14,6 +14,8 @@ use App\SystemOperations\RequisitionNumberGenerator;
 use App\Unit;
 use App\UnitOfMeasurement;
 use App\User;
+use App\AttachedFile;
+
 use Illuminate\Http\Request;
 
 class InternalRequisitionController extends Controller
@@ -79,7 +81,7 @@ class InternalRequisitionController extends Controller
 
             'quantity' => 'required',
             'description' => 'required',
-            'part_number' => 'required',
+            // 'part_number' => 'required',
             'unit' => 'required',
             'unit_cost' => 'required',
 
@@ -99,6 +101,7 @@ class InternalRequisitionController extends Controller
         $internal_requisition->budget_approve = $request->budget_approve;
         $internal_requisition->comments = $request->comments;
         $internal_requisition->priority = $request->priority;
+        $internal_requisition->description = $request->general_description;
 
         if ($internal_requisition->save()) {
 
@@ -125,6 +128,27 @@ class InternalRequisitionController extends Controller
             $status->internal_requisition_id = $internal_requisition->id;
             $status->name = 'Internal Requisition';
             $status->save();
+
+
+            if ($request->file('file_upload')) {
+    $files = $request->file('file_upload');
+    foreach ($files as $key => $file) {
+        $newfile = new AttachedFile();
+        if ($request->file('file_upload')) {
+            $paths[] = $file->storeAs(
+                'public/documents', $file->getClientOriginalName()
+
+            );
+
+        }
+        $newfile->filename = $file->getClientOriginalName();
+        $newfile->internal_requisition_id = $internal_requisition->id;
+        $newfile->save();
+
+    }
+
+}
+
 
         }
 
@@ -294,6 +318,20 @@ class InternalRequisitionController extends Controller
                 }
             }
             $internal_requisition->delete();
+            return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+
+    public function deleteAttached($id)
+    {
+
+        // dd('destroy');
+        try {
+            $file = AttachedFile::find($id);
+            $file->delete();
             return "success";
         } catch (Exception $e) {
             return 'fail';

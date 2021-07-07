@@ -23,7 +23,7 @@ text-align: center;
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1> Budget Approve</h1>
+            <h1>Internal Requisition</h1>
           </div>
           {{-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -139,9 +139,7 @@ text-align: center;
               <textarea  readonly class="form-control" name="comments" rows="3">{{$internalRequisition->description}}</textarea>
               </div>
             </div>
-
-            
-                        <div class="col-sm-6">
+            <div class="col-sm-6">
                             <label for="exampleInputFile">Attached Files</label>
                        <div class="card-body p-0">
                   {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
@@ -171,7 +169,6 @@ text-align: center;
                </div> 
             
           </div>        
-          
     
           <div class="row">
             <div class="col-sm-6">
@@ -196,7 +193,6 @@ text-align: center;
                           </div>
                         </div>
                         @endif
-                        
             
           </div>        
     </div>
@@ -261,17 +257,7 @@ text-align: center;
           </div>
           
        
-                        <div class="col-10">
-                          @if($internalRequisition->approve_budget)
-                          <button type="button"   class="btn btn-warning" disabled>Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right"   disabled>Approve</button></br>
-                        @else
-                        <button type="button"   class="btn btn-warning"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right"  onclick="Approve('{{$internalRequisition->id}}');">Approve</button></br>
                        
-
-                        @endif
-                      </div> 
                        
                         </div>
                       </br>

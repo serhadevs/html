@@ -75,5 +75,9 @@ class InternalRequisition extends Model implements Auditable
     {
         return  $this->hasMany('App\Comment');
     }
+      public function attached(){
+        return $this->hasMany('App\AttachedFile');
+
+    }
 
 }

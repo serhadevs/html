@@ -21,7 +21,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'fax'=>'908877878',
+    'email'=>'9088737878',
     ],
     [
     'name' => 'JN',
@@ -32,7 +32,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'fax'=>'908877878',
+    'email'=>'908870878',
     ],
     [
    'name' => 'National',
@@ -43,7 +43,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'fax'=>'908877878',
+    'email'=>'90887237878',
     ],
     [
     'name' => 'SuperComputers',
@@ -54,7 +54,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'fax'=>'908877878',
+    'email'=>'90883377878',
     ]
 
         ]);

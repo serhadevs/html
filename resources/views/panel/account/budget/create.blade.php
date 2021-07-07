@@ -135,15 +135,15 @@ text-align: center;
                                       <input type="input" class="form-control" value="{{$internalrequisition->requisition_no}}" readonly>
                                   
                                   </div> 
-                                  {{-- <label for="date-of-last" class="col-sm-2 col-form-label">Priority</label>
+                                    <label  for="cost-centre" class="col-sm-2 col-form-label">General Description</label>
                                   <div class="col-sm-4">
-                                  <input type="input" class="form-control" value="{{$internalrequisition->priority}}" readonly>
+                                   <textarea  readonly class="form-control" name="comments" rows="3">{{$internalrequisition->description}}</textarea>
                                    
-                                  </div> --}}
+                                  </div>
                                   </div>
 
 
-
+                                 
 
 
 
@@ -225,6 +225,36 @@ text-align: center;
                           </div>
                         </div>
                         @endif
+
+
+                        <div class="col-sm-6">
+                            <label for="exampleInputFile">Attached Files</label>
+                       <div class="card-body p-0">
+                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+                  @csrf
+                  @method('delete')  --}}
+                <table class="table table-sm" id="filetable">
+                  <thead>
+                    <tr>
+                      <th>Filename</th>
+                      <th>Option</th>
+                      <th><th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($internalrequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach 
+                  </tbody>
+                </table>
+              {{-- </form> --}}
+              </div>
+               </div> 
                         
                       </div>
 

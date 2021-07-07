@@ -23,7 +23,7 @@ class CreateSuppliersTable extends Migration
             $table->integer('parish_id');
             $table->string('country');
             $table->string('phone');
-            $table->string('fax');
+            $table->string('email')->unique();
             $table->timestamps();
             $table->softDeletes();
 

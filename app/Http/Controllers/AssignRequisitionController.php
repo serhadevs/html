@@ -97,9 +97,12 @@ class AssignRequisitionController extends Controller
      * @param  \App\AssignRequisition  $assignRequisition
      * @return \Illuminate\Http\Response
      */
-    public function show(AssignRequisition $assignRequisition)
+    public function show($id)
     {
-        dd('test');
+      //  dd('test');
+        $internalRequisition = InternalRequisition::find($id);
+        return view('//panel.assign.show', compact('internalRequisition'));
+
     }
 
     /**
