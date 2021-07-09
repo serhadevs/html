@@ -70,7 +70,7 @@ text-align: center;
                         Description: {{$requisition->description}}</br>
                         TCC Number: {{$requisition->tcc}}</br>
                         PPC Number: {{$requisition->ppc}}</br>
-                        TRN: {{$requisition->trn}}</br>
+                        Supplier Trn: {{$requisition->supplier->trn}}</br>
                         Contract Sum: {{$requisition->contract_sum}}</br>
                         {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no: {{$requisition->requisition_no}} </br>
@@ -199,6 +199,16 @@ text-align: center;
                     </td> 
                   <td> <a class="btn btn-primary " href="{{ asset('/documents/'.$file->filename)}}">View</a></td>
                     <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td>
+                  </tr>
+                    @endforeach
+                  </tbody>
+                   <tbody>
+                    @foreach($requisition->internalrequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
                   </tr>
                     @endforeach
                   </tbody>

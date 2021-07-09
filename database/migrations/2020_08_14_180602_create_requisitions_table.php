@@ -29,7 +29,7 @@ class CreateRequisitionsTable extends Migration
             $table->integer('category_id')->references('id')->on('stock_categories');;
             $table->bigInteger('tcc')->nullable();
             $table->bigInteger('ppc')->nullable();
-            $table->integer('trn')->nullable();
+            // $table->integer('trn')->nullable();
             $table->string('tcc_expired_date')->nullable();
             $table->string('ppc_expired_date')->nullable();
             //$table->decimal('estimated_cost',12,2);

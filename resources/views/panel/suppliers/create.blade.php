@@ -6,6 +6,20 @@
     @section('content')
 
 
+                           @if(count($errors)>0)
+                        <div class="col-sm-10">
+                  <div class="alert alert-danger">
+                   {{-- <a class="alert alert-danger-close"></a> --}}
+
+
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              </div>
+            @endif  
 
     <div class="card-body">
     <div class="content-wrapper">
@@ -132,6 +146,25 @@
   
       
     @include('partials.datatable-scripts')
+     @if(session('status'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('status') !!}", "", "success");
+    });
+    </script>
+  @endpush
+@endif
+
+@if(session('error'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('error') !!}", "", "error");
+    });
+    </script>
+  @endpush
+@endif
 
     @push('styles')
       <meta name="csrf-token" content="{{ csrf_token() }}">

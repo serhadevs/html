@@ -61,6 +61,12 @@ Route::get('/dashboard-notification/{id}', 'DashboardController@markAsRead');
     Route::post('/requisition/store', 'RequisitionController@store');
     Route::get('/requisition/delete/{id}', 'RequisitionController@destroy');
     Route::get('/file/delete/{id}', 'RequisitionController@deleteFile');
+    Route::get('/getSuppliers', function () {
+    $suppliers = App\Supplier::all();
+
+    return response()->json($suppliers);
+});
+
 
 //purchase-order
     Route::resource('/purchase-order', 'PurchaseOrderController');

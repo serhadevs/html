@@ -256,62 +256,23 @@ text-align: center;
             <!-- /.card -->
           </div>
           
-       
+       <div class="row">
+                        <div class="col-10">
+                        <a type="button"  href="/assign_requisition" class="btn btn-success">Back</a>
+                        
+                        </div>
+                        </div>
                        
                        
                         </div>
-                      </br>
+                
 
+                      </br> 
 
-
-             {{-- //modal  --}}
-
-             <div class="modal fade" id="modal-lg">
-              <div class="modal-dialog modal-m">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Refuse Requisition</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                     <div class="card-body">
-                      <form  id='form-refuse' class="form-horizontal" method="Post" autocomplete="off" action="/approve-budget-requisition" >
-                        @csrf 
-                         <div class="form-group row">
-                        <label for="cost-centre" class="col-m-4 col-form-label">Comments</label>
-                        <div class="col-m-8">
-                            <textarea type="text" style="width:400px; height:200px;" value="{{Request::old('comment')}}" id="comment" name='comment'></textarea>
-                        </div>
-                        <input type="hidden" name='requisition_id' id="requisition_id" value="{{$internalRequisition->id}}"> 
-                        </div>
-
-
-                     
-                    </form>
-
-            
-                    </div>
-                  </div>
-                  <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                    <button type="submit"  class="btn btn-primary float-right" id="post" onclick="Refuse('{{$internalRequisition->id}}');">Send</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                  </div>
-                </div>
-                <!-- /.modal-content -->
-              </div>
-              <!-- /.modal-dialog -->
-            </div>
-
-
-
-
-            {{-- //end --}}
-
+           
         </div>
         </div>
+        
 
 @endsection
 

@@ -243,6 +243,8 @@ text-align: center;
                         Approve Requisition by: <span class='badge badge-success'>{{$requisition->approve->user->firstname[0]}}. {{$requisition->check->user->lastname}} </span>
                         </div>
                         <div class="col-sm-5">
+                           Budget Approve by: <span class='badge badge-success'>{{$internalRequisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$internalRequisition->approve_budget->created_at}}</span>
                          @if($requisition->purchase_order->approvePurchaseOrder)
                         Approve Purchase Order by: <span class='badge badge-success'>{{$requisition->purchase_order->approvePurchaseOrder->user->firstname[0]}}. {{$requisition->purchase_order->approvePurchaseOrder->user->lastname}} </span>
                           @endif

@@ -112,6 +112,25 @@
       
 
     @include('partials.datatable-scripts')
+     @if(session('status'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('status') !!}", "", "success");
+    });
+    </script>
+  @endpush
+@endif
+
+@if(session('error'))
+  @push('scripts')
+    <script>
+    $(document).ready(function(){
+      swal("{!! session('error') !!}", "", "error");
+    });
+    </script>
+  @endpush
+@endif
 
     @push('styles')
       <meta name="csrf-token" content="{{ csrf_token() }}">

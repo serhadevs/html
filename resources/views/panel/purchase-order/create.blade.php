@@ -107,7 +107,7 @@ text-align: center;
                               </div>
                               
                                  <div class="form-group row">
-                                <label for="cost-centre" class="col-sm-2 col-form-label">Recommended </label>
+                                <label for="cost-centre" class="col-sm-2 col-form-label">Recommended Supplier</label>
                                 <div class="col-sm-4">
                                   <input type="input" class="form-control"  value="{{$requisition->supplier->name}}"name='supplier' id="supplier" readonly>
                                 
@@ -192,10 +192,10 @@ text-align: center;
                                   </div>
         
                                  <div class="form-group row">
-                                  <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
+                                  <label for="date-of-last" class="col-sm-2 col-form-label">Supplier TRN</label>
                                   <div class="col-sm-4">
                                    
-                                   <input type="number" class="form-control" value="{{$requisition->trn}}" name='trn' readonly>
+                                   <input type="number" class="form-control" value="{{$requisition->supplier->trn}}" name='trn' readonly>
                                    
                                   </div>
                                
@@ -306,6 +306,16 @@ text-align: center;
                 </tr>
                   @endforeach
                 </tbody>
+                 <tbody>
+                    @foreach($requisition->internalrequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach
+                  </tbody>
               </table>
             {{-- </form> --}}
             </div>
@@ -324,7 +334,8 @@ text-align: center;
                         Date:<span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
                       </div>
                       <div class="col-sm-6">
-                        
+                        Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span><br>
                    
                         Approve Requisition by:  <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>

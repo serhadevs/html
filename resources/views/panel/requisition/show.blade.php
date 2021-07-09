@@ -57,18 +57,7 @@ text-align: center;
                           <div class="card-body">
                            <div class="col-m-10">
 
-                            <div class="form-group row">
-                                <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
-                                <div class="col-sm-4">
-                                <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
-                                  </div>
-        
-                                  {{-- <label for="inputEmail4" class="col-sm-2 col-form-label">Date Ordered</label>
-                                <div class="col-sm-4">
-                                <input type="input" class="form-control"  value="{{$internal_requisition->created_at->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
-                                </div> --}}
-                                
-                              </div>
+                           
                              <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Requester</label>
                         <div class="col-sm-4">
@@ -118,6 +107,24 @@ text-align: center;
                          
                         </div>
                         </div>
+                         <div class="form-group row">
+                              <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
+                              <div class="col-sm-4">
+                              <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
+                                </div>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
+                        <div class="col-sm-4">
+                           <select type="input" class="form-control" name="delivery" id="delivery" required disabled>
+                          <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
+                          <option value="COD">COD</option>
+                           <option value="Credit">Credit</option>
+                           
+                         </select>  
+                       
+                         
+                        </div>
+                              
+                            </div>
                       
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Recommended Supplier </label>
@@ -132,16 +139,10 @@ text-align: center;
                         @endforeach 
                         </select> --}}
                         </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">Term</label>
+                         <label for="date-of-last" class="col-sm-2 col-form-label">Supplier Address</label>
                         <div class="col-sm-4">
-                          {{-- <select type="input" class="form-control" name="delivery" id="delivery" required>
-                          <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
-                          <option value="COD">COD</option>
-                           <option value="Credit">Credit</option>
-                           
-                         </select>   --}}
-                         <input type="input" class="form-control" value="{{$requisition->delivery}}"  disabled>
-                       
+                         
+                        <input type="text" class="form-control" value="{{$requisition->supplier->address}}" id='address' name='address' readonly>
                          
                         </div>
                         </div>
@@ -401,6 +402,7 @@ text-align: center;
                   </tr>
                     @endforeach
                   </tbody>
+                  
                 </table>
               {{-- </form> --}}
               </div>

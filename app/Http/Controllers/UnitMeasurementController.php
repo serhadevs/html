@@ -54,7 +54,7 @@ class UnitMeasurementController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:unit_of_measurements,name',
             'abbr' => 'required',
             'description' => 'required'
         

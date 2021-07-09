@@ -34,6 +34,7 @@ text-align: center;
         </div>
       </div><!-- /.container-fluid -->
     </section>
+
     <!-- Main content -->
       <div class="container-fluid">
           
@@ -176,10 +177,10 @@ text-align: center;
                               </div>
     
                              <div class="form-group row">
-                              <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
+                              <label for="date-of-last" class="col-sm-2 col-form-label">Supplier TRN</label>
                               <div class="col-sm-4">
                                
-                               <input type="number" class="form-control" value="{{$purchaseOrder->requisition->trn}}" name='trn' readonly>
+                               <input type="number" class="form-control" value="{{$purchaseOrder->requisition->supplier->trn}}" name='trn' readonly>
                                
                               </div>
                             <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
@@ -366,10 +367,20 @@ text-align: center;
 <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
 </td> 
 <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
-<td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" >Remove</button></td>
+<td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td>
 </tr>
 @endforeach
 </tbody>
+ <tbody>
+                    @foreach($purchaseOrder->requisition->internalrequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach
+                  </tbody>
 </table>
 {{-- </form> --}}
 </div>
@@ -422,6 +433,8 @@ text-align: center;
 
       </div>
           </form>  
+        </div>
+          </div>
 
 @endsection
 

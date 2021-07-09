@@ -69,7 +69,8 @@ class SuppliersController extends Controller
             'address'=> 'required',
             'city'=> 'required',
             'parish_id'=> 'required',
-            'country'=> 'required'
+            'country'=> 'required',
+            'email' => 'required|email|unique:suppliers,email'
             
                 ]);
         $supplier = new Supplier();
@@ -128,12 +129,13 @@ class SuppliersController extends Controller
         $request->validate([
             'name' => 'required',
             'supplier_code' => 'required',
-            'trn' => 'required',
+            'trn' => 'required|integer|digits:9',
             'phone'=> 'required',
             'address'=> 'required',
             'city'=> 'required',
             'parish_id'=> 'required',
-            'country'=> 'required'
+            'country'=> 'required',
+            'email' => 'required|email'
             
                 ]);
         $supplier = Supplier::find($id);

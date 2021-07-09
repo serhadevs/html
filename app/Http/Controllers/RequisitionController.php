@@ -105,6 +105,7 @@ class RequisitionController extends Controller
     {
     
       //  $total = 0;
+    //  dd($request->all());
         $request->validate([
             // 'requisition_type' => 'required|numeric',
             'cost_centre' => 'required',
@@ -114,7 +115,7 @@ class RequisitionController extends Controller
             'category' => 'required',
             'description' => 'required',
             // 'tcc' => 'required|integer|digits_between:3,10',
-             'trn' => 'required|integer|digits:9',
+            //  'trn' => 'required|integer|digits:9',
             // 'tcc_expired_date' => 'required|date',
             // 'estimated_cost' => 'required|numeric',
             'contract_sum' => 'required|numeric',
@@ -140,7 +141,7 @@ class RequisitionController extends Controller
         $requisition->category_id = $request->category;
         $requisition->tcc = $request->tcc;
         $requisition->ppc = $request->ppc;
-        $requisition->trn = $request->trn;
+        // $requisition->trn = $request->trn;
         $requisition->tcc_expired_date = $request->tcc_expired_date;
         $requisition->ppc_expired_date = $request->ppc_expired_date;
         // $requisition->estimated_cost = $request->estimated_cost;
@@ -222,6 +223,7 @@ class RequisitionController extends Controller
     public function edit(Requisition $requisition)
     {
         $suppliers = Supplier::all();
+    //    $supply =Supplier::find($requisition->supplier_id);
         $units = UnitOfMeasurement::all();
         $categories = StockCategory::all();
         $types = RequisitionType::all();
@@ -319,7 +321,7 @@ class RequisitionController extends Controller
         try {
             $requisition = Requisition::find($id);
             if ($requisition->check){
-                if ($requisition->check->is_check===1) {
+                if ($requisition->check->is_checked===1) {
                     return 'fail';
                 }
             }

@@ -57,18 +57,7 @@ text-align: center;
                           <div class="card-body">
                            <div class="col-m-10">
 
-                            <div class="form-group row">
-                              <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
-                              <div class="col-sm-4">
-                              <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
-                                </div>
-      
-                                {{-- <label for="inputEmail4" class="col-sm-2 col-form-label">Date Ordered</label>
-                              <div class="col-sm-4">
-                              <input type="input" class="form-control"  value="{{$internal_requisition->created_at->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
-                              </div> --}}
-                              
-                            </div>
+                           
                              <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Requester</label>
                         <div class="col-sm-4">
@@ -118,6 +107,24 @@ text-align: center;
                          
                         </div>
                         </div>
+                          <div class="form-group row">
+                              <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
+                              <div class="col-sm-4">
+                              <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
+                                </div>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
+                        <div class="col-sm-4">
+                           <select type="input" class="form-control" name="delivery" id="delivery" required>
+                          <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
+                          <option value="COD">COD</option>
+                           <option value="Credit">Credit</option>
+                           
+                         </select>  
+                       
+                         
+                        </div>
+                              
+                            </div>
                       
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Recommended Supplier </label>
@@ -131,15 +138,10 @@ text-align: center;
                         @endforeach 
                         </select>
                         </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">Term</label>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Supplier Address</label>
                         <div class="col-sm-4">
-                          <select type="input" class="form-control" name="delivery" id="delivery" required>
-                          <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
-                          <option value="COD">COD</option>
-                           <option value="Credit">Credit</option>
-                           
-                         </select>  
-                       
+                         
+                        <input type="text" class="form-control" value="{{$requisition->supplier->address}}" id='address' name='address' readonly>
                          
                         </div>
                         </div>
@@ -251,10 +253,10 @@ text-align: center;
                               <input type="number" class="form-control" value="{{$requisition->cost_variance}}" id='cost_variance' name='cost_variance' readonly>
                               </div>
       
-                              <label for="date-of-last" class="col-sm-2 col-form-label">TRN</label>
+                              <label for="date-of-last" class="col-sm-2 col-form-label">Supplier Trn</label>
                               <div class="col-sm-4">
                                
-                               <input type="number" class="form-control" value="{{$requisition->trn}}" id='trn' name='trn'required>
+                               <input type="number" class="form-control" value="{{$requisition->supplier->trn}}" id='trn' name='trn'readonly>
                                
                               </div>
                               
@@ -686,7 +688,41 @@ if(contractSum >= 1500000){
   </script>
 
 
-  
+  <script>
+
+
+$(document).ready(function(){
+ $('#supplier').change(function() {
+   supplier = $(this).val();
+   $("#trn").empty();
+$.ajax({
+type:"GET",
+url:"/getSuppliers",
+dataType:'json', 
+success: function (data) {  
+              var len = 0;
+              if(data != null){
+              len= data.length;
+           
+              }
+              if(len>0){
+                for(var i =0; i< len;i++){
+                 if(data[i].id == supplier){
+                  var trn = data[i].trn;
+                  var address = data[i].address;
+                  $("#trn").val(trn);
+                  $("#address").val(address);
+                  
+                 }
+                }
+              }
+           }  
+
+});
+});
+});
+
+      </script>
 
 
   
