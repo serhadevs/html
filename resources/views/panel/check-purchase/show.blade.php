@@ -215,20 +215,40 @@ text-align: center;
                </div> 
                         <div class="form-group row">
                         <div class="col-sm-6">
-                          @if($requisition->check)
-                          @if($requisition->check->is_check===1)
-                          Accepted by: <span class='badge badge-success'> {{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}}</span>
-                          @else
-                          Accepted by: 
-                          @endif
-                          @endif
-                          <hr style="width:50%;text-align:left;margin-left:0"> </hr>
+                          
                         </div>
                         <div class="col-sm-6">
                                             
                         </div>
                       
                         </div>
+                          <div class="form-group row">
+                      <div class="col-sm-6">
+                        Approve IRF by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
+                        @if($requisition->check)
+                          @if($requisition->check->is_checked===1)
+                          Accepted by: <span class='badge badge-success'> {{$requisition->check->user->abbrName()}}</span></br>
+                          Date:<span class='badge badge-success'>{{$requisition->check->created_at}}</span>
+                          @else
+                          Accepted by: 
+                          @endif
+                           
+                          @endif
+                          <hr style="width:50%;text-align:left;margin-left:0"> </hr>
+                      </div>
+                      <div class="col-sm-6">
+                        Budget Approve by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->approve_budget->created_at}}</span><br>
+                        
+                        
+                              Budget Commitment by: <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->user->abbrName()}} </span></br>
+                              Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->created_at}}</span>
+                  
+                 
+                      </div>
+                    
+                      </div> 
                         
               </div>
               <!-- /.card-body -->

@@ -405,6 +405,24 @@ text-align: center;
 
                         {{-- column length end --}}
                         </div>
+                         <div class="form-group row">
+                      <div class="col-sm-6">
+                        Approve IRF by: <span class='badge badge-success'>{{$requisition->approve_internal_requisition->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->approve_internal_requisition->created_at}}</span></br>
+                      </div>
+                      <div class="col-sm-6">
+                        Budget Approve by: <span class='badge badge-success'>{{$requisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->approve_budget->created_at}}</span><br>
+                        
+                        
+                              Budget Commitment by: <span class='badge badge-success'>{{$requisition->budget_commitment->user->abbrName()}} </span></br>
+                              Date:  <span class='badge badge-success'>{{$requisition->budget_commitment->created_at}}</span>
+                  
+                 
+                      </div>
+                    
+                      </div> 
+            
                         </div>
                         </div>
 

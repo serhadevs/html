@@ -424,7 +424,12 @@ text-align: center;
 
 <div id="get_name"></div>
       <div class="row">
+                       
+                       
+                        
+                      
                         <div class="col-10">
+                        <a type="button" href="/requisition"   class="btn btn-success float-left">Back</a>
                      
                         <button type="submit"  class="btn btn-primary float-right">Update</button>
                         </div>

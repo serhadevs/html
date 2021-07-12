@@ -427,6 +427,28 @@ text-align: center;
                        @endforeach
                       </div>
                       </div> --}} 
+
+                      <div class="form-group row">
+                      <div class="col-sm-6">
+                        Approve IRF by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
+                      
+                        Accepted by: <span class='badge badge-success'>{{$requisition->check->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
+                      </div>
+                      <div class="col-sm-6">
+                        Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span><br>
+                        
+                        @if($requisition->approve)
+                        Approve Requisition by:  <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br> 
+                        @endif
+                  
+                 
+                      </div>
+                    
+                      </div> 
                    
                       </div> 
 

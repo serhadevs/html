@@ -451,8 +451,14 @@ text-align: center;
                         </div>
                         <div class="row">
                         <div class="col-10">
+                           
                        
-                        <button type="Submit"   class="btn btn-success float-right">Submit</button>
+                        <a type="button" href="/requisition"   class="btn btn-success float-left">Back</a>
+                        <button type="Submit"   class="btn btn-primary float-right">Submit</button>
+                        </div>
+                      
+                       
+                        
                         </div>
                         </div>
                         </div>
