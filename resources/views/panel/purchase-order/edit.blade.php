@@ -345,7 +345,7 @@ text-align: center;
      --}}
                       
     </div>
-
+<div class="row">
     <div class="col-sm-6">
       <label for="exampleInputFile">Support Documents</label>
  <div class="card-body p-0">
@@ -381,10 +381,22 @@ text-align: center;
                   </tr>
                     @endforeach
                   </tbody>
+
+<tbody>
+                    @foreach($purchaseOrder->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach
+                  </tbody>
 </table>
 {{-- </form> --}}
 </div>
 </div> 
+</div>
 </br>
 <p>
  

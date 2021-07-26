@@ -44,7 +44,10 @@ public function approvePurchaseOrder()
         
     }
 
+     public function attached(){
+        return $this->hasMany('App\AttachedPurchaseOrder');
 
+    }
    
     
   

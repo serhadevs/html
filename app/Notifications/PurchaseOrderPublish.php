@@ -11,6 +11,7 @@ use App\PurchaseOrder;
 class PurchaseOrderPublish extends Notification
 {
     use Queueable;
+    //protected $filename;
 
     /**
      * Create a new notification instance.
@@ -20,6 +21,8 @@ class PurchaseOrderPublish extends Notification
     public function __construct(PurchaseOrder $purchase_order)
     {
         $this->purchase_order = $purchase_order;
+  
+      
     }
 
     /**
@@ -44,9 +47,12 @@ class PurchaseOrderPublish extends Notification
         return (new MailMessage)
         ->subject('Purchase Order')
         ->greeting('Good day , ' .$notifiable->firstname )
-        ->line('A new purchase order form is ready,the purchase order number is '.$this->purchase_order->purchase_order_no.'.')
-        ->action('Add payment voucher', url('/payment-voucher'))
+        ->line('Your purchase order was created,the requisition number is '.$this->purchase_order->requisition->requisition_no.'.')
+        // ->action('Add payment voucher', url('/payment-voucher'))
         ->line('Thank you for using this application!');
+        // ->attach('storage/documents/'.$this->filename);
+
+        
     }
 
     /**

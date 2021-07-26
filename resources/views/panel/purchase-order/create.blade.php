@@ -16,6 +16,9 @@ table.dataTable tbody td {
 .title{
 text-align: center;
 }
+.hide{
+  display:none;
+}
 </style>
 <div class="content-wrapper">
   <div class="container-fluid">
@@ -54,7 +57,7 @@ text-align: center;
             @endif  
               <div class="card-body">
 
-                <form class="form-horizontal" id='purchase_order_form' method="Post" autocomplete="off" action="/purchase-order" >
+                <form class="form-horizontal" id='purchase_order_form' method="Post" autocomplete="off" action="/purchase-order" enctype="multipart/form-data">
                   @csrf
 
                   <div class="card" style="width:82.9%">
@@ -280,9 +283,50 @@ text-align: center;
 
                           </div>
 
-                
+                        <div class="row">
+
+                          <div class="col-sm-6">
+                       <div class="form-group row img_div ">
+                     
+                       <label for="exampleInputFile">Support Documents</label>
+                       <div class="input-group">
+                       <div class="custom-file">
+                      <input type="file" name="file_upload[]" class="form-control" id="file_upload" accept="docs/*">
+                      </div>
+                      <div class="input-group-append">
+                      <button class="btn btn-default btn-add-more" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
+                      </div>
+                      </div>
+                      
+                      </div>
+
+                   <div class ='hide'>
+                      <div class="form-group row">
+                      {{-- <div class="col-sm-6"> --}}
+  
+                      <div class="input-group">
+                      <div class="custom-file">
+                      <input type="file" name="file_upload[]" class="form-control" id="file_upload">
+
+                      </div>
+                      <div class="input-group-append">
+                      <button class="btn btn-default btn-remove" type="button"><i class="glyphicon glyphicon-plus"></i>Remove</button>
+                      </div>
+                      </div>
+                      {{-- </div> --}}
+                      </div>
+                     </div> 
+
+
+
+                      </div> 
+
+
+
+
+
                         <div class="col-sm-6">
-                          <label for="exampleInputFile">Support Documents</label>
+                          <label for="exampleInputFile">Attached Documents</label>
                      <div class="card-body p-0">
                 {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
                 @csrf
@@ -320,6 +364,7 @@ text-align: center;
             {{-- </form> --}}
             </div>
              </div> 
+            </div>
 
                 
             </br>
@@ -450,7 +495,22 @@ $("#purchase_order_form").submit(function (e) {
 });
 });
 
+$(document).ready(function(){
 
+  $('.btn-add-more').click(function(){
+  
+    var html = $('.hide').html();
+    $('.img_div').after(html);
+  });
+
+
+   $("body").on("click",".btn-remove",function(){ 
+    $('.form-group').attr('disable',true);
+          $(this).parents(".form-group").remove();
+      });
+
+
+});
 </script>
 
 @endpush

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Notifications\PurchaseOrderPublish;
 use App\Status;
+use App\AttachedPurchaseOrder;
+
 
 class PurchaseOrderController extends Controller
 {
@@ -97,7 +99,7 @@ class PurchaseOrderController extends Controller
             ]);
              //'pp_no' => 'required| max:30 |unique:infant_records,pp_no'
             $requisition_id = $request->id;
-          //dd( $request->all());
+        //  dd( $request->all());
             if ($request->all()) {
                 $purchaseorder = new PurchaseOrder();
                 $purchaseorder->purchase_order_no = $request->purchase_order_no;
@@ -106,19 +108,43 @@ class PurchaseOrderController extends Controller
                 $purchaseorder->requisition_no = $request->requisition_no;
                 $purchaseorder->user_id = auth()->user()->id;
 
-               $purchaseorder->save();
-
-               //update internal requisition status
-               $status = Status::where('internal_requisition_id',$purchaseorder->requisition->internal_requisition_id)->first();
-                $status->name = 'Purchase Order';
-                $status->update();
                
-                $users = User::where('institution_id',auth()->user()->institution_id )
-                ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',[1,9,12])
-                ->get();
-                //dd($internal_requisition);
-                $users->each->notify(new PurchaseOrderPublish($purchaseorder));
+               if ($purchaseorder->save()) {
+
+  
+    
+
+    if ($request->file('file_upload')) {
+        $files = $request->file('file_upload');
+        foreach ($files as $key => $file) {
+            $newfile = new AttachedPurchaseOrder();
+            if ($request->file('file_upload')) {
+                $paths[] = $file->storeAs(
+                    'public/documents', $file->getClientOriginalName()
+
+                );
+
+            }
+            $newfile->filename = $file->getClientOriginalName();
+            $newfile->purchase_order_id = $purchaseorder->id;
+            $newfile->save();
+
+       }
+
+    }
+    //update internal requisition status
+$status = Status::where('internal_requisition_id', $purchaseorder->requisition->internal_requisition_id)->first();
+$status->name = 'Purchase Order';
+$status->update();
+
+$users = User::find($purchaseorder->requisition->internalrequisition->user_id);
+$users->notify(new PurchaseOrderPublish($purchaseorder));
+
+
+}
+
+
+               
               
             
 
@@ -152,7 +178,9 @@ class PurchaseOrderController extends Controller
     public function edit(PurchaseOrder $purchaseOrder)
     {
 
-     //dd($purchaseOrder->paymentVoucher->voucherCheck);
+       
+
+
     //    $requisition = Requisition::find($purchaseOrder->requisition_id);
         //  dd($purchaseOrder->paymentVoucher->voucherCheck);
         // if ($purchaseOrder->paymentVoucher->voucherCheck->is_check==1) {
