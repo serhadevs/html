@@ -14,7 +14,7 @@ class Stock extends Model
 
 
     public function unit_of_measurement(){
-        return $this->belongsTo('App\UnitOfMeasurement')->withTrashed();
+        return $this->belongsTo('App\UnitOfMeasurement');
     }
 
     public function stock_category(){

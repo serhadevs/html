@@ -57,7 +57,7 @@ text-align: center;
 
                           <p><br>Institution: {{$internalRequisition->institution->name}}</br>
                           Departmentent: {{$internalRequisition->department->name}} </br>
-                          Budget officer approved: {{$internalRequisition->budget_approve}}    </br>
+                          Budget activity: {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
                           Estimated Cost: {{$internalRequisition->estimated_cost}}</br>
                           Requisition no: {{$internalRequisition->requisition_no}}</br
@@ -371,7 +371,7 @@ function Approve(internal_requisition_id){
             if (data == "success") {
               swal(
                 "Done!",
-                "Internal Requisition was approve and will shortly be forwarded to budget commitment.",
+                "Internal Requisition was approved and will shortly be forwarded for budget commitment.",
                 "success").then(esc => {
                   if(esc){
                     location.reload();
