@@ -15,6 +15,6 @@ class Unit extends Model implements Auditable
 
 
     public function department(){
-        return $this->belongsTo('App\Department');
+        return $this->belongsTo('App\Department')->withTrashed();
     } 
 }
