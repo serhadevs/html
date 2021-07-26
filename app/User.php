@@ -50,15 +50,15 @@ class User extends Authenticatable implements Auditable
     }
     public function institution()
     {
-        return $this->belongsTo('App\Institution');
+        return $this->belongsTo('App\Institution')->withTrashed();
     }
     public function department()
     {
-        return $this->belongsTo('App\Department');
+        return $this->belongsTo('App\Department')->withTrashed();
     }
      public function unit()
     {
-        return $this->belongsTo('App\Unit');
+        return $this->belongsTo('App\Unit')->withTrashed();
     }
 
     public function abbrName()
