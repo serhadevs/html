@@ -47,7 +47,7 @@ class PurchaseOrderPublish extends Notification
         return (new MailMessage)
         ->subject('Purchase Order')
         ->greeting('Good day , ' .$notifiable->firstname )
-        ->line('Your purchase order was created,the requisition number is '.$this->purchase_order->requisition->requisition_no.'.')
+        ->line('A purchase order was created,the requisition number is '.$this->purchase_order->requisition->requisition_no.'.')
         // ->action('Add payment voucher', url('/payment-voucher'))
         ->line('Thank you for using this application!');
         // ->attach('storage/documents/'.$this->filename);
