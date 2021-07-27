@@ -118,46 +118,256 @@
           @endif
 
           {{-- alerts --}}
-          {{-- <div class="col-lg-5 col-5">
+           {{-- end alerts --}}
+          @if(auth()->user()->assignTo->isEmpty()===false)
+          <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                  Alerts
-                  <table class="table m-0" id ="table-alert">
+                  Task List
+                  <table class="table m-0" id='table-alert'>
                     <thead>
                     <tr>
                       <th>Date</th>
                       <th>Requisition No.</th>
-                      <th>Status</th>
+                      <th>View</th>
                   
                     </tr>
                     </thead>
                     <tbody>
-                    
+             
                     
    
-                      @foreach($alerts as $alert)
+                      @foreach($assign_internal_requisitions as $internalRequisition)
                       <tr>
-                      <td><a href="#">{{Carbon\Carbon::parse($alert->created_at)->format('Y-M-d')}}</a></td>
-                      <td><a href="#">{{$alert->data}}</a></td>
-                      <td><a href="#">{{substr($alert->type,18,26)}}</a></td>
+                      <td><a href="#">{{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</a></td>
+                      <td><a href="#">{{$internalRequisition->requisition_no}}</a></td>
+                      <td><button  class="btn btn-block btn-success btn-m" data-toggle="modal" data-target="#modal-lg" >view</button></td>
                       </tr>
+                  
                       @endforeach
                       
                   
             
                     </tbody>
                   </table>
+
+
+                       {{-- modal view --}}
+    <div class="modal fade" id="modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Internal Requisition</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+         <div class="col-12">
+            <div class="card">
+
+                  
+     
+              <!-- /.card-header -->
+               <div class="card-body">
+                 <a href="/print_pdf/{{$internalRequisition->id}}" class="btn btn-danger float-right">Print PDF</a>
+               <div class="title">
+                        <p><h4>South East Regional Health Authority</h4>
+                        The Towers, 25 Dominica Drive, Kingston 5</p><br>
+              </div>
+
+                          Requester:  <b>{{$internalRequisition->user->abbrName()}}</b>
+
+                          <p><br>Institution: {{$internalRequisition->institution->name}}</br>
+                          Departmentent: {{$internalRequisition->department->name}} </br>
+                          Budget activity: {{$internalRequisition->budget_approve}}    </br>
+                          Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
+                          Estimated Cost: {{$internalRequisition->estimated_cost}}</br>
+                        </p>
+
+                        <p>
+                        <div class="form-group row">
+                        <div class="col-sm-6">
+                        Phone: {{$internalRequisition->phone}}</br>
+                        Email: {{$internalRequisition->email}}</br>
+                        Procurement Type: {{$internalRequisition->requisition_type->name}}</br>
+                        Priority:{{$internalRequisition->priority}}</br>
+                        Requisition no: {{$internalRequisition->requisition_no}}</br>
+                        Commitment : {{$internalRequisition->budget_commitment->commitment_no}}</br>
+                        Accounting : {{$internalRequisition->budget_commitment->account_code}}
+                        </div>
+                        </div>
+                           
+           
+        
+            <table id="view-modal" class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+              <tr>
+                <th class="text-center">Item No.</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Measurement</th>
+                <th class="text-center">Unit Cost</th>
+                <th class="text-center">Part Number</th>
+
+
+              
+                
+              </tr>
+            </thead>
+            <tbody>
+               @foreach($internalRequisition->stocks as $stock)
+              <tr>
+              
+                <td>{{$stock->item_number}}</td>
+                <td>{{$stock->description}}</td>
+                <td>{{$stock->quantity}}</td>
+                <td>{{$stock->unit_of_measurement_id}}</td>
+                <td>{{$stock->unit_cost}}</td>
+                <td>{{$stock->part_number}}</td>
+            
+       
+              
+              </tr>
+               
+           @endforeach
+         
+            </tbody>
+          </table>
+
+           <div class="row">
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>General Description</label>
+              <textarea  readonly class="form-control" name="comments" rows="3">{{$internalRequisition->description}}</textarea>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                            <label for="exampleInputFile">Attached Files</label>
+                       <div class="card-body p-0">
+                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+                  @csrf
+                  @method('delete')  --}}
+                <table class="table table-sm" id="filetable">
+                  <thead>
+                    <tr>
+                      <th>Filename</th>
+                      <th>Option</th>
+                      <th><th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($internalRequisition->attached as $file)
+                    <tr> 
+                    <td>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    </td> 
+                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                  </tr>
+                    @endforeach 
+                  </tbody>
+                </table>
+              {{-- </form> --}}
+              </div>
+               </div> 
+            
+          </div>        
+
+           <div class="row">
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>Comments/Justification</label>
+              <textarea  readonly class="form-control" name="comments" rows="3" >{{$internalRequisition->comments}}</textarea>
+              </div>
+            </div>
+
+
+            @if($internalRequisition->comment->isNotEmpty())
+                        <div class="col-sm-6">
+                          <!-- textarea -->
+                          <div class="form-group">
+                    <label>Refusal Comments</label>
+                    <textarea  class="form-control" rows="3" disabled>
+@foreach($internalRequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}}
+@endforeach
+                    </textarea>
+                          </div>
+                        </div>
+                        @endif
+            
+          </div>        
+
+
+          <div class="form-group row">
+                         
+                          <div class="col-sm-6">
+                            @if($internalRequisition->approve_internal_requisition)
+                            Approved by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->abbrName()}} </span></br>
+                            Date:  <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->created_at}}</span></br>
+                            @else
+                              Approve  by: <span class='badge badge-success'></span>
+                              @endif
+
+                              Budget Commitment by: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->abbrName()}} </span></br>
+                              Date:  <span class='badge badge-success'>{{$internalRequisition->budget_commitment->created_at}}</span>
+
+                          </div>
+  
+                          
+                          <div class="col-sm-6">
+                        @if($internalRequisition->approve_budget)
+                        Budget Approve by: <span class='badge badge-success'>{{$internalRequisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$internalRequisition->approve_budget->created_at}}</span>
+                        @else
+                        Budget Approve by: <span class='badge badge-success'></span>
+                          @endif
+                          </div>
+                        </div>
+                        
+
+
+
+
+
+
+
+                </div> 
+      
+      </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+    </div>
+     
+    </div> 
+     
+    
+
+
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    {{-- end modal --}}
                 </div>
                 <!-- /.table-responsive -->
               </div>
-          </div>  --}}
+          </div>  
+          @endif
           {{-- end alerts --}}
           @if(auth()->user()->unreadNotifications)
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                  Task List
-                  <table class="table m-0" id="table">
+                  Notification List
+                  <table class="table m-0" id="notification-table">
                     <thead>
                     <tr>
                       {{-- <th>Track</th> --}}
@@ -197,6 +407,7 @@
           @endif
      
     </div>
+
 
 </div>
 </div>
@@ -264,7 +475,17 @@
 
 
 $(document).ready( function () {
-    $('#table').DataTable({
+    $('#notification-table').DataTable({
+         "scrollX": true,
+       "searching": false,
+       "pageLength": 3
+    });
+    
+} );
+
+
+$(document).ready( function () {
+    $('#table-alert').DataTable({
          "scrollX": true,
        "searching": false,
        "pageLength": 3
@@ -273,10 +494,18 @@ $(document).ready( function () {
 } );
 
 $(document).ready( function () {
-    $('#table-alert').DataTable({
-         "scrollX": true,
-       "searching": false,
-       "pageLength": 3
+    $('#view-modal').DataTable({
+         "scrollX": false,
+         deferRender:true,
+        select: true,
+         "bFilter": false,
+         "bPaginate": true,
+         "bInfo": true,
+          dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+      
     });
     
 } );

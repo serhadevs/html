@@ -179,7 +179,7 @@ class ApproveBudgetController extends Controller
          //
               $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
               $pdf = PDF::loadView('/panel/approve/budget.pdf_view', $data,compact('internalRequisition')); 
-              return $pdf->download('budgetapprove.pdf');
+              return $pdf->download('internalrequsisition'.$internalRequisition->requisition_no.'.pdf');
     }
     
 

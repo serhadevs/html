@@ -15,6 +15,9 @@ use App\Unit;
 use App\UnitOfMeasurement;
 use App\User;
 use App\AttachedFile;
+use App\Notifications\InternalRequisitionApprovePublish;
+
+
 
 use Illuminate\Http\Request;
 
@@ -154,13 +157,40 @@ class InternalRequisitionController extends Controller
 
         $unit_count = Unit::where('department_id', auth()->user()->department_id)->count();
 
-        if ($unit_count == 1) {
+        if ($unit_count == 1 OR (!in_array(auth()->user()->role_id, [1,12,13]))) {
 
             $certify = new CertifiedInternalRequisition();
             $certify->internal_requisition_id = $internal_requisition->id;
             $certify->user_id = auth()->user()->id;
             $certify->is_granted = 1;
             $certify->save();
+            //set status
+
+
+         //if manager create ipr
+         if(auth()->user()->role_id=== 2){
+                $approve =  new \App\ApproveInternalRequisition();
+                $permission = 1;
+                $approve->internal_requisition_id = $internal_requisition->id;
+                $approve->user_id = auth()->user()->id;
+                $approve->is_granted = $permission;
+                if($approve->save()){
+                                $status =   Status::where('internal_requisition_id', $internal_requisition->id)->first();
+                                $status->name = 'Approved Internal Requisition';
+                                $status->update();
+
+                               // $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+                                $user = User::find(auth()->user()->id);
+                                $user->notify(new InternalRequisitionApprovePublish($internal_requisition));
+
+
+                }
+                //emailbudget commitment
+
+                //set status
+
+
+         }   
 
             $users = User::where('institution_id', auth()->user()->institution_id)
                 ->where('department_id', auth()->user()->department_id)
@@ -178,7 +208,7 @@ class InternalRequisitionController extends Controller
 
         }
 
-        return redirect('/internal_requisition')->with('status', 'Internal Requisition was created successfully');
+        return redirect('/internal_requisition')->with('status', 'Internal Requisition was created successfully, The requisition number is '.$internal_requisition->requisition_no);
 
     }
 

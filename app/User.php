@@ -87,6 +87,11 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany('App\Requisition');
     }
 
+      public function assignTO()
+    {
+        return $this->hasMany('App\AssignRequisition');
+    }
+
 
     // public function notification()
     // {

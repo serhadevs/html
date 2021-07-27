@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Requisition;
+use App\InternalRequisition;
 use App\PurchaseOrder;
 use App\User;
 use App\ Department;
@@ -104,6 +105,20 @@ class DashboardController extends Controller
     ->get();
     //dd($spend_by_institution);
 
+
+    //assignto
+    $assign_internal_requisitions = InternalRequisition::with(['assignto', 'approve_internal_requisition', 'budget_commitment', 'approve_budget','requisition'])
+    ->whereHas('approve_internal_requisition', function ($query) {
+        $query->where('is_granted', '=', 1);
+    })
+    ->whereHas('assignto', function ($query) {
+        $query->where('user_id', '=', auth()->user()->id);
+    })
+    ->has('approve_budget')
+  ->doesnthave('requisition')
+    ->get();
+    // dd(auth()->user()->assignTo->isEmpty());
+
     $chart3 = new DataChart;
     $chart3->labels($spend_by_institution->pluck('institution'));
     $chart3->dataset(' Spend by Institution', 'bar',$spend_by_institution->pluck('sums'))
@@ -113,7 +128,7 @@ class DashboardController extends Controller
       $internalrequisition =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->get();
       $internalRequisitionApprove =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionApprovePublish')->get();
            
-        return view('panel.dashboard.index',['internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
+        return view('panel.dashboard.index',['assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
     }
 
     public function markAsRead($id)

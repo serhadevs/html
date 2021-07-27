@@ -15,9 +15,11 @@ class AssignRequisition extends Model implements Auditable
     protected $guarded = ['*'];
 
 
-    public function internalRequisition()
+    public function internalrequisition()
     {
-        return $this->hasOne('App\InternalRequisition');
+        //return $this->hasOne('App\InternalRequisition');
+        return $this->hasMany('App\InternalRequisition', 'id', 'internal_requisition_id');
+
     }
 
 

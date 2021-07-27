@@ -26,7 +26,7 @@
                   </tr>
                  
                   <tr>
-                    <td>Budget officer approved: {{$internalRequisition->budget_approve}}</td>
+                    <td>Budget activity: {{$internalRequisition->budget_approve}}</td>
                     <td>Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</td>
                   </tr>
                   
