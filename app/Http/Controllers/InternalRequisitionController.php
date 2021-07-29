@@ -16,6 +16,8 @@ use App\UnitOfMeasurement;
 use App\User;
 use App\AttachedFile;
 use App\Notifications\InternalRequisitionApprovePublish;
+use App\Notifications\CertifiedInternalRequisitionPublish;
+
 
 
 
@@ -157,56 +159,69 @@ class InternalRequisitionController extends Controller
 
         $unit_count = Unit::where('department_id', auth()->user()->department_id)->count();
 
-        if ($unit_count == 1 OR (!in_array(auth()->user()->role_id, [1,12,13]))) {
+        if ($unit_count == 1 and auth()->user()->role_id !=2 OR (in_array(auth()->user()->role_id, [13]))) {
 
             $certify = new CertifiedInternalRequisition();
             $certify->internal_requisition_id = $internal_requisition->id;
             $certify->user_id = auth()->user()->id;
             $certify->is_granted = 1;
-            $certify->save();
+            if($certify->save()){
+                $status = Status::where('internal_requisition_id', $internal_requisition->id)->first();
+                $status->name = 'Cartified Internal Requisition';
+                $status->update();
+
+
+                $users = User::where('institution_id', auth()->user()->institution_id)
+                ->where('department_id', auth()->user()->department_id)
+                ->whereIn('role_id', [2])
+                ->get();
+                $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+
+
+            }
             //set status
 
 
+            //email supervisor
+            // $user=User::find(auth()->user()->id);
+            // $user->notify(new InternalRequisitionPublish($internal_requisition));
+
+
+        }else if(auth()->user()->role_id===4)
+        {
+            $users = User::where('institution_id', auth()->user()->institution_id)
+            ->where('department_id', auth()->user()->department_id)
+            ->whereIn('role_id', [13])
+            ->get();
+             $users->each->notify(new CertifiedInternalRequisitionPublish($internal_requisition));
+
+        }
+
          //if manager create ipr
-         if(auth()->user()->role_id=== 2){
-                $approve =  new \App\ApproveInternalRequisition();
+       else  if(auth()->user()->role_id === 2){
+                $approve =  new ApproveInternalRequisition();
                 $permission = 1;
                 $approve->internal_requisition_id = $internal_requisition->id;
                 $approve->user_id = auth()->user()->id;
                 $approve->is_granted = $permission;
                 if($approve->save()){
-                                $status =   Status::where('internal_requisition_id', $internal_requisition->id)->first();
+                                $status = Status::where('internal_requisition_id', $internal_requisition->id)->first();
                                 $status->name = 'Approved Internal Requisition';
                                 $status->update();
+                                $users = User::where('institution_id', auth()->user()->institution_id)
+                                ->whereIn('role_id', [7])
+                                ->get();
+                                $users->each->notify(new InternalRequisitionApprovePublish($internal_requisition));
 
-                               // $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
-                                $user = User::find(auth()->user()->id);
-                                $user->notify(new InternalRequisitionApprovePublish($internal_requisition));
 
 
                 }
-                //emailbudget commitment
+               
+            }
+            
+            
 
-                //set status
-
-
-         }   
-
-            $users = User::where('institution_id', auth()->user()->institution_id)
-                ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id', [1, 2])
-                ->get();
-            $users->each->notify(new InternalRequisitionPublish($internal_requisition));
-
-        } else {
-
-            $users = User::where('institution_id', auth()->user()->institution_id)
-                ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id', [13])
-                ->get();
-            $users->each->notify(new InternalRequisitionPublish($internal_requisition));
-
-        }
+        
 
         return redirect('/internal_requisition')->with('status', 'Internal Requisition was created successfully, The requisition number is '.$internal_requisition->requisition_no);
 

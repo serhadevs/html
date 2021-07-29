@@ -109,7 +109,6 @@ class ApproveInternalRequisitionController extends Controller
                     $status->update();
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
-                ->where('department_id', auth()->user()->department_id)
                 ->whereIn('role_id',[1,7])
                 ->get();
                 

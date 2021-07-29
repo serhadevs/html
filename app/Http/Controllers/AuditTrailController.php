@@ -108,7 +108,7 @@ $auditble_types = Collect([
 $users = User::all();
 //  dd($auditble_types[1]['id']);
 
-return view('/panel.audit_trail.index', compact('users', 'auditble_types'));
+return view('/panel.audit.audit_trail.index', compact('users', 'auditble_types'));
 
     }
 
@@ -161,7 +161,7 @@ return view('/panel.audit_trail.index', compact('users', 'auditble_types'));
       
      // dd($auditables[0]->new_values['user_id']);
 
-        return view('/panel.audit_trail.create', compact('auditables'));
+        return view('/panel.audit.audit_trail.create', compact('auditables'));
 
    
     }

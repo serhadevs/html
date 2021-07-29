@@ -181,7 +181,7 @@ Route::get('/undo-internal-requisition','CertifiedInternalRequisitionController@
 
 //Audit Trail
 Route::resource('audit-trail','AuditTrailController');
-//Route::post('audit-trail', 'AuditTrailController@store');
+Route::resource('/trail-ipr', 'TrailInternalRequisitionController');
 
 
 

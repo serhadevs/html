@@ -182,19 +182,36 @@
             </ul>
           </li> 
           @endif
-
-
           @if(in_array(auth()->user()->role_id,[1,3,6,12]))
+           <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-trailer"></i>
+              <p>
+                Audit
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+               
           <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
             <a href="/audit-trail" accesskey="2"  class="nav-link">
-              <i class="nav-icon fas fa-trailer"></i>
+              <i class="far fa-circle nav-icon"></i>
               <p>
                 Audit Trail
                 
               </p>
             </a>
           </li>
-          @endif
+         
+              <li class="nav-item">
+                <a href="/trail-ipr" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Trail IPR</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+           @endif
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
