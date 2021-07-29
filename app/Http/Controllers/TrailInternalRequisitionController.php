@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\InternalRequisition;
+
 
 
 class TrailInternalRequisitionController extends Controller
@@ -41,22 +43,33 @@ class TrailInternalRequisitionController extends Controller
     {
         //
        
-$start_date = Carbon::parse($request->start_date)->format('Y/m/d');
-$end_date = Carbon::parse($request->end_date)->format('Y/m/d');
-$event ='created';
-$internal = \OwenIt\Auditing\Models\Audit::select('audits.*')
-->when($event, function ($query) use ($event) {
-        return $query->where('event', '=','created');
-        if (!$start_date && $end_date) {
-            $event->where('created_at', '>', $end_date)->get();
-        } else if ($start_date && !$enddate) {
-            $event->where('created_at', '<', $start_date)->get();
+// $start_date = Carbon::parse($request->start_date)->format('Y/m/d');
+// $end_date = Carbon::parse($request->end_date)->format('Y/m/d');
+// $event ='created';
+// $internal = \OwenIt\Auditing\Models\Audit::select('audits.*')
+// ->when($event, function ($query) use ($event) {
+//         return $query->where('event', '=','created');
+//         if (!$start_date && $end_date) {
+//             $event->where('created_at', '>', $end_date)->get();
+//         } else if ($start_date && !$enddate) {
+//             $event->where('created_at', '<', $start_date)->get();
 
-        }
+//         }
 
-    })->get();
+//     })->get();
 
-   return view('/panel.audit.audit_trail.show', compact('internal'));
+// $internalrequisitions = InternalRequisition::with(['approve_internal_requisition', 'budget_commitment'])
+//     ->whereHas('approve_internal_requisition', function ($query) {
+//         $query->where('is_granted', '=', 1);
+//     })
+
+//     ->doesnthave('budget_commitment')
+//     ->get();
+
+    $internal_requisitions = InternalRequisition::with(['user'])->get();
+
+
+   return view('/panel.audit.trail_ipr.show', compact('internal_requisitions'));
 
     }
 

@@ -86,8 +86,8 @@
                 <td>{{$auditable->created_at}}</td>
                 {{-- <td> 
                 <button  href="#" class="btn btn-block btn-primary btn-m" >View</button> 
-                </td>
-                </tr> --}}
+                </td>--}}
+                </tr>
 
                 @endforeach
                  

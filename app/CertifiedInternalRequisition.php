@@ -14,7 +14,10 @@ class CertifiedInternalRequisition extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     
     protected $fillable = ['internal_requisition_id','is_granted','user_id'];
+    
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
+
+    
 }
