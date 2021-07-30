@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Trail</h1>
+            <h1>Internal Requisition Trail</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -52,28 +52,64 @@
                 @foreach($internal_requisitions as $internal)
                 </tr>
                   <td>{{$internal->requisition_no}}</td>
-                  <td><span class='badge badge-primary'>{{$internal->user->abbrName()}}</span><br> {{Carbon\Carbon::parse($internal->created_at)->format('F d, Y')}}</td>
+                  <td><span class='badge badge-primary'>{{$internal->user->abbrName()}} {{Carbon\Carbon::parse($internal->created_at)->format('F d, Y')}}</span><br> </td>
         
-                  <td><span class='badge badge-primary'>{{$internal->certified_internal_requisition ? $internal->certified_internal_requisition->user->abbrName(). " ".Carbon\Carbon::parse($internal->certified_internal_requisition->created_at)->format('F d, Y') : ''}} </span> </td>
-            
-                  {{-- {{\App\User::where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['id']}} --}}
                  
-                 
-                 <td><span class='badge badge-primary'>{{$internal->approve_internal_requisition ? $internal->approve_internal_requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->approve_internal_requisition->created_at)->format('F d, Y'): ''}}</span></td>
-
+                  @if($internal->certified_internal_requisition)
+                 <td><span class='badge badge-primary'>{{ $internal->certified_internal_requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->certified_internal_requisition->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',13)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif
+                 @if($internal->approve_internal_requisition)
+                 <td><span class='badge badge-primary'>{{ $internal->approve_internal_requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->approve_internal_requisition->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',2)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif
                 
-                 <td><span class='badge badge-primary'>{{ $internal->budget_commitment ? $internal->budget_commitment->user->abbrName()." ".Carbon\Carbon::parse($internal->budget_commitment->created_at)->format('F d, Y') : " "}} </span> </td>
                  
-              
-                 <td> <span class='badge badge-primary'>{{$internal->approve_budget ? $internal->approve_budget->user->abbrName()." " .Carbon\Carbon::parse($internal->budget_commitment->created_at)->format('F d, Y'):''}}<span> </td>
-                  <td> <span class='badge badge-primary'>{{$internal->assignto ? $internal->assignto->user->abbrName(). " " .Carbon\Carbon::parse($internal->assignto->created_at)->format('F d, Y'):''}}</span> </td>
-                   <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->user->abbrName(). " " .Carbon\Carbon::parse($internal->requisition->created_at)->format('F d, Y'):''}}</span> </td>
-                   <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->check->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->check->created_at)->format('F d, Y'):''}}</span> </td>
-                    <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->approve->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->approve->created_at)->format('F d, Y'):''}}</span> </td>
+                 @if($internal->budget_commitment)
+                 <td><span class='badge badge-primary'>{{ $internal->budget_commitment->user->abbrName() . " ".Carbon\Carbon::parse($internal->budget_commitment->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',7)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif
+            
+                @if($internal->approve_budget)
+                 <td><span class='badge badge-primary'>{{ $internal->approve_budget->user->abbrName() . " ".Carbon\Carbon::parse($internal->approve_budget->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',8)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif 
+
+                {{-- <td> <span class='badge badge-primary'>{{$internal->assignto ? $internal->assignto->user->abbrName(). " " .Carbon\Carbon::parse($internal->assignto->created_at)->format('F d, Y'):''}}</span> </td> --}}
+                @if($internal->assignto)
+                 <td><span class='badge badge-primary'>{{ $internal->assignto->user->abbrName() . " ".Carbon\Carbon::parse($internal->assignto->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',5)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif  
+                
+                
+                  @if($internal->requisition)
+                 <td><span class='badge badge-primary'>{{ $internal->requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',5)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif  
+                   {{-- <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->check->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->check->created_at)->format('F d, Y'):''}}</span> </td> --}}
+                    @if($internal->requisition)
+                 <td><span class='badge badge-primary'>{{ $internal->requisition->check->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->check->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',9
+                  )->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif
+                    {{-- <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->approve->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->approve->created_at)->format('F d, Y'):''}}</span> </td> --}}
+                     @if($internal->requisition)
+                 <td><span class='badge badge-primary'>{{ $internal->requisition->approve->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->approve->created_at)->format('F d, Y')}}
+                  @else
+                  <td><span class='badge badge-danger'>{{ \App\User::where('role_id',12)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
+                 @endif
+                   
                     <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->purchaseOrder->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->purchaseOrder->created_at)->format('F d, Y'):''}}</span> </td>
                   </tr>
                
-                          
+                  
                 @endforeach
                   </tbody>
                  
