@@ -106,7 +106,7 @@
                   <td><span class='badge badge-danger'>{{ \App\User::where('role_id',12)->where('institution_id',$internal->institution_id)->where('department_id',$internal->department_id)->first()['lastname'] }}</span> </td>
                  @endif
                    
-                    <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->purchaseOrder->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->purchaseOrder->created_at)->format('F d, Y'):''}}</span> </td>
+                    {{-- <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->purchaseOrder->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->purchaseOrder->created_at)->format('F d, Y'):''}}</span> </td> --}}
                   </tr>
                
                   
