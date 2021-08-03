@@ -193,7 +193,7 @@ class InternalRequisitionController extends Controller
             ->where('department_id', auth()->user()->department_id)
             ->whereIn('role_id', [13])
             ->get();
-             $users->each->notify(new CertifiedInternalRequisitionPublish($internal_requisition));
+            $users->each->notify(new CertifiedInternalRequisitionPublish($internal_requisition));
 
         }
 
