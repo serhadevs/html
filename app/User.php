@@ -92,6 +92,22 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany('App\AssignRequisition');
     }
 
+    public static function FindUser($role_id,$department_id,$institution_id)
+    {
+        if($department_id==null){
+        $user=User::where('role_id',$role_id)->where('institution_id',$institution_id)->first();
+        }else{
+        $user = User::where('role_id', $role_id)->where('department_id', $department_id)
+        ->where('institution_id', $institution_id)
+        ->first();    
+        }
+
+        if($user ==null){
+            return 'no user ';
+        }
+        return $user->firstname[0].'.'.$user->lastname;
+    }
+
 
     // public function notification()
     // {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\InternalRequisition;
+use App\User;
+
 
 
 
@@ -68,7 +70,8 @@ class TrailInternalRequisitionController extends Controller
 
     $internal_requisitions = InternalRequisition::with(['user'])->get();
 
-
+    //$user = User::FindUser(1,1);
+   // dd( $user);
    return view('/panel.audit.trail_ipr.show', compact('internal_requisitions'));
 
     }
