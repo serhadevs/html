@@ -25,7 +25,7 @@ class CreateInternalRequisitionsTable extends Migration
             $table->string('email');
             $table->string('requisition_type_id');
             $table->string('priority');
-            $table->string('comments')->nullable();
+            $table->text('comments')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

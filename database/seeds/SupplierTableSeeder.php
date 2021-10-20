@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Faker\Generator as Faker;
 class SupplierTableSeeder extends Seeder
 {
     /**
@@ -9,9 +9,9 @@ class SupplierTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-         DB::table('suppliers')->insert([
+    DB::table('suppliers')->insert([
     [
     'name' => 'IGL',
     'supplier_code' => 'igl9908',
@@ -21,7 +21,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'email'=>'9088737878',
+    'email'=>$faker->unique()->safeEmail,
     ],
     [
     'name' => 'JN',
@@ -32,7 +32,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'email'=>'908870878',
+    'email'=>$faker->unique()->safeEmail,
     ],
     [
    'name' => 'National',
@@ -43,7 +43,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'email'=>'90887237878',
+    'email'=>$faker->unique()->safeEmail,
     ],
     [
     'name' => 'SuperComputers',
@@ -54,7 +54,7 @@ class SupplierTableSeeder extends Seeder
     'parish_id'=>1,
     'country'=>'jamaica',
     'phone'=>'8760076654',
-    'email'=>'90883377878',
+    'email'=>$faker->unique()->safeEmail,
     ]
 
         ]);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Supplier;
 use App\Parish;
+use Illuminate\Support\Facades\Cache;
+
 
 
 class SuppliersController extends Controller

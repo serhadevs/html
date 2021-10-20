@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
         //     $user->posts()->save(factory(App\Post::class)->make());
         // });
 
+        // factory(App\Supplier::class, 5000)->create()->each(function ($user) {
+        //     $user->posts()->save(factory(App\Post::class)->make());
+        // });
+
         $this->call(UserTableSeeder::class);
         $this->call(UnitTableSeeder::class);
         $this->call(InstitutionTableSeeder::class);
@@ -28,14 +32,17 @@ class DatabaseSeeder extends Seeder
         $this->call(SupplierTableSeeder::class); 
         $this->call(ProcurementMethodTableSeeder::class);
             
-        // factory(App\Requisition::class, 100)->create()->each(function ($user) {
+        // factory(App\Requisition::class, 100000)->create()->each(function ($user) {
         //     $user->posts()->save(factory(App\Post::class)->make());
         //     });
+        
 
-//             factory(App\User::class, 10)->create()->each(function ($user) {
+//             factory(App\User::class, 1000000)->create()->each(function ($user) {
 //     $user->posts()->save(factory(App\Post::class)->make());
 // });
 
+   
+        
 
 
 

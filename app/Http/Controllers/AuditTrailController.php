@@ -139,14 +139,10 @@ return view('/panel.audit.audit_trail.index', compact('users', 'auditble_types')
       $end_date = Carbon::parse($request->end_date)->format('Y/m/d');
    // dd($start_date);
       $auditables = \OwenIt\Auditing\Models\Audit::
- 
-   
-
       select('audits.*')
       ->when($user_id, function ($query) use ($user_id) {
       return $query->where('user_id', '=', $user_id);
         })
-  
        ->when($audit_type,function($query) use ($audit_type){
         return $query->where('auditable_type', '=', $audit_type);
         if (!$start_date && $end_date) {

@@ -24,7 +24,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'role_id'=>rand(1,5),
-
+         'unit_id'=>1,
         'telephone'=> Str::random(10),
         'institution_id'=>rand(1,5),
         'department_id'=>rand(1,5),
