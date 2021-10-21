@@ -5,6 +5,13 @@
 {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
 
 @section('content')
+{{-- <style type="text/css">
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+    }
+</style> --}}
 <div class="card-body">
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -12,7 +19,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Internal Requisition Form</h1>
+            <h1>Internal Requisition </h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -33,14 +40,17 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="internal_requisition/create" class="btn btn-success float-right">Create IPR</a>
-                <h3 class="card-title">A list of all Internal Requisition Form</h3>
+                  <a href="internal_requisition/create" class="btn btn-success float-left">Create IPR</a>
+                <h3 class="btn btn float-right" class="card-title">A list of all Internal Requisition Form</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                    <th>Option</th>
+                    <th></th>
+                    <th></th>
                     <th>Status</th>
                     <th>Requisition No.</th>
                     <th>Requested by</th>
@@ -54,9 +64,7 @@
                     <th>Priority</th>
                     <th>Date Created</th>
                     <th>Date Approved</th>
-                    <th>Option</th>
-                    <th></th>
-                    <th></th>
+                    
                     
                   </tr>
                   </thead>
@@ -64,6 +72,16 @@
                     @foreach($internal_requisitions as $internal_requisition)
                     <tr>
                     {{-- <td>{{$internal_requisition->id}}</td> --}}
+
+                    <td>
+                      <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     </td>
+                     <td>
+                       <a  href="/internal_requisition/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m" >View</a> 
+                      </td>
+                     <td>
+                     <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteinternal_requisition({{$internal_requisition->id}})" >Delete</a>
+                     </td> 
                     <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
@@ -88,15 +106,6 @@
                     
                   
                    
-                    <td>
-                     <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                      <a  href="/internal_requisition/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m" >View</a> 
-                     </td>
-                    <td>
-                    <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteinternal_requisition({{$internal_requisition->id}})" >Delete</a>
-                    </td> 
                     </tr>
                     @endforeach
             
@@ -140,8 +149,10 @@
 <script src="/js/pages/dashboard.min.js"></script>
  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
  <script src="/js/sweet/sweetalert.min.js"></script> 
+ <script src="https://cdn.datatables.net/fixedcolumns/4.0.0/js/dataTables.fixedColumns.min.js"></script>
 @endpush
-  
+
+
 @if(session('status'))
   @push('scripts')
     <script>
@@ -167,7 +178,18 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true
+      scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        //  fixedColumns:   {
+        //     left: 1,
+        //     left: 2,
+        //     left: 3,
+        //     // right: 1,
+        //     // right: 2,
+        //     // right: 3,
+        // }
     });
     
 } );

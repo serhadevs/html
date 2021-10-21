@@ -42,8 +42,13 @@
                   <thead>
                   <tr>
                     {{-- <th>ID</th> --}}
+                    <th>Option</th>
+                    <th></th>
                     <th>Requisition Number</th>
+                    <th>Assignee</th>
+                    <th>Assign Date</th>
                     <th>Requested by</th>
+                    <th>Commitment #</th>
                     <th>Estimated Cost</th>
                     <th>Department</th>
                     <th>Institution</th>
@@ -54,10 +59,8 @@
                     <th>Priority</th>
                     <th>Date Created</th>
                     <th>Date Approved</th>
-                    <th>Assignee</th>
-                    <th>Assign Date</th>
-                    <th>Option</th>
-                    <th></th>
+                  
+                    
               
                     
                   </tr>
@@ -66,8 +69,24 @@
                     @foreach($internal_requisitions as $internal_requisition)
                     <tr>
                     {{-- <td>{{$internal_requisition->id}}</td> --}}
+                    <td>
+                      @if($internal_requisition->assignto)
+                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assigned</a></td>
+                    @else
+                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assign</a></td>
+                    @endif
+                   <td> <a  href="/assign-requisition/show/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m">View</a>
+                    </td>
                     <td>{{$internal_requisition->requisition_no}}</td>
+                    @if($internal_requisition->assignto)
+                    <td>{{$internal_requisition->assignto->user->firstname[0]}}.{{$internal_requisition->assignto->user->lastname}}</td>
+                    <td>{{$internal_requisition->assignto->created_at}}</td>
+                    @else
+                    <td></td>
+                    <td></td>
+                    @endif
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
+                    <td>{{$internal_requisition->budget_commitment->commitment_no}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>
                     
                     <td>{{$internal_requisition->department->name}}</td>
@@ -83,27 +102,7 @@
                     @else
                     <td></td>
                     @endif
-
-                    @if($internal_requisition->assignto)
-                    <td>{{$internal_requisition->assignto->user->firstname[0]}}.{{$internal_requisition->assignto->user->lastname}}</td>
-                    <td>{{$internal_requisition->assignto->created_at}}</td>
-                    @else
-                    <td></td>
-                    <td></td>
-                    @endif
-                   
-                    
-                  
-                   
-                    <td>
-                      @if($internal_requisition->assignto)
-                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assigned</a></td>
-                    @else
-                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assign</a></td>
-                    @endif
-                   <td> <a  href="/assign-requisition/show/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m">View</a>
-                    </td>
-                   
+ 
                     </tr>
                     @endforeach
             
@@ -175,7 +174,10 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true
+      scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
     });
     
 } );

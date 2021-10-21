@@ -33,8 +33,8 @@
             <div class="card">
               <div class="card-header">
                   {{-- /purchase-order/create --}}
-                  <button class="btn btn-success float-right" data-toggle="modal" data-target="#modal-lg">Add Internal Requisition</button>
-                <h3 class="card-title">Commitment from Budget </h3>
+                  <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Add Internal Requisition</button>
+                <h3 class="card-title float-right">Commitment from Budget </h3>
               </div>
 
             {{-- modal started --}}
@@ -117,8 +117,9 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                    <th>Option</th>
+                    <th></th>
                     <th>Requisition No.</th>
-                    {{-- <th>Requisition_no</th> --}}
                     <th>Estimated Cost</th>
                     <th>Budget Activity</th>
                     <th>Department</th>
@@ -129,8 +130,7 @@
                     <th>Accounting Code:</th>
                     <th>Comments</th>
                     <th>Created date</th>
-                    <th>Option</th>
-                    <th></th>
+                    
                     
                   </tr>
                   </thead>
@@ -143,7 +143,12 @@
                     @else
                     <td> <span class ="badge bg-red">Not approved</span></td>
                     @endif --}}
-                   
+                    <td>
+                      <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     </td>
+                     <td>
+                     <a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$commitment->id}})">Delete</a>
+                     </td> 
                     <td>{{$commitment->internalrequisition->requisition_no}}</td>
                     <td>{{$commitment->internalrequisition->estimated_cost}}</td>
                     <td>{{$commitment->internalrequisition->budget_approve}}</td>
@@ -154,19 +159,7 @@
                     <td>{{$commitment->commitment_no}}</td>
                     <td>{{$commitment->account_code}}</td>
                     <td>{{$commitment->comment}}</td>
-                    <td>{{$commitment->created_at}}</td>
-                    
-
-                    
-                   
-                    <td>
-                     <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$commitment->id}})">Delete</a>
-                    </td> 
-
-                      
+                    <td>{{$commitment->created_at}}</td>   
                     </tr>  
                
                   @endforeach
@@ -223,7 +216,10 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
     });
     
 } );

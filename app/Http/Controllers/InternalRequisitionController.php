@@ -167,7 +167,7 @@ class InternalRequisitionController extends Controller
             $certify->is_granted = 1;
             if($certify->save()){
                 $status = Status::where('internal_requisition_id', $internal_requisition->id)->first();
-                $status->name = 'Cartified Internal Requisition';
+                $status->name = 'Certified Internal Requisition';
                 $status->update();
 
 
