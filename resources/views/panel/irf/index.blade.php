@@ -5,13 +5,7 @@
 {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
 
 @section('content')
-{{-- <style type="text/css">
-    th, td { white-space: nowrap; }
-    div.dataTables_wrapper {
-        width: 800px;
-        margin: 0 auto;
-    }
-</style> --}}
+
 <div class="card-body">
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -182,14 +176,6 @@ $(document).ready( function () {
         scrollX:        true,
         scrollCollapse: true,
         paging:         false,
-        //  fixedColumns:   {
-        //     left: 1,
-        //     left: 2,
-        //     left: 3,
-        //     // right: 1,
-        //     // right: 2,
-        //     // right: 3,
-        // }
     });
     
 } );
