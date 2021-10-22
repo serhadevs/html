@@ -374,7 +374,7 @@ function Approve(internal_requisition_id){
                 "Internal Requisition was approved and will shortly be forwarded for budget commitment.",
                 "success").then(esc => {
                   if(esc){
-                    location.reload();
+                    location.href="/approve-internal-requisition";
                   }
                 });
               }else{

@@ -7,13 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewUserAccountPublish extends Notification
+class PasswordResetPublish extends Notification
 {
     use Queueable;
-    protected $password;
-    
-    
-
 
     /**
      * Create a new notification instance.
@@ -23,7 +19,6 @@ class NewUserAccountPublish extends Notification
     public function __construct()
     {
         //
-       // $this->password = $password;
     }
 
     /**
@@ -46,11 +41,9 @@ class NewUserAccountPublish extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Login')
+                    ->subject('Passowrd Reset')
                     ->greeting('Good day , ' .$notifiable->firstname )
-                    ->line('A new account for you was created for SERHA Electronic Procurement System.')
-                    ->line('Your login is your current email address and password.')
-                    ->line('Your default password is password123.')
+                    ->line('Your password was reset to  password123.')
                     ->action('Sign In', url('/'))
                     ->line('Welcome to this application!');
     }

@@ -40,30 +40,32 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                    <th></th>
+                    <th></th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Abbr</th>
                     <th>Description</th>
                     <th>Created At</th>
-                    <th></th>
-                    <th></th>
+                   
                     
                   </tr>
                   </thead>
                   <tbody>
                 @foreach($measurements as $measurement)
                     <tr>
+                      <td>
+                        <a  href="/measurement/{{$measurement->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                        </td>
+                        <td>
+                        <a href="#" onclick="deleteMeasurement({{$measurement->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
+                        </td> 
                     <td>{{$measurement->id}}</td>
                     <td> {{$measurement->name}}</td>
                     <td>{{$measurement->abbr}}
                     <td>{{$measurement->description}}</td>
                     <td>{{$measurement->created_at}}</td>
-                    <td>
-                    <a  href="/measurement/{{$measurement->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <a href="#" onclick="deleteMeasurement({{$measurement->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
-                    </td> 
+                    
                     </tr>
                     @endforeach 
             

@@ -62,6 +62,8 @@ input[type="checkbox"]{
                   <thead>
                   <tr>
                     {{-- <th></th>  --}}
+                    <th>Option</th>
+                     <th></th> 
                     <th>Certify</th>
                     <th>Requisition_no</th>
                     <th>Date Receive</th>
@@ -70,8 +72,7 @@ input[type="checkbox"]{
                     <th>Priority</th>
                     <th>Procurement Type</th>
                     <th>Request By</th>
-                    <th>Option</th>
-                     <th></th> 
+                    
                     {{-- <th></th> --}}
               
                   </tr>
@@ -80,6 +81,13 @@ input[type="checkbox"]{
                    @foreach($internalRequisitions as $internal)
                     <tr>
                     {{-- <td>{{$internal->id}}</td> --}}
+                    <td> <a href="/certify-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm" disabled>View</a>
+                      @if($internal->certified_internal_requisition OR $internal->approve_internal_requisition )
+                      <td> <a class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})">Undo</a></td>
+                      @else
+                      <td> <button  class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
+                      @endif
+  
                      @if($internal->certified_internal_requisition)
                      @if($internal->certified_internal_requisition['is_granted']==1)
                     <td> <span class ="badge bg-green">Certified</span></td>
@@ -101,13 +109,7 @@ input[type="checkbox"]{
                    
                      
                    
-                    <td> <a href="/certify-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm" disabled>View</a>
-                    @if($internal->certified_internal_requisition OR $internal->approve_internal_requisition )
-                    <td> <a class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})">Undo</a></td>
-                    @else
-                    <td> <button  class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
-                    @endif
-
+                    
                     </tr>
                     @endforeach
                      
@@ -176,7 +178,10 @@ input[type="checkbox"]{
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true,
+      scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
          deferRender:true,
          select: true,
          columnDefs: [

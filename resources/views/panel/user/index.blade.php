@@ -39,23 +39,35 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                   <th class="text-center">First Name</th>
+                    <th class="text-center"></th>
+                    <th></th>
+                     <th></th>
+                <th class="text-center">First Name</th>
                 <th class="text-center">Last Name</th>
                 <th class="text-center">Role</th>
                 <th class="text-center">Telephone</th>
                 <th class="text-center">Unit</th>
                 <th class="text-center">Department</th>
                 <th class="text-center">Email</th>
-                <th class="text-center">Option</th>
-                <th></th>
-                 <th></th>
+               
                     
                   </tr>
                   </thead>
                   <tbody>
                      @foreach($users as $user)
                   <tr>
-                 
+                    <td>
+                      <a  href="/user/{{$user->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     </td>
+ 
+                     <td>
+                     <button class="btn btn-block btn-warning btn-m" onclick="resetPassword({{$user->id}})">Reset</button>
+                     </td> 
+ 
+                     <td>
+                     <button class="btn btn-block btn-danger btn-m" onclick="deleteUser({{$user->id}})">Delete</button>
+                     </td> 
+ 
                    <td>{{$user->firstname}}</td>  
                     <td>{{$user->lastname}}</td>  
                      <td>{{$user->role->name}}</td>  
@@ -63,18 +75,7 @@
                        <td>{{$user->unit->name}}</td>  
                         <td>{{$user->department->name}}</td>
                          <td>{{$user->email}}</td>      
-                           <td>
-                     <a  href="/user/{{$user->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-
-                    <td>
-                    <button class="btn btn-block btn-warning btn-m" onclick="resetPassword({{$user->id}})">Reset</button>
-                    </td> 
-
-                    <td>
-                    <button class="btn btn-block btn-danger btn-m" onclick="deleteUser({{$user->id}})">Delete</button>
-                    </td> 
-
+                     
                              
                           {{-- onclick="deleteRequisition({{$requisition->id}})" --}}
 
@@ -230,12 +231,12 @@ function deleteUser(Id){
                     if (data == "success") {
                         swal(
                             "Done!",
-                            "User Password reset was successful!.",
+                            "User Password was reset successful!.",
                             "success")
                     }else{
                         swal(
                             "Oops! Something went wrong.",
-                            "User Password reset was NOT successful.",
+                            "User Password was Not reset successful.",
                             "error");
                     }
                 });

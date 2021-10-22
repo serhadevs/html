@@ -391,7 +391,7 @@ function Accept(requisitionId){
                 "Purchase requisition was accepted and will shortly be forwarded for approval.",
                 "success").then(esc => {
                   if(esc){
-                    location.reload();
+                    location.href="/check-purchase";
                   }
                 });
               }else{

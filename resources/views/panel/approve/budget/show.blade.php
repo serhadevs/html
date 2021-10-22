@@ -401,10 +401,10 @@ function Approve(internal_requisition_id){
             if (data == "success") {
               swal(
                 "Done!",
-                "Internal Requisition was approve and will shortly be forwarded to budget commitment.",
+                "Internal Requisition was approved. ",
                 "success").then(esc => {
                   if(esc){
-                    location.reload();
+                    location.href='/approve-budget-requisition';
                   }
                 });
               }else{

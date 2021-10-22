@@ -102,7 +102,7 @@ class BudgetCommitmentController extends Controller
         $status->update();
 
         $users = User::where('institution_id',auth()->user()->institution_id )
-                ->whereIn('role_id',[1,8])
+                ->whereIn('role_id',[8])
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($request->id);

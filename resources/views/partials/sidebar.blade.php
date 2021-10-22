@@ -131,14 +131,14 @@
                 </a>
               </li>
               @endif
-              @if(in_array(Auth::user()->role_id, [1,3]))
+              {{-- @if(in_array(Auth::user()->role_id, [1,3]))
                 <li class="nav-item">
                 <a href="/certifying-voucher" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Certifying PO</p>
                 </a>
               </li> 
-              @endif
+              @endif --}}
              
             </ul>
           </li>
@@ -159,7 +159,7 @@
                   <p>Commitment Budget</p>
                 </a>
               </li>
-              @if(in_array(Auth::user()->role_id, [1]))
+              {{-- @if(in_array(Auth::user()->role_id, [1]))
                <li class="nav-item">
                 <a href="/payment-voucher" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -172,7 +172,7 @@
                   <p>Voucher Checked</p>
                 </a>
               </li>
-              @endif
+              @endif --}}
               {{-- <li class="nav-item">
                 <a href="pages/forms/validation.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

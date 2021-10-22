@@ -61,7 +61,8 @@ input[type="checkbox"]{
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                  
+                    <th>Option</th>
+                    <th></th>
                     <th>Aproval</th>
                     <th>Requisition_no</th>
                     <th>Date Receive</th>
@@ -70,8 +71,7 @@ input[type="checkbox"]{
                     <th>Priority</th>
                     <th>Procurement Type</th>
                     <th>Request By</th>
-                    <th>Option</th>
-                    <th></th>
+                   
                     {{-- <th></th> --}}
               
                   </tr>
@@ -79,8 +79,13 @@ input[type="checkbox"]{
                   <tbody>
                   @foreach($internalRequisitions as $internal)
                     <tr>
-                    
-
+                      <td> <a href="/approve-budget-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
+                        @if($internal->approve_budget)
+                        <td> <button href="#" onclick="undo({{$internal->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
+                        @else
+                        <td> <button href="#" class="btn btn-block btn-warning btn-sm" disabled>Undo</button>
+                        @endif
+                        </td>
                     @if($internal->approve_budget)
                      @if($internal->approve_budget->is_granted===1)
                     <td> <span class ="badge bg-green">Approved</span></td>
@@ -97,20 +102,6 @@ input[type="checkbox"]{
                   <td>{{$internal->priority}}</td>
                     <td>{{$internal->requisition_type->name}}</td>
                   <td>{{$internal->user->firstname[0]}}.{{$internal->user->lastname}}</td>
-                
-              
-                   
-                     
-                   
-                    <td> <a href="/approve-budget-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                    @if($internal->approve_budget)
-                    <td> <button href="#" onclick="undo({{$internal->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
-                    @else
-                    <td> <button href="#" class="btn btn-block btn-warning btn-sm" disabled>Undo</button>
-                    @endif
-                    </td> 
-
-
                     </tr>
                     @endforeach 
                     
@@ -181,7 +172,10 @@ input[type="checkbox"]{
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true,
+      scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
          deferRender:true,
          select: true,
          columnDefs: [

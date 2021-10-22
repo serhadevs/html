@@ -33,8 +33,8 @@
             <div class="card">
               <div class="card-header">
                   {{-- /purchase-order/create --}}
-                  <button class="btn btn-success float-right" data-toggle="modal" data-target="#modal-lg">Add Purchase Order</button>
-                <h3 class="card-title">A list of all procurement order </h3>
+                  <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Add Purchase Order</button>
+                <h3 class="card-title  float-right">A list of all procurement order </h3>
               </div>
 
             {{-- modal started --}}
@@ -118,6 +118,8 @@
                   <tr>
                     {{-- <th>ID</th> --}}
                     {{-- <th>Approve</td> --}}
+                    <th>Option</th>
+                    <th></th>
                     <th>Requisition_no</th>
                     <th>Purchase Order No.</th>
                     <th>Cost Centre</th>
@@ -129,8 +131,7 @@
                     {{-- <th>Order Total</th>
                     <th>Approve By</th>
                     <th>Approve Date</th> --}}
-                    <th>Option</th>
-                    <th></th>
+                   
                     
                   </tr>
                   </thead>
@@ -143,6 +144,12 @@
                     @else
                     <td> <span class ="badge bg-red">Not approved</span></td>
                     @endif --}}
+                    <td>
+                      <a  href="/purchase-order/{{$order->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     </td>
+                     <td>
+                     <a href="#" onclick= "deletePurchaseOrder({{$order->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
+                     </td>  
                    
                     <td>{{$order->requisition->requisition_no}}</td>
                     <td>{{$order->purchase_order_no}}</td>
@@ -160,12 +167,6 @@
                     <td></td>
                     <td></td>
                     @endif --}}
-                    <td>
-                     <a  href="/purchase-order/{{$order->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <a href="#" onclick= "deletePurchaseOrder({{$order->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
-                    </td> 
                    
                       
                     </tr>  
@@ -180,7 +181,8 @@
             <!-- /.card -->
           </section>
         </div>
-          
+      </br>
+    </br>
 
 @endsection
 
@@ -226,7 +228,10 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true
+      scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
     });
     
 } );

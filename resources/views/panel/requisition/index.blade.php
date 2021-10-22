@@ -33,8 +33,8 @@
               <div class="card-header">
                   
                   {{-- <a href="requisition/create" class="btn btn-success float-right">Create Requisition</a> --}}
-                  <button class="btn btn-success float-right" data-toggle="modal" data-target="#modal-lg">Create Requisition</button>
-                  <h3 class="card-title">A list of all procurement requisition </h3>
+                  <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Create Requisition</button>
+                  <h3 class="card-title float-right">A list of all procurement requisition </h3>
               </div>
               <!-- /.card-header -->
 
@@ -132,6 +132,9 @@
                   <thead>
                   <tr>
                     {{-- <th>ID</th> --}}
+                    <th>Option</th>
+                    <th></th>
+                    <th></th>
                     <th>Requisition_no</th>
                     <th>Date Received in Procurement</th>
                     <th>Date returned to Institution</th>
@@ -155,9 +158,7 @@
                     <th>Date Final Invoice Received</th>
                     <th>Invoice Number</th>
                     <th>Date submmited to Accounts for Payment</th> 
-                    <th>Option</th>
-                    <th></th>
-                    <th></th>
+                   
                     
                   </tr>
                   </thead>
@@ -165,6 +166,15 @@
                     @foreach($requisitions as $requisition)
                     <tr>
                     {{-- <td>{{$requisition->id}}</td> --}}
+                    <td>
+                      <a  href="/requisition/{{$requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     </td>
+                     <td>
+                       <a  href="/requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-m" >view</a> 
+                      </td>
+                     <td>
+                     <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteRequisition({{$requisition->id}})" >Delete</a>
+                     </td> 
                     <td>{{$requisition->requisition_no}}</td>
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     <td></td>
@@ -202,15 +212,7 @@
                     <td>Date Final Invoice Received</td>
                     <td>Invoice Number</td>
                     <td>Date submmited to Accounts for Payment</td> 
-                    <td>
-                     <a  href="/requisition/{{$requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                      <a  href="/requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-m" >view</a> 
-                     </td>
-                    <td>
-                    <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteRequisition({{$requisition->id}})" >Delete</a>
-                    </td> 
+                    
             
 
 
@@ -284,7 +286,10 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true
+         scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
     });
     
 } );

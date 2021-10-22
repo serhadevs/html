@@ -46,7 +46,7 @@ class ApproveBudgetPublish extends Notification
         ->subject('Budget Approve ')
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The Budget  was approved,the requisition number is '.$this->internal->requisition_no.'.')
-        ->action('Create now', url('/requisition'))
+        ->action('Assign now', url('/assign_requisition'))
         ->line('Thank you for using this application!');
     }
 

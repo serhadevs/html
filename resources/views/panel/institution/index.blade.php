@@ -36,7 +36,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="institution/create" class="btn btn-success float-right">Add Institution</a>
+                  <a href="institution/create" class="btn btn-success float-left">Add Institution</a>
                 {{-- <h3 class="card-title">List of institutions</h3> --}}
               </div>
               <!-- /.card-header -->
@@ -46,21 +46,27 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                <th></th>
+                <th></th>
                 <th class="text-center">ID</th>
                 <th class="text-center">Name</th>
                 <th class="text-center">abbr</th>
                 <th class="text-center">Parish</th>
                 <th class="text-center">Code</th>
                 <th class="text-center">created</th>
-                <th>Option</th>
-                <th></th>
+              
         
                   </tr>
                   </thead>
                   <tbody>
                  @foreach($institutions as $institution)
                   <tr>
-                 
+                    <td> 
+                      <a  href="institution/{{$institution->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+               </td>
+               <td>
+               <button class="btn btn-block btn-danger btn-m" onclick="deleteInstitution({{$institution->id}})">Delete</button>
+               </td> 
                    <td>{{$institution->id}}</td>
                    <td>{{$institution->name}}</td>  
                    <td>{{$institution->abbr}}</td>  
@@ -68,12 +74,7 @@
                    <td>{{$institution->code}}</td>
                    <td>{{$institution->created_at}}</td>  
                         
-                           <td> 
-                           <a  href="institution/{{$institution->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <button class="btn btn-block btn-danger btn-m" onclick="deleteInstitution({{$institution->id}})">Delete</button>
-                    </td> 
+                           
 
                    </tr>  
 

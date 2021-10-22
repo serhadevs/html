@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NewUserAccountPublish;
+use App\Notifications\PasswordResetPublish;
 
 
 
@@ -184,6 +185,8 @@ class UserController extends Controller
         $user = \App\User::find($id);
         $user->password = bcrypt('password123');
         $user->update();
+
+        $user->notify(new PasswordResetPublish());
         return "success";
     }
 

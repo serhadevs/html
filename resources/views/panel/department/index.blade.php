@@ -36,8 +36,8 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="department/create" class="btn btn-success float-right">Add Department</a>
-                <h3 class="card-title">Departments </h3>
+                  <a href="department/create" class="btn btn-success float-left">Add Department</a>
+                <h3 class="card-title float-right">Departments </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -46,30 +46,31 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                <th></th>
+                <th></th>
                 <th class="text-center">ID</th>
                 <th class="text-center">Name</th>
                 <th class="text-center">abbr</th>
                 <th class="text-center">created</th>
-                <th>Option</th>
-                <th></th>
+               
                   </tr>
                   </thead>
                   <tbody>
                   @foreach($departments as $department)
                   <tr>
-                 
+                    <td>  
+                      <a  href="/department/{{$department->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      </td>
+                      <td>
+                      <button class="btn btn-block btn-danger btn-m" onclick="deleteDepartment({{$department->id}})">Delete</button>
+                      </td> 
                     <td>{{$department->id}}</td> 
                    <td>{{$department->name}}</td>  
                     <td>{{$department->abbr}}</td>  
                      <td>{{$department->created_at}}</td>  
                      
                        
-                    <td>  
-                    <a  href="/department/{{$department->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <button class="btn btn-block btn-danger btn-m" onclick="deleteDepartment({{$department->id}})">Delete</button>
-                    </td> 
+                    
 
                              
                           

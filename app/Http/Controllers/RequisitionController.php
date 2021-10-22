@@ -177,12 +177,12 @@ class RequisitionController extends Controller
             }
             if($requisition->contract_sum >= 500000){
                 $users = User::where('institution_id',1 )
-                ->whereIn('role_id',[1,5,9])
+                ->whereIn('role_id',[5,9,12])
                 ->get();
             }else{
             $users = User::where('institution_id',auth()->user()->institution_id )
             ->where('department_id', auth()->user()->department_id)
-            ->whereIn('role_id',[1,5,9])
+            ->whereIn('role_id',[5,9])
             ->get();
             }
   

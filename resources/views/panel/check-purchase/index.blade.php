@@ -50,7 +50,8 @@ table.dataTable tbody td {
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    {{-- <th>ID</th> --}}
+                    <th>Option</th>
+                    <th></th>
                     <th>Check</th>
                     <th>Requisition_no</th>
                     <th>Date Receive</th>
@@ -62,8 +63,7 @@ table.dataTable tbody td {
                      <th>Cost Centre</th>
                     {{-- <th>Commitment #</th> --}}
                     {{-- <th>Invoice Number</th> --}}
-                    <th>Option</th>
-                    <th></th>
+                    
                     {{-- <th></th> --}}
                     {{-- //class="badge bg-yellow" --}}
                   </tr>
@@ -71,8 +71,13 @@ table.dataTable tbody td {
                   <tbody>
                    @foreach($requisitions as $requisition)
                     <tr>
-                      {{-- <td> <span class ="badge bg-blue">Uncheck</span></td> --}}
-                    {{-- <td>{{$requisition->id}}</td> --}}
+                      <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
+                        @if($requisition->check)
+                        <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
+                      @else 
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm" disabled >Undo</button>
+                      @endif
+                        </td> 
                      @if($requisition->check)
                      @if($requisition->check->is_checked===1)
                     <td> <span class ="badge bg-green">Accepted</span></td>
@@ -101,13 +106,7 @@ table.dataTable tbody td {
                      @endif
                       --}}
                      {{-- <button  class="btn btn-block btn-primary btn-sm"  id ="checks" type='submit'>check</button> </td>  --}}
-                    <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      @if($requisition->check)
-                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
-                    @else 
-                    <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm" disabled >Undo</button>
-                    @endif
-                      </td> 
+                   
 
 
                     </tr>
@@ -177,7 +176,10 @@ table.dataTable tbody td {
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-         "scrollX": true,
+        scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
          columnDefs: [
     {
         targets: -1,

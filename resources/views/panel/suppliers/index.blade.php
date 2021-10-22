@@ -31,14 +31,16 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="suppliers/create" class="btn btn-success float-right">Add Supplier</a>
-                <h3 class="card-title">A list of all Supplier </h3>
+                  <a href="suppliers/create" class="btn btn-success float-left">Add Supplier</a>
+                <h3 class="card-title float-right">A list of all Supplier </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                    <tr>
+                <th class="text-center"></th>
+                <th></th>
                 <th class="text-center">Name</th>
                 <th class="text-center">Supplier Code</th>
                 <th class="text-center">TRN</th>
@@ -48,15 +50,19 @@
                 <th class="text-center">Country</th>
                 <th class="text-center">Phone #</th>
                 <th class="text-center">Email</th>
-                <th class="text-center">Option</th>
-                <th></th>
+               
                   </tr>
                   </thead>
                   <tbody>
                  
                   @foreach($suppliers as $supplier)
                   <tr>
-                 
+                    <td>
+                      <a  href="/suppliers/{{$supplier->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+               </td>
+               <td>
+               <a href="#" onclick="deleteSupplier({{$supplier->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
+               </td> 
                    <td>{{$supplier->name}}</td>  
                     <td>{{$supplier->supplier_code}}</td>  
                      <td>{{$supplier->trn}}</td>  
@@ -66,12 +72,7 @@
                          <td>{{$supplier->country}}</td>      
                           <td>{{$supplier->phone}}</td>  
                            <td>{{$supplier->email}}</td>
-                           <td>
-                           <a  href="/suppliers/{{$supplier->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <a href="#" onclick="deleteSupplier({{$supplier->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
-                    </td> 
+                        
 
                              
                           

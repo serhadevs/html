@@ -37,8 +37,8 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="unit/create" class="btn btn-success float-right">create  units</a>
-                <h3 class="card-title">Units </h3>
+                  <a href="unit/create" class="btn btn-success float-left">create  units</a>
+                <h3 class="card-title float-right">Units </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -47,29 +47,31 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                <th></th>
+                <th></th>
                 <th class="text-center">ID</th>
                 <th class="text-center">Name</th>
                 <th class="text-center">Department</th>
                 <th class="text-center">created</th>
-                <th>Option</th>
+                
                   </tr>
                   </thead>
                   <tbody>
                   @foreach($units as $unit)
                   <tr>
-                 
+                 <td>  
+                     <a  href="/unit/{{$unit->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                    </td>
+                    <td>
+                    <button class="btn btn-block btn-danger btn-m" onclick="deleteUnit({{$unit->id}})">Delete</button>
+                    </td> 
                     <td>{{$unit->id}}</td> 
                    <td>{{$unit->name}}</td>  
                     <td>{{$unit->department->name}}</td>  
                      <td>{{$unit->created_at}}</td>  
                      
                        
-                    <td>  
-                     <a  href="/unit/{{$unit->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                    </td>
-                    <td>
-                    <button class="btn btn-block btn-danger btn-m" onclick="deleteUnit({{$unit->id}})">Delete</button>
-                    </td> 
+                    
 
                              
                           

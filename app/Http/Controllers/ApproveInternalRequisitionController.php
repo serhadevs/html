@@ -109,7 +109,7 @@ class ApproveInternalRequisitionController extends Controller
                     $status->update();
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
-                ->whereIn('role_id',[1,7])
+                ->whereIn('role_id',[7])
                 ->get();
                 
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);

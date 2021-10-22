@@ -62,6 +62,8 @@ input[type="checkbox"]{
                   <thead>
                   <tr>
                     {{-- <th></th> --}}
+                    <th>Option</th>
+                    <th></th>
                     <th>Aproval</th>
                     <th>Requisition_no</th>
                     <th>Date Receive</th>
@@ -70,8 +72,7 @@ input[type="checkbox"]{
                     <th>Priority</th>
                     <th>Procurement Type</th>
                     <th>Request By</th>
-                    <th>Option</th>
-                    <th></th>
+                    
                     {{-- <th></th> --}}
               
                   </tr>
@@ -80,6 +81,13 @@ input[type="checkbox"]{
                   @foreach($internalRequisitions as $internal)
                     <tr>
                      {{-- <td>{{$internal->id}}</td> --}}
+                     <td> <a href="/approve-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
+                      @if($internal->approve_internal_requisition )
+                      <td> <a class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})">Undo</a></td>
+                      @else
+                      <td> <button  class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
+                      @endif
+                    </td> 
                      @if($internal->approve_internal_requisition)
                      @if($internal->approve_internal_requisition->is_granted===1)
                     <td> <span class ="badge bg-green">Approved</span></td>
@@ -101,13 +109,7 @@ input[type="checkbox"]{
                    
                      
                    
-                    <td> <a href="/approve-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm">View</a>
-                      @if($internal->approve_internal_requisition )
-                      <td> <a class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})">Undo</a></td>
-                      @else
-                      <td> <button  class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
-                      @endif
-                    </td> 
+                   
 
 
                     </tr>
