@@ -188,7 +188,7 @@ text-align: center;
                         <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Commitment No:</label>
                         <div class="col-sm-4">
-                        <input type="number" name="commitment_no" class="form-control" value="{{$budgetCommitment->commitment_no}}" required>
+                        <input type="text" name="commitment_no" class="form-control" value="{{$budgetCommitment->commitment_no}}" required>
                         </div> 
                         <label for="institute" class="col-sm-2 col-form-label">Accounting Code:</label>
                         <div class="col-sm-4">
