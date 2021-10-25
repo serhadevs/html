@@ -35,7 +35,7 @@ class BudgetCommitmentController extends Controller
     {
         //
        // dd('bugetcommitment');
-       $internalrequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment','institution','department',''])
+       $internalrequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
