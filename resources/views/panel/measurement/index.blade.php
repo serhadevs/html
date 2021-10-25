@@ -32,8 +32,8 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="measurement/create" class="btn btn-success float-right">Create measurement</a>
-                <h3 class="card-title">A list of all unit of measurements</h3>
+                  <a href="measurement/create" class="btn btn-success float-left">Create measurement</a>
+                <h3 class="card-title float-right">A list of all unit of measurements</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

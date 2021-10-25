@@ -33,83 +33,11 @@
             <div class="card">
               <div class="card-header">
                   {{-- /purchase-order/create --}}
-                  <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Add Internal Requisition</button>
-                <h3 class="card-title float-right">Commitment from Budget </h3>
+                  {{-- <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Add Internal Requisition</button> --}}
+                <h3 class="card-title float-left">Commitment from Budget </h3>
               </div>
 
-            {{-- modal started --}}
-
-<div class="modal fade" id="modal-lg">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Internal Requisition List</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-               <div class="card-body">
-                {{-- <form class="form-horizontal" method="Post" autocomplete="off" action="/check-purchase" >
-                  @csrf --}}
-                <table id="requisition-table" class="table table-bordered table-hover">
-                  <thead>
-                  <tr>
-                    <th>Select</th>
-                    <th>Requisition No.</th>
-                    <th>Requested by</th>
-                    <th>Estimated Cost</th>
-                    <th>Department</th>
-                    <th>Institution</th>
-                    <th>Budget Activity </th>
-                    <th>phone</th>
-                    {{-- <th>EmailAddress</th> --}}
-                    <th>Type</th>
-                    {{-- <th>Request Required</th> --}}
-                    <th>Priority</th>
-                  </tr> 
-                  </thead>
-                  <tbody>
-               
-                 @foreach($internalrequisitions as $internal_requisition)
-                 <tr>
-                 <td> <a href="/budgetcommitment/create/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-sm">Select</a> </td>
-                 <td>{{$internal_requisition->requisition_no}}</td>
-                 <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
-                 <td>{{$internal_requisition->estimated_cost}}</td>
-                 <td>{{$internal_requisition->department->name}}</td>
-                 <td>{{$internal_requisition->institution->name}}</td>
-                 <td>{{$internal_requisition->budget_approve}}</td>
-                 <td>{{$internal_requisition->phone}}</td>
-                 {{-- <td>{{$internal_requisition->email}}</td> --}}
-                 <td>{{$internal_requisition->requisition_type->name}}</td>
-                 <td>{{$internal_requisition->priority}}</td>
-                 {{-- <td>{{$internal_requisition->created_at}}</td> --}}
-                 </tr>
-                 @endforeach
-                 
-                 
-                  </tbody>
-                  
-                </table>
-              </form>
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-
-
-              {{-- modal ended --}}
-              <!-- /.card-header -->
-
-
+          
 
 
               
@@ -117,9 +45,11 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>Option</th>
+                    <th></th>
+                    <th></th>
                     <th></th>
                     <th>Requisition No.</th>
+                    <th>Requester</th>
                     <th>Estimated Cost</th>
                     <th>Budget Activity</th>
                     <th>Department</th>
@@ -135,7 +65,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach($budgetCommitment as $commitment)
+                    @foreach($internalrequisitions as $internalrequisition)
                     <tr>
                        {{-- <td>{{$order->id}}</td>
                       @if($order->approvePurchaseOrder)
@@ -143,23 +73,38 @@
                     @else
                     <td> <span class ="badge bg-red">Not approved</span></td>
                     @endif --}}
-                    <td>
-                      <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
-                     </td>
-                     <td>
-                     <a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$commitment->id}})">Delete</a>
-                     </td> 
-                    <td>{{$commitment->internalrequisition->requisition_no}}</td>
-                    <td>{{$commitment->internalrequisition->estimated_cost}}</td>
-                    <td>{{$commitment->internalrequisition->budget_approve}}</td>
-                    <td>{{$commitment->internalrequisition->department->name}}</td>
-                    <td>{{$commitment->internalrequisition->institution->name}}</td>
-                    <td>{{$commitment->internalrequisition->requisition_type->name}}</td>
-                    <td>{{$commitment->internalrequisition->priority}}</td>
-                    <td>{{$commitment->commitment_no}}</td>
-                    <td>{{$commitment->account_code}}</td>
-                    <td>{{$commitment->comment}}</td>
-                    <td>{{$commitment->created_at}}</td>   
+                  
+                      {{-- <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a>  --}}
+                     
+                      @if($internalrequisition->budget_commitment)
+                         <td> <a href="#" class="btn btn-block btn-outline-success  btn-m" disabled>Committed</a> </td> 
+                      <td><a  href="/budgetcommitment/{{$internalrequisition->budget_commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a></td>
+                      <td><a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$internalrequisition->budget_commitment->id}})">Delete</a></td>
+                        @else
+                        <td> <a href="/budgetcommitment/create/{{$internalrequisition->id}}" class="btn btn-block btn-success btn-m">Commit</a> </td> 
+                        <td><a  href="#" class="btn btn-block btn-outline-primary  btn-m"  disabled>Edit</a></td>
+                        <td><a href="#" class="btn btn-block btn-outline-danger  btn-m"   disabled>Delete</a></td>
+                    
+                     @endif
+                    <td>{{$internalrequisition->requisition_no}}</td>
+                    <td>{{$internalrequisition->user->abbrName()}}</td>
+                    <td>{{$internalrequisition->estimated_cost}}</td>
+                    <td>{{$internalrequisition->budget_approve}}</td>
+                    <td>{{$internalrequisition->department->name}}</td>
+                    <td>{{$internalrequisition->institution->name}}</td>
+                    <td>{{$internalrequisition->requisition_type->name}}</td>
+                    <td>{{$internalrequisition->priority}}</td>                       
+                    @if($internalrequisition->budget_commitment)
+                    <td>{{$internalrequisition->budget_commitment->commitment_no}}</td>
+                    <td>{{$internalrequisition->budget_commitment->account_code}}</td>
+                    <td>{{$internalrequisition->budget_commitment->comment}}</td>
+                    <td>{{$internalrequisition->budget_commitment->created_at}}</td> 
+                    @else
+                     <td>{{null}}</td>
+                     <td>{{null}}</td>
+                     <td>{{null}}</td>
+                     <td>{{null}}</td>
+                    @endif
                     </tr>  
                
                   @endforeach
@@ -224,13 +169,6 @@ $(document).ready( function () {
     
 } );
 
-
-$(document).ready( function () {
-    $('#requisition-table').DataTable({
-         "scrollX": true
-    });
-    
-} );
 
 
 function deleteCommitment(Id){

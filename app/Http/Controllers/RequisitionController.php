@@ -47,7 +47,7 @@ class RequisitionController extends Controller
         //  $requisitions = Requisition::with(['check','approve','purchase_order']);
 
         if (auth()->user()->institution_id === 1) {
-            $requisitions = Requisition::with(['check', 'approve'])
+            $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                 ->where('contract_sum', '>=', 500000)
                 ->Orwhere('institution_id', '=', auth()->user()->institution_id)
                 ->get();

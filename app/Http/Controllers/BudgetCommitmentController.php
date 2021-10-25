@@ -35,13 +35,13 @@ class BudgetCommitmentController extends Controller
     {
         //
        // dd('bugetcommitment');
-       $internalrequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
+       $internalrequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment','institution','department',''])
        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
        ->where('internal_requisitions.institution_id','=',auth()->user()->institution_id)
 
-       ->doesnthave('budget_commitment')
+      // ->doesnthave('budget_commitment')
        ->get();
 
 
@@ -54,11 +54,11 @@ class BudgetCommitmentController extends Controller
     //    ->has('budget_commitment')
     //    ->get();
 
-        $budgetCommitment = BudgetCommitment::all();
+        //$budgetCommitment = BudgetCommitment::all();
 
 
        
-       return view('/panel.account.budget.index',compact('internalrequisitions','budgetCommitment'));
+       return view('/panel.account.budget.index',compact('internalrequisitions'));
     }
 
     /**
