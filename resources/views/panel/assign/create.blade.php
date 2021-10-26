@@ -259,7 +259,7 @@ text-align: center;
                         <div class="col-10">
                      
                          
-                        <button type="submit"  id="#btnSubmit"  class="btn btn-primary float-right" >Submit</button></br>
+                        <button type="submit"  id="#btnSubmit"  class="btn btn-block btn-outline-primary  btn-lg" >Submit</button></br>
                         
                       </div> 
                        

@@ -71,11 +71,11 @@
                     {{-- <td>{{$internal_requisition->id}}</td> --}}
                     <td>
                       @if($internal_requisition->assignto)
-                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-outline-primary  btn-m">Assigned</a></td>
+                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assigned</a></td>
                     @else
-                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-primary btn-m">Assign</a></td>
+                    <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-outline-primary  btn-m ">Assign</a></td>
                     @endif
-                   <td> <a  href="/assign-requisition/show/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m">View</a>
+                   <td> <a  href="/assign-requisition/show/{{$internal_requisition->id}}" class="btn btn-block btn-outline-success  btn-m ">View</a>
                     </td>
                     <td>{{$internal_requisition->requisition_no}}</td>
                     @if($internal_requisition->assignto)

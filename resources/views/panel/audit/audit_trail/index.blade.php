@@ -120,7 +120,7 @@
                         </div>
                          <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-primary float-right">Send</button>
+                        <button type="submit"   class="btn btn-outline-primary float-right btn-lg">Send</button>
                         </div>
                         </div>
                       

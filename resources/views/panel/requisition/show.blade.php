@@ -433,8 +433,10 @@ text-align: center;
                         Approve IRF by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
                       
+                        @if($requisition->check)
                         Accepted by: <span class='badge badge-success'>{{$requisition->check->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
+                        @endif
                       </div>
                       <div class="col-sm-6">
                         Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
@@ -466,7 +468,7 @@ text-align: center;
                         <div class="row">
                         <div class="col-10">
                        
-                        <a type="button" href="/requisition"   class="btn btn-success float-left">back</a>
+                        <a type="button" href="/requisition"   class="btn btn-outline-success float-left btn-lg">Back</a>
                         </div>
                         </div>
                         </div>

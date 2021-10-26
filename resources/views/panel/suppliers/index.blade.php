@@ -31,7 +31,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="suppliers/create" class="btn btn-success float-left">Add Supplier</a>
+                  <a href="suppliers/create" class="btn btn-outline-success float-left">Add Supplier</a>
                 <h3 class="card-title float-right">A list of all Supplier </h3>
               </div>
               <!-- /.card-header -->
@@ -58,10 +58,10 @@
                   @foreach($suppliers as $supplier)
                   <tr>
                     <td>
-                      <a  href="/suppliers/{{$supplier->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="/suppliers/{{$supplier->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                </td>
                <td>
-               <a href="#" onclick="deleteSupplier({{$supplier->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
+               <a href="#" onclick="deleteSupplier({{$supplier->id}})" class="btn btn-outline-danger btn-m">Delete</a>
                </td> 
                    <td>{{$supplier->name}}</td>  
                     <td>{{$supplier->supplier_code}}</td>  

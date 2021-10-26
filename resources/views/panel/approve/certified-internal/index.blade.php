@@ -81,11 +81,11 @@ input[type="checkbox"]{
                    @foreach($internalRequisitions as $internal)
                     <tr>
                     {{-- <td>{{$internal->id}}</td> --}}
-                    <td> <a href="/certify-internal-requisition/{{$internal->id}}" class="btn btn-block btn-success btn-sm" disabled>View</a>
+                    <td> <a href="/certify-internal-requisition/{{$internal->id}}" class="btn  btn-outline-success btn-m" disabled>View</a>
                       @if($internal->certified_internal_requisition OR $internal->approve_internal_requisition )
-                      <td> <a class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})">Undo</a></td>
+                      <td> <a class="btn btn-block btn-outline-warning btn-m" onclick="undo({{$internal->id}})">Undo</a></td>
                       @else
-                      <td> <button  class="btn btn-block btn-warning btn-sm" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
+                      <td> <button  class="btn btn-block btn-warning btn-m" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
                       @endif
   
                      @if($internal->certified_internal_requisition)

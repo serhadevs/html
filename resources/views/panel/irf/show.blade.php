@@ -307,7 +307,7 @@ text-align: center;
 
                         <div class="row">
                         <div class="col-10">
-                        <a type="button"  href="/internal_requisition" class="btn btn-success">Back</a>
+                        <a type="button"  href="/internal_requisition" class="btn btn-outline-success">Back</a>
                         
                         </div>
                         </div>

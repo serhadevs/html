@@ -441,9 +441,9 @@ text-align: center;
                         
                       
                         <div class="col-10">
-                        <a type="button" href="/requisition"   class="btn btn-success float-left">Back</a>
+                        <a type="button" href="/requisition"   class="btn btn-outline-success float-left btn-lg">Back</a>
                      
-                        <button type="submit"  class="btn btn-primary float-right">Update</button>
+                        <button type="submit"  class="btn btn-outline-primary float-right btn-lg">Update</button>
                         </div>
       </div>
                         <br>

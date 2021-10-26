@@ -162,7 +162,7 @@
          
                   <!-- /.card-header -->
                    <div class="card-body">
-                     <a href="/print_pdf/{{$internalRequisition->id}}" class="btn btn-danger float-right">Print PDF</a>
+                     <a href="/print_pdf/{{$internalRequisition->id}}" class="btn btn-outline-danger float-right btn-lg">Print PDF</a>
                    <div class="title">
                             <p><h4>South East Regional Health Authority</h4>
                             The Towers, 25 Dominica Drive, Kingston 5</p><br>
@@ -255,7 +255,7 @@
                         <td>
                         <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                         </td> 
-                      <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                      <td> <a class="btn btn-outline-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
                       </tr>
                         @endforeach 
                       </tbody>
@@ -330,7 +330,7 @@
           
           </div>
            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Close</button>
             {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
          

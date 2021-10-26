@@ -77,13 +77,13 @@
                       {{-- <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a>  --}}
                      
                       @if($internalrequisition->budget_commitment)
-                         <td> <a href="#" class="btn btn-block btn-outline-success  btn-m" disabled>Committed</a> </td> 
-                      <td><a  href="/budgetcommitment/{{$internalrequisition->budget_commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a></td>
-                      <td><a href="#" class="btn btn-block btn-danger btn-m"  onclick="deleteCommitment({{$internalrequisition->budget_commitment->id}})">Delete</a></td>
+                         <td> <button href="#" class="btn btn-block btn-success btn-m" disabled>Committed</button> </td> 
+                      <td><a href="/budgetcommitment/{{$internalrequisition->budget_commitment->id}}/edit" class="btn btn-block btn-outline-primary  btn-m" >Edit</a></td>
+                      <td><button href="#" class="btn btn-block btn-outline-danger  btn-m"  onclick="deleteCommitment({{$internalrequisition->budget_commitment->id}})">Delete</button></td>
                         @else
-                        <td> <a href="/budgetcommitment/create/{{$internalrequisition->id}}" class="btn btn-block btn-success btn-m">Commit</a> </td> 
-                        <td><a  href="#" class="btn btn-block btn-outline-primary  btn-m"  disabled>Edit</a></td>
-                        <td><a href="#" class="btn btn-block btn-outline-danger  btn-m"   disabled>Delete</a></td>
+                        <td> <a href="/budgetcommitment/create/{{$internalrequisition->id}}" class="btn btn-block btn-outline-success  btn-m ">Commit</button> </td> 
+                        <td><button  href="#" class="btn btn-block btn-primary btn-m"  disabled>Edit</button></td>
+                        <td><button href="#" class="btn btn-block btn-danger btn-m"   disabled>Delete</button></td>
                     
                      @endif
                     <td>{{$internalrequisition->requisition_no}}</td>

@@ -251,11 +251,11 @@ text-align: center;
        
                         <div class="col-12">
                           @if($requisition->approve )
-                        <button type="button"   class="btn btn-warning" disabled>Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
+                        <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
+                        <button type="button"   class="btn btn-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
                       @else
-                      <button type="button"   class="btn btn-warning"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
+                      <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                        <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
                           @endif
                       </div>
                         </br>
@@ -293,8 +293,8 @@ text-align: center;
                     </div>
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                    <button type="submit"  class="btn btn-primary float-right" id="post" onclick="Refuse('{{$requisition->id}}');">Send</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                    <button type="submit"  class="btn btn-outline-primary float-right btn-lg" id="post" onclick="Refuse('{{$requisition->id}}');">Send</button>
                     {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                   </div>
                 </div>

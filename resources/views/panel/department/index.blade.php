@@ -36,7 +36,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="department/create" class="btn btn-success float-left">Add Department</a>
+                  <a href="department/create" class="btn btn-outline-success float-left btn-lg">Add Department</a>
                 <h3 class="card-title float-right">Departments </h3>
               </div>
               <!-- /.card-header -->
@@ -59,10 +59,10 @@
                   @foreach($departments as $department)
                   <tr>
                     <td>  
-                      <a  href="/department/{{$department->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="/department/{{$department->id}}/edit" class="btn  btn-outline-primary btn-m" >Edit</a> 
                       </td>
                       <td>
-                      <button class="btn btn-block btn-danger btn-m" onclick="deleteDepartment({{$department->id}})">Delete</button>
+                      <button class="btn btn-outline-danger btn-m" onclick="deleteDepartment({{$department->id}})">Delete</button>
                       </td> 
                     <td>{{$department->id}}</td> 
                    <td>{{$department->name}}</td>  

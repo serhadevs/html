@@ -237,18 +237,18 @@ text-align: center;
        
                         <div class="col-10">
                           @if($internalRequisition->approve_internal_requisition)
-                          <button type="button"   class="btn btn-warning" disabled>Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right"   disabled>Approve</button></br>
+                          <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
+                        <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Approve</button></br>
                         @else
-                        <button type="button"   class="btn btn-warning"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                        <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                         @if(in_array(auth()->user()->role_id,[1,2,10,11,12]))
-                        <button type="button"   class="btn btn-primary float-right"  onclick="Approve('{{$internalRequisition->id}}');">Approve</button></br>
+                        <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Approve('{{$internalRequisition->id}}');">Approve</button></br>
                        @else
-                       <button type="button"   class="btn btn-primary float-right"   disabled>Approve</button></br>
+                       <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Approve</button></br>
                        @endif
 
                         @endif
-                      </div> 
+                      </div>  
                        
                         </div>
                       </br>
@@ -284,8 +284,8 @@ text-align: center;
                     </div>
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                    <button type="submit"  class="btn btn-primary float-right" id="post" onclick="Refuse('{{$internalRequisition->id}}');">Send</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                    <button type="submit"  class="btn btn-outline-primary float-right btn-lg" id="post" onclick="Refuse('{{$internalRequisition->id}}');">Send</button>
                     {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                   </div>
                 </div>

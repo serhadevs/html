@@ -38,7 +38,7 @@ text-align: center;
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
-                        <h3 class="card-title">Edit Purchase Requisition</h3>
+                        <h3 class="card-title">Edit Requisition</h3>
                         </div>
                         </div>
                         </div>
@@ -453,8 +453,8 @@ text-align: center;
                         <div class="col-10">
                            
                        
-                        <a type="button" href="/requisition"   class="btn btn-success float-left">Back</a>
-                        <button type="Submit"   class="btn btn-primary float-right">Submit</button>
+                        <a type="button" href="/requisition"   class="btn btn-outline-success float-left btn-lg">Back</a>
+                        <button type="Submit"   class="btn btn-outline-primary float-right btn-lg">Submit</button>
                         </div>
                       
                        

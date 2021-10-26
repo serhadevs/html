@@ -34,7 +34,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="internal_requisition/create" class="btn btn-success float-left">Create IPR</a>
+                  <a href="internal_requisition/create" class="btn btn-outline-success float-left">Create IPR</a>
                 <h3 class="btn btn float-right" class="card-title">A list of all Internal Requisition Form</h3>
               </div>
               <!-- /.card-header -->
@@ -68,13 +68,13 @@
                     {{-- <td>{{$internal_requisition->id}}</td> --}}
 
                     <td>
-                      <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-outline-primary" btn-m" >Edit</a> 
                      </td>
                      <td>
-                       <a  href="/internal_requisition/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-m" >View</a> 
+                       <a  href="/internal_requisition/{{$internal_requisition->id}}" class="btn btn-outline-success btn-m" >View</a> 
                       </td>
                      <td>
-                     <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteinternal_requisition({{$internal_requisition->id}})" >Delete</a>
+                     <a href="#" class="btn btn-outline-danger btn-m" onclick="deleteinternal_requisition({{$internal_requisition->id}})" >Delete</a>
                      </td> 
                     <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
                     <td>{{$internal_requisition->requisition_no}}

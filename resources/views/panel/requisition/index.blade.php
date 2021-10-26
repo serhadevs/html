@@ -33,7 +33,7 @@
               <div class="card-header">
                   
                   {{-- <a href="requisition/create" class="btn btn-success float-right">Create Requisition</a> --}}
-                  <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Create Requisition</button>
+                  <button class="btn btn-outline-success float-left" data-toggle="modal" data-target="#modal-lg">Create Requisition</button>
                   <h3 class="card-title float-right">A list of all procurement requisition </h3>
               </div>
               <!-- /.card-header -->
@@ -74,7 +74,7 @@
          
            @foreach($internalrequisitions as $internal_requisition)
            <tr>
-           <td> <a href="/requisition/create/{{$internal_requisition->id}}" class="btn btn-block btn-success btn-sm">Select</a> </td>
+           <td> <a href="/requisition/create/{{$internal_requisition->id}}" class="btn btn-outline-success btn-lg">Select</a> </td>
            <td>{{$internal_requisition->requisition_no}}</td>
            <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
            <td>{{$internal_requisition->estimated_cost}}</td>
@@ -167,13 +167,13 @@
                     <tr>
                     {{-- <td>{{$requisition->id}}</td> --}}
                     <td>
-                      <a  href="/requisition/{{$requisition->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="/requisition/{{$requisition->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                      </td>
                      <td>
-                       <a  href="/requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-m" >view</a> 
+                       <a  href="/requisition/{{$requisition->id}}" class="btn  btn-outline-success btn-m" >view</a> 
                       </td>
                      <td>
-                     <a href="#" class="btn btn-block btn-danger btn-m" onclick="deleteRequisition({{$requisition->id}})" >Delete</a>
+                     <a href="#" class="btn  btn-outline-danger btn-m" onclick="deleteRequisition({{$requisition->id}})" >Delete</a>
                      </td> 
                     <td>{{$requisition->requisition_no}}</td>
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>

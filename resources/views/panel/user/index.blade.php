@@ -31,8 +31,8 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="user/create" class="btn btn-success float-right">Create User</a>
-                <h3 class="card-title">A list of all Users </h3>
+                  <a href="user/create" class="btn btn-outline-success float-left">Create User</a>
+                <h3 class="card-title float-right">A list of all Users </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -57,15 +57,15 @@
                      @foreach($users as $user)
                   <tr>
                     <td>
-                      <a  href="/user/{{$user->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="/user/{{$user->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                      </td>
  
                      <td>
-                     <button class="btn btn-block btn-warning btn-m" onclick="resetPassword({{$user->id}})">Reset</button>
+                     <button class="btn btn-outline-warning btn-m" onclick="resetPassword({{$user->id}})">Reset</button>
                      </td> 
  
                      <td>
-                     <button class="btn btn-block btn-danger btn-m" onclick="deleteUser({{$user->id}})">Delete</button>
+                     <button class="btn  btn-outline-danger btn-m" onclick="deleteUser({{$user->id}})">Delete</button>
                      </td> 
  
                    <td>{{$user->firstname}}</td>  

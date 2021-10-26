@@ -36,7 +36,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="institution/create" class="btn btn-success float-left">Add Institution</a>
+                  <a href="institution/create" class="btn btn-outline-success float-left">Add Institution</a>
                 {{-- <h3 class="card-title">List of institutions</h3> --}}
               </div>
               <!-- /.card-header -->
@@ -62,10 +62,10 @@
                  @foreach($institutions as $institution)
                   <tr>
                     <td> 
-                      <a  href="institution/{{$institution->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="institution/{{$institution->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                </td>
                <td>
-               <button class="btn btn-block btn-danger btn-m" onclick="deleteInstitution({{$institution->id}})">Delete</button>
+               <button class="btn  btn-outline-danger btn-m" onclick="deleteInstitution({{$institution->id}})">Delete</button>
                </td> 
                    <td>{{$institution->id}}</td>
                    <td>{{$institution->name}}</td>  

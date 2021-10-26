@@ -32,7 +32,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="measurement/create" class="btn btn-success float-left">Create measurement</a>
+                  <a href="measurement/create" class="btn btn-outline-success float-left">Create measurement</a>
                 <h3 class="card-title float-right">A list of all unit of measurements</h3>
               </div>
               <!-- /.card-header -->
@@ -55,10 +55,10 @@
                 @foreach($measurements as $measurement)
                     <tr>
                       <td>
-                        <a  href="/measurement/{{$measurement->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                        <a  href="/measurement/{{$measurement->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                         </td>
                         <td>
-                        <a href="#" onclick="deleteMeasurement({{$measurement->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
+                        <a href="#" onclick="deleteMeasurement({{$measurement->id}})" class="btn btn-outline-danger btn-m">Delete</a>
                         </td> 
                     <td>{{$measurement->id}}</td>
                     <td> {{$measurement->name}}</td>

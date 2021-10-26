@@ -33,7 +33,7 @@
             <div class="card">
               <div class="card-header">
                   {{-- /purchase-order/create --}}
-                  <button class="btn btn-success float-left" data-toggle="modal" data-target="#modal-lg">Add Purchase Order</button>
+                  <button class="btn btn-outline-success float-left btn-lg" data-toggle="modal" data-target="#modal-lg">Add Purchase Order</button>
                 <h3 class="card-title  float-right">A list of all procurement order </h3>
               </div>
 
@@ -70,7 +70,7 @@
                
                  @foreach($requisitions as $requisition)
                  <tr>
-                 <td> <a href="/purchase-order/create/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">Select</a> </td>
+                 <td> <a href="/purchase-order/create/{{$requisition->id}}" class="btn btn-outline-success btn-m">Select</a> </td>
                 <td>{{$requisition->requisition_no}}</td>
                 {{-- <td>{{$requisition->approve->created_at}}</td> --}}
                 <td>{{$requisition->department->name}}</td>
@@ -145,10 +145,10 @@
                     <td> <span class ="badge bg-red">Not approved</span></td>
                     @endif --}}
                     <td>
-                      <a  href="/purchase-order/{{$order->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                      <a  href="/purchase-order/{{$order->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                      </td>
                      <td>
-                     <a href="#" onclick= "deletePurchaseOrder({{$order->id}})" class="btn btn-block btn-danger btn-m">Delete</a>
+                     <a href="#" onclick= "deletePurchaseOrder({{$order->id}})" class="btn btn-outline-danger btn-m">Delete</a>
                      </td>  
                    
                     <td>{{$order->requisition->requisition_no}}</td>

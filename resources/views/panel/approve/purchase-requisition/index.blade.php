@@ -83,11 +83,11 @@ input[type="checkbox"]{
                   </thead>
                   <tbody>
                    @foreach($requisitions as $requisition)
-                    <td> <a href="/approve-requisition/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
+                    <td> <a href="/approve-requisition/{{$requisition->id}}" class="btn btn-outline-success btn-m">View</a>
                       @if($requisition->approve)
-                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm">Undo</button></td> 
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-outline-warning btn-m">Undo</button></td> 
                       @else
-                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm" disabled>Undo</button></td> 
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn  btn-warning btn-m" disabled>Undo</button></td> 
                       @endif
                     <td>{{$requisition->id}}</td> 
                     @if($requisition->approve)

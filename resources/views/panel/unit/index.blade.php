@@ -37,7 +37,7 @@
             <div class="card">
               <div class="card-header">
                   
-                  <a href="unit/create" class="btn btn-success float-left">create  units</a>
+                  <a href="unit/create" class="btn btn-outline-success float-left">Create  unit</a>
                 <h3 class="card-title float-right">Units </h3>
               </div>
               <!-- /.card-header -->
@@ -60,10 +60,10 @@
                   @foreach($units as $unit)
                   <tr>
                  <td>  
-                     <a  href="/unit/{{$unit->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a> 
+                     <a  href="/unit/{{$unit->id}}/edit" class="btn  btn-outline-primary btn-m" >Edit</a> 
                     </td>
                     <td>
-                    <button class="btn btn-block btn-danger btn-m" onclick="deleteUnit({{$unit->id}})">Delete</button>
+                    <button class="btn  btn-outline-danger btn-m" onclick="deleteUnit({{$unit->id}})">Delete</button>
                     </td> 
                     <td>{{$unit->id}}</td> 
                    <td>{{$unit->name}}</td>  

@@ -71,11 +71,11 @@ table.dataTable tbody td {
                   <tbody>
                    @foreach($requisitions as $requisition)
                     <tr>
-                      <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-success btn-sm">View</a>
+                      <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-outline-success btn-m">View</a>
                         @if($requisition->check)
-                        <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm">Undo</button>
+                        <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-outline-warning btn-m">Undo</button>
                       @else 
-                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-block btn-warning btn-sm" disabled >Undo</button>
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn  btn-warning btn-m" disabled >Undo</button>
                       @endif
                         </td> 
                      @if($requisition->check)

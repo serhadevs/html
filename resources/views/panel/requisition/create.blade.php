@@ -428,7 +428,7 @@ text-align: center;
 
                         <div class="row">
                         <div class="col-10">
-                        <button type="submit" id="btnSubmit" class="btn btn-primary float-right">Submit</button>
+                        <button type="submit" id="btnSubmit" class="btn btn-block btn-outline-primary btn-lg">Submit</button>
                         </div>
                         </div>
 

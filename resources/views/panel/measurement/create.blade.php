@@ -84,7 +84,7 @@
                         <div class="row">
                         <div class="col-10">
                         
-                        <button type="submit"   class="btn btn-primary float-right">Save</button>
+                        <button type="submit"   class="btn btn-outline-primary float-right btn-lg">Save</button>
                         </div>
                         </div>
                         </div>
