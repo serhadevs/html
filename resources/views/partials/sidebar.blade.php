@@ -156,7 +156,7 @@
               <li class="nav-item">
                 <a href="/budgetcommitment" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Commitment Budget</p>
+                  <p>Budget Commitment </p>
                 </a>
               </li>
               {{-- @if(in_array(Auth::user()->role_id, [1]))
