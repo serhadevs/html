@@ -99,7 +99,7 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" value="{{$ir->estimated_cost}}" name='estimated_cost' >
+                            <input type="number" class="form-control" id="estimated_cost" value="{{$ir->estimated_cost}}" name='estimated_cost' >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget activity</label>
                         <div class="col-sm-4">
@@ -389,50 +389,62 @@ text-align: center;
       
     @push('scripts')
     <script>
-    $(document).ready(function(){
-$('#next-1').click(function(){
-$('#second').show();
-$('#first').hide();
-$('#third').hide();
-$('#progressBar').css("width","67%")
-$('#progressText').html('Step -2')
-});
+//     $(document).ready(function(){
+// $('#next-1').click(function(){
+// $('#second').show();
+// $('#first').hide();
+// $('#third').hide();
+// $('#progressBar').css("width","67%")
+// $('#progressText').html('Step -2')
+// });
 
 
-$('#next-2').click(function(){
-    $('#first').hide();
-    $('#second').hide();
-    $('#third').show();
-    $('#progressBar').css("width","100%")
-    $('#progressText').html('Step -3')
+// $('#next-2').click(function(){
+//     $('#first').hide();
+//     $('#second').hide();
+//     $('#third').show();
+//     $('#progressBar').css("width","100%")
+//     $('#progressText').html('Step -3')
 
-})
+// })
 
-$('#previous').click(function(){
-    $('#first').show();
-    $('#second').hide();
-    $('#progressBar').css("width","33.5%")
-    $('#progressText').html('Step -1')
+// $('#previous').click(function(){
+//     $('#first').show();
+//     $('#second').hide();
+//     $('#progressBar').css("width","33.5%")
+//     $('#progressText').html('Step -1')
 
-})
-$('#previous-1').click(function(){
-    $('#first').hide();
-    $('#third').hide();
-    $('#second').show();
+// })
+// $('#previous-1').click(function(){
+//     $('#first').hide();
+//     $('#third').hide();
+//     $('#second').show();
 
-    $('#progressBar').css("width","67%")
-    $('#progressText').html('Step -2')
+//     $('#progressBar').css("width","67%")
+//     $('#progressText').html('Step -2')
 
-})
+// })
 
-});
+// });
+
+       
 
 
-$('#supplier').on('input',function(){
-var supplier = parseFloat($('#supplier').val());
-$('#supplier_input').val(supplier );
 
-});
+$('#estimated_cost').on('change',function(){
+  var approve_budget = {!! json_encode($ir->approve_budget) !!};
+  var $input = $('input#estimated_cost');
+  if(approve_budget != null){
+    swal(
+  'Warning',
+  'Changing estimated cost will result in reseting this application.',
+  'warning'
+        )
+    approve_budget = null;
+  
+  }
+    });
+
 
 
 

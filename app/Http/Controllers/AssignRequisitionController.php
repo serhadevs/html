@@ -7,7 +7,13 @@ use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\RequisitionType;
 use App\User;
+use App\ApproveInternalRequisition;
 use App\Notifications\AssignInternalRequisition;
+use App\Notifications\RefuseInternalRequisitionPublish;
+use App\Comment;
+use App\Status;
+use App\ApproveBudget;
+use App\BudgetCommitment;
 
 class AssignRequisitionController extends Controller
 {
@@ -58,9 +64,12 @@ class AssignRequisitionController extends Controller
         $users = User::whereIn('role_id',[5,9])
         ->where('institution_id','=',auth()->user()->institution->id)
         ->get();
+        // $user_group = array($internalRequisition ->pluck('user_id'),$internalRequisition ->pluck('user_id'));
+        // $users = User::whereIn('id',$user_group)->get();
+        // dd($users);
          
         if ($internalRequisition->assignto) {
-            return redirect('/assign_requisition')->with('error', 'The Internal Requisition is already assign to'.' ' . $internalRequisition->assignto->user->lastname);
+            return reirect('/assign_requisition')->with('error', 'The Internal Requisition is already assign to'.' ' . $internalRequisition->assignto->user->lastname);
         }
         return view('/panel.assign.create',compact('internalRequisition','users'));
     }
@@ -140,5 +149,63 @@ class AssignRequisitionController extends Controller
     public function destroy(AssignRequisition $assignRequisition)
     {
         //
+    }
+
+    public function request(Request $request)
+    {
+        //
+        try {
+            $requisition_id =$request->data['internal_requisition_id'];
+            $permission = $request->data['permission'];
+            $approve  = ApproveInternalRequisition::where('internal_requisition_id',$requisition_id)->first();
+            $approve->delete();
+                $comment = new Comment();
+                $comment->internal_requisition_id =  $requisition_id ;
+                $comment->type ='request more information';
+                $comment->user_id = auth()->user()->id;
+                $comment->comment =  $request->data['comment'];
+                $comment->save();
+                $status = Status::where('internal_requisition_id',$requisition_id)->first();
+                $status->name = 'Request more info';
+                $status->update();
+                //notification send by mail
+                $internal_requisition = InternalRequisition::find($requisition_id);
+                $user = User::find($internal_requisition->user_id);
+                $user->notify(new RefuseInternalRequisitionPublish($internal_requisition,$comment));
+
+            
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+    }
+    public function undo(Request $request)
+    {
+        //
+        try {
+            $comment="internal reqsuisition was rejected.";
+            $requisition_id = $request->data['internal_requisition_id'];
+            $budgetApprove = ApproveBudget::where('internal_requisition_id',$requisition_id);
+            $commit = BudgetCommitment::where('internal_requisition_id',$requisition_id);
+            $approve = ApproveInternalRequisition::where('internal_requisition_id',$requisition_id);
+            $internal_requisition = InternalRequisition::find($requisition_id);
+            $status = Status::where('internal_requisition_id',$requisition_id)->first();
+            $status->name = 'Internal Requisition';
+            $status->update();
+            $user_group = array($approve->pluck('user_id'),$budgetApprove->pluck('user_id'),$commit->pluck('user_id'),$internal_requisition->pluck('user_id'));
+            $users = User::whereIn('role_id',[1,2,3,4])->get();
+            $users->each->notify(new RefuseInternalRequisitionPublish($internal_requisition,$comment));
+            //$approve->delete();
+            //$commit->delete();
+           // $budgetApprove->delete();
+
+             return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
     }
 }

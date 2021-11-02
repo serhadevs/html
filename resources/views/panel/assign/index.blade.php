@@ -44,6 +44,7 @@
                     {{-- <th>ID</th> --}}
                     <th>Option</th>
                     <th></th>
+                    <th></th>
                     <th>Requisition Number</th>
                     <th>Assignee</th>
                     <th>Assign Date</th>
@@ -76,6 +77,7 @@
                     <a  href="/assign-requisition/{{$internal_requisition->id}}/create" class="btn btn-block btn-outline-primary  btn-m ">Assign</a></td>
                     @endif
                    <td> <a  href="/assign-requisition/show/{{$internal_requisition->id}}" class="btn btn-block btn-outline-success  btn-m ">View</a>
+                    <td> <a  href="#" class="btn btn-block btn-outline-danger  btn-m " onclick="refusal('{{$internal_requisition->id}}');">Reject</a>
                     </td>
                     <td>{{$internal_requisition->requisition_no}}</td>
                     @if($internal_requisition->assignto)
@@ -183,43 +185,43 @@ $(document).ready( function () {
 } );
 
 
-function deleteinternal_requisition(Id){
-  swal({
-    title: "Are you sure?",
-    text: "You will not be able to undo this action once it is completed!",
-    dangerMode: true,
-    cancel: true,
-    confirmButtonText: "Yes, Delete it!",
-    closeOnConfirm: false
-  }).then(isConfirm => {
-    if (isConfirm) {
-      $.get( {!! json_encode(url('/')) !!} + "/internal_requisition/delete/" + Id).then(function (data) {
-        console.log(data);
-        if (data == "success") {
-          swal(
-            "Done!",
-            "Permit Application was successfully deleted!",
-            "success").then(esc => {
-              if(esc){
-                location.reload();
-              }
-            });
-          }
-          else if(data=="existing_sign_off"){
-            swal("Error",
-            "This permit is already signed off and is not allowed to be deleted.",
-            "error");
-          }
-          else{
-            swal(
-              "Oops! Something went wrong.",
-              "Permit Application was NOT deleted.",
-              "error");
+function refusal(internal_requisition_id){
+   swal({
+        title: "Are you sure you want to refuse this requisition?",
+        text: "Warning: This will reset application process to internal requisition.",
+        icon: "warning",
+        buttons: [
+          'No, cancel it!',
+          'Yes, I am sure!'
+        ]
+      }).then(isConfirm => {
+        if (isConfirm) {
+          $.get( {!! json_encode(url('/')) !!} + "/refuse-requisition",{ _method: "POST",data:{internal_requisition_id:internal_requisition_id},_token: "{{ csrf_token() }}"}).then(function (data) {
+         
+            if (data == "success") {
+              swal(
+                "Done!",
+                "The internal requisition was refused.",
+                "success").then(esc => {
+                  if(esc){
+                    location.reload();
+                  }
+                });
+              }else{
+                swal(
+                  "Oops! Something went wrong.",
+                  "Application(s) were NOT approved",
+                  "error");
+                }
+                location.href='/assign_requisition';
+               
+              });
             }
-          });
-        }
-      });
-    }
+       
+        });
+     
+}
+
 </script>
 
 @endpush

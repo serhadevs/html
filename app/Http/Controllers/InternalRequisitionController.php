@@ -17,6 +17,9 @@ use App\User;
 use App\AttachedFile;
 use App\Notifications\InternalRequisitionApprovePublish;
 use App\Notifications\CertifiedInternalRequisitionPublish;
+use App\Comment;
+use App\ApproveBudget;
+use App\BudgetCommitment;
 
 
 
@@ -137,19 +140,19 @@ class InternalRequisitionController extends Controller
 
 
             if ($request->file('file_upload')) {
-    $files = $request->file('file_upload');
-    foreach ($files as $key => $file) {
-        $newfile = new AttachedFile();
-        if ($request->file('file_upload')) {
+            $files = $request->file('file_upload');
+            foreach ($files as $key => $file) {
+            $newfile = new AttachedFile();
+            if ($request->file('file_upload')) {
             $paths[] = $file->storeAs(
                 'public/documents', $file->getClientOriginalName()
 
             );
 
-        }
-        $newfile->filename = $file->getClientOriginalName();
-        $newfile->internal_requisition_id = $internal_requisition->id;
-        $newfile->save();
+            }
+            $newfile->filename = $file->getClientOriginalName();
+            $newfile->internal_requisition_id = $internal_requisition->id;
+            $newfile->save();
 
     }
 
@@ -252,7 +255,7 @@ class InternalRequisitionController extends Controller
 
         $units = UnitOfMeasurement::all();
         //  dd(('test'));
-        $ir = InternalRequisition::with(['stocks', 'comment'])
+        $ir = InternalRequisition::with(['stocks', 'comment','approve_budget'])
             ->find($id);
         // dd($ir->comment);
         $types = RequisitionType::all();
@@ -281,12 +284,11 @@ class InternalRequisitionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->all());
-        $internal_requisition = InternalRequisition::with(['stocks'])->find($id);
 
-        // $internal_requisition->user_id = auth()->user()->id;
-        // $internal_requisition->institution_id = auth()->user()->institution_id;
-        // $internal_requisition->department_id = auth()->user()->department_id;
+        $internal_requisition = InternalRequisition::with(['stocks'])->find($id);
+       
+        if($internal_requisition->estimated_cost == $request->estimated_cost)
+        {
         $internal_requisition->estimated_cost = $request->estimated_cost;
         $internal_requisition->budget_approve = $request->budget_approve;
         $internal_requisition->phone = $request->phone;
@@ -295,51 +297,100 @@ class InternalRequisitionController extends Controller
         $internal_requisition->budget_approve = $request->budget_approve;
         $internal_requisition->priority = $request->priority;
         $internal_requisition->comments = $request->comments;
-        // dd( $internal_requisition);
-        if ($internal_requisition->update()) {
+        $input = $request->all();
+        foreach ($internal_requisition->stocks as $products) {
+        $products->delete();
+        }
 
-            $approve = ApproveInternalRequisition::where('internal_requisition_id', $id)
-                ->where('is_granted', 0)
-                ->first();
-            if ($approve != null) {
-                $approve->delete();
-            } else {
-                $approve = null;
-            }
-            $certify = CertifiedInternalRequisition::where('internal_requisition_id', $id)
-                ->where('is_granted', 0)
-                ->first();
-            if ($certify != null) {
-                $certify->delete();
-            } else {
-                $certify = null;
-            }
+        if ($input['item_number'][0]) {
+        foreach ($input['item_number'] as $key => $stocks) {
+                $stock = Stock::create([
+                    'item_number' => $input['item_number'][$key],
+                    'quantity' => $input['quantity'][$key],
+                    'description' => $input['description'][$key],
+                    'part_number' => $input['part_number'][$key],
+                    'unit_of_measurement_id' => $input['unit'][$key],
+                    'unit_cost' => $input['unit_cost'][$key],
+                    'internal_requisition_id' => $internal_requisition->id,
+                ]);
 
+        }
+
+        }
+
+        
+        }else{
+           
+            $internal_requisition->estimated_cost = $request->estimated_cost;
+            $internal_requisition->budget_approve = $request->budget_approve;
+            $internal_requisition->phone = $request->phone;
+            $internal_requisition->email = $request->email;
+            $internal_requisition->requisition_type_id = $request->requisition_type;
+            $internal_requisition->budget_approve = $request->budget_approve;
+            $internal_requisition->priority = $request->priority;
+            $internal_requisition->comments = $request->comments;
+           // $internal_requisition->update();
             $input = $request->all();
-
-            // $products = Stock::find($requisition->id);
-            // dd($products);
             foreach ($internal_requisition->stocks as $products) {
-                $products->delete();
+            $products->delete();
             }
 
             if ($input['item_number'][0]) {
-                foreach ($input['item_number'] as $key => $stocks) {
-                    $stock = Stock::create([
-                        'item_number' => $input['item_number'][$key],
-                        'quantity' => $input['quantity'][$key],
-                        'description' => $input['description'][$key],
-                        'part_number' => $input['part_number'][$key],
-                        'unit_of_measurement_id' => $input['unit'][$key],
-                        'unit_cost' => $input['unit_cost'][$key],
-                        'internal_requisition_id' => $internal_requisition->id,
-                    ]);
-
-                }
-
-            }
+            foreach ($input['item_number'] as $key => $stocks) {
+                $stock = Stock::create([
+                    'item_number' => $input['item_number'][$key],
+                    'quantity' => $input['quantity'][$key],
+                    'description' => $input['description'][$key],
+                    'part_number' => $input['part_number'][$key],
+                    'unit_of_measurement_id' => $input['unit'][$key],
+                    'unit_cost' => $input['unit_cost'][$key],
+                    'internal_requisition_id' => $internal_requisition->id,
+                ]);
 
         }
+
+        }
+           
+            $budgetApprove = ApproveBudget::where('internal_requisition_id',$internal_requisition->id);
+            $budgetApprove->delete();
+            $commit = BudgetCommitment::where('internal_requisition_id',$internal_requisition->id);
+            $commit->delete();
+            $approve = ApproveInternalRequisition::where('internal_requisition_id',$internal_requisition->id);
+            $approve->delete();
+            $status = Status::where('internal_requisition_id',$internal_requisition->id)->first();
+            $status->name = 'Internal Requisition';
+      
+
+
+        }
+        $internal_requisition->update();
+        $users = User::where('institution_id', auth()->user()->institution_id)
+        ->where('department_id', auth()->user()->department_id)
+        ->whereIn('role_id', [2])
+        ->get();
+        $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+
+            // $approve = ApproveInternalRequisition::where('internal_requisition_id', $id)
+            //     ->where('is_granted', 1)
+            //     ->first();
+            // if ($approve != null) {
+            //     $approve->delete();
+            // } else {
+            //     $approve = null;
+            // }
+            // $certify = CertifiedInternalRequisition::where('internal_requisition_id', $id)
+            //     ->where('is_granted', 1)
+            //     ->first();
+            // if ($certify != null) {
+            //     $certify->delete();
+            // } else {
+            //     $certify = null;
+            // }
+
+
+           
+
+        
 
         return redirect('/internal_requisition')->with('status', 'Internal requisition was updated successfully');
 

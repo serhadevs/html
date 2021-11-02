@@ -23,7 +23,7 @@ text-align: center;
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Internal Requisition</h1>
+            <h1>Assign Internal Requisition</h1>
           </div>
           {{-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -43,7 +43,7 @@ text-align: center;
             <div class="card">
               <div class="card-body">
                   
-              <a href="/print_pdf/{{$internalRequisition->id}}" class="btn btn-danger float-right">Print PDF</a>
+              <a href="/print_pdf/{{$internalRequisition->id}}" class="btn btn-outline-danger float-right btn-lg">Print PDF</a>
               
               </div> 
               <!-- /.card-header -->
@@ -258,14 +258,58 @@ text-align: center;
           
        <div class="row">
                         <div class="col-10">
-                        <a type="button"  href="/assign_requisition" class="btn btn-success">Back</a>
+
+                          <button type="button"   class="btn btn-outline-primary  float-right btn-lg"  data-toggle="modal" data-target="#modal-lg">Request</button>
+                        <a type="button"  href="/assign_requisition" class="btn btn-outline-success btn-lg">Back</a>
                         
                         </div>
-                        </div>
+          </div>
+           
+          
+                   {{-- //modal  --}}
+
+                   
+      
                        
-                       
-                        </div>
-                
+          </div>
+          <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-m">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Request Additional Information</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                   <div class="card-body">
+                    <form  id='form-refuse' class="form-horizontal" method="Post" autocomplete="off" action="/approve-internal-requisition" >
+                      @csrf 
+                       <div class="form-group row">
+                      <label for="cost-centre" class="col-m-4 col-form-label">Comments</label>
+                      <div class="col-m-8">
+                          <textarea type="text" style="width:400px; height:200px;" value="{{Request::old('comment')}}" id="comment" name='comment'></textarea>
+                      </div>
+                      <input type="hidden" name='requisition_id' id="requisition_id" value="{{$internalRequisition->id}}"> 
+                      </div>
+
+
+                   
+                  </form>
+
+          
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                  <button type="submit"  class="btn btn-outline-primary float-right btn-lg" id="post" onclick="request('{{$internalRequisition->id}}');">Send</button>
+                  {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
 
                       </br> 
 
@@ -330,48 +374,13 @@ text-align: center;
 @push('scripts')
 <script>
 
-function Approve(internal_requisition_id){
-   
-        swal({
-        title: "Are you sure you want to approve the selected internal requisition form?",
-        text: "Tip: Always ensure that you review each internal requisition form thoroughly before approval.",
-        icon: "warning",
-        buttons: [ 
-          'No, cancel it!',
-          'Yes, I am sure!'
-        ]
-      }).then(isConfirm => {
-        if (isConfirm) {
-          console.log("approve");
-          $.post( {!! json_encode(url('/')) !!} + "/approve-budget-requisition",{ _method: "POST",data:{internal_requisition_id:internal_requisition_id,permission:1},_token: "{{ csrf_token() }}"}).then(function (data) {
-          console.log(data);
-            if (data == "success") {
-              swal(
-                "Done!",
-                "Internal Requisition was approve and will shortly be forwarded to budget commitment.",
-                "success").then(esc => {
-                  if(esc){
-                    location.reload();
-                  }
-                });
-              }else{
-                swal(
-                  "Oops! Something went wrong.",
-                  "Application(s) were NOT approved",
-                  "error");
-                }
-              });
-            }
-       
-        });
-}
 
 
-function Refuse(internal_requisition_id){
+function request(internal_requisition_id){
   var comment = $('#comment').val();
   console.log(internal_requisition_id);
    swal({
-        title: "Are you sure you want to refuse the selected applications?",
+        title: "Are you sure you want to request additional information?",
         // text: "Tip: Always ensure that you review each purchase requisition thoroughly before approval.",
         icon: "warning",
         buttons: [
@@ -381,12 +390,12 @@ function Refuse(internal_requisition_id){
       }).then(isConfirm => {
         if (isConfirm) {
           // console.log("app type:" +  requisitionId);
-          $.post( {!! json_encode(url('/')) !!} + "/approve-budget-requisition",{ _method: "POST",data:{internal_requisition_id:internal_requisition_id,permission:0,comment:comment},_token: "{{ csrf_token() }}"}).then(function (data) {
+          $.get( {!! json_encode(url('/')) !!} + "/request-information",{ _method: "POST",data:{internal_requisition_id:internal_requisition_id,permission:0,comment:comment},_token: "{{ csrf_token() }}"}).then(function (data) {
           console.log(data);
             if (data == "success") {
               swal(
                 "Done!",
-                "Purchase requisition was refuse and will send an email to the requester.",
+                "Additional information was requested,an email was sent to the requester.",
                 "success").then(esc => {
                   if(esc){
                     location.reload();
@@ -398,7 +407,7 @@ function Refuse(internal_requisition_id){
                   "Application(s) were NOT approved",
                   "error");
                 }
-                location.href='/approve-budget-requisition';
+                location.href='/assign_requisition';
                
               });
             }
