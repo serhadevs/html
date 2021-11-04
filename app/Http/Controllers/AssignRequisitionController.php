@@ -64,9 +64,9 @@ class AssignRequisitionController extends Controller
         $users = User::whereIn('role_id',[5,9])
         ->where('institution_id','=',auth()->user()->institution->id)
         ->get();
-        // $user_group = array($internalRequisition ->pluck('user_id'),$internalRequisition ->pluck('user_id'));
+        // $user_group = array($internalRequisition ->user_id,$internalRequisition ->user_id);
         // $users = User::whereIn('id',$user_group)->get();
-        // dd($users);
+        // dd($user_group);
          
         if ($internalRequisition->assignto) {
             return reirect('/assign_requisition')->with('error', 'The Internal Requisition is already assign to'.' ' . $internalRequisition->assignto->user->lastname);
@@ -185,21 +185,27 @@ class AssignRequisitionController extends Controller
     {
         //
         try {
-            $comment="internal reqsuisition was rejected.";
+            
             $requisition_id = $request->data['internal_requisition_id'];
-            $budgetApprove = ApproveBudget::where('internal_requisition_id',$requisition_id);
-            $commit = BudgetCommitment::where('internal_requisition_id',$requisition_id);
-            $approve = ApproveInternalRequisition::where('internal_requisition_id',$requisition_id);
+            $budgetApprove = ApproveBudget::where('internal_requisition_id',$requisition_id)->first();
+            $commit = BudgetCommitment::where('internal_requisition_id',$requisition_id)->first();
+            $approve = ApproveInternalRequisition::where('internal_requisition_id',$requisition_id)->first();
             $internal_requisition = InternalRequisition::find($requisition_id);
             $status = Status::where('internal_requisition_id',$requisition_id)->first();
             $status->name = 'Internal Requisition';
+            $comment = new Comment();
+            $comment->internal_requisition_id =  $requisition_id ;
+            $comment->type ='rejected';
+            $comment->user_id = auth()->user()->id;
+            $comment->comment =  "The internal reqsuisition was rejected by the Procurment Department.";
+            $comment->save();
             $status->update();
-            $user_group = array($approve->pluck('user_id'),$budgetApprove->pluck('user_id'),$commit->pluck('user_id'),$internal_requisition->pluck('user_id'));
-            $users = User::whereIn('role_id',[1,2,3,4])->get();
+            $user_group = array($commit->user_id,$budgetApprove->user_id,$approve->user_id,$internal_requisition->user_id);
+            $users = User::whereIn('id',$user_group)->get();
             $users->each->notify(new RefuseInternalRequisitionPublish($internal_requisition,$comment));
-            //$approve->delete();
-            //$commit->delete();
-           // $budgetApprove->delete();
+            $approve->delete();
+            $commit->delete();
+            $budgetApprove->delete();
 
              return "success";
         

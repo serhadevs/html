@@ -161,7 +161,7 @@ Route::resource('assign_requisition','AssignRequisitionController');
 Route::get('assign-requisition/{id}/create','AssignRequisitionController@create');
 Route::get('assign-requisition/show/{id}', 'AssignRequisitionController@show');
 Route::get('/request-information', 'AssignRequisitionController@request');
-Route::get('/refuse-requisition', 'AssignRequisitionController@undo');
+Route::get('/refuse-requisition',  'AssignRequisitionController@undo');
 
 
 
