@@ -85,7 +85,7 @@
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-success float-left">Change Password</button>
+                        <button type="submit"   class="btn btn-outline-primary float-left btn-lg">Change Password</button>
                         </div>
                         </div>
                         </div>

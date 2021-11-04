@@ -158,13 +158,11 @@
                         <label for="date-of-last" class="col-sm-2 col-form-label">Unit</label>
                         <div class="col-sm-4">
                           <select type="input" class="form-control" value="" name="unit_id" id="unit" required>
-                            {{-- @foreach($units as $unit)
+                           @foreach($units as $unit)
                           @if($unit->id === $user->unit_id)
                           <option selected value="{{ $unit->id }}" >{{ $unit->name }}</option>
-                          @else
-                         <option  value="{{$unit->id}}" >{{$unit->name}}</option>
-                        @endif 
-                          @endforeach --}}
+                          @endif
+                          @endforeach
 
 
                             
