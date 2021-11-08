@@ -99,7 +99,7 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" id="estimated_cost" value="{{$ir->estimated_cost}}" name='estimated_cost' >
+                            <input type="number" class="form-control" min="0.00" step="0.01"  id="estimated_cost" value="{{$ir->estimated_cost}}" name='estimated_cost' >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget activity</label>
                         <div class="col-sm-4">
@@ -233,7 +233,7 @@ text-align: center;
                 
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;'>
+                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;'>
                 </td>
                 <td>
                 <input name='part_number[]' class='part_number' value="{{$stock->part_number}}" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;'>
