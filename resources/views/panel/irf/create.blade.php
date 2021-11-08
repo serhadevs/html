@@ -203,7 +203,7 @@ text-align: center;
                   </select>
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
+                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
                   <input name='part_number[]' class='part_number' id="part_number" type='text' size="5" style='border:none;outline:none;background: transparent;'>
