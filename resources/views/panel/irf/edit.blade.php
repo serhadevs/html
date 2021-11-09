@@ -181,7 +181,7 @@ text-align: center;
 
           
 
-                              <div id="table" class="table-editable">
+                <div id="table" class="table-editable">
                 <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
             
             <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
@@ -194,7 +194,7 @@ text-align: center;
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
                 <th class="text-center">Part Number</th>
-                 <th class="text-center">Option</th>
+                <th class="text-center">Option</th>
                 
               </tr>
             </thead>
@@ -209,18 +209,15 @@ text-align: center;
                 </td>
                 <td>
                 
-                  {{-- <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'> --}}
-                   <input name='description[]'  value={{$stock->description}} class='des' type='text' size="10" style='border:none;outline:none;background: transparent;'>
+                
+                   <input name='description[]'  value={{$stock->description}} class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                <input name='quantity[]'  class='quantity'  value={{$stock->quantity}} type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'>
+                <input name='quantity[]'  class='quantity'  value={{$stock->quantity}} type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>
                 </td>
-                {{-- <td>
-                <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;'>
-              
-                </td> --}}
+               
                 <td>
-                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'>
+                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;' required>
                 
                   @foreach ($units as $unit)
                   @if($stock->unit_of_measurement_id == $unit->id)
@@ -233,7 +230,7 @@ text-align: center;
                 
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;'>
+                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
                 <input name='part_number[]' class='part_number' value="{{$stock->part_number}}" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;'>
@@ -247,7 +244,34 @@ text-align: center;
             </div>
             </tbody>
             @endforeach
+   
+               {{-- <tr class="hide">
+                <td>  <input name='item_number[]' class='productname hidden' id="hidden_item" value="" type='text' size="5" style='border:none;outline:none;background: transparent;' disabled></td>
+                <td > <input name='description[]'  value="" class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' disabled></td>
+                <td ><input name='quantity[]'  class='quantity'  value="" type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'disabled></td>
+                <td >
+                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;' disabled>
+                    
+                    @foreach ($units as $unit)
+                    @if($stock->unit_of_measurement_id == $unit->id)
+                    <option selected value="{{ $stock->unit_of_measurement_id }}" >{{ $stock->unit_of_measurement->name }}</option>
+                    @else
+                    <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
+                    @endif
+                    @endforeach
+                    </select>
+                </td>
+                <td > <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="" type='number'style='width:80px; border:none;outline:none;background: transparent;' disabled></td>
+                <td>  <input name='part_number[]' class='part_number' value="" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;' disabled></td>
+                
+                <td>
+                  <span class="table-remove"
+                    ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" disabled> Remove</button></span>
+                </td>
+              </tr> --}}
+          
           </table>
+        </div>
           <div class="row">
             <div class="col-sm-6">
               <!-- textarea -->
@@ -302,7 +326,7 @@ text-align: center;
               </div>
                </div> 
           </div>
-        </div>
+       
 
 
 
@@ -357,7 +381,7 @@ text-align: center;
     @endpush
 
     @push('scripts')
-    <script src="/js/dataTables.select.min.js"></script>
+    {{-- <script src="/js/dataTables.select.min.js"></script> --}}
     <script src="/js/editable-table.js"></script> 
     <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -389,45 +413,7 @@ text-align: center;
       
     @push('scripts')
     <script>
-//     $(document).ready(function(){
-// $('#next-1').click(function(){
-// $('#second').show();
-// $('#first').hide();
-// $('#third').hide();
-// $('#progressBar').css("width","67%")
-// $('#progressText').html('Step -2')
-// });
 
-
-// $('#next-2').click(function(){
-//     $('#first').hide();
-//     $('#second').hide();
-//     $('#third').show();
-//     $('#progressBar').css("width","100%")
-//     $('#progressText').html('Step -3')
-
-// })
-
-// $('#previous').click(function(){
-//     $('#first').show();
-//     $('#second').hide();
-//     $('#progressBar').css("width","33.5%")
-//     $('#progressText').html('Step -1')
-
-// })
-// $('#previous-1').click(function(){
-//     $('#first').hide();
-//     $('#third').hide();
-//     $('#second').show();
-
-//     $('#progressBar').css("width","67%")
-//     $('#progressText').html('Step -2')
-
-// })
-
-// });
-
-       
 
 
 
@@ -445,46 +431,10 @@ $('#estimated_cost').on('change',function(){
   }
     });
 
+    // $('#add').on('click',function(){
+    // $('.hidden').removeAttr("disabled");
+    // });
 
-
-
-
-
-$('#table').ready(function() {
-    var table = $('<table></table>').addClass('foo');
-        for (var i = 0; i < 10; i++) {
-                row = $('<tr></tr>');
-                for (var j = 0; j < 10; j++) {
-                    var rowData = $('<td></td>').addClass('bar').text('result ' + j);
-                    row.append(rowData);
-                }
-                table.append(row);
-            }
-
-        if ($('table').length) {
-             $("#someContainer tr:first").after(row);
-        }
-        else {
-            $('#someContainer').append(table);
-        }
-    });
-
-$(document).ready(function(){
-
-  $('.btn-add-more').click(function(){
-  
-    var html = $('.hide').html();
-    $('.img_div').after(html);
-  });
-
-
-   $("body").on("click",".btn-remove",function(){ 
-    $('.form-group').attr('disable',true);
-          $(this).parents(".form-group").remove();
-      });
-
-
-});
 
 
 function deleteAttached(id){

@@ -5,31 +5,43 @@ let counter = 1;
 
 const newTr = `
 <tr class="hide">
-                 <td>
+<td>
                   
-                  <input name='count[]' type='text' size="5" style='border:none;outline:none;background: transparent;' value='2'>
-               
-                </td>
-                <td>
-                
-                  <input name='quantity[]' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' value=''>
-     
-                </td>
-                <td>
-                  <input name='description[]' type='text' size="10" style='border:none;outline:none;background: transparent;' value=''>
-                </td>
-                <td>
-                <input name='unit-cost'size="5" type='number'style='width:80px; border:none;outline:none;background: transparent;' value=''>
-              
-                </td>
-                <td>
-                
-                  <input name='total[]' type ='number' size="5" maxlength='5'style='width:80px;border:none;outline:none;background: transparent;' value=''>
-                
-                </td> 
-                
-                </tr>`;
+<input name='item_number[]' class='productname' id="item_number" value="" type='text' size="5" style='border:none;outline:none;background: transparent;' disabled>
 
+</td>
+<td>
+
+  
+   <input name='description[]'  value="" class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' disabled>d>
+</td>
+<td>
+<input name='quantity[]'  class='quantity'  value="" type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' disabled>
+</td>
+
+<td>
+  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;' disabled>
+
+  @foreach ($units as $unit)
+  @if($stock->unit_of_measurement_id == $unit->id)
+  <option selected value="{{ $stock->unit_of_measurement_id }}" >{{ $stock->unit_of_measurement->name }}</option>
+  @else
+  <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
+  @endif
+  @endforeach
+  </select>
+
+</td> 
+<td>
+  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="" type='number'style='width:80px; border:none;outline:none;background: transparent;' disabled>
+</td>
+<td>
+<input name='part_number[]' class='part_number' value="" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;'disabled>
+</td>
+
+
+<td>
+                </tr>`;
 $(".table-add").on("click", "i", () => {
     const $clone = $tableID
         .find("tbody tr")
@@ -42,6 +54,7 @@ $(".table-add").on("click", "i", () => {
     }
 
     $tableID.find("table").append($clone);
+    
 });
 
 $tableID.on("click", ".table-remove", function () {

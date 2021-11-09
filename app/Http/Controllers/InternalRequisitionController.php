@@ -285,6 +285,21 @@ class InternalRequisitionController extends Controller
     public function update(Request $request, $id)
     {
 
+        $request->validate([
+            'estimated_cost' => 'required',
+            'budget_approve' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'requisition_type' => 'required',
+            'priority' => 'required',
+
+            'quantity' => 'required',
+            'description' => 'required',
+            // 'part_number' => 'required',
+            'unit' => 'required',
+            'unit_cost' => 'required',
+
+        ]);
         $internal_requisition = InternalRequisition::with(['stocks'])->find($id);
        
         if($internal_requisition->estimated_cost == $request->estimated_cost)
@@ -302,7 +317,7 @@ class InternalRequisitionController extends Controller
         $products->delete();
         }
 
-        if ($input['item_number'][0]) {
+        if($request->item_number){
         foreach ($input['item_number'] as $key => $stocks) {
                 $stock = Stock::create([
                     'item_number' => $input['item_number'][$key],
@@ -315,8 +330,10 @@ class InternalRequisitionController extends Controller
                 ]);
 
         }
-
-        }
+    }else{
+        $stock=null;
+    }
+        
 
         
         }else{
