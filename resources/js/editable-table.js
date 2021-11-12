@@ -43,6 +43,7 @@ const newTr = `
 <td>
                 </tr>`;
 $(".table-add").on("click", "i", () => {
+    
     const $clone = $tableID
         .find("tbody tr")
         .last()
@@ -54,7 +55,7 @@ $(".table-add").on("click", "i", () => {
     }
 
     $tableID.find("table").append($clone);
-    
+
 });
 
 $tableID.on("click", ".table-remove", function () {
