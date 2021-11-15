@@ -131,7 +131,7 @@ class SuppliersController extends Controller
         $request->validate([
             'name' => 'required',
             'supplier_code' => 'required',
-            'trn' => 'required|integer|digits:9',
+            'trn' => 'required|digits:9',
             'phone'=> 'required',
             'address'=> 'required',
             'city'=> 'required',
