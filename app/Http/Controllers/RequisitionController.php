@@ -248,7 +248,7 @@ class RequisitionController extends Controller
     public function update(Request $request, Requisition $requisition)
     {
         //
-         // dd($request->all());
+       // dd($request->all());
         // $total = 0;
         // $requisition->requisition_type_id = $request->requisition_type;
         $requisition->delivery = $request->delivery;
@@ -256,7 +256,7 @@ class RequisitionController extends Controller
         $requisition->category_id = $request->category;
         $requisition->tcc = $request->tcc;
         $requisition->ppc = $request->ppc;
-        $requisition->trn = $request->trn;
+        // $requisition->trn = $request->trn;
         $requisition->tcc_expired_date = $request->tcc_expired_date;
         $requisition->ppc_expired_date = $request->ppc_expired_date;
         // $requisition->estimated_cost = $request->estimated_cost;
