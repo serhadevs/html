@@ -87,7 +87,7 @@
          
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,2,5,8,9,10,11,12,13]))
+          @if(in_array(Auth::user()->role_id, [1,2,5,8,9,10,11,12,13,14]))
           <li class="nav-item has-treeview">
             
             <a href="#" class="nav-link">
@@ -98,7 +98,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if(in_array(Auth::user()->role_id, [1,12,13]))
+              @if(in_array(Auth::user()->role_id, [1,12,13,14]))
               <li class="nav-item">
                 <a href="/certify-internal-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -106,7 +106,7 @@
                 </a>
               </li>
               @endif
-              @if(in_array(Auth::user()->role_id, [1,3,2,10,11,12]))
+              @if(in_array(Auth::user()->role_id, [1,3,2,10,11,12,14]))
               <li class="nav-item">
                 <a href="/approve-internal-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -123,7 +123,7 @@
               </li>
               @endif
 
-              @if(in_array(Auth::user()->role_id, [1,3,5,8,9,12]))
+              @if(in_array(Auth::user()->role_id, [1,3,5,8,9,12,14]))
               <li class="nav-item">
                 <a href="/approve-budget-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -143,7 +143,7 @@
             </ul>
           </li>
           @endif
-          @if(in_array(Auth::user()->role_id, [1,7,8]))
+          @if(in_array(Auth::user()->role_id, [1,7,8,14]))
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-balance-scale"></i>

@@ -24,7 +24,7 @@ class ApproveBudgetController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,3,5,8,12])) {
+            if (!in_array(auth()->user()->role_id, [1,3,5,8,12,14])) {
                 return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
@@ -66,7 +66,7 @@ class ApproveBudgetController extends Controller
     public function store(Request $request)
     {
         try {
-            if(!in_array(auth()->user()->role_id,[1,8]) ){
+            if(!in_array(auth()->user()->role_id,[1,8,14]) ){
                 abort_if(in_array(auth()->user()->role_id,[2,5,12,9]),redirect('/panel/approve/budget.index')->with('error','No access granted'));
                 }else{
    

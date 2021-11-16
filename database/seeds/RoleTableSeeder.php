@@ -63,6 +63,10 @@ class RoleTableSeeder extends Seeder
 [
     "name" => "Supervisor",
     "description" => "department supervisor"
+],
+[
+    "name" => "Director of Finance",
+    "description" => "The director of finance"
 ]
  ]);
     }
