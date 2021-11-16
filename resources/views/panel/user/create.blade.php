@@ -80,7 +80,7 @@
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="role" id="role" required>
                             <option value="">select type </option>
-                            @foreach($roles->except([1,12]) as $role)
+                            @foreach($roles->except([1,12,14]) as $role)
                            <option  value="{{$role->id}}" >{{$role->name}}</option>
   
                             @endforeach
