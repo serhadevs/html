@@ -259,7 +259,7 @@ text-align: center;
                               <label for="date-of-last"  class="col-sm-2 col-form-label">TRN</label>
                               <div class="col-sm-4">
                                
-                               <input type="number" disabled class="form-control" value="{{$requisition->trn}}" id='trn' name='trn'>
+                               <input type="number" disabled class="form-control" value="{{$requisition->supplier->trn}}" id='trn' name='trn'>
                                
                               </div>
                               
