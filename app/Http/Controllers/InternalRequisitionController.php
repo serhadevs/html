@@ -387,22 +387,24 @@ class InternalRequisitionController extends Controller
         ->get();
         $users->each->notify(new InternalRequisitionPublish($internal_requisition));
 
-            // $approve = ApproveInternalRequisition::where('internal_requisition_id', $id)
-            //     ->where('is_granted', 1)
-            //     ->first();
-            // if ($approve != null) {
-            //     $approve->delete();
-            // } else {
-            //     $approve = null;
-            // }
-            // $certify = CertifiedInternalRequisition::where('internal_requisition_id', $id)
-            //     ->where('is_granted', 1)
-            //     ->first();
-            // if ($certify != null) {
-            //     $certify->delete();
-            // } else {
-            //     $certify = null;
-            // }
+        if ($request->file('file_upload')) {
+            $files = $request->file('file_upload');
+            foreach ($files as $key => $file) {
+            $newfile = new AttachedFile();
+            if ($request->file('file_upload')) {
+            $paths[] = $file->storeAs(
+                'public/documents', $file->getClientOriginalName()
+
+            );
+
+            }
+            $newfile->filename = $file->getClientOriginalName();
+            $newfile->internal_requisition_id = $internal_requisition->id;
+            $newfile->save();
+
+    }
+
+}
 
 
            

@@ -21,6 +21,9 @@ text-align: center;
   display:none;
 }
 
+.above{
+  display:none;
+}
 
 </style>
     <div class="content-wrapper">
@@ -178,6 +181,7 @@ text-align: center;
                        
                        
                         </div>
+                        </div>
 
           
 
@@ -296,36 +300,84 @@ text-align: center;
               </div>
             </div>
             @endif
-             <div class="col-sm-6">
-                            <label for="exampleInputFile">Attached Files</label>
-                       <div class="card-body p-0">
-                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
-                  @csrf
-                  @method('delete')  --}}
-                <table class="table table-sm" id="filetable">
-                  <thead>
-                    <tr>
-                      <th>Filename</th>
-                      <th>Option</th>
-                      <th><th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($ir->attached as $file)
-                    <tr> 
-                    <td>
-                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
-                    </td> 
-                  <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
-                    <td> <button class="btn btn-danger" onclick="deleteAttached({{$file->id}})" type="button" >Remove</button></td>
-                  </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              {{-- </form> --}}
-              </div>
-               </div> 
           </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="exampleInputFile">Attached Files</label>
+         <div class="card-body p-0">
+    {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+    @csrf
+    @method('delete')  --}}
+  <table class="table table-sm" id="filetable">
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Option</th>
+        <th><th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($ir->attached as $file)
+      <tr> 
+      <td>
+      <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+      </td> 
+    <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+      <td> <button class="btn btn-danger" onclick="deleteAttached({{$file->id}})" type="button" >Remove</button></td>
+    </tr>
+      @endforeach
+    </tbody>
+  </table>
+{{-- </form> --}}
+</div>
+ </div> 
+
+ <div class="col-sm-6">
+                       
+  <div class="form-group img_div">
+  <label for="exampleInputFile">Support Documents</label>
+  <div class="input-group">
+  <div class="custom-file">
+ <input type="file" name="file_upload[]" class="form-control" id="file_upload" accept="docs/*">
+ </div>
+ <div class="input-group-append">
+ <button class="btn btn-default btn-add-more" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
+ </div>
+ </div>
+
+ <div class ='hide'>
+  <div class="form-group">
+  {{-- <div class="col-sm-6"> --}}
+
+  <div class="input-group">
+  <div class="custom-file">
+  <input type="file" name="file_upload[]" class="form-control" id="file_upload">
+
+  </div>
+  <div class="input-group-append">
+  <button class="btn btn-default btn-remove" type="button"><i class="glyphicon glyphicon-plus"></i>Remove</button>
+  </div>
+  </div>
+  {{-- </div> --}}
+
+ </div> 
+
+
+ </div>
+ 
+ 
+ 
+</div> 
+</div> 
+ 
+
+
+
+
+ 
+          </div> 
+
+
        
 
 
@@ -336,7 +388,7 @@ text-align: center;
                         </div>
                         </div>
                         </div>
-                        </div>
+                   
 
                         <div class="row">
                         <div class="col-10">
@@ -474,6 +526,23 @@ function deleteAttached(id){
         }
       });
     }
+
+$(document).ready(function(){
+
+$('.btn-add-more').click(function(){
+
+  var html = $('.hide').html();
+  $('.img_div').after(html);
+});
+
+
+ $("body").on("click",".btn-remove",function(){ 
+  $('.form-group').attr('disable',true);
+        $(this).parents(".form-group").remove();
+    });
+
+
+});
 
 
   </script>
