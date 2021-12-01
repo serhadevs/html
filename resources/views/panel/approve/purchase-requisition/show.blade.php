@@ -381,7 +381,8 @@ function Accept(requisitionId){
                 "Purchase requisition was approved and will shortly be forwarded for approval.",
                 "success").then(esc => {
                   if(esc){
-                    location.reload();
+                   // location.reload();
+                  location.href='/approve-requisition';
                   }
                 });
               }else{
@@ -389,8 +390,10 @@ function Accept(requisitionId){
                   "Oops! Something went wrong.",
                   "Application(s) were NOT approved",
                   "error");
+                   location.reload();
                 }
-                location.href='/approve-requisition';
+           
+                
                
               });
             }

@@ -55,12 +55,14 @@ class CheckPurchaseController extends Controller
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
         ->where('contract_sum', '>=', 500000)
         ->Orwhere('institution_id', '=', auth()->user()->institution_id)
+        ->latest()
         ->get();
 
 } else {
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
         ->where('institution_id', '=', auth()->user()->institution_id)
         ->where('contract_sum', '<', 500000)
+        ->latest()
         ->get();
 }
 
@@ -119,13 +121,14 @@ try {
         $status->name = 'Refuse Requisition';
         $status->update();
 
+        $requisition = Requisition::find($request->data['requisitionId']);
         $user = User::find($requisition->user_id);
         $user->notify(new RefuseRequisitionPublish($requisition, $comment));
         // $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
 
     } else {
 
-        $requisition = Requisition::find($request->data['requisitionId']);
+      // $requisition = Requisition::find($request->data['requisitionId']);
         $requisition->institution_id = auth()->user()->institution_id;
         $requisition->update();
 
@@ -137,8 +140,7 @@ try {
         }
 
         $users = User::where('institution_id', auth()->user()->institution_id)
-            ->where('department_id', auth()->user()->department_id)
-            ->whereIn('role_id', [5,9, 12])
+            ->whereIn('role_id', [9,12])
             ->get();
 
         $requisition = Requisition::find($request->data['requisitionId']);

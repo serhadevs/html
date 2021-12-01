@@ -64,9 +64,10 @@ input[type="checkbox"]{
                     {{-- <th> </th> --}}
                     <th>Option</th>
                     <th></th>
-                    <th>ID</th>
+                    {{-- <th>ID</th> --}}
                     <th>Aproval</th>
                     <th>Requisition_no</th>
+                    <th>description</th>
                     <th>Date Receive</th>
                     {{-- <th>Date Re-submitted</th> --}}
                     <th>Department</th>
@@ -89,7 +90,7 @@ input[type="checkbox"]{
                       @else
                       <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn  btn-warning btn-m" disabled>Undo</button></td> 
                       @endif
-                    <td>{{$requisition->id}}</td> 
+                    {{-- <td>{{$requisition->id}}</td>  --}}
                     @if($requisition->approve)
                      @if($requisition->approve->is_granted===1)
                     <td> <span class ="badge bg-green">Approved</span></td>
@@ -100,6 +101,7 @@ input[type="checkbox"]{
                     <td> <span class ="badge bg-red">Uncheck</span></td>
                     @endif
                     <td>{{$requisition->requisition_no}}</td>
+                    <td>{{$requisition->description}}</td>
                     {{-- <td></td> --}}
                  
             

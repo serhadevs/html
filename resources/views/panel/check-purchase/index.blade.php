@@ -54,6 +54,7 @@ table.dataTable tbody td {
                     <th></th>
                     <th>Check</th>
                     <th>Requisition_no</th>
+                     <th>Description</th>
                     <th>Date Receive</th>
                     {{-- <th>Date Re-submitted</th> --}}
                     <th>Department</th>
@@ -88,6 +89,7 @@ table.dataTable tbody td {
                     <td> <span class ="badge bg-blue">Uncheck</span></td>
                     @endif
                     <td>{{$requisition->requisition_no}}</td>
+                     <td>{{$requisition->description}}</td>
                     {{-- <td></td> --}}
                  
                   <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>

@@ -47,6 +47,7 @@ class ApprovePurchaseRequisitionController extends Controller
       ->whereHas('check',function($query){
           $query->where('is_checked','=',1);
       })
+      ->latest()
       ->get();
 
       // dd($requisitions);
@@ -77,8 +78,16 @@ class ApprovePurchaseRequisitionController extends Controller
     public function store(Request $request)
     {
 
+        //no same person can approve and accept requisition
+        
       
         try {
+
+            
+    $requisition = Requisition::find($request->data['requisitionId']);
+    if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,12]) ){
+        return 'fail';
+    }
     if ($request->all()) {
         $approve = new Approve();
         $permission = $request->data['permission'];
@@ -87,7 +96,7 @@ class ApprovePurchaseRequisitionController extends Controller
         $approve->is_granted = $permission;
         $approve->save();
 
-        $requisition = Requisition::find($request->data['requisitionId']);
+       
 
 
 
@@ -122,7 +131,6 @@ class ApprovePurchaseRequisitionController extends Controller
             $status->update();
 
         $users = User::where('institution_id',auth()->user()->institution_id )
-        ->where('department_id', auth()->user()->department_id)
         ->whereIn('role_id',[9,12])
         ->get();
 

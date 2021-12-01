@@ -399,8 +399,9 @@ function Accept(requisitionId){
                   "Oops! Something went wrong.",
                   "Application(s) were NOT approved",
                   "error");
+                  location.reload();
                 }
-                location.href='/check-purchase';
+                
                
               });
             }

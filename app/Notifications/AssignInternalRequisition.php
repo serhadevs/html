@@ -46,7 +46,9 @@ class AssignInternalRequisition extends Notification
         return (new MailMessage)
         ->subject('Assign Internal Requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
+        
         ->line('A new internal requisition  was assigned to you,the requisition number is '.$this->internal->requisition_no.'.')
+        ->line($this->internal->description)
         ->action('Create it Now', url('/requisition'))
         ->line('Thank you for using this application!');
     }

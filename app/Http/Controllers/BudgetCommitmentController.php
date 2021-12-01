@@ -42,6 +42,7 @@ class BudgetCommitmentController extends Controller
        ->where('internal_requisitions.institution_id','=',auth()->user()->institution_id)
 
       // ->doesnthave('budget_commitment')
+       ->latest()
        ->get();
 
 

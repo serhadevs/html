@@ -48,6 +48,7 @@ class RefuseRequisitionPublish extends Notification
         ->subject('Refuse Requisition')
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('Your requisition was refused,the requisition number is '.$this->requisition->requisition_no.'.')
+        ->line($this->requisition->description)
         ->line($this->comment->comment)
         ->action('View Requisition', url('/check-purchase'. $this->requisition->id.'/edit'))
         ->line('Thank you for using this application!');

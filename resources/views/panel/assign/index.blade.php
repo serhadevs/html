@@ -49,6 +49,7 @@
                     <th>Assignee</th>
                     <th>Assign Date</th>
                     <th>Requested by</th>
+                    <th>Description</th>
                     <th>Commitment #</th>
                     <th>Estimated Cost</th>
                     <th>Department</th>
@@ -88,6 +89,7 @@
                     <td></td>
                     @endif
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
+                    <td>{{$internal_requisition->description}}</td>
                     <td>{{$internal_requisition->budget_commitment->commitment_no}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>
                     

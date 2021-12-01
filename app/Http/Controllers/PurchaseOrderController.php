@@ -48,7 +48,7 @@ class PurchaseOrderController extends Controller
                 $query->where('is_granted', '=', 1);
             })
             ->doesnthave('purchaseOrder')
-
+            ->latest()
             ->get();
 
         //purchaseOrder
@@ -58,6 +58,7 @@ class PurchaseOrderController extends Controller
                 $query->where('institution_id', '=', auth()->user()->institution_id);
             })
             // ->doesnthave('budget_commitment')
+            ->latest()
             ->get();
 
      //   dd( $requisitions);

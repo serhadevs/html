@@ -38,8 +38,11 @@ class CertifiedInternalRequisitionController extends Controller
         //
         $internalRequisitions = InternalRequisition::with(['certified_internal_requisition'])
         ->where('department_id',auth()->user()->department_id)
-        ->where('institution_id',auth()->user()->institution_id)->get();
+        ->where('institution_id',auth()->user()->institution_id)
+        ->latest()
+        ->get();
        //dd($internalRequisitions);
+
         return view('/panel/approve/certified-internal.index',compact('internalRequisitions'));
     }
 

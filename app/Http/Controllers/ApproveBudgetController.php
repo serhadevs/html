@@ -42,6 +42,7 @@ class ApproveBudgetController extends Controller
        })
 
        ->has('budget_commitment')
+       ->latest()
        ->get();
 
         return view('/panel/approve/budget.index',compact('internalRequisitions'));

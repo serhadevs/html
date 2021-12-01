@@ -50,6 +50,7 @@
                     <th></th>
                     <th>Requisition No.</th>
                     <th>Requester</th>
+                     <th>Description</th>
                     <th>Estimated Cost</th>
                     <th>Budget Activity</th>
                     <th>Department</th>
@@ -88,6 +89,7 @@
                      @endif
                     <td>{{$internalrequisition->requisition_no}}</td>
                     <td>{{$internalrequisition->user->abbrName()}}</td>
+                      <td>{{$internalrequisition->description}}</td>
                     <td>{{$internalrequisition->estimated_cost}}</td>
                     <td>{{$internalrequisition->budget_approve}}</td>
                     <td>{{$internalrequisition->department->name}}</td>

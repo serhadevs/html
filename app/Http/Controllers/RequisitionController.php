@@ -50,11 +50,13 @@ class RequisitionController extends Controller
             $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                 ->where('contract_sum', '>=', 500000)
                 ->Orwhere('institution_id', '=', auth()->user()->institution_id)
+                ->latest()
                 ->get();
 
         } else {
             $requisitions = Requisition::with(['check', 'approve'])
                 ->where('institution_id', '=', auth()->user()->institution_id)
+                ->latest()
                 ->get();
         }
 
@@ -68,6 +70,7 @@ class RequisitionController extends Controller
        ->where('institution_id',auth()->user()->institution_id)
         
         ->has('approve_budget')
+        ->latest()
         ->get();
 
         return view('/panel.requisition.index', ['requisitions' => $requisitions, 'internalrequisitions'=>$internalrequisitions]);
@@ -181,7 +184,6 @@ class RequisitionController extends Controller
                 ->get();
             }else{
             $users = User::where('institution_id',auth()->user()->institution_id )
-            ->where('department_id', auth()->user()->department_id)
             ->whereIn('role_id',[5,9])
             ->get();
             }

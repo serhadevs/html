@@ -67,6 +67,7 @@ input[type="checkbox"]{
                     <th>Aproval</th>
                     <th>Requisition_no</th>
                     <th>Date Receive</th>
+                    <th>Description</th>
                     <th>Parish</th>
                     <th>Cost Centre</th>
                     <th>Priority</th>
@@ -99,6 +100,7 @@ input[type="checkbox"]{
                     @endif
                   <td>{{$internal->requisition_no}}</td>
                   <td>{{$internal->created_at}}</td>
+                  <td>{{$internal->description}}</td>
                   <td>{{$internal->institution->parish->name}}</td>
                   <td>{{$internal->institution->code}}</td>
                   <td>{{$internal->priority}}</td>

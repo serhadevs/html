@@ -60,6 +60,7 @@
               <th>Requisition No.</th>
               <th>Requested by</th>
               <th>Estimated Cost</th>
+              <th>Description</th>
               <th>Department</th>
               <th>Institution</th>
               <th>Budget Activity </th>
@@ -78,6 +79,7 @@
            <td>{{$internal_requisition->requisition_no}}</td>
            <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
            <td>{{$internal_requisition->estimated_cost}}</td>
+            <td>{{$internal_requisition->description}}</td>
            <td>{{$internal_requisition->department->name}}</td>
            <td>{{$internal_requisition->institution->name}}</td>
            <td>{{$internal_requisition->budget_approve}}</td>

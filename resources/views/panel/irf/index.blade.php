@@ -48,6 +48,7 @@
                     <th>Status</th>
                     <th>Requisition No.</th>
                     <th>Requested by</th>
+                    <th>Description</th>
                     <th>Estimated Cost</th>
                     <th>Department</th>
                     <th>Institution</th>
@@ -79,6 +80,7 @@
                     <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
+                    <td>{{$internal_requisition->description}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>
                     
                     <td>{{$internal_requisition->department->name}}</td>

@@ -50,6 +50,7 @@ class RefuseInternalRequisitionPublish extends Notification
         ->subject('Refuse internal requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The internal requisition was refuse,the requisition number is '.$this->internal->requisition_no.'.')
+        ->line('The item description is '.$this->internal->description.'.')
         ->line($this->comment->comment)
        // ->action('View Requisition', url('internal_requisition/'. $this->internal->id.'/edit'))
         ->line('Thank you for using this application!');

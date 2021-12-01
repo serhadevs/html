@@ -23,6 +23,7 @@
                   <tr>
                     <td>Requester: <b>{{$internalRequisition->user->abbrName()}}</b></td>
                     <td>Institution: {{$internalRequisition->institution->name}}</td>
+                    
                   </tr>
                  
                   <tr>
@@ -43,6 +44,7 @@
                  
                   <tr>
                     <td>Estimated Cost: {{$internalRequisition->estimated_cost}}</td>
+                    <td>Department: {{$internalRequisition->Department->name}}</td>
                   </tr>
 
                   <tr>
