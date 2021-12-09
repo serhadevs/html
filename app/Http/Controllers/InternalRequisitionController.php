@@ -50,7 +50,9 @@ class InternalRequisitionController extends Controller
         //dd($internal_audit);
         $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
-            ->where('institution_id', auth()->user()->institution_id)->get();
+            ->where('institution_id', auth()->user()->institution_id)
+            ->Orwhere('user_id',auth()->user()->id)
+            ->get();
 
         return view('/panel.irf.index', compact('internal_requisitions'));
 

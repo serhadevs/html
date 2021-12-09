@@ -55,7 +55,7 @@
                   <td><span class='badge badge-primary'>{{$internal->user->abbrName()}} {{Carbon\Carbon::parse($internal->created_at)->format('F d, Y')}}</span><br> </td>
         
                  
-                  @if(isset($internal->certified_internal_requisition))
+                  {{-- @if(isset($internal->certified_internal_requisition))
                  <td><span class='badge badge-primary'>{{ $internal->certified_internal_requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->certified_internal_requisition->created_at)->format('F d, Y')}}
                   @else
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(13, $internal->department_id,$internal->institution_id)}}</span></td>
@@ -109,7 +109,7 @@
                  <td><span class='badge badge-primary'>{{ $internal->requisition->purchaseOrder->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->purchaseOrder->created_at)->format('F d, Y')}}
                   @else
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(5,null,$internal->institution_id)}}</span></td> 
-                 @endif
+                 @endif --}}
                    
                     
                   </tr>
