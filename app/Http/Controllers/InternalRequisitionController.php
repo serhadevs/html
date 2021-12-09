@@ -52,6 +52,7 @@ class InternalRequisitionController extends Controller
             ->where('department_id', auth()->user()->department_id)
             ->where('institution_id', auth()->user()->institution_id)
             ->Orwhere('user_id',auth()->user()->id)
+            ->latest()
             ->get();
 
         return view('/panel.irf.index', compact('internal_requisitions'));
