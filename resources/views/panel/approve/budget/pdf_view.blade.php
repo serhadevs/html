@@ -19,7 +19,7 @@ table, th, td {
                
                    <h4>Internal Purchase Request</h4>
                  <p>
-                 <table>
+                 <table style="width:100%">
                  
                   <tr>
                     <td>Requester: <b>{{$internalRequisition->user->fullName()}}</b></td>
