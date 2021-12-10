@@ -14,14 +14,61 @@ table, th, td {
   <img src="dist/img/serha_logo2.png"width="80" height="50">
   <h1>{{ $heading}}</h1>
   <h3>{{ $heading2}}</h3>
-    <div class="card-body">
+
    
                
                    <h4>Internal Purchase Request</h4>
                  <p>
-                 test
+                 <table>
+                 
+                  <tr>
+                    <td>Requester: <b>{{$internalRequisition->user->fullName()}}</b></td>
+                    <td>Institution: {{$internalRequisition->institution->name}}</td>
+                    
+                  </tr>
+                 
+                  <tr>
+                    <td>Budget activity: {{$internalRequisition->budget_approve}}</td>
+                    <td>Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Phone Number :{{$internalRequisition->phone}}</td>
+                    <td>Email: {{$internalRequisition->email}}</td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Procurement Type: {{$internalRequisition->requisition_type->name}}</td>
+                    <td>Priority:{{$internalRequisition->priority}}</td>
+                  </tr>
+
+                 
+                  <tr>
+                    <td>Estimated Cost: {{$internalRequisition->estimated_cost}}</td>
+                    <td>Department: {{$internalRequisition->Department->name}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Requisition no:{{$internalRequisition->requisition_no}}</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Commitment : {{$internalRequisition->budget_commitment->commitment_no}}</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Accounting : {{$internalRequisition->budget_commitment->account_code}}</td>
+                    <td></td>
+                  </tr>
+
+                </table>
                  </p>
-   
+            
+               <br>
+   <br>
+ 
 
         
    <table id="table" style="width:100%">
