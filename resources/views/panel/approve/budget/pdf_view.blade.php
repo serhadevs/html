@@ -19,7 +19,7 @@ table, th, td {
         <div class="title">
                
                    <h4>Internal Purchase Request</h4>
-                 <p>
+                 
                  <table style="width:100%">
                   <tr>
                     
@@ -65,13 +65,12 @@ table, th, td {
                   </tr>
 
                 </table>
-              </p>
-              </br>
-            </br>
-          </br>
-        </br>
+            
+               <br>
+   <br>
+ 
 
-        <p>
+        
    <table id="table" style="width:100%">
      <thead>
        <tr>
@@ -105,7 +104,7 @@ table, th, td {
    </table>
   <br>
   <br>
-        </p>
+      
         <div class="row">
             <div class="col-sm-6">
     
