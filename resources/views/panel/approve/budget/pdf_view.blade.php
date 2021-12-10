@@ -2,26 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
  <title>{{ $title }}</title>
+ <style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ </style>
 </head>
 <body>
+  <img src="dist/img/serha_logo2.png"width="80" height="50">
   <h1>{{ $heading}}</h1>
   <h3>{{ $heading2}}</h3>
   <div>
     <div class="card-body">
         <div class="title">
-                 {{-- <p><h4>South East Regional Health Authority</h4>
-                 The Towers, 25 Dominica Drive, Kingston 5</p><br>
-                 </div> --}}
-
+               
+                   <h4>Internal Purchase Request</h4>
                  <p>
                  <table style="width:100%">
                   <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    
                   </tr>
                   <tr>
-                    <td>Requester: <b>{{$internalRequisition->user->abbrName()}}</b></td>
+                    <td>Requester: <b>{{$internalRequisition->user->fullName()}}</b></td>
                     <td>Institution: {{$internalRequisition->institution->name}}</td>
                     
                   </tr>
@@ -49,12 +53,15 @@
 
                   <tr>
                     <td>Requisition no:{{$internalRequisition->requisition_no}}</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>Commitment : {{$internalRequisition->budget_commitment->commitment_no}}</td>
+                      <td></td>
                   </tr>
                   <tr>
                     <td>Accounting : {{$internalRequisition->budget_commitment->account_code}}</td>
+                      <td></td>
                   </tr>
 
                 </table>
@@ -65,7 +72,7 @@
         </br>
 
         <p>
-   <table id="table" style="width:100%" >
+   <table id="table" style="width:100%">
      <thead>
        <tr>
          <th>Item No.</th>
@@ -96,29 +103,27 @@
   
      </tbody>
    </table>
-
+  <br>
+  <br>
         </p>
         <div class="row">
             <div class="col-sm-6">
-              <!-- textarea -->
+    
               <div class="form-group">
                 <label>General Description</label>
-              <textarea  readonly class="form-control" name="comments" rows="3">{{$internalRequisition->description}}</textarea>
+              <p>{{$internalRequisition->description}}</p>
               </div>
             </div>
             
           </div>        
-  </br>
-  </br>
-  <br>
-  <br>
+ 
+  
   <p>
    <div class="row">
      <div class="col-sm-6">
-       <!-- textarea -->
        <div class="form-group">
          <label>Comments/Justification</label>
-       <textarea  readonly class="form-control" name="comments" rows="3">{{$internalRequisition->comments}}</textarea>
+       <p>{{$internalRequisition->comments}}</p>
        </div>
      </div>
      
@@ -139,16 +144,12 @@
 
 
                <table style="width:100%">
+                
                 <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                <tr>
-                  <td>Approved by: {{$internalRequisition->approve_internal_requisition->user->abbrName()}}</td>
-                  <td>Budget Commitment by: {{$internalRequisition->budget_commitment->user->abbrName()}}</td>
+                  <td>Approved by: {{$internalRequisition->approve_internal_requisition->user->fullName()}}</td>
+                  <td>Budget Commitment by: {{$internalRequisition->budget_commitment->user->fullName()}}</td>
                   @if($internalRequisition->approve_budget)
-                  <td>Budget Approve by:{{$internalRequisition->approve_budget->user->abbrName()}}</td>
+                  <td>Budget Approve by:{{$internalRequisition->approve_budget->user->fullName()}}</td>
                   @endif
                 </tr>
                 <tr>

@@ -66,6 +66,11 @@ class User extends Authenticatable implements Auditable
         return $this->firstname[0] . '. ' . $this->lastname;
     }
 
+    public function fullName()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function approve()
     {
         return $this->hasMany('App\Approve');

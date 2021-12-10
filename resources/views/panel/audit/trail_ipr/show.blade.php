@@ -55,11 +55,12 @@
                   <td><span class='badge badge-primary'>{{$internal->user->abbrName()}} {{Carbon\Carbon::parse($internal->created_at)->format('F d, Y')}}</span><br> </td>
         
                  
-                  {{-- @if(isset($internal->certified_internal_requisition))
+                @if(isset($internal->certified_internal_requisition))
                  <td><span class='badge badge-primary'>{{ $internal->certified_internal_requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->certified_internal_requisition->created_at)->format('F d, Y')}}
                   @else
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(13, $internal->department_id,$internal->institution_id)}}</span></td>
                  @endif
+
                  @if(isset($internal->approve_internal_requisition))
                  <td><span class='badge badge-primary'>{{ $internal->approve_internal_requisition->user->abbrName() . " ".Carbon\Carbon::parse($internal->approve_internal_requisition->created_at)->format('F d, Y')}}
                   @else
@@ -79,7 +80,7 @@
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(8,null,$internal->institution_id)}}</span></td>
                  @endif 
 
-                {{-- <td> <span class='badge badge-primary'>{{$internal->assignto ? $internal->assignto->user->abbrName(). " " .Carbon\Carbon::parse($internal->assignto->created_at)->format('F d, Y'):''}}</span> </td> --}}
+                {{-- <td> <span class='badge badge-primary'>{{$internal->assignto ? $internal->assignto->user->abbrName(). " " .Carbon\Carbon::parse($internal->assignto->created_at)->format('F d, Y'):''}}</span> </td>  --}}
                 @if(isset($internal->assignto))
                  <td><span class='badge badge-primary'>{{ $internal->assignto->user->abbrName() . " ".Carbon\Carbon::parse($internal->assignto->created_at)->format('F d, Y')}}
                   @else
@@ -93,23 +94,23 @@
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(5,null,$internal->institution_id)}}</span></td>
                  @endif  
                    {{-- <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->check->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->check->created_at)->format('F d, Y'):''}}</span> </td> --}}
-                    @if(isset($internal->requisition))
+                    @if(isset($internal->requisition->check))
                  <td><span class='badge badge-primary'>{{ $internal->requisition->check->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->check->created_at)->format('F d, Y')}}
                   @else
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(9,null,$internal->institution_id)}}</span></td>
                  @endif
                     {{-- <td> <span class='badge badge-primary'>{{$internal->requisition ? $internal->requisition->approve->user->abbrName(). ' '.Carbon\Carbon::parse($internal->requisition->approve->created_at)->format('F d, Y'):''}}</span> </td> --}}
-                     @if(isset($internal->requisition))
+                     @if(isset($internal->requisition->approve))
                  <td><span class='badge badge-primary'>{{ $internal->requisition->approve->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->approve->created_at)->format('F d, Y')}}
                   @else
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(12,null,$internal->institution_id)}}</span></td>
                  @endif
 
-                  @if(isset($internal->requisition))
+                  @if(isset($internal->requisition->purchaseOrder))
                  <td><span class='badge badge-primary'>{{ $internal->requisition->purchaseOrder->user->abbrName() . " ".Carbon\Carbon::parse($internal->requisition->purchaseOrder->created_at)->format('F d, Y')}}
                   @else
                   <td><span class='badge badge-danger'>{{\App\User::FindUser(5,null,$internal->institution_id)}}</span></td> 
-                 @endif --}}
+                 @endif 
                    
                     
                   </tr>
