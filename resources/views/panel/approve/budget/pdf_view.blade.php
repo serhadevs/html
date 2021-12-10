@@ -14,12 +14,11 @@ table, th, td {
   <img src="dist/img/serha_logo2.png"width="80" height="50">
   <h1>{{ $heading}}</h1>
   <h3>{{ $heading2}}</h3>
-  <div>
     <div class="card-body">
-        <div class="title">
+   
                
                    <h4>Internal Purchase Request</h4>
-                 
+                 <p>
                  <table style="width:100%">
                   <tr>
                     
@@ -65,6 +64,7 @@ table, th, td {
                   </tr>
 
                 </table>
+                 </p>
             
                <br>
    <br>
@@ -126,7 +126,7 @@ table, th, td {
        </div>
      </div>
      
-   </div>        
+      
   </p>
 
 
@@ -163,5 +163,5 @@ table, th, td {
 
   </div>
 </body>
-</body>
+
 </html>
