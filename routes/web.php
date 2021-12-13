@@ -61,6 +61,7 @@ Route::get('/dashboard-notification/{id}', 'DashboardController@markAsRead');
     Route::post('/requisition/store', 'RequisitionController@store');
     Route::get('/requisition/delete/{id}', 'RequisitionController@destroy');
     Route::get('/file/delete/{id}', 'RequisitionController@deleteFile');
+    Route::get('/pdf_requisition/{id}', 'RequisitionController@printPDF');
     Route::get('/getSuppliers', function () {
     $suppliers = App\Supplier::all();
 

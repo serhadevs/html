@@ -3,17 +3,74 @@
 <head>
  <title>{{ $title }}</title>
  <style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+* {box-sizing: border-box;}
+
+body { 
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+}
+
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.header a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .header-right {
+    float: none;
+  }
 }
 
  </style>
 </head>
 <body>
-  <img src="dist/img/serha_logo2.png"width="80" height="50">
-  <h1>{{ $heading}}</h1>
-  <h3>{{ $heading2}}</h3>
+<div class="header">
+  {{-- <a href="#default" class="logo">CompanyLogo</a> --}}
+   <img src="dist/img/serha_logo2.png"width="80" height="50">
+   South East Regional Health Authority
+  
+</div>
+
+  {{-- <img src="dist/img/serha_logo2.png"width="80" height="50">South East Regional Health Authority --}}
+  {{-- <h1>{{ $heading}}</h1> --}}
+  {{-- <h3>{{ $heading2}}</h3> --}}
 
    
                
@@ -71,15 +128,15 @@ table, th, td {
  
 
         
-   <table id="table" style="width:100%">
+   <table id="table" style="width:100%; border: 1px solid black; border-collapse: collapse;">
      <thead>
        <tr>
-         <th>Item No.</th>
-         <th>Description</th>
-         <th>Quantity</th>
-         <th>Measurement</th>
-         <th>Unit Cost</th>
-         <th>Part Number</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Item No.</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Description</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Quantity</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Measurement</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Unit Cost</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Part Number</th>
 
        </tr>
      </thead>
@@ -87,12 +144,12 @@ table, th, td {
         @foreach($internalRequisition->stocks as $stock)
        <tr>
        
-         <td>{{$stock->item_number}}</td>
-         <td>{{$stock->description}}</td>
-         <td>{{$stock->quantity}}</td>
-         <td>{{$stock->unit_of_measurement_id}}</td>
-         <td>{{$stock->unit_cost}}</td>
-         <td>{{$stock->part_number}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->item_number}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->description}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->quantity}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_of_measurement_id}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_cost}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->part_number}}</td>
      
 
        
@@ -152,13 +209,13 @@ table, th, td {
                   @endif
                 </tr>
                 <tr>
-                  <td> Date: {{$internalRequisition->approve_internal_requisition->created_at}}</td>
-                  <td> Date: {{$internalRequisition->budget_commitment->created_at}}</td>
+                  <td> Date: {{Carbon\Carbon::parse($internalRequisition->approve_internal_requisition->created_at)->format('M-d-Y') }}</td>
+                  <td> Date: {{Carbon\Carbon::parse($internalRequisition->budget_commitment->created_at)->format('M-d-Y') }}</td>
                   @if($internalRequisition->approve_budget)
-                  <td>Date :{{$internalRequisition->approve_budget->created_at}}</td>
+                  <td>Date :{{Carbon\Carbon::parse($internalRequisition->approve_budget->created_at)->format('M-d-Y')}}</td>
                   @endif
                 </tr>
-                
+              
               </table>
 
   </div>

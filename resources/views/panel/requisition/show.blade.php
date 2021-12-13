@@ -41,11 +41,13 @@ text-align: center;
                         <h3 class="card-title">View Purchase Requisition</h3>
                         </div>
                         </div>
+                        <a href="/pdf_requisition/{{$requisition->id}}" class="btn btn-outline-danger float-right btn-lg">Print PDF</a>
+                        <br>
                         </div>
           
                 </section>
             
-                <div class="card-body">
+      <div class="card-body">
 
                 {{-- <form class="form-horizontal" method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}"  enctype="multipart/form-data" >
                   @csrf
@@ -53,7 +55,7 @@ text-align: center;
             
     
                         <div id="first">
-                            <div class="card" style="width:82.9%">
+                            <div class="card" style="width:83.6%">
                           <div class="card-body">
                            <div class="col-m-10">
 
@@ -321,15 +323,15 @@ text-align: center;
             <!-- textarea -->
             <div class="form-group">
               <label>Refusal Comments</label>
-<textarea class="form-control" rows="3" disabled>
-@foreach($requisition->internalrequisition->comment as $comment)
-{{$comment->user->abbrName()}}: {{$comment->comment}}
-@endforeach
-</textarea>
+          <textarea class="form-control" rows="3" disabled>
+          @foreach($requisition->internalrequisition->comment as $comment)
+          {{$comment->user->abbrName()}}: {{$comment->comment}}
+          @endforeach
+          </textarea>
             </div>
           </div>
           @endif
-        <div class="form-group row img_div ">
+          <div class="form-group row img_div ">
                         {{-- <div class="col-sm-6">
                        
                        <div class="form-group">
