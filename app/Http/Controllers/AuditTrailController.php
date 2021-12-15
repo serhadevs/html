@@ -132,7 +132,7 @@ return view('/panel.audit.audit_trail.index', compact('users', 'auditble_types')
      */
     public function store(Request $request)
     {
-     dd($request->all());
+     //dd($request->all());
       $audit_type = $request->audit_type;
       $user_id = $request->user_id;
       $start_date = Carbon::parse($request->start_date);
