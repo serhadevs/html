@@ -178,10 +178,8 @@ text-align: center;
 
           
 
-                              <div id="table" class="table-editable">
-                {{-- <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"> --}}
-            
-            {{-- <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span> --}}
+          <div id="table" class="">
+              
           <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
             <thead>
               <tr>
@@ -201,39 +199,34 @@ text-align: center;
               <tr>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" value={{$stock->item_number}} type='text' size="5" style='border:none;outline:none;background: transparent;'disabled>
+                {{$stock->item_number}}
                
                 </td>
                 <td>
                 
                   {{-- <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'> --}}
-                   <input name='description[]'  value={{$stock->description}} class='des' type='text' size="40" style='border:none;outline:none;background: transparent;'disabled>
+                  {{$stock->description}} 
                 </td>
                 <td>
-                <input name='quantity[]'  class='quantity'  value={{$stock->quantity}} type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'disabled>
+               {{$stock->quantity}}
                 </td>
                 {{-- <td>
                 <input name='unit_cost[]'size="5" class='unitcost' type='number'style='width:80px; border:none;outline:none;background: transparent;'>
               
                 </td> --}}
-                <td>
-                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'disabled>
-{{--                 
-                  @foreach ($units as $unit)
-                  @if($stock->unit_of_measurement_id == $unit->id) --}}
-                  <option selected value="{{ $stock->unit_of_measurement_id }}" >{{ $stock->unit_of_measurement->name }}</option>
-                  {{-- @else
-                  <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
-                  @endif
-                  @endforeach --}}
-                   </select> 
+                <td>         
+                  
+                 {{$stock->unit_of_measurement->name}}
+               
+                 
+                
                 
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;'disabled>
+                  {{$stock->unit_cost}}
                 </td>
                 <td>
-                <input name='part_number[]' class='part_number' value="{{$stock->part_number}}" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;'disabled>
+                {{$stock->part_number}}
                 </td>
               </tr>
             </div>
@@ -291,9 +284,7 @@ text-align: center;
                 </table>
               {{-- </form> --}}
               </div>
-               </div> 
-          </div>
-        </div>
+          
 
 
 

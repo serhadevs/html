@@ -212,9 +212,7 @@ text-align: center;
                
                 </td>
                 <td>
-                
-                
-                   <input name='description[]'  value={{$stock->description}} class='des' type='text' size="40" style='border:none;outline:none;background: transparent;' required>
+                   <textarea  name='description[]' class='des' size="40" style='border:none;outline:none;background: transparent;' required>{{$stock->description}} </textarea>
                 </td>
                 <td>
                 <input name='quantity[]'  class='quantity'  value={{$stock->quantity}} type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>
