@@ -45,8 +45,8 @@ class TrailInternalRequisitionController extends Controller
     {
         //
        
-// $start_date = Carbon::parse($request->start_date)->format('Y/m/d');
-// $end_date = Carbon::parse($request->end_date)->format('Y/m/d');
+$start_date = Carbon::parse($request->start_date);
+$end_date = Carbon::parse($request->end_date);
 // $event ='created';
 // $internal = \OwenIt\Auditing\Models\Audit::select('audits.*')
 // ->when($event, function ($query) use ($event) {
@@ -68,7 +68,9 @@ class TrailInternalRequisitionController extends Controller
 //     ->doesnthave('budget_commitment')
 //     ->get();
 
-    $internal_requisitions = InternalRequisition::with(['user'])->get();
+    $internal_requisitions = InternalRequisition::with(['user'])
+    ->whereBetween('internal_requisitions.created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+    ->get();
 
     //$user = User::FindUser(1,1);
    // dd( $user);

@@ -207,7 +207,7 @@ text-align: center;
                 <td>
                 
                   {{-- <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'> --}}
-                   <input name='description[]'  value={{$stock->description}} class='des' type='text' size="10" style='border:none;outline:none;background: transparent;'disabled>
+                   <input name='description[]'  value={{$stock->description}} class='des' type='text' size="40" style='border:none;outline:none;background: transparent;'disabled>
                 </td>
                 <td>
                 <input name='quantity[]'  class='quantity'  value={{$stock->quantity}} type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'disabled>

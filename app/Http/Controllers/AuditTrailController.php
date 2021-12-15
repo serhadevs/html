@@ -132,11 +132,11 @@ return view('/panel.audit.audit_trail.index', compact('users', 'auditble_types')
      */
     public function store(Request $request)
     {
-     //dd($request->all());
+     dd($request->all());
       $audit_type = $request->audit_type;
       $user_id = $request->user_id;
-      $start_date = Carbon::parse($request->start_date)->format('Y/m/d');
-      $end_date = Carbon::parse($request->end_date)->format('Y/m/d');
+      $start_date = Carbon::parse($request->start_date);
+      $end_date = Carbon::parse($request->end_date);
    // dd($start_date);
       $auditables = \OwenIt\Auditing\Models\Audit::
       select('audits.*')
@@ -145,15 +145,11 @@ return view('/panel.audit.audit_trail.index', compact('users', 'auditble_types')
         })
        ->when($audit_type,function($query) use ($audit_type){
         return $query->where('auditable_type', '=', $audit_type);
-        if (!$start_date && $end_date) {
-        $auditable->where('created_at', '>', $end_date)->get();
-        }else if($start_date && !$enddate){
-          $auditable->where('created_at', '<', $start_date)->get();
-  
-        }
-      
-
-       })->get();
+       })
+       ->whereBetween('audits.created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+       
+       
+       ->get();
       
      // dd($auditables[0]->new_values['user_id']);
 
