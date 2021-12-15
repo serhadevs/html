@@ -174,7 +174,8 @@ text-align: center;
                             <input type="input" class="form-control" value="{{$internal_requisition->requisition_no}}" readonly>
                        
                        
-                        </div>
+                        </div>          
+                      </div>
 
           
 
@@ -195,7 +196,7 @@ text-align: center;
             </thead>
             <tbody>
                @foreach($internal_requisition->stocks as $stock)
-               <div class="form-group row">
+             
               <tr>
                 <td>
                   
@@ -229,10 +230,13 @@ text-align: center;
                 {{$stock->part_number}}
                 </td>
               </tr>
-            </div>
+           
             </tbody>
             @endforeach
           </table>
+             {{-- table div end --}}
+            </div> 
+
           <div class="row">
             <div class="col-sm-6">
               <!-- textarea -->
@@ -293,7 +297,8 @@ text-align: center;
                         {{-- column length end --}}
                         </div>
                         </div>
-                        </div>
+
+                     
                          </div>
 
                         <div class="row">
