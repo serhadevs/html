@@ -1,7 +1,7 @@
 
 
     @extends('layouts.panel-master')
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
     @section('content')
 
@@ -176,11 +176,50 @@
                         </div>
                         </div> --}}
                         
+                         @if(in_array(auth()->user()->role_id,[1,2]))
+                        <div class="form-group row">
+                        <label for="" class="col-sm-12 col-form-label">Access Control</label>
+                        <label for="institutions" class="col-sm-2 col-form-label">Institutions</label>
+                        <div class="col-lg-10">
+                        <select class="form-control multiple-select" name="institutions[]" multiple="multiple" id="institution" >
+                          {{-- <option value="">select type </option> --}}
+                          @foreach($user->institution_users as $institution)
+                         <option selected='selected' value="{{$institution->institution->id}}" >{{$institution->institution->name}}</option>
+                          @endforeach
+                          @foreach($institutions->diff($user->institution_users) as $facility)
+                          <option value="{{$facility->id}}"> {{$facility->name}} </option>
+                          @endforeach                         
+                         </select> 
+                        </div>
+                        </div>
+                        @else
+                        <div class="form-group row">
+                        <label for="" class="col-sm-12 col-form-label">Access Control</label>
+                        <label for="institutions" class="col-sm-2 col-form-label">Institutions</label>
+                        <div class="col-lg-10">
+                        <select class="form-control multiple-select" name="institutions[]" multiple="multiple" id="institution" disabled >
+                          {{-- <option value="">select type </option> --}}
+                          @foreach($user->institution_users as $institution)
+                         <option selected='selected' value="{{$institution->institution->id}}" >{{$institution->institution->name}}</option>
+                          @endforeach
+                          @foreach($institutions->diff($user->institution_users) as $facility)
+                          <option value="{{$facility->id}}"> {{$facility->name}} </option>
+                          @endforeach                         
+                         </select> 
+                        </div>
+                        </div>
 
+
+                        @endif
 
                         </div>
                         
                         </div>
+
+                      
+
+
+
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
@@ -241,8 +280,10 @@
     @push('scripts')
     <script src="/js/dataTables.select.min.js"></script>
     <script src="/js/editable-table.js"></script> 
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+    
       $(document).ready(function(){
  $('#department').change(function() {
    department = $(this).val();
@@ -275,6 +316,9 @@ success: function (data) {
 });
 });
 
+$(document).ready(function() {
+    $('.multiple-select').select2();
+});
     </script>
     @endpush
       

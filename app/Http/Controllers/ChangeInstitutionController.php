@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Institution;
+use App\InstitutionUsers;
 
 
 class ChangeInstitutionController extends Controller
@@ -22,7 +23,7 @@ class ChangeInstitutionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,6,12]) and ( !in_array(auth()->user()->id,[4])) ) {
+            if (!in_array(auth()->user()->role_id, [1,3,6,10,11,12,14]) and ( !in_array(auth()->user()->id,[4])) ) {
                 return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
@@ -32,8 +33,22 @@ class ChangeInstitutionController extends Controller
     public function index()
     {
         //
-        //dd('change institution');
+        // $requisition= \App\Requisition::find(8);
+        // $access_users = \App\User::whereHas('institution_users',function($query){
+        //     $query->where('institution_id',6);
+        //     })->get();
+        // dd ($access_users);
+        if(in_array(auth()->user()->role_id,[1,2]))
+    {
         $institutions = Institution::all();
+    }else{
+
+        // $institution_ids = InstitutionUsers::where('user_id',auth()->user()->id)->pluck('institution_id');
+        // $institutions = Institution::whereIn('id',$institution_ids)->get();
+       $institutions = auth()->user()->AccessInstitutions();
+        
+       
+    }
         return view('/auth.change-institution',compact('institutions'));
 
     }

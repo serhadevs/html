@@ -43,6 +43,7 @@ class ApprovePurchaseRequisitionController extends Controller
       //  dd($approve);
       $requisitions = Requisition::with(['check','approve'])
       ->where('institution_id','=',auth()->user()->institution_id)
+      ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
     //->where('department_id','=',auth()->user()->department_id)
       ->whereHas('check',function($query){
           $query->where('is_checked','=',1);

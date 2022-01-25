@@ -159,7 +159,7 @@ text-align: center;
 
           
 
-                              <div id="table" class="table-editable">
+              <div id="table" class="table-editable">
                 <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
             
             <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>

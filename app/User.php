@@ -113,9 +113,23 @@ class User extends Authenticatable implements Auditable
         return $user->firstname[0].'.'.$user->lastname;
     }
 
+    public function institution_users()
+    {
+        return $this->hasMany('App\InstitutionUsers');
+    }
+   
+    //institutions id for a user
+    public static function AccessInstitutions(){
+        $institution_ids = InstitutionUsers::where('user_id',auth()->user()->id)->pluck('institution_id');
+        $institutions = Institution::whereIn('id',$institution_ids)->get();
+  
+        return $institutions;
+      }
 
-    // public function notification()
-    // {
-    //     return $this->hasMany('App\Notifications\InternalRequisitionPublish');
-    // }
+      public static function AccessUsers(){
+      $users = InstitutionUsers::where('institution_id',auth()->user()->institution->id)->pluck('user_id');
+
+      }
+
+    
 }

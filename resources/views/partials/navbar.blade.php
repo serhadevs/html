@@ -43,10 +43,12 @@
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
           {{-- <div class="dropdown-divider"></div> --}}
+          @if(in_array(auth::user()->role_id,[1,3,6,10,11,12,14]))
           <a href="/change-institution" class="dropdown-item">
             <i class="fas fa-building mr-2"></i>Change Institution
             
           </a>
+          @endif
           <div class="dropdown-divider"></div>
           <a href="/change-password" class="dropdown-item">
             <i class="fas fa-file mr-2"></i>Change Password

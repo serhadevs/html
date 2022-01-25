@@ -143,8 +143,18 @@ try {
             ->whereIn('role_id', [9,12])
             ->get();
 
-        $requisition = Requisition::find($request->data['requisitionId']);
 
+        
+        $requisition = Requisition::find($request->data['requisitionId']);
+        
+        //add subscribe users 
+        // $access_users = \App\User::whereHas('institution_users',function($query){
+        //     $query->where('institution_id',$requisition->institution_id)
+        //     ->whereIn('role_id', [10]);
+            
+        //     })->get();
+        
+        // $access_users->each->notify(new AcceptRequisitionPublish($requisition));
         $users->each->notify(new AcceptRequisitionPublish($requisition));
 
         //update requisition status

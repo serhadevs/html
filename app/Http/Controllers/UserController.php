@@ -8,6 +8,7 @@ use App\Parish;
 use App\Role;
 use App\User;
 use App\Unit;
+use App\InstitutionUsers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
@@ -106,6 +107,22 @@ class UserController extends Controller
         $user->password = bcrypt(('password123'));
         $user->save();
 
+        $institutions = $request->institutions;
+        if (!empty($institutions)) {
+            foreach ( $institutions as $key => $institution) {
+                $institution =InstitutionUsers::create([
+                    'user_id' => $user->id,
+                    'institution_id' => $institution,
+                    'primary' => $user->institution_id,
+                
+                ]);
+
+            }
+
+        }
+
+
+
 
         $user->notify(new NewUserAccountPublish());
 
@@ -142,6 +159,7 @@ class UserController extends Controller
         $institutions = Institution::all();
         $roles = Role::all();
         $units = Unit::all();
+        //dd($user->institution_users);
 
         return view('panel.user.edit', compact('units','institutions', 'roles', 'departments', 'parishes', 'user'));
 
@@ -156,6 +174,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $institutions = $request->institutions;
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -175,6 +194,27 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->unit_id = $request->unit_id;
         $user->update();
+        
+        //remove institution_users list
+        
+        foreach($user->institution_users as $institution){
+            $institution->delete();
+        }
+        
+        //make or update new list
+        if (!empty($institutions)) {
+            foreach ( $institutions as $key => $institution) {
+                $institution =InstitutionUsers::create([
+                    'user_id' => $user->id,
+                    'institution_id' => $institution,
+                    'primary' => $user->institution_id,
+                
+                ]);
+
+            }
+        }
+
+        
 
         return redirect('/user')->with('status', 'User profile was updated successfully');
 

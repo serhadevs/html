@@ -1,7 +1,7 @@
 
 
     @extends('layouts.panel-master')
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  --}}
     @section('content')
 
@@ -97,10 +97,10 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="department" class="col-sm-2 col-form-label">Institution</label>
+                        <label for="department" class="col-sm-2 col-form-label">Location</label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control" name="institution" id="institution" required>
-                          <option value="">select type </option>
+                        <select class="form-control multiple-select" name="institution" required>
+                          <option value="">select institution </option>
                           @foreach($institutions as $institution)
                          <option  value="{{$institution->id}}" >{{$institution->name}}</option>
 
@@ -124,7 +124,7 @@
                       </div>
                       <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-4">
+                      <div class="col-sm-4">
                           <input type="text" class="form-control"  name="email" id="email" value="{{Request::old('email')}}"required>
                         </div>
                         <label for="unit" class="col-sm-2 col-form-label">Unit</label>
@@ -135,15 +135,36 @@
                             
                         </div> 
                         </div>
+                       
+                    <div class="form-group row">
+                        <label for="" class="col-sm-12 col-form-label">Access Control</label>
+                        <label for="institutions" class="col-sm-2 col-form-label">Institutions</label>
+                        <div class="col-lg-10">
+                        <select class="form-control multiple-select" name="institutions[]" multiple="multiple" id="institution" >
+                        @foreach($institutions as $institution)
+                        <option value="{{$institution->id}}"> {{$institution->name}} </option>
+                        @endforeach
 
+                         </select> 
+                        </div>
+                      
+                        
+                        </div>
                         
                          
                         
                       
 
-                        </div>
+                  </div>
                         
-                        </div>
+              </div>
+
+
+
+
+
+
+
                         <div class="row">
                         <div class="col-10">
                         {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
@@ -204,6 +225,8 @@
     @push('scripts')
     <script src="/js/dataTables.select.min.js"></script>
     <script src="/js/editable-table.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+   
 
 
     <script>
@@ -240,6 +263,9 @@ success: function (data) {
 });
 });
 
+$(document).ready(function() {
+    $('.multiple-select').select2();
+});
       </script>
     @endpush
       
