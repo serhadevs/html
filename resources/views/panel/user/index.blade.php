@@ -48,6 +48,7 @@
                 <th class="text-center">Telephone</th>
                 <th class="text-center">Unit</th>
                 <th class="text-center">Department</th>
+                <th class="text-center">Institution</th>
                 <th class="text-center">Email</th>
                
                     
@@ -74,6 +75,7 @@
                       <td>{{$user->telephone}}</td>  
                        <td>{{$user->unit->name}}</td>  
                         <td>{{$user->department->name}}</td>
+                        <td>{{$user->institution->name}}</td>
                          <td>{{$user->email}}</td>      
                      
                              

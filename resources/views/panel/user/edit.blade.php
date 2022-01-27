@@ -176,7 +176,7 @@
                         </div>
                         </div> --}}
                         
-                         @if(in_array(auth()->user()->role_id,[1,2]))
+                         @if(in_array(auth()->user()->role_id,[1,2,9,12]))
                         <div class="form-group row">
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
                         <label for="institutions" class="col-sm-2 col-form-label">Institutions</label>

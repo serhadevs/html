@@ -48,7 +48,10 @@ class UserController extends Controller
         if(in_array(auth()->user()->role_id,[1,12])){
         $users = User::all();
         }else{
-        $users = User::where('institution_id','=',auth()->user()->institution_id)->get();
+        $users = User::where('institution_id','=',auth()->user()->institution_id)
+        ->whereNotIn('role_id',[1,12])
+        
+        ->get();
         }
 
         //dd($users);
