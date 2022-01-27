@@ -36,12 +36,19 @@ class ApproveBudgetController extends Controller
         //
     
         $internalRequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
-       ->where('institution_id','=',auth()->user()->institution_id)
+       //->Orwhere('institution_id','=',auth()->user()->institution_id)
+       //->whereIn('institution_id',auth()->user()->AccessInstitutions())
         ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
+       ->wherehas('budget_commitment',function($query){
+        $query->where('deleted_at','=', null);
 
-       ->has('budget_commitment')
+       })
+     //->WhereIn('institution_id',auth()->user()->AccessInstitutions())
+     ->where('institution_id','=',auth()->user()->institution_id)
+     ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+
        ->latest()
        ->get();
 
@@ -103,6 +110,7 @@ class ApproveBudgetController extends Controller
                 $status->name = 'Budget Approve';
                 $status->update();
 
+                //notify procurement department
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 // ->where('department_id', auth()->user()->department_id)
                 ->whereIn('role_id',[9,12])
@@ -111,6 +119,8 @@ class ApproveBudgetController extends Controller
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
                 $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+
+                
 
                
             }

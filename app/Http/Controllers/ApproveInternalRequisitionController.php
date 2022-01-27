@@ -37,11 +37,15 @@ class ApproveInternalRequisitionController extends Controller
     {
         //
 
-      $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
-        ->whereHas('certified_internal_requisition',function($query){
+      $internalRequisitions = InternalRequisition::
+     where('department_id', auth()->user()->department_id)
+       -> whereHas('certified_internal_requisition',function($query){
             $query->where('is_granted','=', 1);
            })
-      ->where('institution_id', auth()->user()->institution_id)->get();
+     ->where('institution_id', auth()->user()->institution_id)
+    //  ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+      
+      ->get();
 
 
     
@@ -108,6 +112,8 @@ class ApproveInternalRequisitionController extends Controller
                     $status->name = 'Approved Internal Requisition';
                     $status->update();
 
+
+                //notify primary facility users    
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 ->whereIn('role_id',[7])
                 ->get();
@@ -115,6 +121,9 @@ class ApproveInternalRequisitionController extends Controller
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
                 $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
+                //subscribe user institution notification
+                $sub_users = User::users_in_institution( $approve->internal_requisition_id )->whereIn('role_id',[7]);
+                $sub_users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
 
                
             }

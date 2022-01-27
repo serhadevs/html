@@ -396,8 +396,45 @@ text-align: center;
                   </div>
            
             <!-- /.card -->
+            {{-- modal start --}}
+            {{-- <div class="modal fade" id="modal-lg">
+              <div class="modal-dialog modal-m">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Refuse Internal Requisition</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="card-body">
+                      <form  id='form-refuse' class="form-horizontal" method="Post" autocomplete="off" action="/approve-internal-requisition" >
+                        @csrf 
+                         <div class="form-group row">
+                        <label for="cost-centre" class="col-m-4 col-form-label">Comments</label>
+                        <div class="col-m-8">
+                            <textarea type="text" style="width:400px; height:200px;" value="{{Request::old('comment')}}" id="comment" name='comment'></textarea>
+                        </div>
+                        <input type="hidden" name='requisition_id' id="requisition_id" value=""> 
+                        </div>
+
+
+                     
+                    </form>
+
             
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                    <button type="submit"  class="btn btn-outline-primary float-right btn-lg" id="post" onclick="">Send</button>
+                   
+                  </div>
+                </div>
+          
+              </div> --}}
             
+            {{-- modal end --}}
           
          
         
@@ -406,7 +443,7 @@ text-align: center;
       <div class="row">
                         <div class="col-10">
                      
-                        <button type="submit" id='btnSubmit'  class="btn btn-outline-primary float-right btn-lg">Submit</button>
+                        <button type="submit" id='btnSubmit' data-toggle="modal" data-target="#modal-lg"  class="btn btn-outline-primary float-right btn-lg">Submit</button>
                         </div>
       </div>
                         <br>
@@ -508,6 +545,19 @@ $(document).ready(function(){
     $('.form-group').attr('disable',true);
           $(this).parents(".form-group").remove();
       });
+
+
+ $('#').click(function(){
+  
+    var certifier_id =  {!! json_encode($requisition->check->user->id, JSON_HEX_TAG) !!};
+    var user_id = {!! json_encode($requisition->check->user->id, JSON_HEX_TAG) !!};
+    if (certifier_id = user_id){
+      alert();
+    }
+
+
+  });
+  
 
 
 });

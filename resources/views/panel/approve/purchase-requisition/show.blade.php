@@ -378,7 +378,7 @@ function Accept(requisitionId){
             if (data == "success") {
               swal(
                 "Done!",
-                "Purchase requisition was approved and will shortly be forwarded for approval.",
+                "Purchase requisition was approved and will shortly be forwarded for Purchase Order.",
                 "success").then(esc => {
                   if(esc){
                    // location.reload();

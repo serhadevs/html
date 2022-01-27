@@ -97,7 +97,7 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany('App\AssignRequisition');
     }
 
-    public static function FindUser($role_id,$department_id,$institution_id)
+    public static function findUser($role_id,$department_id,$institution_id)
     {
         if($department_id==null){
         $user=User::where('role_id',$role_id)->where('institution_id',$institution_id)->first();
@@ -118,18 +118,32 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany('App\InstitutionUsers');
     }
    
-    //institutions id for a user
-    public static function AccessInstitutions(){
+    //institutions ids for a user
+    public static function accessInstitutions(){
         $institution_ids = InstitutionUsers::where('user_id',auth()->user()->id)->pluck('institution_id');
         $institutions = Institution::whereIn('id',$institution_ids)->get();
   
         return $institutions;
       }
 
-      public static function AccessUsers(){
-      $users = InstitutionUsers::where('institution_id',auth()->user()->institution->id)->pluck('user_id');
+      public static function accessInstitutions_Id(){
+        $institutions_id = InstitutionUsers::where('user_id',auth()->user()->id)->pluck('institution_id');
+       // $institutions = Institution::whereIn('id',$institution_ids)->pluck('id');
+  
+        return $institutions_id;
+      }
+
+      //all subcribe users for a institution
+      public static function users_in_institution($institutions_id)
+      {
+        $user_ids = \App\InstitutionUsers::where('institution_id',1)->pluck('user_id');
+        $users = User::whereIn('id', $user_ids)
+       ->get();
+        return $users;
 
       }
+
+ 
 
     
 }

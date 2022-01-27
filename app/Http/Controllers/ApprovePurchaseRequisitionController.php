@@ -42,12 +42,13 @@ class ApprovePurchaseRequisitionController extends Controller
   
       //  dd($approve);
       $requisitions = Requisition::with(['check','approve'])
-      ->where('institution_id','=',auth()->user()->institution_id)
-      ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
+    
     //->where('department_id','=',auth()->user()->department_id)
       ->whereHas('check',function($query){
           $query->where('is_checked','=',1);
       })
+      ->where('institution_id',auth()->user()->institution_id)
+      ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
       ->latest()
       ->get();
 
@@ -130,14 +131,18 @@ class ApprovePurchaseRequisitionController extends Controller
             $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
             $status->name = 'Approved Requisition ';
             $status->update();
-
-        $users = User::where('institution_id',auth()->user()->institution_id )
-        ->whereIn('role_id',[9,12])
-        ->get();
+                //notify primary institution users
+                $users = User::where('institution_id',auth()->user()->institution_id )
+                ->whereIn('role_id',[9,12])
+                ->get();
 
                 $requisition = Requisition::find($request->data['requisitionId']);
             
                 $users->each->notify(new ApproveRequisitionPublish($requisition));
+
+                //subscribe user institution notification
+                $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,12]);
+                $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
         }
         return 'success';
     }

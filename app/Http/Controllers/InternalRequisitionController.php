@@ -48,12 +48,23 @@ class InternalRequisitionController extends Controller
         // dd($audits);
 
         //dd($internal_audit);
+        if(in_array(auth()->user()->role_id,[1,10])){
+            $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
+            ->where('institution_id', auth()->user()->institution_id)
+            ->Orwhere('user_id',auth()->user()->id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+            ->latest()
+            ->get();
+
+        }else{    
         $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
             ->where('institution_id', auth()->user()->institution_id)
             ->Orwhere('user_id',auth()->user()->id)
+            // ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
             ->latest()
             ->get();
+        }
 
         return view('/panel.irf.index', compact('internal_requisitions'));
 
@@ -178,22 +189,20 @@ class InternalRequisitionController extends Controller
                 $status->name = 'Certified Internal Requisition';
                 $status->update();
 
-
+                //primary user institution notification
                 $users = User::where('institution_id', auth()->user()->institution_id)
                 ->where('department_id', auth()->user()->department_id)
                 ->whereIn('role_id', [2])
                 ->get();
                 $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+                // //subscribe user institution notification
+                // $sub_users = User::users_in_institution($internal_requisition->institution_id)->whereIn('role_id',[10,11]);
+                // $sub_users->each->notify(new InternalRequisitionPublish($internal_requisition));
+                
 
 
             }
-            //set status
-
-
-            //email supervisor
-            // $user=User::find(auth()->user()->id);
-            // $user->notify(new InternalRequisitionPublish($internal_requisition));
-
+        
 
         }else if(auth()->user()->role_id===4)
         {

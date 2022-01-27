@@ -44,6 +44,12 @@ class AssignRequisitionController extends Controller
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
+        ->whereHas('budget_commitment')
+        ->whereHas('approve_budget')
+        ->where('institution_id', '=', auth()->user()->institution_id)
+        ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+    
+        
  
         ->has('approve_budget')
        // ->doesnthave('assignto')

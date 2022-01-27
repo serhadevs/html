@@ -68,15 +68,16 @@
             </a>
           </li>
           @endif
-          @if(in_array(auth()->user()->role_id,[1,5,9,12]))
+          @if(in_array(auth()->user()->role_id,[1,5,9,10,12]))
           <li class="nav-item has-treeview">
             <a href="/check-purchase" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Accept Requisition
+                Certify Requisition
               </p>
             </a>
           </li>
+           @if(in_array(auth()->user()->role_id,[1,5,9,12]))
           <li class="nav-item has-treeview">
             <a href="/purchase-order" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
@@ -86,6 +87,7 @@
             </a>
          
           </li>
+          @endif
           @endif
           @if(in_array(Auth::user()->role_id, [1,2,5,8,9,10,11,12,13,14]))
           <li class="nav-item has-treeview">

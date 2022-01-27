@@ -39,6 +39,7 @@ class CertifiedInternalRequisitionController extends Controller
         $internalRequisitions = InternalRequisition::with(['certified_internal_requisition'])
         ->where('department_id',auth()->user()->department_id)
         ->where('institution_id',auth()->user()->institution_id)
+        //->whereIn('institution_id',auth()->user()->AccessInstitutions())
         ->latest()
         ->get();
        //dd($internalRequisitions);

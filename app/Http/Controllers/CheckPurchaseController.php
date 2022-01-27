@@ -18,7 +18,7 @@ use App\Approve;
 use App\Comment;
 use App\Notifications\AcceptRequisitionPublish;
 use App\Notifications\RefuseRequisitionPublish;
-
+use App\Notifications\ApproveRequisitionPublish;
 
 use App\UnitOfMeasurement;
 
@@ -27,7 +27,7 @@ class CheckPurchaseController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *Certify requisition page 
      * @return \Illuminate\Http\Response
      */
 
@@ -37,7 +37,7 @@ class CheckPurchaseController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,5,9,12])) {
+            if (!in_array(auth()->user()->role_id, [1,5,9,10,12])) {
                 return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);
@@ -54,14 +54,16 @@ class CheckPurchaseController extends Controller
         if (auth()->user()->institution_id === 1) {
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
         ->where('contract_sum', '>=', 500000)
-        ->Orwhere('institution_id', '=', auth()->user()->institution_id)
+        ->where('institution_id', '=', auth()->user()->institution_id)
+        ->whereIn('institution_id',auth()->user()->accessInstitutions_Id())
         ->latest()
         ->get();
 
 } else {
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
-        ->where('institution_id', '=', auth()->user()->institution_id)
-        ->where('contract_sum', '<', 500000)
+        ->orWhere('institution_id', '=', auth()->user()->institution_id)
+        ->Orwhere('contract_sum', '<', 500000)
+        ->whereIn('institution_id',auth()->user()->accessInstitutions_Id())
         ->latest()
         ->get();
 }
@@ -102,6 +104,7 @@ class CheckPurchaseController extends Controller
 try {
 
     // $requisition = Requisition::find($request->data['requisitionId']);
+    
     $is_checked = $request->data['checked'];
     $check = new Check();
     $check->is_checked = $is_checked;
@@ -139,29 +142,47 @@ try {
 
         }
 
+        //notify primary institution users
         $users = User::where('institution_id', auth()->user()->institution_id)
-            ->whereIn('role_id', [9,12])
+            ->whereIn('role_id', [9])
             ->get();
-
-
-        
         $requisition = Requisition::find($request->data['requisitionId']);
-        
-        //add subscribe users 
-        // $access_users = \App\User::whereHas('institution_users',function($query){
-        //     $query->where('institution_id',$requisition->institution_id)
-        //     ->whereIn('role_id', [10]);
-            
-        //     })->get();
-        
-        // $access_users->each->notify(new AcceptRequisitionPublish($requisition));
         $users->each->notify(new AcceptRequisitionPublish($requisition));
+        //subscribe user institution notification
+        $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[10,11]);
+        $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
 
         //update requisition status
         $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
         $status->name = 'Accept Requisition';
         $status->update();
     }
+
+    // if department head or super user automatic approve requisition
+     if(in_array(auth()->user()->role_id,[1,12])){
+        $approve = new Approve();
+        $permission = 1;
+        $approve->requisition_id=  $requisition->id;
+        $approve->user_id = auth()->user()->id;
+        $approve->is_granted = $permission;
+        $approve->save();
+        //status update
+        $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
+        $status->name = 'Approved Requisition ';
+        $status->update();
+
+        //notify primary institution users
+        $users = User::where('institution_id',auth()->user()->institution_id )
+        ->whereIn('role_id',[9])
+        ->get();
+    
+        $users->each->notify(new ApproveRequisitionPublish($requisition));
+
+        //subscribe user from other institution notification
+        $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9]);
+        $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
+
+     }
 
     return 'success';
 

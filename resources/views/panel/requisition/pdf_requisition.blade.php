@@ -184,6 +184,10 @@ body {
                   @if($requisition->check)
                   <td>Accepted by: {{$requisition->check->user->fullName()}}</td>
                   <td>Date :{{Carbon\Carbon::parse($requisition->check->created_at)->format('M-d-Y')}}</td>
+                  @else
+                  <td></td>
+                  <td></td>
+
                   @endif
 
                 </tr>

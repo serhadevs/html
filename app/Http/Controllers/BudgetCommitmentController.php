@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\BudgetCommitment;
+use App\ApproveBudget;
 use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\User;
 use App\Status;
 use App\Notifications\BugetCommitmentPublish ;
+use App\Notifications\ApproveBudgetPublish;
 
 
 class BudgetCommitmentController extends Controller
@@ -39,7 +41,8 @@ class BudgetCommitmentController extends Controller
        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
-       ->where('internal_requisitions.institution_id','=',auth()->user()->institution_id)
+         ->where('internal_requisitions.institution_id','=',auth()->user()->institution_id)
+         ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id())
 
       // ->doesnthave('budget_commitment')
        ->latest()
@@ -105,10 +108,40 @@ class BudgetCommitmentController extends Controller
         $users = User::where('institution_id',auth()->user()->institution_id )
                 ->whereIn('role_id',[8])
                 ->get();
-      
+      // notify primary institution users
                 $internalRequisition = InternalRequisition::find($request->id);
             
                 $users->each->notify(new BugetCommitmentPublish($internalRequisition));
+                //subscribe user institution notification
+                $sub_users = User::users_in_institution($internalRequisition->institution_id)->whereIn('role_id',[8]);
+                $sub_users->each->notify(new BugetCommitmentPublish($internalRequisition));
+
+        // automatic authorization or apporval budget commitment
+        if(in_array(auth()->user()->role_id, [1,8,14]))
+        {
+            $approve = new ApproveBudget();
+            $permission = 1;
+            $approve->internal_requisition_id = $commitment->internal_requisition_id;
+            $approve->user_id = auth()->user()->id;
+            $approve->is_granted = $permission ;
+            $approve->save();
+                //update requisition status
+                $status = Status::where('internal_requisition_id',$commitment->internal_requisition_id)->first();
+                $status->name = 'Budget Approve';
+                $status->update();
+
+                //notify procurement department
+                $users = User::where('institution_id',auth()->user()->institution_id )
+                // ->where('department_id', auth()->user()->department_id)
+                ->whereIn('role_id',[9,12])
+                ->get();
+      
+                $internalRequisition = InternalRequisition::find($commitment->internal_requisition_id);
+            
+                $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+
+
+        }
          
 
 

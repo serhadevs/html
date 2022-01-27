@@ -47,16 +47,19 @@ class RequisitionController extends Controller
     {
         //  $requisitions = Requisition::with(['check','approve','purchase_order']);
 
-        if (auth()->user()->institution_id === 1) {
+        //dd(auth()->user()->accessInstitutions_Id());
+        if (in_array(auth()->user()->role_id,[1,12,10,11])) {
             $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
-                ->where('contract_sum', '>=', 500000)
-                ->Orwhere('institution_id', '=', auth()->user()->institution_id)
+               // ->where('contract_sum', '>=', 500000)
+             ->whereIn('institution_id', [auth()->user()->institution_id])
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
                 ->latest()
                 ->get();
 
         } else {
             $requisitions = Requisition::with(['check', 'approve'])
-                ->where('institution_id', '=', auth()->user()->institution_id)
+                ->whereIn('institution_id', '=', [auth()->user()->institution_id])
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
                 ->latest()
                 ->get();
         }
@@ -69,6 +72,7 @@ class RequisitionController extends Controller
        ->doesnthave('requisition')
        ->wherehas('assignto')
        ->where('institution_id',auth()->user()->institution_id)
+       ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
         
         ->has('approve_budget')
         ->latest()
