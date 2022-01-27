@@ -55,7 +55,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                     @foreach($users as $user)
+                     @foreach($users->except([1]) as $user)
                   <tr>
                     <td>
                       <a  href="/user/{{$user->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
