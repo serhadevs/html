@@ -53,6 +53,7 @@ class AssignRequisitionController extends Controller
  
         ->has('approve_budget')
        // ->doesnthave('assignto')
+       ->latest()
         ->get();
 
         return view('/panel.assign.index',compact('internal_requisitions'));

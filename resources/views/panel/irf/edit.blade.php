@@ -184,12 +184,15 @@ text-align: center;
                         </div>
 
           
-
+                        <div class="form-group row">
+                          <div class="col-sm-12">
                 <div id="table" class="table-editable">
+                  
                 <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
             
             <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
-          <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
+           
+          <table id="stock-table" style="width:100%;" class=" table-bordered text-center">
             <thead>
               <tr>
                 <th class="text-center">Item No.</th>
@@ -204,7 +207,7 @@ text-align: center;
             </thead>
             <tbody>
                @foreach($ir->stocks as $stock)
-               <div class="form-group row">
+           
               <tr>
                 <td>
                   
@@ -243,7 +246,7 @@ text-align: center;
                   <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
                 </td>
               </tr>
-            </div>
+         
             </tbody>
             @endforeach
    
@@ -274,6 +277,8 @@ text-align: center;
           
           </table>
         </div>
+      </div>
+    </div>
           <div class="row">
             <div class="col-sm-6">
               <!-- textarea -->
