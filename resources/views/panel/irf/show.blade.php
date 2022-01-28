@@ -288,7 +288,8 @@ text-align: center;
                 </table>
               {{-- </form> --}}
               </div>
-          
+              
+ 
 
 
 
@@ -300,6 +301,64 @@ text-align: center;
 
                      
                          </div>
+
+  <div class="form-group row">
+  <div class="col-sm-6">
+
+  @if($internal_requisition->certified_internal_requisition)
+    Certify IRF by: <span class='badge badge-success'>{{$internal_requisition->certified_internal_requisition->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$internal_requisition->certified_internal_requisition->created_at}}</span></br>
+    @endif
+
+    @if($internal_requisition->approve_internal_requisition)
+    Approve IRF by: <span class='badge badge-success'>{{$internal_requisition->approve_internal_requisition->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$internal_requisition->approve_internal_requisition->created_at}}</span></br>
+    @endif
+     
+
+ @if($internal_requisition->budget_commitment)
+     Budget Commitment by: <span class='badge badge-success'>{{$internal_requisition->budget_commitment->user->abbrName()}} </span></br>
+      Date:  <span class='badge badge-success'>{{$internal_requisition->budget_commitment->created_at}}</span></br>
+      @endif
+
+  @if($internal_requisition->approve_budget)
+                        Budget Approve by: <span class='badge badge-success'>{{$internal_requisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$internal_requisition->approve_budget->created_at}}</span></br>
+                          @endif
+      
+  
+     
+  </div>
+ 
+
+
+  
+  <div class="col-sm-6">
+    
+
+@if(isset($internal_requisition->requisition->check))
+    Accepted by: <span class='badge badge-success'>{{$internal_requisition->requisition->check->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$internal_requisition->requisition->check->created_at}}</span></br>
+     @endif
+     
+    @if(isset($internal_requisition->requisition->approve))
+    Approve Requisition by:  <span class='badge badge-success'>{{$internal_requisition->requisition->approve->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$internal_requisition->requisition->approve->created_at}}</span></br>
+    @endif 
+    @if(isset($internal_requisition->requisition->purchaseOrder))
+    Prepared PO by: :<span class='badge badge-success'>  <b>{{$internal_requisition->requisition->purchaseOrder->user->abbrName()}}</span></b> </br>
+    Date:<span class='badge badge-success'>  <b>{{$internal_requisition->requisition->purchaseOrder->created_at}}</span></b></br>
+    @endif
+    
+    
+
+    
+
+  </div>
+
+  </div> 
+  </div>
+  </div>
 
                         <div class="row">
                         <div class="col-10">

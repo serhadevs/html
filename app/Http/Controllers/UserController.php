@@ -45,7 +45,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        if(in_array(auth()->user()->role_id,[1,12])){
+        if(in_array(auth()->user()->role_id,[1,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::all();
         }else{
         $users = User::where('institution_id','=',auth()->user()->institution_id)
@@ -225,6 +225,7 @@ class UserController extends Controller
 
     public function reset($id)
     {
+        
         $user = \App\User::find($id);
         $user->password = bcrypt('password123');
         $user->update();

@@ -141,7 +141,6 @@
                     <th>Date Received in Procurement</th>
                     <th>Date returned to Institution</th>
                     <th>Date Re-submitted to Procurement</th>
-                    {{-- <th>Type of Servi ce</th> --}}
                     <th>Requestor/Department</th>
                     <th>Institution</th>
                     <th>Parish</th>
@@ -160,6 +159,7 @@
                     <th>Date Final Invoice Received</th>
                     <th>Invoice Number</th>
                     <th>Date submmited to Accounts for Payment</th> 
+                    <th>Created By</th>
                    
                     
                   </tr>
@@ -181,7 +181,7 @@
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     <td></td>
                     <td></td>
-                    <td>{{$requisition->department->name}}</td>
+                    <td>{{$requisition->internalrequisition->user->abbrName()."   "." / ". $requisition->department->name}}</td>
                     <td>{{$requisition->institution->name}}</td>
                     <td>{{$requisition->institution->parish->name}}</td>
                     <td>{{$requisition->supplier->name}}</td>
@@ -216,7 +216,7 @@
                     <td>Date submmited to Accounts for Payment</td> 
                     
             
-
+                    <td>{{$requisition->user->abbrName()}}</td>
 
                     </tr>
                     @endforeach

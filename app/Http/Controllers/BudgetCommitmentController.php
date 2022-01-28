@@ -26,7 +26,7 @@ class BudgetCommitmentController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,7,14])) {
+            if (!in_array(auth()->user()->role_id, [1,7,8,14])) {
                 return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);

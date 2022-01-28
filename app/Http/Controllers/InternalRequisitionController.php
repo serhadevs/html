@@ -186,7 +186,7 @@ class InternalRequisitionController extends Controller
             $certify->is_granted = 1;
             if($certify->save()){
                 $status = Status::where('internal_requisition_id', $internal_requisition->id)->first();
-                $status->name = 'Certified Internal Requisition';
+                $status->name = 'Internal Requisition Certified ';
                 $status->update();
 
                 //primary user institution notification
@@ -223,7 +223,7 @@ class InternalRequisitionController extends Controller
                 $approve->is_granted = $permission;
                 if($approve->save()){
                                 $status = Status::where('internal_requisition_id', $internal_requisition->id)->first();
-                                $status->name = 'Approved Internal Requisition';
+                                $status->name = 'Internal Requisition Approved ';
                                 $status->update();
                                 $users = User::where('institution_id', auth()->user()->institution_id)
                                 ->whereIn('role_id', [7])
@@ -393,12 +393,28 @@ class InternalRequisitionController extends Controller
 
 
         }
-        $internal_requisition->update();
+        //$internal_requisition->update();
+        //delete certify ipr
+        if ($internal_requisition->update()) {
+
+            $input = $request->all();
+            //reset refuse requisition
+            $certify_ipr = CertifiedInternalRequisition::where('internal_requisition_id',$internal_requisition->id)
+            ->where('is_granted',0)
+            ->first();
+            if($certify_ipr != null){
+            $certify_ipr->delete();
+            }else{
+                $certify_ipr= 0;
+            }
+
+        }
+
         $users = User::where('institution_id', auth()->user()->institution_id)
         ->where('department_id', auth()->user()->department_id)
-        ->whereIn('role_id', [2])
+        ->whereIn('role_id', [13])
         ->get();
-        $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+        $users->each->notify(new CertifiedInternalRequisitionPublish($internal_requisition));
 
         if ($request->file('file_upload')) {
             $files = $request->file('file_upload');

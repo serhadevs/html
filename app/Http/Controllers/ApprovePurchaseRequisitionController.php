@@ -129,7 +129,7 @@ class ApprovePurchaseRequisitionController extends Controller
 
         }else{
             $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
-            $status->name = 'Approved Requisition ';
+            $status->name = ' Requisition Approved ';
             $status->update();
                 //notify primary institution users
                 $users = User::where('institution_id',auth()->user()->institution_id )

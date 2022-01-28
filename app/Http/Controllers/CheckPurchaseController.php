@@ -154,7 +154,7 @@ try {
 
         //update requisition status
         $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
-        $status->name = 'Accept Requisition';
+        $status->name = 'Requisition Certify';
         $status->update();
     }
 
@@ -168,7 +168,7 @@ try {
         $approve->save();
         //status update
         $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
-        $status->name = 'Approved Requisition ';
+        $status->name = ' Requisition Approved ';
         $status->update();
 
         //notify primary institution users

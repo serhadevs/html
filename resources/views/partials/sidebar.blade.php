@@ -256,7 +256,7 @@
             </ul> --}}
           </li>
           {{-- <li class="nav-header">Settings</li> --}}
-          @if(in_array(Auth::user()->role_id, [1,3,5,9,12]))
+          @if(in_array(Auth::user()->role_id, [1,3,5,9,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1 )
          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -296,7 +296,7 @@
                   <p>Add Units</p>
                 </a>
               </li>
-              @if(in_array(Auth::user()->role_id, [1,3,9,12]))
+              @if(in_array(Auth::user()->role_id, [1,3,9,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1  )
               <li class="nav-item">
                 <a href="/user" class="nav-link">
                   <i class="far fa-user nav-icon"></i>

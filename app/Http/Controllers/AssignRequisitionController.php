@@ -158,6 +158,7 @@ class AssignRequisitionController extends Controller
         //
     }
 
+    //request for more information 
     public function request(Request $request)
     {
         //
@@ -188,6 +189,7 @@ class AssignRequisitionController extends Controller
         }
 
     }
+    // reset ipr to start from the begining of the process
     public function undo(Request $request)
     {
         //
