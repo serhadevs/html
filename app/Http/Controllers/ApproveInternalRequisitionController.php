@@ -42,8 +42,11 @@ class ApproveInternalRequisitionController extends Controller
        -> whereHas('certified_internal_requisition',function($query){
             $query->where('is_granted','=', 1);
            })
-     ->where('institution_id', auth()->user()->institution_id)
-    //  ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+           >where(function($query){
+            $query->where('institution_id','=',auth()->user()->institution_id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+    
+         })
       
       ->get();
 
