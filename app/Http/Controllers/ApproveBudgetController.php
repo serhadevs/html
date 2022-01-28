@@ -45,9 +45,12 @@ class ApproveBudgetController extends Controller
         $query->where('deleted_at','=', null);
 
        })
-     //->WhereIn('institution_id',auth()->user()->AccessInstitutions())
-     ->where('institution_id','=',auth()->user()->institution_id)
-     ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+     ->where(function($query){
+        $query->where('institution_id','=',auth()->user()->institution_id)
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+     })
+    
 
        ->latest()
        ->get();
