@@ -57,7 +57,7 @@
             </a>
           </li>
           @endif
-          @if(in_array(auth()->user()->role_id,[1,5,9,12]))
+          @if(in_array(auth()->user()->role_id,[1,5,9,10,12]))
           <li class="nav-item has-treeview" class="{{Request::path()==='dashboard' ? 'current_page_item' :''}}">
             <a href="/requisition" accesskey="2"  class="nav-link">
               <i class="nav-icon fas fa-th"></i>
