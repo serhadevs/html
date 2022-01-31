@@ -112,12 +112,12 @@ text-align: center;
                         <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Phone </label>
                         <div class="col-sm-4">
-                            <input type="tele" class="form-control" value="{{Request::old('phone')}}" name='phone'required>
+                            <input type="tele" class="form-control" value="{{auth()->user()->telephone}}" name='phone'required disabled>
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">E-Mail</label>
                         <div class="col-sm-4">
                          
-                         <input type="email" class="form-control" value="{{Request::old('email')}}" id='email' name='email'required>
+                         <input type="email" class="form-control" value="{{auth()->user()->email}}" id='email' name='email'required disabled>
                          
                         </div>
                         </div>
