@@ -48,7 +48,7 @@ class InternalRequisitionController extends Controller
         // dd($audits);
 
         //dd($internal_audit);
-        if(in_array(auth()->user()->role_id,[1,10])){
+        if(in_array(auth()->user()->role_id,[1,10,11])){
             $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
             ->where('institution_id', auth()->user()->institution_id)
             ->Orwhere('user_id',auth()->user()->id)

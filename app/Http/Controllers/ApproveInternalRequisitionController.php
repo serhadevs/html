@@ -36,7 +36,19 @@ class ApproveInternalRequisitionController extends Controller
     public function index()
     {
         //
+      if(in_array(auth()->user()->role_id,[1,10,11,12]))
+      {
+        $internalRequisitions = InternalRequisition::
+       whereHas('certified_internal_requisition',function($query){
+            $query->where('is_granted','=', 1);
+           })
+      ->where(function($query){
+            $query->where('institution_id','=',auth()->user()->institution_id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+    
+         })->get();
 
+      }else{
       $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
        ->whereHas('certified_internal_requisition',function($query){
             $query->where('is_granted','=', 1);
@@ -48,7 +60,7 @@ class ApproveInternalRequisitionController extends Controller
          })
       
       ->get();
-
+        }
 
     
 
