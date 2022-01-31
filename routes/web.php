@@ -159,6 +159,7 @@ Route::get('/budgetcommitment/destroy/{id}', 'BudgetCommitmentController@destroy
 
 //Assign
 Route::resource('assign_requisition','AssignRequisitionController');
+Route::patch('assign_requisition/{id}/update','AssignRequisitionController@update');
 Route::get('assign-requisition/{id}/create','AssignRequisitionController@create');
 Route::get('assign-requisition/show/{id}', 'AssignRequisitionController@show');
 Route::get('/request-information', 'AssignRequisitionController@request');

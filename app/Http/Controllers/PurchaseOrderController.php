@@ -40,7 +40,12 @@ class PurchaseOrderController extends Controller
 
         //aprove purchase requisition
         $requisitions = Requisition::with(['check','approve','purchaseOrder'])
-            ->where('institution_id', '=', auth()->user()->institution_id)
+            // ->where('institution_id', '=', auth()->user()->institution_id)
+            ->where(function($query){
+                $query->where('institution_id','=',auth()->user()->institution_id)
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+        
+             })
             ->whereHas('check', function ($query) {
                 $query->where('is_checked', '=', 1);
             })
@@ -55,7 +60,9 @@ class PurchaseOrderController extends Controller
 
         $purchase_orders = PurchaseOrder::with(['requisition'])
             ->whereHas('requisition', function ($query) {
-                $query->where('institution_id', '=', auth()->user()->institution_id);
+                $query->where('institution_id', '=', auth()->user()->institution_id)
+                ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                
             })
             // ->doesnthave('budget_commitment')
             ->latest()

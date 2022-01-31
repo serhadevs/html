@@ -47,8 +47,11 @@ class ApprovePurchaseRequisitionController extends Controller
       ->whereHas('check',function($query){
           $query->where('is_checked','=',1);
       })
-      ->where('institution_id',auth()->user()->institution_id)
-      ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+      ->where(function($query){
+        $query->where('institution_id','=',auth()->user()->institution_id)
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+     })
       ->latest()
       ->get();
 

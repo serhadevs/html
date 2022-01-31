@@ -41,8 +41,11 @@ class BudgetCommitmentController extends Controller
        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
        })
-         ->where('internal_requisitions.institution_id','=',auth()->user()->institution_id)
-         ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+          ->where(function($query){
+            $query->where('institution_id','=',auth()->user()->institution_id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+    
+         })
 
       // ->doesnthave('budget_commitment')
        ->latest()

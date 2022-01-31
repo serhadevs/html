@@ -16,9 +16,10 @@ class PasswordResetPublish extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($password)
     {
         //
+        $this->password = $password;
     }
 
     /**
@@ -43,7 +44,9 @@ class PasswordResetPublish extends Notification
         return (new MailMessage)
                     ->subject('Passowrd Reset')
                     ->greeting('Good day , ' .$notifiable->firstname )
-                    ->line('Your password was reset to  password123.')
+                    ->line('Your password was reset.')
+                    ->line('Your password is:')
+                    ->line($this->password)
                     ->action('Sign In', url('/'))
                     ->line('Welcome to this application!');
     }

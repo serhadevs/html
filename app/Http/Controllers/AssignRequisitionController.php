@@ -46,8 +46,11 @@ class AssignRequisitionController extends Controller
         })
         ->whereHas('budget_commitment')
         ->whereHas('approve_budget')
-        ->where('institution_id', '=', auth()->user()->institution_id)
-        ->OrwhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+        ->where(function($query){
+            $query->where('institution_id','=',auth()->user()->institution_id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+    
+         })
     
         
  
@@ -67,13 +70,17 @@ class AssignRequisitionController extends Controller
     public function create($id)
     {
        // dd(auth()->user()->institution_id);
+       
         $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
-        $users = User::whereIn('role_id',[5,9])
-        ->where('institution_id','=',auth()->user()->institution->id)
+
+        $users = User::
+        where(function($query)use($internalRequisition){
+        $query->where('institution_id','=',$internalRequisition->institution_id)
+        ->OrWhereIn('id',User:: users_in_institution_ids($internalRequisition->institution_id));
+        })
+        ->whereIn('role_id',[5,9])
         ->get();
-        // $user_group = array($internalRequisition ->user_id,$internalRequisition ->user_id);
-        // $users = User::whereIn('id',$user_group)->get();
-        // dd($user_group);
+       
          
         if ($internalRequisition->assignto) {
             return reirect('/assign_requisition')->with('error', 'The Internal Requisition is already assign to'.' ' . $internalRequisition->assignto->user->lastname);
@@ -89,7 +96,7 @@ class AssignRequisitionController extends Controller
      */
     public function store(Request $request)
     {
-       
+        
        // dd($request->all());
        $assignee = new AssignRequisition();
        $assignee->user_id = $request->user_id;
@@ -131,13 +138,20 @@ class AssignRequisitionController extends Controller
     {
         //
         $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
-        $users = User::all();  
+     
+        $users = User::
+        where(function($query)use($internalRequisition){
+        $query->where('institution_id','=',$internalRequisition->institution_id)
+        ->OrWhereIn('id',User:: users_in_institution_ids($internalRequisition->institution_id));
+        })
+        ->whereIn('role_id',[5,9])
+        ->get();
         return view('/panel.assign.edit',compact('internalRequisition','users'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
+     
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\AssignRequisition  $assignRequisition
      * @return \Illuminate\Http\Response
@@ -145,6 +159,21 @@ class AssignRequisitionController extends Controller
     public function update(Request $request, AssignRequisition $assignRequisition)
     {
         //
+       // dd($request->all());
+        $assign = AssignRequisition::where('internal_requisition_id',$request->requisition_id)->first();
+       // dd($assign);
+        $assign->user_id = $request->user_id;
+        $assign->update();
+
+        //send email to assigned task
+       $internal_requisition = InternalRequisition::find($request->requisition_id);
+       $user = User::where('id',$request->user_id)->get();
+   
+       $user->each->notify(new AssignInternalRequisition($internal_requisition));
+
+        return redirect('/assign_requisition')->with('status', 'Updated successfully.');
+
+
     }
 
     /**

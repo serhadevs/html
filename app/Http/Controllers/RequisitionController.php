@@ -51,15 +51,21 @@ class RequisitionController extends Controller
         if (in_array(auth()->user()->role_id,[1,12,10,11])) {
             $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                // ->where('contract_sum', '>=', 500000)
-             ->where('institution_id', [auth()->user()->institution_id])
-            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+               ->where(function($query){
+                $query->where('institution_id','=',auth()->user()->institution_id)
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+        
+             })
                 ->latest()
                 ->get();
 
         } else {
             $requisitions = Requisition::with(['check', 'approve'])
-                ->where('institution_id', '=', [auth()->user()->institution_id])
-                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+               ->where(function($query){
+            $query->where('institution_id','=',auth()->user()->institution_id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+    
+         })
                 ->latest()
                 ->get();
         }

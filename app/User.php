@@ -136,12 +136,21 @@ class User extends Authenticatable implements Auditable
       //all subcribe users for a institution
       public static function users_in_institution($institutions_id)
       {
-        $user_ids = \App\InstitutionUsers::where('institution_id',1)->pluck('user_id');
+        $user_ids = \App\InstitutionUsers::where('institution_id',$institutions_id)->pluck('user_id');
         $users = User::whereIn('id', $user_ids)
        ->get();
         return $users;
 
       }
+
+      public static function users_in_institution_ids($institutions_id)
+      {
+        $users_ids = \App\InstitutionUsers::where('institution_id',$institutions_id)->pluck('user_id'); 
+     
+        return $users_ids;
+
+      }
+
 
  
 

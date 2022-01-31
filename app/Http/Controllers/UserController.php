@@ -15,6 +15,7 @@ use App\Rules\OldPasswordChecker;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NewUserAccountPublish;
 use App\Notifications\PasswordResetPublish;
+use Illuminate\Support\Str;
 
 
 
@@ -45,6 +46,7 @@ class UserController extends Controller
     public function index()
     {
         //
+       
         if(in_array(auth()->user()->role_id,[1,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::all();
         }else{
@@ -225,12 +227,12 @@ class UserController extends Controller
 
     public function reset($id)
     {
-        
+        $password = Str::random(8);
         $user = \App\User::find($id);
-        $user->password = bcrypt('password123');
+        $user->password = bcrypt($password);
         $user->update();
 
-        $user->notify(new PasswordResetPublish());
+        $user->notify(new PasswordResetPublish($password));
         return "success";
     }
 
