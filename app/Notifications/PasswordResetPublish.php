@@ -42,7 +42,7 @@ class PasswordResetPublish extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Passowrd Reset')
+                    ->subject('Password Reset')
                     ->greeting('Good day , ' .$notifiable->firstname )
                     ->line('Your password was reset.')
                     ->line('Your password is:')
