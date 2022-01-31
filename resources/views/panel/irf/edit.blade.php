@@ -249,31 +249,6 @@ text-align: center;
          
             </tbody>
             @endforeach
-   
-               {{-- <tr class="hide">
-                <td>  <input name='item_number[]' class='productname hidden' id="hidden_item" value="" type='text' size="5" style='border:none;outline:none;background: transparent;' disabled></td>
-                <td > <input name='description[]'  value="" class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' disabled></td>
-                <td ><input name='quantity[]'  class='quantity'  value="" type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;'disabled></td>
-                <td >
-                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;' disabled>
-                    
-                    @foreach ($units as $unit)
-                    @if($stock->unit_of_measurement_id == $unit->id)
-                    <option selected value="{{ $stock->unit_of_measurement_id }}" >{{ $stock->unit_of_measurement->name }}</option>
-                    @else
-                    <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
-                    @endif
-                    @endforeach
-                    </select>
-                </td>
-                <td > <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="" type='number'style='width:80px; border:none;outline:none;background: transparent;' disabled></td>
-                <td>  <input name='part_number[]' class='part_number' value="" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;' disabled></td>
-                
-                <td>
-                  <span class="table-remove"
-                    ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" disabled> Remove</button></span>
-                </td>
-              </tr> --}}
           
           </table>
         </div>

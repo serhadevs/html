@@ -112,12 +112,12 @@ text-align: center;
                         <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Phone </label>
                         <div class="col-sm-4">
-                            <input type="tele" class="form-control" value="{{auth()->user()->telephone}}" name='phone'required disabled>
+                            <input type="tele" class="form-control" value="{{auth()->user()->telephone}}" name='phone'readonly>
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">E-Mail</label>
                         <div class="col-sm-4">
                          
-                         <input type="email" class="form-control" value="{{auth()->user()->email}}" id='email' name='email'required disabled>
+                         <input type="email" class="form-control" value="{{auth()->user()->email}}" id='email' name='email'readonly>
                          
                         </div>
                         </div>
@@ -158,9 +158,9 @@ text-align: center;
                         </div>
 
           
-
+              
               <div id="table" class="table-editable">
-                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
+              <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
             
             <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
           <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
@@ -223,7 +223,7 @@ text-align: center;
               <!-- textarea -->
               <div class="form-group">
                 <label>Comments/Justification</label>
-                <textarea class="form-control" name="comments" rows="3" placeholder="Enter ..."></textarea>
+                <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Enter ..."></textarea>
               </div>
             </div>
 
@@ -351,12 +351,33 @@ text-align: center;
 
 $(document).ready(function () {
 
+
+ 
+
+  $('#priority').on("click", function(){
+  
+    var priority =$("#priority").val();
+   
+     var string1 = "very high";
+     if(priority == "very high" || priority == "high" ){
+     
+       $("#comments").attr("required", true);
+     }else{
+      $("#comments").attr("required", false);
+     
+      
+     
+     }
+  });
+
+
 $("#internal_request_form").submit(function (e) {
 
     //stop submitting the form to see the disabled button effect
     //e.preventDefault();
 
     //disable the submit button
+    
     $("#btnSubmit").attr("disabled", true);
 
     
@@ -364,6 +385,9 @@ $("#internal_request_form").submit(function (e) {
     return true;
 
 });
+
+
+
 });
 
 
