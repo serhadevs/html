@@ -46,6 +46,7 @@ class UserController extends Controller
     public function index()
     {
         //
+        
        
         if(in_array(auth()->user()->role_id,[1,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::all();
@@ -74,6 +75,7 @@ class UserController extends Controller
         $institutions = Institution::all();
         $roles = Role::all();
         $units = Unit::all();
+        
         
         return view('/panel.user.create', compact('units','institutions', 'roles', 'departments', 'parishes'));
 
@@ -272,6 +274,33 @@ class UserController extends Controller
             return 'fail';
         }
 
+
+   
     }
 
+    public function verify_password(Request $request)
+    {
+
+      
+        // $credentials = $request->validate([
+        //     'email'=>'email',
+        //     // 'password'=>'required',
+   
+        //     ]);
+            $user = User::where('email',$request->email)->first();
+            $password = bcrypt($request->password);
+            if ($user->email == $request->email )
+            {
+                return "success";
+            }else{
+
+                return "fail";
+            }
+            
+   
+            return "fail";
+       
+      
+    }
+   
 }

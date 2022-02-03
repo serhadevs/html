@@ -93,7 +93,7 @@
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="end_date" data-target-input="nearest">
-                        <input type="text" class="form-control datepicker-input" name='end_date"' id='end_date"' value='{{Request::old('end_date')}}' data-target="#tcc_expired"/>
+                        <input type="text" class="form-control datepicker-input" name='end_date' id='end_date' value='{{Request::old('end_date')}}' data-target="#tcc_expired"/>
                         <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>

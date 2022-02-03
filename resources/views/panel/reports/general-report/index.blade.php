@@ -18,7 +18,7 @@
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
-                        <h3 class="card-title">Audit Trail</h3>
+                        <h3 class="card-title">General Report</h3>
                         </div>
                         </div>
                         </div>
@@ -42,7 +42,7 @@
             
                 <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/audit-trail" >
+                <form class="form-horizontal" method="Post" autocomplete="off" action="/general-report" >
                   @csrf
                   
                        
@@ -51,28 +51,22 @@
                            <div class="col-m-10">
 
                           <div class="form-group row">
-                        <label for="name" class="col-sm-2 col-form-label">Auditable Type</label>
+                        <label for="name" class="col-sm-2 col-form-label">Module type</label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control" name="audit_type" id="audit_type">
-                          {{-- <option  value="">Select</option> --}}
-                        <option value="">All auditable type </option>
+                        <select type="input" class="form-control" name="module_type" id="module_type">
+                          <option  value="">Select</option>
+                        <option value="">All modules </option>
 
-                          @foreach($auditble_types as $key => $type)
-                        <option value="{{$type['type']}}">{{$type['name']}}</option>
+                          @foreach($modules as $key => $type)
+                        <option value="{{$type['id']}}">{{$type['name']}}</option>
 
                           @endforeach
                          </select>  
                           </div>
 
-                        <label for="supplier_code" class="col-sm-2 col-form-label">User</label>
+                        
                         <div class="col-sm-4">
-                        <select type="input" class="form-control" name="user_id" id="user_id">
-                          {{-- <option >Select</option> --}}
-                        <option value="">All users </option>
-                          @foreach($users as $user)
-                        <option value="{{$user->id}}">{{$user->abbrName()}}</option>
-
-                          @endforeach
+                        
                          </select>  
                           </div>
                         
@@ -93,7 +87,7 @@
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="end_date" data-target-input="nearest">
-                        <input type="text" class="form-control datepicker-input" name='end_date' id='end_date' value='{{Request::old('end_date')}}' data-target="#tcc_expired"/>
+                        <input type="text" class="form-control datepicker-input" name='end_date' id='end_date' value='{{Request::old('end_date')}}' data-target="#end_date"/>
                         <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>

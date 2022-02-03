@@ -39,4 +39,23 @@ class VerificationController extends Controller
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
+
+
+    public function verify_password(Request $request)
+    {
+         $credentials = $request->validate([
+         'email'=>['required','email'],
+         'password'=> ['required'],
+
+         ]);
+
+         if(Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return "success";
+        }else{
+            return "false";
+        }
+    }
+
 }

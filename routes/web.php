@@ -131,7 +131,7 @@ Route::patch('/change-institution/{id}', 'ChangeInstitutionController@update');
 //change Password
 Route::post('/change-password/user','UserController@changePassword');
 Route::view("/change-password", "auth.change-password")->name('password.expired');
-//Route::view("/password/expired", "auth.change-password")->name('password.expired');
+Route::post("/verify_password", "UserController@verify_password");
 
 
 //IPR controller
@@ -189,7 +189,8 @@ Route::get('/undo-internal-requisition','CertifiedInternalRequisitionController@
 Route::resource('audit-trail','AuditTrailController');
 Route::resource('/trail-ipr', 'TrailInternalRequisitionController');
 
-
+//General report controller
+Route::resource('general-report','GeneralReportController');
 
 
 

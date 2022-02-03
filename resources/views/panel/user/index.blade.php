@@ -30,7 +30,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                  
+          
                   <a href="user/create" class="btn btn-outline-success float-left">Create User</a>
                 <h3 class="card-title float-right">A list of all Users </h3>
               </div>

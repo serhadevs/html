@@ -297,7 +297,7 @@ text-align: center;
                 <td>{{$stock->item_number}}</td>
                 <td>{{$stock->description}}</td>
                 <td>{{$stock->quantity}}</td>
-                <td>{{$stock->unit_of_measurement_id}}</td>
+                <td>{{$stock->unit_of_measurement->name}}</td>
                 <td>{{$stock->unit_cost}}</td>
                 <td>{{$stock->part_number}}</td>
             

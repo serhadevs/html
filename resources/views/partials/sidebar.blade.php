@@ -222,14 +222,15 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            {{-- <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
+                <a href="/general-report" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Department</p>
+                  <p>General Report</p>
                 </a>
               </li>
-              <li class="nav-item">
+              </ul>
+             {{--  <li class="nav-item">
                 <a href="pages/tables/data.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Institution</p>
