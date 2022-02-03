@@ -93,8 +93,8 @@ body {
                     <td>Type: {{$requisition->internalrequisition->requisition_type->name}}</td>
                   </tr>
                   <tr>
-                    <td>Estimated Cost: {{$requisition->internalrequisition->estimated_cost}}</td>
-                     <td>Contract Sum: {{$requisition->contract_sum}}</td>
+                    <td>Estimated Cost: ${{$requisition->internalrequisition->estimated_cost}}</td>
+                     <td>Contract Sum: ${{$requisition->contract_sum}}</td>
                   </tr>
                   <tr>
                    <td>Cost Centre: {{$requisition->cost_centre}}</td>
@@ -143,7 +143,7 @@ body {
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->description}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->quantity}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_of_measurement_id}}</td>
-         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_cost}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">${{$stock->unit_cost}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->part_number}}</td>
      
 

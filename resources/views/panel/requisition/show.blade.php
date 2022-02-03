@@ -92,7 +92,7 @@ text-align: center;
                       </div>
                       <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                       <div class="col-sm-4">
-                       
+                              <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
                         <input type="number" class="form-control" value="{{$requisition->internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
                        
                       </div>
@@ -186,6 +186,7 @@ text-align: center;
                           <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                             <div class="col-sm-4">
+                            <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
                             <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" disabled  name='contract_sum'>
                             </div>
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>

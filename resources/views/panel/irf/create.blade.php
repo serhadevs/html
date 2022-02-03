@@ -93,6 +93,7 @@ text-align: center;
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                         <div class="col-sm-4">
+                        <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
                             <input type="number" class="form-control" min="0.00" step="0.01"  value="{{Request::old('estimated_cost')}}" name='estimated_cost'required >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget Activity</label>

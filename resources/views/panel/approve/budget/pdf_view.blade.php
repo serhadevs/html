@@ -101,7 +101,7 @@ body {
 
                  
                   <tr>
-                    <td>Estimated Cost: {{$internalRequisition->estimated_cost}}</td>
+                    <td>Estimated Cost: ${{$internalRequisition->estimated_cost}}</td>
                     <td>Department: {{$internalRequisition->Department->name}}</td>
                   </tr>
 
@@ -148,7 +148,7 @@ body {
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->description}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->quantity}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_of_measurement_id}}</td>
-         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_cost}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">${{$stock->unit_cost}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->part_number}}</td>
      
 
