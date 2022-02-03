@@ -101,7 +101,7 @@ class GeneralReportController extends Controller
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
          })->get();
-         dd(1);
+       
 
         }else if($module == 3){
             $report = InternalRequisition::with(['approve_internal_requisition'])
