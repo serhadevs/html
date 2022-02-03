@@ -181,7 +181,7 @@ text-align: center;
               <tr>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" type='text' size="5" style='border:none;outline:none;background: transparent;'>
+                <input name='item_number[]' class='productname' id="item_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                
                 </td>
                 <td>
