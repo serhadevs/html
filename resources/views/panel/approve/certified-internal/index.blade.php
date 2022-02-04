@@ -88,10 +88,10 @@ input[type="checkbox"]{
                       <td> <button  class="btn btn-block btn-warning btn-m" onclick="undo({{$internal->id}})"disabled>Undo</button></td>
                       @endif
   
-                     @if($internal->certified_internal_requisition)
+                     @if(isset($internal->certified_internal_requisition))
                      @if($internal->certified_internal_requisition['is_granted']==1)
                     <td> <span class ="badge bg-green">Certified</span></td>
-                    @elseif($internal->approve_internal_requisition['is_granted']==0)
+                    @elseif($internal->certified_internal_requisition['is_granted']==0)
                     <td> <span class ="badge bg-yellow">Refused</span></td>
                     @endif
                     @else
