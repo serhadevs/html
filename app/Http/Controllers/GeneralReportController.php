@@ -91,11 +91,12 @@ class GeneralReportController extends Controller
         //
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
-        $module = $request->module_type;
+        $module = (int)$request->module_type;
       
        
-        
+       
         if($module == 1){
+           
        $report = InternalRequisition:: whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
@@ -103,7 +104,7 @@ class GeneralReportController extends Controller
          })->get();
        
 
-        }else if($module == 3){
+        }else if($module = 3){
             $report = InternalRequisition::with(['approve_internal_requisition'])
         ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->whereHas('approve_internal_requisition')
@@ -114,8 +115,9 @@ class GeneralReportController extends Controller
         ->get();
 
 
-        }else if($module == 6)
+        }else if($module = 6)
         {
+            dd(6);
             $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                // ->where('contract_sum', '>=', 500000)
                ->where(function($query){

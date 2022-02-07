@@ -100,7 +100,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if(in_array(Auth::user()->role_id, [1,12,13,14]))
+              @if(in_array(Auth::user()->role_id, [1,2,11,12,13,14]))
               <li class="nav-item">
                 <a href="/certify-internal-requisition" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

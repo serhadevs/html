@@ -15,7 +15,7 @@
           <div class="col-sm-6">
             <h1> 
             @if($module ===1)
-            {{$module}}
+         
             Internal Requisition
             @else
             Requisition
@@ -76,12 +76,7 @@
                   
                     {{-- <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td> --}}
                     <td>{{$internal_requisition->requisition_no}}
-                    @if($internal_requisition->user)
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
-                    @else
-                    <td></td>
-                    @endif
-                 
                     <td>{{$internal_requisition->description}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>
                     
@@ -150,11 +145,7 @@
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     <td></td>
                     <td></td>
-                    @if(isset($requisition->internalrequisition->user))
                     <td>{{$requisition->internalrequisition->user->abbrName()."   "." / ". $requisition->department->name}}</td>
-                    @else
-                    <td>{{$requisition->department->name}}</td>
-                    @endif
                     <td>{{$requisition->institution->name}}</td>
                     <td>{{$requisition->institution->parish->name}}</td>
                     <td>{{$requisition->supplier->name}}</td>
