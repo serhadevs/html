@@ -424,32 +424,31 @@ text-align: center;
                   </div>
                   <div class="modal-body">
                      <div class="card-body">
-                      <form  id='form-refuse' class="form-horizontal" method="Post" autocomplete="off" action="" >
+                      <form  id='form-refuse' class="form-horizontal" method="POST" autocomplete="off" action="/verify_password" enctype="multipart/form-data" >
                         @csrf 
                           <div class="form-group row">
                         <label for="name" class="col-sm-4 col-form-label">Email</label>
                         <div class="col-sm-6">
                         <input type="email" name ="email" class="form-control" value="" required>
                           </div>
-
-                        
-                         </div>
+                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-4 col-form-label">Password</label>
                         <div class="col-sm-6">
                         <input type="password" name ="password" class="form-control" value="" required>
                         </div>
+                        </div>
 
                      
-                    </form>
+                    
 
             
-                    </div>
+                  
                   </div>
                  
                     <button type="button" class="btn btn-default btn-lg " data-dismiss="modal">Close</button>
-                    <button type="submit" id="verify" class="btn btn-outline-primary float-right btn-lg" id="post" onclick="">Send</button>
-                   
+                    <button type="submit" id="verify" class="btn btn-outline-primary float-right btn-lg" id="verify" onclick="">Send</button>
+                   </form>
                  
                 </div>
           
@@ -560,12 +559,13 @@ $(document).ready(function(){
     var email = $('#email').val();
     var certifier_id =  {!! json_encode($requisition->check->user->id, JSON_HEX_TAG) !!};
     var user_id = {!! json_encode($requisition->check->user->id, JSON_HEX_TAG) !!};
+   
     if (certifier_id = user_id){
-  
+         console.log(password);
         $("#modal-lg").modal('show');
            e.preventDefault();
        $('#verify').click(function(){  
-      $.post( {!! json_encode(url('/')) !!} + "/verify_password",{ _method: "POST",data:{email:email,password:password},_token: "{{ csrf_token() }}"}).then(function (data) {
+      $.post( {!! json_encode(url('/')) !!} + "/verify_password",{ _method: "Post",data:{email:email,password:password},_token: "{{ csrf_token() }}"}).then(function (data) {
           console.log(data);
             if (data == "success") {
               swal(
@@ -586,6 +586,7 @@ $(document).ready(function(){
                    $("#btnSubmit").attr("disabled", true);
                    });
                 }
+                 location.reload();
              
                
               });

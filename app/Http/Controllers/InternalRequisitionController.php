@@ -61,7 +61,7 @@ class InternalRequisitionController extends Controller
             ->latest()
             ->get();
 
-        }else{    
+        }else if(in_array(auth()->user()->role_id,[2])){    
         $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
             ->where(function($query){
@@ -73,6 +73,25 @@ class InternalRequisitionController extends Controller
             // ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
             ->latest()
             ->get();
+        }else{
+            $internal_requisitions = InternalRequisition::with(['user','approve_internal_requisition','department','institution','requisition_type','status'])
+            ->where('department_id', auth()->user()->department_id)
+            ->whereHas('user',function($query){
+                $query->whereIn('unit_id',User::UnitUsers());
+
+            })
+            ->OrWhere(function($query){
+                $query->where('institution_id','=',auth()->user()->institution_id)
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+        
+             })
+            // ->Orwhere('user_id',auth()->user()->id)
+            // ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
+            ->latest()
+            ->get();
+
+
+
         }
 
         return view('/panel.irf.index', compact('internal_requisitions'));

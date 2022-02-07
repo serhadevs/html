@@ -281,24 +281,30 @@ class UserController extends Controller
     public function verify_password(Request $request)
     {
 
-      
+
         // $credentials = $request->validate([
         //     'email'=>'email',
-        //     // 'password'=>'required',
+        //     'password'=>'required',
    
-        //     ]);
+        //     ]);      
+
+        
             $user = User::where('email',$request->email)->first();
             $password = bcrypt($request->password);
-            if ($user->email == $request->email )
-            {
-                return "success";
-            }else{
+            // return "success";
 
+            if($user->email = $request->email)
+            {
+                return 'success';
+
+            }else
+            {
                 return "fail";
             }
             
+            
    
-            return "fail";
+             return "fail";
        
       
     }

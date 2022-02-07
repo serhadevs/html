@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Auth;
 
 
 
@@ -95,6 +96,14 @@ class User extends Authenticatable implements Auditable
       public function assignTO()
     {
         return $this->hasMany('App\AssignRequisition');
+    }
+
+    public static function UnitUsers(){
+        $unit_users = User::where('unit_id', Auth::user()->unit_id)
+                        ->withTrashed()
+                        ->get();
+
+        return $unit_users;
     }
 
     public static function findUser($role_id,$department_id,$institution_id)

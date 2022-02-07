@@ -72,7 +72,7 @@
                         
                          </div>
                           <div class="form-group row">
-                         <label for="cost-centre" class="col-sm-2 col-form-label">Start Date </label>
+                         <label for="start_date" class="col-sm-2 col-form-label">Start Date </label>
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="start_date" data-target-input="nearest">
@@ -83,7 +83,7 @@
                         </div>
                         
                         </div>
-                        <label for="cost-centre" class="col-sm-2 col-form-label">End Date</label>
+                        <label for="end_date" class="col-sm-2 col-form-label">End Date</label>
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="end_date" data-target-input="nearest">

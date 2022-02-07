@@ -122,6 +122,11 @@ Route::get('/getUnits',function(){
 
     return response()->json($units);
 });
+// supervisor authentication override
+Route::post('/verify_password"', 'UserController@verify_password');
+
+
+
 
 
 //change Institution
