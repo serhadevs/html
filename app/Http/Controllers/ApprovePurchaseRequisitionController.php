@@ -117,6 +117,9 @@ class ApprovePurchaseRequisitionController extends Controller
 
             $user = User::find($requisition->check->user_id);
             $user->notify(new RefuseRequisitionPublish($requisition,$comment));
+            $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
+            $status->name = ' Requisition refuse';
+            $status->update();
             
 
             $acceptRequisition = Check::where('requisition_id',$requisition->id);

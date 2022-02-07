@@ -106,7 +106,9 @@ class CertifiedInternalRequisitionController extends Controller
                     $comment->user_id = auth()->user()->id;
                     $comment->save();
     
-                    
+                    $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+                    $status->name = 'Internal Requisition rejected';
+                    $status->update();
                     $internalrequisition = InternalRequisition::find($request->data['internal_requisition_id']);
                     $user = User::find($internalrequisition->user_id);
                     $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
