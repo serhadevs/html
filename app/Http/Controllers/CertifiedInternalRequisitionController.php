@@ -26,7 +26,7 @@ class CertifiedInternalRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,3,13,14])) {
+            if (!in_array(auth()->user()->role_id, [1,2,10,11,13,14])) {
                 return redirect('/dashboard');
             } else {
                 return $next($request);
