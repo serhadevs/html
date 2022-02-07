@@ -36,6 +36,8 @@ class CertifiedInternalRequisitionController extends Controller
     public function index()
     {
         //
+        if(in_array(auth()->user()->role_id,[1,2,10,11,12]))
+        {
         $internalRequisitions = InternalRequisition::with(['certified_internal_requisition'])
         ->where('department_id',auth()->user()->department_id)
         ->where(function($query){
@@ -45,6 +47,24 @@ class CertifiedInternalRequisitionController extends Controller
          })
         ->latest()
         ->get();
+        }else{
+            $internalRequisitions = InternalRequisition::with(['user','certified_internal_requisition'])
+            ->where('department_id',auth()->user()->department_id)
+            ->where(function($query){
+                $query->where('institution_id','=',auth()->user()->institution_id)
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+        
+             })
+             ->whereHas('user',function($query){
+                $query->whereIn('unit_id',User::UnitUsers());
+
+            })
+            ->latest()
+            ->get();
+
+
+
+        }
        //dd($internalRequisitions);
 
         return view('/panel/approve/certified-internal.index',compact('internalRequisitions'));
