@@ -38,7 +38,7 @@ class ChangeInstitutionController extends Controller
         //     $query->where('institution_id',6);
         //     })->get();
         // dd ($access_users);
-        if(in_array(auth()->user()->role_id,[1,2]))
+        if(in_array(auth()->user()->role_id,[1,12,15]))
     {
         $institutions = Institution::all();
     }else{
