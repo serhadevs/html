@@ -20,6 +20,7 @@ use App\Status;
 use App\Notifications\RequisitionPublish;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use App\Stock;
 
 class RequisitionController extends Controller
 {
@@ -95,8 +96,7 @@ class RequisitionController extends Controller
      */
     public function create($id)
     {
-        $requisition = InternalRequisition::find($id);
-        //dd($requisition);
+        $internalrequisition = InternalRequisition::with('stocks')->find($id);
         $suppliers = Supplier::all();
         $units = UnitOfMeasurement::all();
         $departments = Department::all();
@@ -105,7 +105,7 @@ class RequisitionController extends Controller
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
 
-        return view('panel.requisition.create', compact('requisition','types', 'methods', 'categories', 'suppliers', 'units', 'departments', 'institutions'));
+        return view('panel.requisition.create', compact('internalrequisition','types', 'methods', 'categories', 'suppliers', 'units', 'departments', 'institutions'));
 
     }
 
@@ -119,7 +119,8 @@ class RequisitionController extends Controller
     {
     
       //  $total = 0;
-    //  dd($request->all());
+      
+ 
         $request->validate([
             // 'requisition_type' => 'required|numeric',
             'cost_centre' => 'required',
@@ -169,7 +170,17 @@ class RequisitionController extends Controller
         // add stocks to requisition
         if ($requisition->save()) {
 
-           
+            //add actual value to stock table
+            $stocks = Stock::where('internal_requisition_id',$request->id)->get();
+            foreach ($stocks as $key => $stock) {
+   
+                       $stock->actual_cost = $request['actual_cost'][$key];
+                       $stock->actual_total = $request['actual_total'][$key];
+                       $stock->update();
+                 
+               }
+
+           //upload file
 
             if ($request->file('file_upload')) {
                 $files = $request->file('file_upload');
@@ -224,6 +235,10 @@ class RequisitionController extends Controller
     public function show(Requisition $requisition)
     {
         //
+        //dd($requisition->internalrequisition->stocks);
+       
+     
+      
         return view('panel.requisition.show', ['requisition' => $requisition]);
     }
 
@@ -282,6 +297,15 @@ class RequisitionController extends Controller
         //update stock
 
         if ($requisition->update()) {
+
+            $stocks = Stock::where('internal_requisition_id',$requisition->internal_requisition_id)->get();
+            foreach ($stocks as $key => $stock) {
+   
+                       $stock->actual_cost = $request['actual_cost'][$key];
+                       $stock->actual_total = $request['actual_total'][$key];
+                       $stock->update();
+                 
+               }
 
             $input = $request->all();
             //reset refuse requisition

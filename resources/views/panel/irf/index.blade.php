@@ -58,7 +58,7 @@
                     <th>Request Required</th>
                     <th>Priority</th>
                     <th>Date Created</th>
-                    <th>Date Approved</th>
+                    {{-- <th>Date Approved</th> --}}
                     
                     
                   </tr>
@@ -77,7 +77,11 @@
                      <td>
                      <a href="#" class="btn btn-outline-danger btn-m" onclick="deleteinternal_requisition({{$internal_requisition->id}})" >Delete</a>
                      </td> 
+                     @if(isset($internal_requisition->status))
                     <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
+                    @else
+                    <td></td>
+                    @endif
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
                     <td>{{$internal_requisition->description}}</td>
@@ -91,11 +95,7 @@
                     <td>{{$internal_requisition->requisition_type->name}}</td>
                     <td>{{$internal_requisition->priority}}</td>
                     <td>{{$internal_requisition->created_at}}</td>
-                    @if($internal_requisition->approve_internal_requisition)
-                    <td>{{$internal_requisition->approve_internal_requisition->created_at}}</td>
-                    @else
-                    <td></td>
-                    @endif
+               
                   
                    
                    

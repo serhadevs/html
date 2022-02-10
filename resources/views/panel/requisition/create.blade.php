@@ -33,7 +33,7 @@ text-align: center;
                <div class="container-fluid">
                   <section class="content-header">
         
-              <div class="col-sm-10">
+              <div class="col-sm-12">
                         <div class="card card-primary">
                         <div class="card-header">
                         <h3 class="card-title">Create Purchase Requisition</h3>
@@ -42,7 +42,7 @@ text-align: center;
                         </div>
                         
                         @if(count($errors)>0)
-                        <div class="col-sm-10">
+                        <div class="col-sm-12">
                   <div class="alert alert-danger">
                    {{-- <a class="alert alert-danger-close"></a> --}}
 
@@ -82,58 +82,58 @@ text-align: center;
 
 
                  
-                            <div class="card" style="width:82.9%">
+                            <div class="card" style="width:100">
                           <div class="card-body">
-                           <div class="col-m-10">
+                           <div class="col-m-12">
                            
 
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Requester</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control" value="{{$requisition->user->abbrName()}}" readonly>
+                        <input type="input" class="form-control" value="{{$internalrequisition->user->abbrName()}}" readonly>
                           </div>
 
                         <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
                         <div class="col-sm-4">
-                          <input type="input" class="form-control" value="{{$requisition->department->name}}" readonly>
+                          <input type="input" class="form-control" value="{{$internalrequisition->department->name}}" readonly>
                         </div>
                       </div>
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Institution</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control" value="{{$requisition->institution->name}}" readonly>
-                        <input type="hidden" name='requisition_no' id="requisition_no" value="{{$requisition->requisition_no}}">
-                        <input type="hidden" name='id' id="id" value="{{$requisition->id}}"> 
+                        <input type="input" class="form-control" value="{{$internalrequisition->institution->name}}" readonly>
+                        <input type="hidden" name='requisition_no' id="requisition_no" value="{{$internalrequisition->requisition_no}}">
+                        <input type="hidden" name='id' id="id" value="{{$internalrequisition->id}}"> 
                       </div>
                     
                         <label for="inputEmail4" class="col-sm-2 col-form-label">Date Ordered</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control"  value="{{($requisition->created_at)->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
+                        <input type="input" class="form-control"  value="{{($internalrequisition->created_at)->format('d-m-Y')}}"name='date_ordered' id="date-ordered" readonly>
                         </div>
                         </div>
                       <div class="form-group row">
                         <label for="department" class="col-sm-2 col-form-label">Type</label>
                         <div class="col-sm-4">
                        
-                          <input type="input" class="form-control"  value="{{$requisition->requisition_type->name}}"name='requisition_type' id="requisition_type" readonly>
+                          <input type="input" class="form-control"  value="{{$internalrequisition->requisition_type->name}}"name='requisition_type' id="requisition_type" readonly>
                       
                       </div>
                       <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                       <div class="col-sm-4">
                        <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
-                        <input type="number" class="form-control" value="{{$requisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
+                        <input type="number" class="form-control" value="{{$internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
                        
                       </div>
                       </div>
                       <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">Cost Centre </label>
                         <div class="col-sm-4">
-                            <input type="input" class="form-control" value="{{$requisition->institution->code}}" readonly name='cost_centre' >
+                            <input type="input" class="form-control" value="{{$internalrequisition->institution->code}}" readonly name='cost_centre' >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Commitment #</label>
                         <div class="col-sm-4">
                          
-                        <input type="input" class="form-control" value="{{$requisition->budget_commitment->commitment_no}}" readonly name='commitment' id='commitment'>
+                        <input type="input" class="form-control" value="{{$internalrequisition->budget_commitment->commitment_no}}" readonly name='commitment' id='commitment'>
                          
                         </div>
                         </div>
@@ -141,7 +141,7 @@ text-align: center;
                          <div class="form-group row">
                               <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
                               <div class="col-sm-4">
-                              <input type="input" class="form-control" value="{{$requisition->requisition_no}}" readonly>
+                              <input type="input" class="form-control" value="{{$internalrequisition->requisition_no}}" readonly>
                                 </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
                         <div class="col-sm-4">
@@ -203,7 +203,7 @@ text-align: center;
                           <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                           <div class="col-sm-4">
                           <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
-                              <input type="number" class="form-control" value="{{Request::old('contract_sum')}}" id="contract_sum" name='contract_sum' required>
+                              <input type="number" class="form-control"  id="contract_sum" name='contract_sum' readonly required>
                           </div>
                           <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                         <div class="col-sm-4">
@@ -301,6 +301,83 @@ text-align: center;
                         
                         </div>
 
+                           <div class="row">
+                             <div class="col-sm-12">
+                       
+                
+          <table id="stock-table" class="table table-bordered  text-center">
+            <thead>
+              <tr>
+                <th class="text-center">Item No.</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Measurement</th>
+                <th class="text-center">Unit Cost</th>
+                <th class="text-center">Estimated Total</th>
+                <th class="text-center">Actual Cost</th>
+                <th class="text-center">Actual Total</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($internalrequisition->stocks as $stock)
+              <tr>
+              
+                <td>{{$stock->item_number}}</td>
+                <td>{{$stock->description}}</td>
+                <td><input name='quantity[]'  class='quantity' type='number' value={{$stock->quantity}} size="5"style='width:60px;border:none;outline:none;background: transparent;' readonly required></td>
+                <td>{{$stock->unit_of_measurement->name}}</td>
+                <td>{{$stock->unit_cost}}</td>
+                <td> {{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2) }}</td>
+                <td>
+                  <input name='actual_cost[]' id="actual_cost" size="5" id="" class='actual_cost' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+                </td>
+                <td>
+                  <input name='actual_total[]' id="actual_total" size="5" id="" class='actual_total' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+                </td>
+       
+              
+              </tr>
+               
+           @endforeach
+         
+  
+            </tbody>
+          </table>
+        </div>
+        </div>
+        <div class="row">
+      <div class="col-sm-8">
+             
+      </div>
+
+                         
+  <div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-left">
+  <tr >
+    <td  style='width:1px;'>Sub Total</td>
+    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="0.0" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td style='width:20px;'>Sales Tax (15.0%)</td>
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="0.0" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td  style='width:20px;'>Grand Total</td>
+     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="0.0" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+  </tr>
+ 
+ 
+  </table>
+
+
+  </div> 
+                  
+            
+            
+      </div>
+        
                         <div class="row">
                           {{-- <div class="col-sm-6">
                             <!-- textarea -->
@@ -312,24 +389,24 @@ text-align: center;
               
               
               
-                          @if($requisition->comment->isNotEmpty())
+                          @if($internalrequisition->comment->isNotEmpty())
                           <div class="col-sm-6">
                             <!-- textarea -->
                             <div class="form-group">
                               <label>Refusal Comments</label>
               <textarea class="form-control" rows="3" disabled>
-  @foreach($requisition->comment as $comment)
+  @foreach($internalrequisition->comment as $comment)
   {{$comment->user->abbrName()}}: {{$comment->comment}}
   @endforeach
               </textarea>
                             </div>
                           </div>
                           @endif
-                          @if($requisition->attached->isNotEmpty())
+                          @if($internalrequisition->attached->isNotEmpty())
                            <div class="col-sm-6">
                             <label for="exampleInputFile">Attached Files</label>
                        <div class="card-body p-0">
-                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+                  {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$internalrequisition->id}}" >
                   @csrf
                   @method('delete')  --}}
                 <table class="table table-sm" id="filetable">
@@ -341,7 +418,7 @@ text-align: center;
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($requisition->attached as $file)
+                    @foreach($internalrequisition->attached as $file)
                     <tr> 
                     <td>
                     <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
@@ -408,16 +485,16 @@ text-align: center;
                         </div>
                          <div class="form-group row">
                       <div class="col-sm-6">
-                        Approve IRF by: <span class='badge badge-success'>{{$requisition->approve_internal_requisition->user->abbrName()}}</span></br>
-                        Date:<span class='badge badge-success'>{{$requisition->approve_internal_requisition->created_at}}</span></br>
+                        Approve IRF by: <span class='badge badge-success'>{{$internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$internalrequisition->approve_internal_requisition->created_at}}</span></br>
                       </div>
                       <div class="col-sm-6">
-                        Budget Approve by: <span class='badge badge-success'>{{$requisition->approve_budget->user->abbrName()}} </span></br>
-                        Date:  <span class='badge badge-success'>{{$requisition->approve_budget->created_at}}</span><br>
+                        Budget Approve by: <span class='badge badge-success'>{{$internalrequisition->approve_budget->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$internalrequisition->approve_budget->created_at}}</span><br>
                         
                         
-                              Budget Commitment by: <span class='badge badge-success'>{{$requisition->budget_commitment->user->abbrName()}} </span></br>
-                              Date:  <span class='badge badge-success'>{{$requisition->budget_commitment->created_at}}</span>
+                              Budget Commitment by: <span class='badge badge-success'>{{$internalrequisition->budget_commitment->user->abbrName()}} </span></br>
+                              Date:  <span class='badge badge-success'>{{$internalrequisition->budget_commitment->created_at}}</span>
                   
                  
                       </div>
@@ -428,7 +505,7 @@ text-align: center;
                         </div>
 
                         <div class="row">
-                        <div class="col-10">
+                        <div class="col-12">
                         <button type="submit" id="btnSubmit" class="btn btn-block btn-outline-primary btn-lg">Submit</button>
                         </div>
                         </div>
@@ -527,22 +604,39 @@ $('#table').ready(function() {
         }
     });
 
-$(document).ready(function(){
 
-  $('.btn-add-more').click(function(){
-  
-    var html = $('.hide').html();
-    $('.img_div').after(html);
+$(document).ready(function () {
+  $('.quantity, .actual_cost').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
+   calculateSum();
   });
-
-
-   $("body").on("click",".btn-remove",function(){ 
-    $('.form-group').attr('disable',true);
-          $(this).parents(".form-group").remove();
-      });
-
-
+  
+   
 });
+
+
+  function calculateSum() {
+            var sum = 0;
+            var grand = 0;
+            var tax = 0;
+            //iterate through each textboxes and add the values
+            $(".actual_total").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                    tax = sum * .15;
+                    grand = tax + sum
+                }
+            });
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+             $("#contract_sum").val(grand.toFixed(2));
+        }
+
 
 
 
@@ -551,12 +645,13 @@ $(document).ready(function(){
 
 
 <script>
-$('#contract_sum,#estimated_cost' ).on('input',function(){
+$('#actual_cost' ).on('input',function(){
 let cost_variance;
-var contractSum = parseFloat($('#contract_sum').val());
+var contractSum = $('#contract_sum').val();
 var estimated_cost = parseFloat($('#estimated_cost').val());
 cost_variance =parseFloat((contractSum-estimated_cost)/estimated_cost * 100);
-console.log(cost_variance);
+console.log() ;
+//console.log(cost_variance);
  $('#cost_variance').val(((contractSum-estimated_cost)/estimated_cost * 100  ? (contractSum-estimated_cost)/estimated_cost  *100 : 0).toFixed(2));
  var requisition_type = $('#requisition_type').val();
  console.log(requisition_type);

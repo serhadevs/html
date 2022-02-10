@@ -48,17 +48,16 @@ class CertifiedInternalRequisitionController extends Controller
         ->latest()
         ->get();
         }else{
+          
             $internalRequisitions = InternalRequisition::with(['user','certified_internal_requisition'])
             ->where('department_id',auth()->user()->department_id)
+            ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         
              })
-             ->whereHas('user',function($query){
-                $query->whereIn('unit_id',User::UnitUsers());
-
-            })
+            
             ->latest()
             ->get();
 

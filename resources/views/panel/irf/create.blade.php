@@ -39,7 +39,7 @@ text-align: center;
                         </div>
                         
                         @if(count($errors)>0)
-                        <div class="col-sm-10">
+                        <div class="col-sm-12">
                   <div class="alert alert-danger">
                     <ul>
                         @foreach($errors->all() as $error)
@@ -59,7 +59,7 @@ text-align: center;
                       
 
                  
-                            <div class="card" style="width:82.9%">
+                            <div class="card" style="width:83%">
                           <div class="card-body">
                            <div class="col-m-10">
 
@@ -94,7 +94,7 @@ text-align: center;
                         <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                         <div class="col-sm-4">
                         <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
-                            <input type="number" class="form-control" min="0.00" step="0.01"  value="{{Request::old('estimated_cost')}}" name='estimated_cost'required >
+                            <input type="number" class="form-control" min="0.00" step="0.01" value="" id="estimated_cost" readonly name='estimated_cost'required >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget Activity</label>
                         <div class="col-sm-4">
@@ -159,7 +159,8 @@ text-align: center;
                         </div>
 
           
-              
+                 <div class="row">
+                             <div class="col-sm-12">
               <div id="table" class="table-editable">
               <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
             
@@ -167,31 +168,35 @@ text-align: center;
           <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
             <thead>
               <tr>
+                 <th class="text-center">Option</th>
                 <th class="text-center">Item No.</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                  <th class="text-center">Unit Cost</th>
-                <th class="text-center">Part Number</th>
-                 <th class="text-center">Option</th>
+                <th class="text-center">Total</th>
+              
                 
               </tr>
             </thead>
             <tbody>
-               <div class="form-group row">
+             
               <tr>
+              <td>
+                  <span class="table-remove"><button type="button" id="remove_button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                </td>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                <input name='item_number[]' class='productname' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
                
                 </td>
                 <td>
                 
                   
-                   <input name='description[]' class='des' type='text' size="40" style='border:none;outline:none;background: transparent;' required>
+                   <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                <input name='quantity[]'  class='quantity' type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>
+                <input name='quantity[]'  class='quantity' type='number' size="5"style='width:60px;border:none;outline:none;background: transparent;' required>
                 </td>
                 
                 <td>
@@ -204,20 +209,51 @@ text-align: center;
                   </select>
                 </td> 
                 <td>
-                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
+                  <input name='unit_cost[]' id="unit_cost" size="5" id="" class='unitcost' min="0.00" step="0.01"  type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                  <input name='part_number[]' class='part_number' id="part_number" type='text' size="5" style='border:none;outline:none;background: transparent;'>
-                </td>
-        
-
-                <td>
-                  <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                  <input name='estimated_total[]' class='estimated_total' id="estimated_total" type='text' size="10" style='border:none;outline:none;background: transparent;' readonly >
                 </td>
               </tr>
-            </div>
-            </tbody>
           </table>
+          </div>
+          </div>
+          </div>
+
+     <div class="row">
+      <div class="col-sm-8">
+             
+      </div>
+
+                         
+  <div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-left">
+  <tr >
+    <td  size="5">Sub Total</td>
+    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="0.0" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td size="5">Sales Tax (15.0%)</td>
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="0.0" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td  size="5">Grand Total</td>
+     <td><input id='grandtotal' readonly type='text' value="0.0" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+  </tr>
+ 
+ 
+  </table>
+
+
+  </div> 
+                  
+            
+            
+      </div>
+                       
+                       
+
 
           <div class="row">
             <div class="col-sm-6">
@@ -269,8 +305,7 @@ text-align: center;
             
           </div>
           
-        </div>
-
+        
 
 
 
@@ -441,41 +476,8 @@ $("#internal_request_form").submit(function (e) {
 
 
 
-$('#table').ready(function() {
-    var table = $('<table></table>').addClass('foo');
-        for (var i = 0; i < 10; i++) {
-                row = $('<tr></tr>');
-                for (var j = 0; j < 10; j++) {
-                    var rowData = $('<td></td>').addClass('bar').text('result ' + j);
-                    row.append(rowData);
-                }
-                table.append(row);
-            }
-
-        if ($('table').length) {
-             $("#someContainer tr:first").after(row);
-        }
-        else {
-            $('#someContainer').append(table);
-        }
-    });
-
-$(document).ready(function(){
-
-  $('.btn-add-more').click(function(){
-  
-    var html = $('.hide').html();
-    $('.img_div').after(html);
-  });
 
 
-   $("body").on("click",".btn-remove",function(){ 
-    $('.form-group').attr('disable',true);
-          $(this).parents(".form-group").remove();
-      });
-
-
-});
 
 
 
@@ -485,6 +487,44 @@ $(document).ready(function(){
 
 
 <script>
+
+
+
+
+$(document).ready(function () {
+  $('.quantity, .unitcost').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
+   calculateSum();
+  });
+  
+   
+});
+
+
+  function calculateSum() {
+            var sum = 0;
+            var grand = 0;
+            var tax = 0;
+            //iterate through each textboxes and add the values
+            $(".estimated_total").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                    tax = sum * .15;
+                    grand = tax + sum
+                }
+            });
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+             $("#estimated_cost").val(grand.toFixed(2));
+        }
+        
+
+
 $('#contract_sum,#estimated_cost' ).on('input',function(){
 let cost_variance;
 var contractSum = parseFloat($('#contract_sum').val());
@@ -493,7 +533,7 @@ cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
 console.log(cost_variance);
  $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost- contractSum)/estimated_cost  *100 : 0).toFixed(2));
 
-});
+}); 
 
 
 </script>

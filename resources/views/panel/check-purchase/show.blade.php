@@ -70,7 +70,7 @@ text-align: center;
                         Description: {{$requisition->description}}</br>
                         TCC Number: {{$requisition->tcc}}</br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
-                        Contract Sum: {{$requisition->contract_sum}}</br>
+                        Contract Sum: {{number_format($requisition->contract_sum,2)}}</br>
                         {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no.: {{$requisition->internalrequisition->requisition_no}}</br> 
 
@@ -81,7 +81,7 @@ text-align: center;
                         Commitment: {{$requisition->commitment_no}}</br>
                         Category: {{$requisition->category->name}} </br>
                               Supplier Trn: {{$requisition->supplier->trn}}</br>
-                        Estimate Cost: {{$requisition->internalrequisition->estimated_cost}} </br>
+                        Estimate Cost: {{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
                         Cost Variance: {{$requisition->cost_variance}} </br>
                         {{-- Supplier Address: {{$requisition->supplier->address}} </br> --}}
                        
@@ -125,8 +125,8 @@ text-align: center;
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
-                <th class="text-center">Part Number</th>
-     
+                <th class="text-center">Actual Cost</th>
+                <th class="text-center">Actual Total</th>
 
 
               
@@ -142,7 +142,8 @@ text-align: center;
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement_id}}</td>
                 <td>{{$stock->unit_cost}}</td>
-                <td>{{$stock->part_number}}</td>
+                <td>{{$stock->actual_cost ? '$'.number_format($stock->actual_cost,2) : '$'.number_format($stock->quantity * $stock->actual_cost,2)}}</td>
+                <td>{{$stock->actual_total}}</td>
 
               
               </tr>
@@ -157,6 +158,41 @@ text-align: center;
     <!-- Editable table -->
                       
     </div>
+
+     @if($requisition->internalrequisition->stocks[0]->actual_cost !=null)
+    <div class="row">
+      <div class="col-sm-8">
+             
+      </div>
+
+                         
+  <div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-left">
+  <tr >
+    <td  style='width:1px;'>Sub Total</td>
+    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total'),2) }}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td style='width:20px;'>Sales Tax (15.0%)</td>
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td  style='width:20px;'>Grand Total</td>
+     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="{{$requisition->contract_sum}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+  </tr>
+ 
+ 
+  </table>
+
+
+  </div> 
+                  
+            
+            
+      </div>
+
+      @endif
 
 
     @if($requisition->internalrequisition->comment->isNotEmpty())

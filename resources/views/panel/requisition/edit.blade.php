@@ -279,7 +279,7 @@ text-align: center;
                         </div>
                            <div id="table" class="table-editable">
                 <span class="table-add float-right mb-3 mr-2"></span>
-          <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
+          <table id="stock-table" class="table table-bordered table-responsive-md text-center">
             <thead>
               <tr>
                 <th class="text-center">Item No.</th>
@@ -287,7 +287,9 @@ text-align: center;
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
-                <th class="text-center">Part Number</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">Actual Cost</th>
+                <th class="text-center">Actual Total</th>
                 
               </tr>
             </thead>
@@ -297,10 +299,16 @@ text-align: center;
               
                 <td>{{$stock->item_number}}</td>
                 <td>{{$stock->description}}</td>
-                <td>{{$stock->quantity}}</td>
+                  <td><input name='quantity[]'  class='quantity' type='number' value={{$stock->quantity}} size="5"style='width:60px;border:none;outline:none;background: transparent;' readonly required></td>
                 <td>{{$stock->unit_of_measurement->name}}</td>
                 <td>{{$stock->unit_cost}}</td>
-                <td>{{$stock->part_number}}</td>
+                <td>{{$stock->estimated_total}}</td>
+                 <td>
+                  <input name='actual_cost[]' id="actual_cost" size="5" value="{{$stock->actual_cost}}" class='actual_cost' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+                </td>
+                <td>
+                  <input name='actual_total[]' id="actual_total" size="5" value="{{$stock->actual_total}}" class='actual_total' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+                </td>
             
        
               
@@ -312,6 +320,37 @@ text-align: center;
             </tbody>
           </table>
         </div>
+          <div class="row">
+      <div class="col-sm-8">
+             
+      </div>
+
+                         
+  <div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-left">
+  <tr >
+    <td  style='width:1px;'>Sub Total</td>
+    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total'),2) }}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td style='width:20px;'>Sales Tax (15.0%)</td>
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td  style='width:20px;'>Grand Total</td>
+     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="{{number_format($requisition->contract_sum)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+  </tr>
+ 
+ 
+  </table>
+
+
+  </div> 
+                  
+            
+            
+      </div>
         <div class="row">
           {{-- <div class="col-sm-6">
             <!-- textarea -->
@@ -691,6 +730,43 @@ if(contractSum >= 1500000){
 
 
 });
+
+
+
+$(document).ready(function () {
+  $('.quantity, .actual_cost').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
+   calculateSum();
+  });
+  
+   
+});
+
+
+  function calculateSum() {
+            var sum = 0;
+            var grand = 0;
+            var tax = 0;
+            //iterate through each textboxes and add the values
+            $(".actual_total").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                    tax = sum * .15;
+                    grand = tax + sum
+                }
+            });
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+             $("#contract_sum").val(grand.toFixed(2));
+        }
+
+
+
 
   </script>
 

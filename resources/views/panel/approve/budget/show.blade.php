@@ -105,7 +105,7 @@ text-align: center;
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
-                <th class="text-center">Part Number</th>
+                <th class="text-center">Total</th>
 
 
               
@@ -121,7 +121,7 @@ text-align: center;
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement_id}}</td>
                 <td>{{$stock->unit_cost}}</td>
-                <td>{{$stock->part_number}}</td>
+                <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
             
        
               
@@ -131,6 +131,41 @@ text-align: center;
          
             </tbody>
           </table>
+
+           @if($internalRequisition->stocks[0]->estimated_total != null)
+             <div class="row">
+      
+
+                          
+  <div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-center">
+  <tr >
+    <td>Sub Total</td>
+    <td>${{number_format($internalRequisition->stocks->sum('estimated_total'),2)}}</td>
+  </tr>
+   <tr>
+    <td>Sales Tax (15.0%)</td>
+     <td>${{number_format($internalRequisition->stocks->sum('estimated_total') * .15,2) }}</td>
+  </tr>
+   <tr>
+    <td>Grand Total</td>
+     <td>${{$internalRequisition->estimated_cost}}</td>
+  </tr>
+ 
+ 
+  </table>
+
+
+  </div> 
+                  
+            
+            
+      </div>
+      @endif
+
+          
+
           <div class="row">
             <div class="col-sm-6">
               <!-- textarea -->

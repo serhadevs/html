@@ -45,8 +45,10 @@ class ApproveInternalRequisitionController extends Controller
       ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-    
-         })->get();
+            
+         })
+         ->latest()
+         ->get();
 
       }else{
       $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
@@ -58,6 +60,7 @@ class ApproveInternalRequisitionController extends Controller
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
+         ->latest()
       
       ->get();
         }

@@ -59,6 +59,7 @@ $(".table-add").on("click", "i", () => {
 });
 
 $tableID.on("click", ".table-remove", function () {
+    $(this).parents("tr").reset();
     $(this).parents("tr").detach();
 });
 

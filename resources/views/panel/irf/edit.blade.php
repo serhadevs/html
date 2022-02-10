@@ -103,7 +103,7 @@ text-align: center;
                         <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                         <div class="col-sm-4">
                         <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
-                            <input type="number" class="form-control" min="0.00" step="0.01"  id="estimated_cost" value="{{$ir->estimated_cost}}" name='estimated_cost' >
+                            <input type="number" readonly class="form-control" min="0.00" step="0.01"  id="estimated_cost" value="{{$ir->estimated_cost}}" name='estimated_cost' >
                         </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget activity</label>
                         <div class="col-sm-4">
@@ -201,7 +201,7 @@ text-align: center;
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
-                <th class="text-center">Part Number</th>
+                <th class="text-center">Total</th>
                 <th class="text-center">Option</th>
                 
               </tr>
@@ -239,7 +239,7 @@ text-align: center;
                   <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"  value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                <input name='part_number[]' class='part_number' value="{{$stock->part_number}}" id="part_number"   type='text' size="5" style='border:none;outline:none;background: transparent;'>
+                <input name='estimated_total[]' class='estimated_total' value="${{number_format($stock->estimated_total,2)}}" id="estimated_total"   type='text' size="5" style='border:none;outline:none;background: transparent;' readonly>
                 </td>
         
 
@@ -255,6 +255,38 @@ text-align: center;
         </div>
       </div>
     </div>
+
+     <div class="row">
+      <div class="col-sm-8">
+             
+      </div>
+
+                         
+  <div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-left">
+  <tr >
+    <td  size="5">Sub Total</td>
+    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{number_format($ir->stocks->sum('estimated_total'),2)}}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td size="5">Sales Tax (15.0%)</td>
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($ir->stocks->sum('estimated_total') * .15),2)}}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td  size="5">Grand Total</td>
+     <td><input id='grandtotal' readonly type='text' value="${{number_format($ir->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+  </tr>
+ 
+ 
+  </table>
+
+
+  </div> 
+                  
+            
+            
+      </div>
           <div class="row">
             <div class="col-sm-6">
               <!-- textarea -->
@@ -522,6 +554,39 @@ $('.btn-add-more').click(function(){
 
 
 });
+
+
+$(document).ready(function () {
+  $('.quantity, .unitcost').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
+   calculateSum();
+  });
+  
+   
+});
+
+
+  function calculateSum() {
+            var sum = 0;
+            var grand = 0;
+            var tax = 0;
+            //iterate through each textboxes and add the values
+            $(".estimated_total").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                    tax = sum * .15;
+                    grand = tax + sum
+                }
+            });
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+             $("#estimated_cost").val(grand.toFixed(2));
+        }
 
 
   </script>

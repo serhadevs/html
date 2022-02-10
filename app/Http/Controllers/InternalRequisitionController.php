@@ -74,13 +74,11 @@ class InternalRequisitionController extends Controller
             ->latest()
             ->get();
         }else{
+           
             $internal_requisitions = InternalRequisition::with(['user','approve_internal_requisition','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
-            ->whereHas('user',function($query){
-                $query->whereIn('unit_id',User::UnitUsers());
-
-            })
-            ->OrWhere(function($query){
+            ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
+            ->Where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         
@@ -122,7 +120,9 @@ class InternalRequisitionController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+
+     //   dd($request->all());
+       
         $request->validate([
             'estimated_cost' => 'required',
             'budget_approve' => 'required',
@@ -131,9 +131,10 @@ class InternalRequisitionController extends Controller
             'requisition_type' => 'required',
             'priority' => 'required',
 
+            'item_number'=>'required',
             'quantity' => 'required',
             'description' => 'required',
-            // 'part_number' => 'required',
+            'estimated_total' => 'required',
             'unit' => 'required',
             'unit_cost' => 'required',
 
@@ -159,17 +160,18 @@ class InternalRequisitionController extends Controller
 
             $input = $request->all();
             // $product = $request->input('product_name',[]);
-            //  dd($input['part_number'][0]);
+           
             if ($input['item_number'][0]) {
                 foreach ($input['item_number'] as $key => $stocks) {
                     $stock = Stock::create([
                         'item_number' => $input['item_number'][$key],
                         'quantity' => $input['quantity'][$key],
                         'description' => $input['description'][$key],
-                        'part_number' => $input['part_number'][$key],
+                        'estimated_total' => $input['estimated_total'][$key],
                         'unit_of_measurement_id' => $input['unit'][$key],
                         'unit_cost' => $input['unit_cost'][$key],
                         'internal_requisition_id' => $internal_requisition->id,
+                        
                     ]);
 
                 }
@@ -336,7 +338,7 @@ class InternalRequisitionController extends Controller
 
             'quantity' => 'required',
             'description' => 'required',
-            // 'part_number' => 'required',
+            // 'estimated_total' => 'required',
             'unit' => 'required',
             'unit_cost' => 'required',
 
@@ -364,7 +366,7 @@ class InternalRequisitionController extends Controller
                     'item_number' => $input['item_number'][$key],
                     'quantity' => $input['quantity'][$key],
                     'description' => $input['description'][$key],
-                    'part_number' => $input['part_number'][$key],
+                    'estimated_total' => $input['estimated_total'][$key],
                     'unit_of_measurement_id' => $input['unit'][$key],
                     'unit_cost' => $input['unit_cost'][$key],
                     'internal_requisition_id' => $internal_requisition->id,
@@ -399,7 +401,7 @@ class InternalRequisitionController extends Controller
                     'item_number' => $input['item_number'][$key],
                     'quantity' => $input['quantity'][$key],
                     'description' => $input['description'][$key],
-                    'part_number' => $input['part_number'][$key],
+                    'estimated_total' => $input['estimated_total'][$key],
                     'unit_of_measurement_id' => $input['unit'][$key],
                     'unit_cost' => $input['unit_cost'][$key],
                     'internal_requisition_id' => $internal_requisition->id,

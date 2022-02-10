@@ -96,7 +96,7 @@ text-align: center;
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
-                <th class="text-center">Part Number</th>
+                <th class="text-center">Total</th>
 
 
               
@@ -112,7 +112,7 @@ text-align: center;
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement_id}}</td>
                 <td>{{$stock->unit_cost}}</td>
-                <td>{{$stock->part_number}}</td>
+                <td>{{$stock->estimated_total ?'$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
             
        
               
@@ -122,7 +122,35 @@ text-align: center;
          
             </tbody>
           </table>
+           @if($internalRequisition->stocks[0]->estimated_total != null)
+           <div class="row">
+      <div class="col-sm-8">
+             
+      </div>
+<div class="col-sm-4">
+                       
+  <table class="table table-bordered table-responsive-md table-striped text-left">
+  <tr >
+    <td  size="5">Sub Total</td>
+    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{$internalRequisition->stocks->sum('estimated_total')}}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td size="5">Sales Tax (15.0%)</td>
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
+  </tr>
+   <tr>
+    <td  size="5">Grand Total</td>
+     <td><input id='grandtotal' readonly type='text' value="${{$internalRequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+  </tr>
+ 
+ 
+  </table>
 
+
+  </div> 
+   </div> 
+   @endif
+                  
 
           <div class="row">
             <div class="col-sm-6">
@@ -428,6 +456,37 @@ function Refuse(internal_requisition_id){
         $('#modal-lg').modal('hide');
 }
 
+$(document).ready(function () {
+  $('.quantity, .unitcost').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
+   calculateSum();
+  });
+  
+   
+});
+
+
+  function calculateSum() {
+            var sum = 0;
+            var grand = 0;
+            var tax = 0;
+            //iterate through each textboxes and add the values
+            $(".estimated_total").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                    tax = sum * .15;
+                    grand = tax + sum
+                }
+            });
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+            $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+             $("#estimated_cost").val(grand.toFixed(2));
+        }
   
 </script>
 

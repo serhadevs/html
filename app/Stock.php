@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Stock extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['item_number','quantity','unit_of_measurement_id','description','unit_cost','part_number','internal_requisition_id'];
+    protected $fillable = ['item_number','quantity','unit_of_measurement_id','description','unit_cost','part_number','internal_requisition_id','estimated_total','actual_cost','actual_total'];
  
 
 
