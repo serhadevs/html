@@ -71,7 +71,7 @@ text-align: center;
                         TCC Number: {{$requisition->tcc}}</br>
                         PPC Number: {{$requisition->ppc}}</br>
                         Supplier Trn: {{$requisition->supplier->trn}}</br>
-                        Contract Sum: {{$requisition->contract_sum}}</br>
+                        Contract Sum: ${{number_format($requisition->contract_sum,2)}}</br>
                         {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no: {{$requisition->requisition_no}} </br>
                         </div>
@@ -82,7 +82,7 @@ text-align: center;
                         Category: {{$requisition->category->name}} </br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
                         PPC Expired: {{$requisition->ppc_expired_date}}</br>
-                        Estimated Cost: {{$requisition->internalrequisition->estimated_cost}} </br>
+                        Estimated Cost: ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
                         Cost Variance: {{$requisition->cost_variance/100}}%</br>
                         Term: {{$requisition->delivery}} </br>
                        
@@ -125,9 +125,9 @@ text-align: center;
                 <th class="text-center">Description</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
-                <th class="text-center">Unit Cost</th>
-                <th class="text-center">Actual Cost</th>
-                <th class="text-center">Actual Total</th>
+                {{-- <th class="text-center">Unit Cost</th> --}}
+                <th class="text-center">Actual Unit Cost</th>
+                <th class="text-center">Total</th>
                
 
 
@@ -143,9 +143,9 @@ text-align: center;
                 <td>{{$stock->description}}</td>
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement->name}}</td>
-                <td>{{$stock->unit_cost}}</td>
+                {{-- <td>{{$stock->unit_cost}}</td> --}}
                 <td>{{$stock->actual_cost ? '$'.number_format($stock->actual_cost,2) : '$'.number_format($stock->quantity * $stock->actual_cost,2)}}</td>
-                <td>{{$stock->actual_total}}</td>
+                <td>${{number_format($stock->actual_total,2)}}</td>
                
               
               </tr>
@@ -180,15 +180,15 @@ text-align: center;
   <table class="table table-bordered table-responsive-md table-striped text-left">
   <tr >
     <td  style='width:1px;'>Sub Total</td>
-    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total'),2) }}" style='border:none;outline:none;background: transparent;'></td>
+    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total'),2) }}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td style='width:20px;'>Sales Tax (15.0%)</td>
-     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td  style='width:20px;'>Grand Total</td>
-     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="{{$requisition->contract_sum}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  

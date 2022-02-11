@@ -94,7 +94,7 @@ text-align: center;
                                  <div class="form-group row">
                                 <label for="cost-centre" class="col-sm-2 col-form-label">Estimated Cost </label>
                                 <div class="col-sm-4">
-                                    <input type="number" class="form-control" value="{{$internalrequisition->estimated_cost}}" name='estimated_cost' readonly>
+                                <input type="number" class="form-control" placeholder="${{number_format($internalrequisition->estimated_cost,2)}}" name='estimated_cost' readonly>
                                 </div>
                                 <label for="date-of-last" class="col-sm-2 col-form-label">Budget activity</label>
                                 <div class="col-sm-4">
@@ -169,7 +169,7 @@ text-align: center;
                                   <td>{{$stock->description}}</td>
                                   <td>{{$stock->quantity}}</td>
                                   <td>{{$stock->unit_of_measurement->name}}</td>
-                                  <td>{{$stock->unit_cost}}</td>
+                                  <td>${{number_format($stock->unit_cost,2)}}</td>
                                   <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
                               
                          

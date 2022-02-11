@@ -186,7 +186,7 @@ text-align: center;
                             <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                             <div class="col-sm-4">
                              
-                             <input type="number" class="form-control" value="{{$purchaseOrder->requisition->internalrequisition->estimated_cost}}" id= 'estimated_cost' name='estimated_cost' readonly>
+                             <input type="number" class="form-control" placeholder="${{number_format($purchaseOrder->requisition->internalrequisition->estimated_cost,2)}}" id= 'estimated_cost' name='estimated_cost' readonly>
                              
                             </div>
                             </div>
@@ -194,7 +194,7 @@ text-align: center;
                              <div class="form-group row">
                             <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" value="{{$purchaseOrder->requisition->contract_sum}}" id="contract_sum" name='contract_sum'readonly>
+                                <input type="number" class="form-control" placeholder="${{number_format($purchaseOrder->requisition->contract_sum,2)}}" id="contract_sum" name='contract_sum'readonly>
                             </div>
                             <label for="date-of-last" class="col-sm-2 col-form-label">Cost Variance</label>
                             <div class="col-sm-4">

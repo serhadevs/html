@@ -92,8 +92,8 @@ text-align: center;
                       </div>
                       <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                       <div class="col-sm-4">
-                              {{-- <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span> --}}
-                        <input type="number" class="form-control" value="{{$requisition->internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
+                              <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
+                        <input type="number" class="form-control" placeholder="{{number_format($requisition->internalrequisition->estimated_cost,2)}}" readonly id= 'estimated_cost' name='estimated_cost' read>
                        
                       </div>
                       </div>
@@ -291,10 +291,10 @@ text-align: center;
                 <th class="text-center">Description</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
-                <th class="text-center">Unit Cost</th>
-                <th class="text-center">Estimated Total</th>
-                <th class="text-center">Actual Cost</th>
-                <th class="text-center">Actual Total</th>
+                {{-- <th class="text-center">Unit Cost</th>
+                <th class="text-center">Estimated Total</th> --}}
+                <th class="text-center">Actual Unit Cost</th>
+                <th class="text-center">Total</th>
                 
               </tr>
             </thead>
@@ -306,10 +306,10 @@ text-align: center;
                 <td>{{$stock->description}}</td>
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement->name}}</td>
-                <td>{{$stock->unit_cost}}</td>
-                <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
-                <td>{{$stock->actual_cost}}</td>
-                <td>{{$stock->actual_total}}</td>
+                {{-- <td>{{$stock->unit_cost}}</td>
+                <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td> --}}
+                <td>${{number_format($stock->actual_cost,2)}}</td>
+                <td>${{number_format($stock->actual_total,2)}}</td>
             
        
               
@@ -333,15 +333,15 @@ text-align: center;
   <table class="table table-bordered table-responsive-md table-striped text-left">
   <tr >
     <td  style='width:1px;'>Sub Total</td>
-    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total'),2) }}" style='border:none;outline:none;background: transparent;'></td>
+    <td style='width:20px;'><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total'),2) }}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td style='width:20px;'>Sales Tax (15.0%)</td>
-     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="{{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td  style='width:20px;'>Grand Total</td>
-     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="{{$requisition->contract_sum}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  

@@ -225,7 +225,7 @@ text-align: center;
                 
                 </td> 
                 <td>
-                  {{$stock->unit_cost}}
+                  ${{number_format($stock->unit_cost,2)}}
                 </td>
                 <td>
                 {{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2) }}
@@ -251,15 +251,15 @@ text-align: center;
   <table class="table table-bordered table-responsive-md table-striped text-left">
   <tr >
     <td  size="5">Sub Total</td>
-    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{$internal_requisition->stocks->sum('estimated_total')}}" style='border:none;outline:none;background: transparent;'></td>
+    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{number_format($internal_requisition->stocks->sum('estimated_total'),2)}}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internal_requisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($internal_requisition->stocks->sum('estimated_total') * .15),2)}}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td  size="5">Grand Total</td>
-     <td><input id='grandtotal' readonly type='text' value="${{$internal_requisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td><input id='grandtotal' readonly type='text' value="${{number_format($internal_requisition->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  

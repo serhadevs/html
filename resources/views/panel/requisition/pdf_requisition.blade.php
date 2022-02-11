@@ -93,8 +93,8 @@ body {
                     <td>Type: {{$requisition->internalrequisition->requisition_type->name}}</td>
                   </tr>
                   <tr>
-                    <td>Estimated Cost: ${{$requisition->internalrequisition->estimated_cost}}</td>
-                     <td>Contract Sum: ${{$requisition->contract_sum}}</td>
+                    <td>Estimated Cost: ${{number_format($requisition->internalrequisition->estimated_cost,2)}}</td>
+                     <td>Contract Sum: ${{number_format($requisition->contract_sum,2)}}</td>
                   </tr>
                   <tr>
                    <td>Cost Centre: {{$requisition->cost_centre}}</td>
@@ -130,7 +130,7 @@ body {
          <th style="border: 1px solid black; border-collapse: collapse;">Description</th>
          <th style="border: 1px solid black; border-collapse: collapse;">Quantity</th>
          <th style="border: 1px solid black; border-collapse: collapse;">Measurement</th>
-         <th style="border: 1px solid black; border-collapse: collapse;">Unit Cost</th>
+         <th style="border: 1px solid black; border-collapse: collapse;">Actual Unit Cost</th>
          <th style="border: 1px solid black; border-collapse: collapse;">Total</th>
 
        </tr>
@@ -143,8 +143,8 @@ body {
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->description}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->quantity}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_of_measurement->name}}</td>
-         <td style="border: 1px solid black; border-collapse: collapse;">${{$stock->unit_cost}}</td>
-         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($stock->actual_cost,2)}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->actual_total ? '$'.number_format($stock->actual_total,2) : '$'.number_format($stock->quantity * $stock->actual_cost,2)}}</td>
      
 
        
@@ -169,13 +169,13 @@ body {
    <tr>
    
      <td style="border: 1px solid black; border-collapse: collapse;">Sales Tax (15.0%)</td>
-      <td style="border: 1px solid black; border-collapse: collapse;">{{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}</td>
+      <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}</td>
      
   </tr>
    <tr>
 
      <td style="border: 1px solid black; border-collapse: collapse;">Grand Total</td>
-      <td style="border: 1px solid black; border-collapse: collapse;">${{$requisition->contract_sum}}</td>
+      <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($requisition->contract_sum,2)}}</td>
      
   </tr>
  

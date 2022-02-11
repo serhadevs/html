@@ -59,7 +59,7 @@ text-align: center;
                           Departmentent: {{$internalRequisition->department->name}} </br>
                           Budget activity: {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
-                          Estimated Cost: $ {{$internalRequisition->estimated_cost}}</br>
+                          Estimated Cost: ${{number_format($internalRequisition->estimated_cost)}}</br>
                         </p>
 
                         <p>
@@ -120,7 +120,7 @@ text-align: center;
                 <td>{{$stock->description}}</td>
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement_id}}</td>
-                <td>{{$stock->unit_cost}}</td>
+                <td>${{number_format($stock->unit_cost,2)}}</td>
                 <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
             
        

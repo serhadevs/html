@@ -312,10 +312,10 @@ text-align: center;
                 <th class="text-center">Description</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
-                <th class="text-center">Unit Cost</th>
-                <th class="text-center">Estimated Total</th>
-                <th class="text-center">Actual Cost</th>
-                <th class="text-center">Actual Total</th>
+                {{-- <th class="text-center">Unit Cost</th>
+                <th class="text-center">Estimated Total</th> --}}
+                <th class="text-center">Actual Unit Cost</th>
+                <th class="text-center">Total</th>
                 
               </tr>
             </thead>
@@ -327,8 +327,8 @@ text-align: center;
                 <td>{{$stock->description}}</td>
                 <td><input name='quantity[]'  class='quantity' type='number' value={{$stock->quantity}} size="5"style='width:60px;border:none;outline:none;background: transparent;' readonly required></td>
                 <td>{{$stock->unit_of_measurement->name}}</td>
-                <td>{{$stock->unit_cost}}</td>
-                <td> {{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2) }}</td>
+                {{-- <td>{{$stock->unit_cost}}</td>
+                <td> {{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2) }}</td> --}}
                 <td>
                   <input name='actual_cost[]' id="actual_cost" size="5" id="" class='actual_cost' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
                 </td>
