@@ -48,9 +48,9 @@ class InternalRequisitionController extends Controller
         // dd($audits);
 
         //dd($internal_audit);
-        if(in_array(auth()->user()->role_id,[1,10,11])){
+        if(in_array(auth()->user()->role_id,[1,10,11,12])){
 
-            if(auth()->user()->institution_id == 0){
+            if(auth()->user()->institution_id === 0){
                 $internal_requisitions = InternalRequisition::all();
                 
             }else{
