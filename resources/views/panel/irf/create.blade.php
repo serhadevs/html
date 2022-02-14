@@ -358,8 +358,8 @@ text-align: center;
     @endpush
 
     @push('scripts')
-    <script src="/js/dataTables.select.min.js"></script>
-    <script src="/js/editable-table.js"></script> 
+    {{-- <script src="/js/dataTables.select.min.js"></script> --}}
+    <script src="{{asset('/js/editable-table.js')}}"></script> 
     @endpush
 
     @if(session('status'))
@@ -388,7 +388,75 @@ text-align: center;
 $(document).ready(function () {
 
 
- 
+ $("#remove_button").attr("disabled", true);
+  
+ // const $row = $(this).parents("tr");
+  $row= `
+  <tr>
+              <td>
+                  <span class="table-remove"><button type="button" id="remove_button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                </td>
+                <td>
+                  
+                <input name='item_number[]' class='productname' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
+               
+                </td>
+                <td>
+                
+                  
+                   <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
+                </td>
+                <td>
+                <input name='quantity[]'  class='quantity' type='number' size="5"style='width:60px;border:none;outline:none;background: transparent;' required>
+                </td>
+                
+                <td>
+                  <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'required>
+                  <option value="">select</option>
+                 
+                  </select>
+                  </select>
+                </td> 
+                <td>
+                  <input name='unit_cost[]' id="unit_cost" size="5" id="" class='unitcost' min="0.00" step="0.01"  type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
+                </td>
+                <td>
+                  <input name='estimated_total[]' class='estimated_total' id="estimated_total" type='text' size="10" style='border:none;outline:none;background: transparent;' readonly >
+                </td>
+              </tr>
+  
+  
+  `;
+ console.log($tableID.find("tbody tr").length);
+// var table = $('#stock-table');
+  $('#add').on("click",function(){
+
+    console.log($tableID.find("tbody tr").length);
+    //var tbody = $('#stock-table').children('tbody');
+
+//Then if no tbody just select your table 
+      
+    if ($tableID.find("tbody tr").length === 1) {
+      $(".btn-danger").attr("disabled",false);
+        // $("tbody").append(newTr);
+        // table.append($row);
+    
+    }    
+  })
+
+
+  $('#remove_button').on("click",function(){
+    console.log($tableID.find("tbody tr").length);
+    if ($tableID.find("tbody tr").length === 2) {
+      $(".btn-danger").attr("disabled",true);
+     
+    
+    }
+    
+  })
+    
+
+
 
   $('#priority').on("click", function(){
   

@@ -177,11 +177,12 @@
                         </div> --}}
                         
                          @if(in_array(auth()->user()->role_id,[1,2,9,12]))
-                        <div class="form-group row">
+                    
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
+                        <div class="row">
                         <label for="institutions" class="col-sm-2 col-form-label">Institutions</label>
                         <div class="col-lg-10">
-                        <select class="form-control multiple-select" name="institutions[]" multiple="multiple" id="institution" >
+                        <select class="form-control multiple-select" name="institutions[]" multiple="multiple" id="institutions" >
                           {{-- <option value="">select type </option> --}}
                           @foreach($user->institution_users as $institution)
                          <option selected='selected' value="{{$institution->institution->id}}" >{{$institution->institution->name}}</option>
@@ -191,7 +192,40 @@
                           @endforeach                         
                          </select> 
                         </div>
+                          </div>
+                          </br>
+                         <div class="row">
+                         <label for="departments" class="col-sm-2 col-form-label">Departments</label>
+                        <div class="col-lg-10">
+                        <select class="form-control multiple-select" name="departments[]" multiple="multiple" id="departments" >
+                        @foreach($user->department_users as $department)
+                         <option selected='selected' value="{{$department->department}}" >{{$department->department->name}}</option>
+                          @endforeach
+                          @foreach($departments->diff($user->department_users) as $department)
+                          <option value="{{$department->id}}"> {{$department->name}} </option>
+                          @endforeach    
+                         </select> 
                         </div>
+                        </div>
+                        </br>
+
+                        <div class="row">
+                         <label for="units" class="col-sm-2 col-form-label">Units</label>
+                        <div class="col-lg-10">
+                        <select class="form-control multiple-select" name="units[]" multiple="multiple" id="units" >
+                        @foreach($user->unit_users as $unit)
+                         <option selected='selected' value="{{$unit->unit->id}}" >{{$unit->unit->name}}</option>
+                          @endforeach
+                          @foreach($units->diff($user->unit_users) as $unit)
+                          <option value="{{$unit->id}}"> {{$unit->name}} </option>
+                          @endforeach    
+                         </select> 
+                        </div>
+                        </div>
+
+
+
+                     
                         @else
                         <div class="form-group row">
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>

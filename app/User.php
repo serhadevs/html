@@ -117,6 +117,14 @@ class User extends Authenticatable implements Auditable
     {
         return $this->hasMany('App\InstitutionUsers');
     }
+    public function department_users()
+    {
+        return $this->hasMany('App\DepartmentUsers');
+    }
+    public function unit_users()
+    {
+        return $this->hasMany('App\UnitUsers');
+    }
    
     //institutions ids for a user
     public static function accessInstitutions(){

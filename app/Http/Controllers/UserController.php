@@ -9,6 +9,8 @@ use App\Role;
 use App\User;
 use App\Unit;
 use App\InstitutionUsers;
+use App\DepartmentUsers;
+use App\UnitUsers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
@@ -89,7 +91,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
+      //dd($request->all());
         try{
         $request->validate([
             'first_name' => 'required',
@@ -115,12 +117,38 @@ class UserController extends Controller
         $user->save();
 
         $institutions = $request->institutions;
+        $departments = $request->departments;
+        $units = $request->units;
         if (!empty($institutions)) {
             foreach ( $institutions as $key => $institution) {
                 $institution =InstitutionUsers::create([
                     'user_id' => $user->id,
                     'institution_id' => $institution,
                     'primary' => $user->institution_id,
+                
+                ]);
+
+            }
+
+        }
+        if (!empty($departments)) {
+            foreach ( $departments as $key => $department) {
+                $department =DepartmentUsers::create([
+                    'user_id' => $user->id,
+                    'department_id' => $department,
+                    'primary' => $user->department_id,
+                
+                ]);
+
+            }
+
+        }
+        if (!empty($units)) {
+            foreach ( $units as $key => $unit) {
+                $unit =UnitUsers::create([
+                    'user_id' => $user->id,
+                    'unit_id' => $unit,
+                    'primary' => $user->unit_id,
                 
                 ]);
 
@@ -166,7 +194,7 @@ class UserController extends Controller
         $institutions = Institution::all();
         $roles = Role::all();
         $units = Unit::all();
-        //dd($user->institution_users);
+        dd($user->institution_users->institution);
 
         return view('panel.user.edit', compact('units','institutions', 'roles', 'departments', 'parishes', 'user'));
 
@@ -182,6 +210,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $institutions = $request->institutions;
+        $departments = $request->departments;
+        $units = $request->units;
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -207,6 +237,12 @@ class UserController extends Controller
         foreach($user->institution_users as $institution){
             $institution->delete();
         }
+        foreach($user->department_users as $department){
+            $department->delete();
+        }
+        foreach($user->unit_users as $unit){
+            $unit->delete();
+        }
         
         //make or update new list
         if (!empty($institutions)) {
@@ -219,6 +255,30 @@ class UserController extends Controller
                 ]);
 
             }
+        }
+        if (!empty($departments)) {
+            foreach ( $departments as $key => $department) {
+                $department =DepartmentUsers::create([
+                    'user_id' => $user->id,
+                    'department_id' => $department,
+                    'primary' => $user->department_id,
+                
+                ]);
+
+            }
+
+        }
+        if (!empty($units)) {
+            foreach ( $units as $key => $unit) {
+                $unit =UnitUsers::create([
+                    'user_id' => $user->id,
+                    'unit_id' => $unit,
+                    'primary' => $user->unit_id,
+                
+                ]);
+
+            }
+
         }
 
         
