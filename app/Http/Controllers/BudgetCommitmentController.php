@@ -36,7 +36,16 @@ class BudgetCommitmentController extends Controller
     public function index()
     {
         //
-       // dd('bugetcommitment');
+     
+        if (auth()->user()->institution_id === 0) {
+            $internalrequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
+            ->whereHas('approve_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            })
+            ->latest()
+            ->get();
+
+        }else{
        $internalrequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
        ->whereHas('approve_internal_requisition',function($query){
         $query->where('is_granted','=', 1);
@@ -46,11 +55,9 @@ class BudgetCommitmentController extends Controller
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
-
-      // ->doesnthave('budget_commitment')
        ->latest()
        ->get();
-
+    }
 
 
     //    $internalcomplete = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])

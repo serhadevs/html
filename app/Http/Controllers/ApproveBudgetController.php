@@ -34,7 +34,21 @@ class ApproveBudgetController extends Controller
     public function index()
     {
         //
-    
+      
+
+        if (auth()->user()->institution_id === 0) {
+            $internalRequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
+             ->whereHas('approve_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            })
+            ->wherehas('budget_commitment',function($query){
+             $query->where('deleted_at','=', null);
+     
+            })
+            ->latest()
+            ->get();
+
+        }else{   
         $internalRequisitions = InternalRequisition::with(['approve_internal_requisition','budget_commitment'])
        //->Orwhere('institution_id','=',auth()->user()->institution_id)
        //->whereIn('institution_id',auth()->user()->AccessInstitutions())
@@ -54,6 +68,7 @@ class ApproveBudgetController extends Controller
 
        ->latest()
        ->get();
+    }
 
         return view('/panel/approve/budget.index',compact('internalRequisitions'));
     }

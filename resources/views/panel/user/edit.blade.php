@@ -103,17 +103,31 @@
                         <label for="department" class="col-sm-2 col-form-label">Institution</label>
                         <div class="col-sm-4">
 
-                        @if(in_array(auth()->user()->role_id,[1,12]))
+                        @if(auth()->user()->institution_id ===0)
+                          <select type="input" class="form-control" name="institution" id="institution" required>
+                           <option selected value="0" >All Institutions</option>
+                          @foreach($institutions as $institution)
+                        
+                          <option value="{{ $institution->id }}" >{{ $institution->name }}</option>
+                           @endforeach
+
+                          </select>
+                         
+
+                        @elseif(in_array(auth()->user()->role_id,[1,12]))
                         <select type="input" class="form-control" name="institution" id="institution" required>
+                         <option  value="0" >All Institutions</option>
                            @foreach($institutions as $institution)
                           @if($institution->id === $user->institution->id)
                           <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
                           @else
+                         
                          <option  value="{{$institution->id}}" >{{$institution->name}}</option>
                         @endif
                           @endforeach
                          </select> 
                          @else
+                         
 
                          <select type="input" class="form-control" name="institution" id="institution" disabled>
                           @foreach($institutions as $institution)
@@ -124,11 +138,6 @@
                        @endif
                          @endforeach
                         </select> 
-                        <input type="hidden" class="form-control"  value="{{$user->institution->id}}"name='institution' id="institution">
-
-
-
-
                          @endif
 
 
@@ -184,6 +193,7 @@
                         <div class="col-lg-10">
                         <select class="form-control multiple-select" name="institutions[]" multiple="multiple" id="institutions" >
                           {{-- <option value="">select type </option> --}}
+                       
                           @foreach($user->institution_users as $institution)
                          <option selected='selected' value="{{$institution->institution->id}}" >{{$institution->institution->name}}</option>
                           @endforeach
@@ -199,7 +209,7 @@
                         <div class="col-lg-10">
                         <select class="form-control multiple-select" name="departments[]" multiple="multiple" id="departments" >
                         @foreach($user->department_users as $department)
-                         <option selected='selected' value="{{$department->department}}" >{{$department->department->name}}</option>
+                         <option selected='selected' value="{{$department->department->id}}" >{{$department->department->name}}</option>
                           @endforeach
                           @foreach($departments->diff($user->department_users) as $department)
                           <option value="{{$department->id}}"> {{$department->name}} </option>

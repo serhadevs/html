@@ -50,6 +50,13 @@ class RequisitionController extends Controller
 
         //dd(auth()->user()->accessInstitutions_Id());
         if (in_array(auth()->user()->role_id,[1,12,10,11])) {
+
+            if(auth()->user()->institution_id == 0){
+
+                $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
+                 ->latest()
+                 ->get();
+            }else{
             $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                // ->where('contract_sum', '>=', 500000)
                ->where(function($query){
@@ -59,6 +66,7 @@ class RequisitionController extends Controller
              })
                 ->latest()
                 ->get();
+            }
 
         } else {
             $requisitions = Requisition::with(['check', 'approve'])

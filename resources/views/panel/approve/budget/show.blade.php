@@ -131,7 +131,7 @@ text-align: center;
          
             </tbody>
           </table>
-             @if(iseet($internalRequisition->stocks))
+             @if(isset($internalRequisition->stocks))
            @if($internalRequisition->stocks[0]->estimated_total != null)
              <div class="row">
       

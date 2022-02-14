@@ -49,6 +49,11 @@ class InternalRequisitionController extends Controller
 
         //dd($internal_audit);
         if(in_array(auth()->user()->role_id,[1,10,11])){
+
+            if(auth()->user()->institution_id == 0){
+                $internal_requisitions = InternalRequisition::all();
+                
+            }else{
             $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
            // ->where('institution_id', auth()->user()->institution_id)
             ->where(function($query){
@@ -60,6 +65,7 @@ class InternalRequisitionController extends Controller
             // ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
             ->latest()
             ->get();
+            }
 
         }else if(in_array(auth()->user()->role_id,[2])){    
         $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])

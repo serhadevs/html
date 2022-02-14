@@ -38,6 +38,22 @@ class ApproveInternalRequisitionController extends Controller
         //
       if(in_array(auth()->user()->role_id,[1,10,11,12]))
       {
+
+        if(auth()->user()->institution_id === 0){
+            $internalRequisitions = InternalRequisition::
+            whereHas('certified_internal_requisition',function($query){
+                 $query->where('is_granted','=', 1);
+                })
+        //    ->where(function($query){
+        //          $query->where('institution_id','=',auth()->user()->institution_id)
+        //          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                 
+        //       })
+              ->latest()
+              ->get();
+            
+        }else{
+            
         $internalRequisitions = InternalRequisition::
        whereHas('certified_internal_requisition',function($query){
             $query->where('is_granted','=', 1);
@@ -49,9 +65,15 @@ class ApproveInternalRequisitionController extends Controller
          })
          ->latest()
          ->get();
+        }
 
       }else{
-      $internalRequisitions = InternalRequisition::where('department_id', auth()->user()->department_id)
+      $internalRequisitions = InternalRequisition::
+      where(function($query){
+        $query->where('department_id',auth()->user()->department_id)
+        ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
+    })
+      //where('department_id', auth()->user()->department_id)
        ->whereHas('certified_internal_requisition',function($query){
             $query->where('is_granted','=', 1);
            })

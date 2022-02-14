@@ -57,7 +57,17 @@ class PurchaseOrderController extends Controller
             ->get();
 
         //purchaseOrder
+ 
+        if (auth()->user()->institution_id === 0) {
 
+            $purchase_orders = PurchaseOrder::with(['requisition'])
+            ->whereHas('requisition', function ($query) {
+
+                
+            })
+            ->latest()
+            ->get();
+        }else{
         $purchase_orders = PurchaseOrder::with(['requisition'])
             ->whereHas('requisition', function ($query) {
                 $query->where('institution_id', '=', auth()->user()->institution_id)
@@ -67,6 +77,7 @@ class PurchaseOrderController extends Controller
             // ->doesnthave('budget_commitment')
             ->latest()
             ->get();
+        }
 
      //   dd( $requisitions);
 

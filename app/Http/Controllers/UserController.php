@@ -194,7 +194,7 @@ class UserController extends Controller
         $institutions = Institution::all();
         $roles = Role::all();
         $units = Unit::all();
-        dd($user->institution_users->institution);
+       
 
         return view('panel.user.edit', compact('units','institutions', 'roles', 'departments', 'parishes', 'user'));
 
@@ -209,6 +209,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+       // dd($request->all());
         $institutions = $request->institutions;
         $departments = $request->departments;
         $units = $request->units;

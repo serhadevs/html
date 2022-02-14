@@ -31,8 +31,11 @@
        
       <li class="nav-item dropdown">
         <a class="nav-link" style="color:blue">
+        @if(auth::user()->institution=== null)
+          All Institution
+        @else
           {{auth::user()->institution->name}}
-         
+        @endif
         </a>       
       </li> 
      

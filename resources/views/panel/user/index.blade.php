@@ -75,7 +75,11 @@
                       <td>{{$user->telephone}}</td>  
                        <td>{{$user->unit->name}}</td>  
                         <td>{{$user->department->name}}</td>
+                        @if($user->institution_id=== 0)
+                         <td> All Institution</td>
+                        @else
                         <td>{{$user->institution->name}}</td>
+                        @endif
                          <td>{{$user->email}}</td>      
                      
                              

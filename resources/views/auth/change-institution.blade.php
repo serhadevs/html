@@ -57,10 +57,12 @@
                         <div class="col-sm-6">
                         <select type="input" class="form-control" name="institution" id="institution" required>
                           <option value="">Select Another Institution </option>
+                           <option value="0" >ALL</option>
                           @foreach($institutions as $institution)
                          @if($institution->id === auth::user()->institution_id)
                                     <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
                                 @else
+                                    
                                     <option value="{{ $institution->id }}" >{{ $institution->name }}</option>
                                 @endif
 

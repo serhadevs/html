@@ -134,6 +134,19 @@ class User extends Authenticatable implements Auditable
         return $institutions;
       }
 
+      public static function accessDepartments(){
+        $department_ids = DepartmentUsers::where('user_id',auth()->user()->id)->pluck('department_id');
+        $departments = Department::whereIn('id',$department_ids)->get();
+  
+        return $departments;
+      }
+      public static function accessUnits(){
+        $unit_ids = UnitUsers::where('user_id',auth()->user()->id)->pluck('unit_id');
+        $units = Unit::whereIn('id',$unit_ids)->get();
+  
+        return $units;
+      }
+
       public static function accessInstitutions_Id(){
         $institutions_id = InstitutionUsers::where('user_id',auth()->user()->id)->pluck('institution_id');
        // $institutions = Institution::whereIn('id',$institution_ids)->pluck('id');
@@ -141,6 +154,12 @@ class User extends Authenticatable implements Auditable
         return $institutions_id;
       }
 
+      public static function accessDepartments_Id(){
+        $departments_id = DepartmentUsers::where('user_id',auth()->user()->id)->pluck('department_id');
+       // $institutions = Institution::whereIn('id',$institution_ids)->pluck('id');
+  
+        return $departments_id;
+      }
       //all subcribe users for a institution
       public static function users_in_institution($institutions_id)
       {

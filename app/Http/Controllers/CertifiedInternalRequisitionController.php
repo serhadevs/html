@@ -36,10 +36,20 @@ class CertifiedInternalRequisitionController extends Controller
     public function index()
     {
         //
+
         if(in_array(auth()->user()->role_id,[1,2,10,11,12]))
         {
+                
+        if(auth()->user()->institution_id == 0){
+            $internalRequisitions = InternalRequisition::all();
+            
+        }else{
         $internalRequisitions = InternalRequisition::with(['certified_internal_requisition'])
-        ->where('department_id',auth()->user()->department_id)
+       // ->where('department_id',auth()->user()->department_id)
+       ->where(function($query){
+        $query->where('department_id',auth()->user()->department_id)
+        ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
+    })
         ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
@@ -47,11 +57,23 @@ class CertifiedInternalRequisitionController extends Controller
          })
         ->latest()
         ->get();
+        }
+
+
+
         }else{
           
             $internalRequisitions = InternalRequisition::with(['user','certified_internal_requisition'])
-            ->where('department_id',auth()->user()->department_id)
-            ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
+            // ->where('department_id',auth()->user()->department_id)
+            ->where(function($query){
+                $query->where('department_id',auth()->user()->department_id)
+                ->OrWhereIn('department_id',auth()->user()->accessDepartment_Id());
+            })
+            //->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
+            ->where(function($query){
+                $query->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
+                ->OrWhereIn('user_id',auth()->user()->accessUnits_Id());
+            })
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
@@ -123,7 +145,11 @@ class CertifiedInternalRequisitionController extends Controller
 
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
-                ->where('department_id', auth()->user()->department_id)
+                // ->where('department_id', auth()->user()->department_id)
+                ->where(function($query){
+                    $query->where('department_id',auth()->user()->department_id)
+                    ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
+                })
                 ->whereIn('role_id',[2])
                 ->get();
                 

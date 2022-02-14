@@ -63,7 +63,7 @@
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
-                        @if(in_array(auth()->user()->role_id,[1,2]))
+                        @if(in_array(auth()->user()->role_id,[1,12]))
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" required>
                           <option value="">select type </option>
@@ -97,7 +97,20 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="department" class="col-sm-2 col-form-label">Location</label>
+                        <label for="location" class="col-sm-2 col-form-label">Location</label>
+                        @if(in_array(auth()->user()->role_id,[1,12]))
+                        <div class="col-sm-4">
+                        <select class="form-control multiple-select" name="institution" required>
+                          <option value="">select institution </option>
+                          <option value="0">All Institution </option>
+                          @foreach($institutions as $institution)
+                         <option  value="{{$institution->id}}" >{{$institution->name}}</option>
+
+                          @endforeach
+                          
+                         </select> 
+                        </div>
+                        @else
                         <div class="col-sm-4">
                         <select class="form-control multiple-select" name="institution" required>
                           <option value="">select institution </option>
@@ -108,6 +121,10 @@
                           
                          </select> 
                         </div>
+
+
+
+                        @endif
                         <label for="date-required" class="col-sm-2 col-form-label">Department</label>
                       
                         <div class="col-sm-4">

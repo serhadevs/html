@@ -41,6 +41,18 @@ class ApprovePurchaseRequisitionController extends Controller
         //
   
       //  dd($approve);
+      if (auth()->user()->institution_id === 0) {
+
+        $requisitions = Requisition::with(['check','approve'])
+    
+        //->where('department_id','=',auth()->user()->department_id)
+          ->whereHas('check',function($query){
+              $query->where('is_checked','=',1);
+          })
+          ->latest()
+          ->get();
+
+      }else{
       $requisitions = Requisition::with(['check','approve'])
     
     //->where('department_id','=',auth()->user()->department_id)
@@ -54,7 +66,7 @@ class ApprovePurchaseRequisitionController extends Controller
      })
       ->latest()
       ->get();
-
+    }
       // dd($requisitions);
         return view('/panel/approve/purchase-requisition.index',compact('requisitions') );
 

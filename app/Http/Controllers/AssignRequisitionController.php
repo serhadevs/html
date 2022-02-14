@@ -40,6 +40,26 @@ class AssignRequisitionController extends Controller
     public function index()
     {
         //
+        if(auth()->user()->institution_id == 0){
+            $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment','approve_budget'])
+            ->whereHas('approve_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            })
+            ->whereHas('budget_commitment')
+            ->whereHas('approve_budget')
+            // ->where(function($query){
+            //     $query->where('institution_id','=',auth()->user()->institution_id)
+            //     ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+        
+            //  })
+        
+            
+     
+            ->has('approve_budget')
+           
+           ->latest()
+            ->get();
+        }else{
         $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment','approve_budget'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
@@ -58,6 +78,8 @@ class AssignRequisitionController extends Controller
        // ->doesnthave('assignto')
        ->latest()
         ->get();
+
+        }
 
         return view('/panel.assign.index',compact('internal_requisitions'));
     }

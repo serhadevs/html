@@ -97,14 +97,22 @@ class GeneralReportController extends Controller
        
         if($module == 1){
            
-       $report = InternalRequisition:: whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+            if (auth()->user()->institution_id === 0) {
+
+                $report = InternalRequisition:: whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                ->get();
+            }else{
+         $report = InternalRequisition:: whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-         })->get();
-       
+         })
+         ->latest()
+         ->get();
+        }
 
         }else if($module = 3){
+            
             $report = InternalRequisition::with(['approve_internal_requisition'])
         ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->whereHas('approve_internal_requisition')
@@ -117,7 +125,13 @@ class GeneralReportController extends Controller
 
         }else if($module = 6)
         {
-            dd(6);
+            if (auth()->user()->institution_id === 0) {
+                $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
+                // ->where('contract_sum', '>=', 500000)
+                 ->latest()
+                 ->get();
+
+            }else{    
             $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                // ->where('contract_sum', '>=', 500000)
                ->where(function($query){
@@ -127,7 +141,7 @@ class GeneralReportController extends Controller
              })
                 ->latest()
                 ->get();
-              
+            }
                
 
         }
