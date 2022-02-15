@@ -103,22 +103,14 @@
                         <label for="department" class="col-sm-2 col-form-label">Institution</label>
                         <div class="col-sm-4">
 
-                        @if(auth()->user()->institution_id ===0)
-                          <select type="input" class="form-control" name="institution" id="institution" required>
-                           <option selected value="0" >All Institutions</option>
-                          @foreach($institutions as $institution)
                         
-                          <option value="{{ $institution->id }}" >{{ $institution->name }}</option>
-                           @endforeach
-
-                          </select>
                          
 
-                        @elseif(in_array(auth()->user()->role_id,[1,12]))
+                        @if(in_array(auth()->user()->role_id,[1,12]))
                         <select type="input" class="form-control" name="institution" id="institution" required>
                          <option  value="0" >All Institutions</option>
                            @foreach($institutions as $institution)
-                          @if($institution->id === $user->institution->id)
+                          @if($institution->id === $user->institution_id)
                           <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
                           @else
                          
