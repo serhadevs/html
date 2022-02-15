@@ -96,6 +96,23 @@ text-align: center;
                         <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
                             <input type="number" class="form-control" min="0.00" step="0.01" value="" id="estimated_cost" readonly name='estimated_cost'required >
                         </div>
+
+                         <label for="date-of-last" class="col-sm-2 col-form-label">E-Mail</label>
+                        <div class="col-sm-4">
+                         
+                         <input type="email" class="form-control" value="{{auth()->user()->email}}" id='email' name='email'readonly>
+                         
+                        </div>
+                        
+                        </div>
+
+                        
+                        
+                        <div class="form-group row">
+                        <label for="cost-centre" class="col-sm-2 col-form-label">Phone </label>
+                        <div class="col-sm-4">
+                            <input type="tele" class="form-control" value="{{auth()->user()->telephone}}" name='phone'readonly>
+                        </div>
                         <label for="date-of-last" class="col-sm-2 col-form-label">Budget Activity</label>
                         <div class="col-sm-4">
                          
@@ -106,21 +123,7 @@ text-align: center;
                          </select>  
                          
                         </div>
-                        </div>
-
-                        
-                        
-                        <div class="form-group row">
-                        <label for="cost-centre" class="col-sm-2 col-form-label">Phone </label>
-                        <div class="col-sm-4">
-                            <input type="tele" class="form-control" value="{{auth()->user()->telephone}}" name='phone'readonly>
-                        </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">E-Mail</label>
-                        <div class="col-sm-4">
-                         
-                         <input type="email" class="form-control" value="{{auth()->user()->email}}" id='email' name='email'readonly>
-                         
-                        </div>
+                       
                         </div>
 
                          <div class="form-group row">

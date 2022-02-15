@@ -177,7 +177,7 @@ $(document).ready( function () {
       scrollY:        "400px",
         scrollX:        true,
         scrollCollapse: true,
-        paging:         false,
+        paging:         true,
          deferRender:true,
          select: true,
          columnDefs: [

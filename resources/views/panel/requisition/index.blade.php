@@ -291,14 +291,17 @@ $(document).ready( function () {
          scrollY:        "400px",
         scrollX:        true,
         scrollCollapse: true,
-        paging:         false,
+        paging:         true,
     });
     
 } );
 
 $(document).ready( function () {
     $('#internal-requisition-table').DataTable({
-         "scrollX": true
+         scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         true,
     });
     
 } );
