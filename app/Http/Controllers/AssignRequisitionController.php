@@ -129,6 +129,10 @@ class AssignRequisitionController extends Controller
         //send email to assigned task
        $internal_requisition = InternalRequisition::find($request->requisition_id);
        $user = User::where('id',$request->user_id)->get();
+      
+       $status = Status::where('internal_requisition_id',$request->requisition_id)->first();
+       $status->name = ' Accepted by procurement';
+       $status->update();
    
        $user->each->notify(new AssignInternalRequisition($internal_requisition));
 
@@ -245,7 +249,7 @@ class AssignRequisitionController extends Controller
     {
         //
         try {
-            
+    
             $requisition_id = $request->data['internal_requisition_id'];
             $budgetApprove = ApproveBudget::where('internal_requisition_id',$requisition_id)->first();
             $commit = BudgetCommitment::where('internal_requisition_id',$requisition_id)->first();

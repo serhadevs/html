@@ -128,7 +128,7 @@ class ApproveBudgetController extends Controller
 
                     //update requisition status
                 $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
-                $status->name = 'Budget Approve';
+                $status->name = 'Budget Approved';
                 $status->update();
 
                 //notify procurement department
