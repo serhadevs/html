@@ -51,7 +51,7 @@ class InternalRequisitionController extends Controller
         if(in_array(auth()->user()->role_id,[1,10,11,12])){
 
             if(auth()->user()->institution_id === 0){
-                $internal_requisitions = InternalRequisition::all()->latest();
+                $internal_requisitions = InternalRequisition::latest()->get();
                 
             }else{
             $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
