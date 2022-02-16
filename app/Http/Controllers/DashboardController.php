@@ -36,7 +36,21 @@ class DashboardController extends Controller
      */
     public function index()
     {
-   // dd(auth()->user()->unreadNotifications[0]->id);
+  
+      if(auth()->user()->institution_id ===0){
+        $internalrequisitions= InternalRequisition::count();
+        $requisitions= Requisition::count();
+        $purchase_Orders = PurchaseOrder::with(['requisition'])
+        ->whereHas('requisition', function ($query) {
+        //$query->where('institution_id', '=', auth()->user()->institution_id);
+              })
+        ->count();
+        $users = User::count();
+    
+
+
+      }else{
+      $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->count();
       $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
       $purchase_Orders = PurchaseOrder::with(['requisition'])
       ->whereHas('requisition', function ($query) {
@@ -46,6 +60,8 @@ class DashboardController extends Controller
       $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
       $departments =  Department::count();
 
+      
+          }
     
 
 
@@ -59,7 +75,7 @@ class DashboardController extends Controller
                       // DB::raw('YEAR(requisitions.created_at) year '),
                       // DB::raw('MONTH(requisitions.created_at) month ')
                      )
-    ->whereYear('requisitions.created_at', '=', 2021)
+   // ->whereYear('requisitions.created_at', '=', 2021)
     ->groupBy('parish')
     // ->where('parishes.id','=',auth()->user()->institution->parish->id)
     
@@ -97,7 +113,7 @@ class DashboardController extends Controller
         DB::raw('sum(contract_sum) as sums'), 'institutions.name as institution'
         
     )
-    ->whereYear('requisitions.created_at', '=', 2021)
+    //->whereYear('requisitions.created_at', '=', 2021)
     ->groupBy('institution')
     
 // ->where('parishes.id','=',auth()->user()->institution->parish->id)
@@ -122,13 +138,13 @@ class DashboardController extends Controller
     $chart3 = new DataChart;
     $chart3->labels($spend_by_institution->pluck('institution'));
     $chart3->dataset(' Spend by Institution', 'bar',$spend_by_institution->pluck('sums'))
-        ->backgroundColor('gold');
-
+    ->backgroundColor('gold');
+  
 
       $internalrequisition =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->get();
       $internalRequisitionApprove =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionApprovePublish')->get();
            
-        return view('panel.dashboard.index',['assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'departments'=>$departments]);
+        return view('panel.dashboard.index',['assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'internalrequisitions'=> $internalrequisitions]);
     }
 
     public function markAsRead($id)
