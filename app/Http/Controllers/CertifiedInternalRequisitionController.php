@@ -67,7 +67,7 @@ class CertifiedInternalRequisitionController extends Controller
             // ->where('department_id',auth()->user()->department_id)
             ->where(function($query){
                 $query->where('department_id',auth()->user()->department_id)
-                ->OrWhereIn('department_id',auth()->user()->accessDepartment_Id());
+                ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
             })
             //->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             ->where(function($query){
