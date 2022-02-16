@@ -160,6 +160,14 @@ class User extends Authenticatable implements Auditable
   
         return $departments_id;
       }
+
+      public static function accessUnits_Id(){
+        $units_id = UnitUsers::where('user_id',auth()->user()->id)->pluck('unit_id');
+       // $institutions = Institution::whereIn('id',$institution_ids)->pluck('id');
+  
+        return $units_id;
+      }
+    
       //all subcribe users for a institution
       public static function users_in_institution($institutions_id)
       {
