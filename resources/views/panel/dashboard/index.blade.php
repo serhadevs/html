@@ -42,24 +42,43 @@
            <!-- ./col -->
            <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-warning">
               <div class="inner">
               <h3>{{ $internalrequisitions}}</h3>
+              <h6>${{number_format($internal_requisition_sum,2)}}</h6>
 
                 <p>Internal Request</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-document"></i>
               </div>
               <a href="/internal_requisition" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
+
+           <!-- ./col -->
+           <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+              <h3>{{$tendering }}</h3>
+              <h6>${{number_format($tendering_sum,2)}}</h6>
+                <p>Tendering</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
               <h3>{{$requisitions}}</h3>
-
+              <h6>${{number_format($requisition_sum,2)}}</h6>
                 <p> Requisition</p>
               </div>
               <div class="icon">
@@ -71,33 +90,19 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
               <div class="inner">
               <h3>{{$purchase_Orders}}<sup style="font-size: 20px"></sup></h3>
-
+              <h6>${{number_format($purchase_Orders_sum,2)}}</h6>
                 <p>Purchase Order</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="ion ion-cash"></i>
               </div>
               <a href="/purchase-order" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-              <h3>{{$user}}</h3>
-
-                <p>User Registrations</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
+         
           {{-- @if(in_array(auth()->user()->role_id,[1,5,9,12])) --}}
          
               @if(in_array(auth()->user()->role_id,[1,9,12]))
@@ -369,6 +374,7 @@
           </div>  
           @endif
           {{-- end alerts --}}
+          @if(empty(auth()->user()->unreadNotifications))
           @if(auth()->user()->unreadNotifications)
           <div class="col-lg-5 col-5">
             <div class="card-body p-0">
@@ -411,6 +417,9 @@
                 <!-- /.table-responsive -->
               </div>
           </div>
+          @endif
+          @else
+
           @endif
      
     </div>

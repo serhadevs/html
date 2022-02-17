@@ -39,13 +39,31 @@ class DashboardController extends Controller
   
       if(auth()->user()->institution_id ===0){
         $internalrequisitions= InternalRequisition::count();
-        $requisitions= Requisition::count();
-        $purchase_Orders = PurchaseOrder::with(['requisition'])
-        ->whereHas('requisition', function ($query) {
-        //$query->where('institution_id', '=', auth()->user()->institution_id);
-              })
+
+        $tendering = InternalRequisition::with('approve_budget')
+        ->whereHas('approve_budget',function($query){
+          $query->where('is_granted',1)->where('deleted_at',null);
+        })
         ->count();
-        $users = User::count();
+       
+        $requisitions= Requisition::count();
+        
+        $purchase_Orders = PurchaseOrder::with(['requisition'])
+        ->whereHas('requisition')
+        
+        ->count();
+              
+        $internal_requisition_sum = InternalRequisition::sum('estimated_cost'); 
+        $tendering_sum = InternalRequisition::with('approve_budget')->whereHas('approve_budget',function($query){
+          $query->where('is_granted',1)->where('deleted_at',null);
+        })->sum('estimated_cost');
+        $requisition_sum = Requisition::sum('contract_sum'); 
+        $purchase_Orders_sum = DB::table('purchase_orders')
+        ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+        ->select('contract_sum')
+        ->sum(DB::raw('requisitions.contract_sum'));
+    
+        //$users = User::count();
     
 
 
@@ -57,8 +75,28 @@ class DashboardController extends Controller
       $query->where('institution_id', '=', auth()->user()->institution_id);
             })
       ->count();
-      $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
+      $tendering = InternalRequisition::with('approve_budget')
+      ->whereHas('approve_budget',function($query){
+        $query->where('is_granted',1)->where('deleted_at',null);
+      })
+      ->where('institution_id', '=', auth()->user()->institution_id)
+      ->count();
+      // $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
       $departments =  Department::count();
+
+
+      $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->sum('estimated_cost'); 
+      $tendering_sum = InternalRequisition::with('approve_budget')->whereHas('approve_budget',function($query){
+        $query->where('is_granted',1)->where('deleted_at',null);
+      })
+      ->where('institution_id', '=', auth()->user()->institution_id)
+      ->sum('estimated_cost');
+      $requisition_sum = Requisition::where('institution_id', '=', auth()->user()->institution_id)->sum('contract_sum'); 
+      $purchase_Orders_sum = DB::table('purchase_orders')
+      ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+      ->select('contract_sum')
+      ->where('institution_id', '=', auth()->user()->institution_id)
+      ->sum(DB::raw('requisitions.contract_sum'));
 
       
           }
@@ -66,8 +104,8 @@ class DashboardController extends Controller
 
 
     $spend_by_parish= DB::table('requisitions')
-              ->leftJoin('institutions','institutions.id','=','requisitions.institution_id')
-              ->leftJoin('parishes','parishes.id','=','institutions.parish_id')
+              ->join('institutions','institutions.id','=','requisitions.institution_id')
+              ->join('parishes','parishes.id','=','institutions.parish_id')
               ->select(
                   
                       DB::raw('sum(contract_sum) as sums'),'parishes.name as parish'
@@ -75,8 +113,9 @@ class DashboardController extends Controller
                       // DB::raw('YEAR(requisitions.created_at) year '),
                       // DB::raw('MONTH(requisitions.created_at) month ')
                      )
+                     ->where('requisitions.deleted_at',null)
    // ->whereYear('requisitions.created_at', '=', 2021)
-    ->groupBy('parish')
+    ->groupBy('parish','requisitions.institution_id')
     // ->where('parishes.id','=',auth()->user()->institution->parish->id)
     
     ->get();
@@ -92,10 +131,11 @@ class DashboardController extends Controller
       $spend_by_category = DB::table('requisitions')
     // ->leftJoin('institutions', 'institutions.id', '=', 'requisitions.institution_id')
     // ->leftJoin('parishes', 'parishes.id', '=', 'institutions.parish_id')
-    ->leftJoin('stock_categories','stock_categories.id','=','requisitions.category_id')
+    ->join('stock_categories','stock_categories.id','=','requisitions.category_id')
     ->select('stock_categories.name as categoryname', DB::raw('sum(contract_sum) as sums'))   
     // ->where('parishes.id', '=', auth()->user()->institution->parish->id)
     ->groupBy('requisitions.category_id','categoryname')
+    ->where('requisitions.deleted_at',null)
     ->get();
   
       $chart2 = new DataChart;
@@ -106,15 +146,16 @@ class DashboardController extends Controller
 
     //Spend by institution
       $spend_by_institution = DB::table('requisitions')
-    ->leftJoin('institutions', 'institutions.id', '=', 'requisitions.institution_id')
-    ->leftJoin('parishes', 'parishes.id', '=', 'institutions.parish_id')
+    ->join('institutions', 'institutions.id', '=', 'requisitions.institution_id')
+    ->join('parishes', 'parishes.id', '=', 'institutions.parish_id')
+    ->where('requisitions.deleted_at',null)
     ->select(
 
         DB::raw('sum(contract_sum) as sums'), 'institutions.name as institution'
         
     )
     //->whereYear('requisitions.created_at', '=', 2021)
-    ->groupBy('institution')
+    ->groupBy('institution','requisitions.institution_id')
     
 // ->where('parishes.id','=',auth()->user()->institution->parish->id)
 
@@ -144,7 +185,7 @@ class DashboardController extends Controller
       $internalrequisition =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->get();
       $internalRequisitionApprove =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionApprovePublish')->get();
            
-        return view('panel.dashboard.index',['assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'user'=>$users,'internalrequisitions'=> $internalrequisitions]);
+        return view('panel.dashboard.index',['purchase_Orders_sum'=> $purchase_Orders_sum,'requisition_sum'=>$requisition_sum,'tendering'=> $tendering,'tendering_sum' => $tendering_sum,'internal_requisition_sum'=>$internal_requisition_sum,'assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'internalrequisitions'=> $internalrequisitions]);
     }
 
     public function markAsRead($id)
