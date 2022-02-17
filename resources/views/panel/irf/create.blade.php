@@ -498,50 +498,20 @@ $("#internal_request_form").submit(function (e) {
 });
 
 
-//     $(document).ready(function(){
-// $('#next-1').click(function(){
-// $('#second').show();
-// $('#first').hide();
-// $('#third').hide();
-// $('#progressBar').css("width","67%")
-// $('#progressText').html('Step -2')
-// });
+$(document).ready(function(){
+  $('.btn-add-more').click(function(){
+
+var html = $('.hide').html();
+$('.img_div').after(html);
+});
 
 
-// $('#next-2').click(function(){
-//     $('#first').hide();
-//     $('#second').hide();
-//     $('#third').show();
-//     $('#progressBar').css("width","100%")
-//     $('#progressText').html('Step -3')
+$("body").on("click",".btn-remove",function(){ 
+$('.form-group').attr('disable',true);
+      $(this).parents(".form-group").remove();
+  });
 
-// })
-
-// $('#previous').click(function(){
-//     $('#first').show();
-//     $('#second').hide();
-//     $('#progressBar').css("width","33.5%")
-//     $('#progressText').html('Step -1')
-
-// })
-// $('#previous-1').click(function(){
-//     $('#first').hide();
-//     $('#third').hide();
-//     $('#second').show();
-
-//     $('#progressBar').css("width","67%")
-//     $('#progressText').html('Step -2')
-
-// })
-
-// });
-
-
-// $('#supplier').on('input',function(){
-// var supplier = parseFloat($('#supplier').val());
-// $('#supplier_input').val(supplier );
-
-// });
+});
 
 
 

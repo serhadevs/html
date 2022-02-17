@@ -212,7 +212,7 @@ text-align: center;
               <tr>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" value={{$stock->item_number}} type='text' size="5" style='border:none;outline:none;background: transparent;'>
+                <input name='item_number[]' class='productname' id="item_number" value={{$stock->item_number}} type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                
                 </td>
                 <td>
@@ -240,7 +240,7 @@ text-align: center;
                   <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="1"  value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
-                <input name='estimated_total[]' class='estimated_total' value="{{number_format($stock->estimated_total,2)}}" id="estimated_total"   type='text' size="5" style='border:none;outline:none;background: transparent;' readonly>
+                <input name='estimated_total[]' class='estimated_total' value="{{$stock->estimated_total,2}}" id="estimated_total"   type='text' size="5" style='border:none;outline:none;background: transparent;' readonly>
                 </td>
         
 

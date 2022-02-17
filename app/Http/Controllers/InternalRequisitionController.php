@@ -342,9 +342,10 @@ class InternalRequisitionController extends Controller
             'requisition_type' => 'required',
             'priority' => 'required',
 
+            'item_number'=>'required',
             'quantity' => 'required',
             'description' => 'required',
-            // 'estimated_total' => 'required',
+            'estimated_total' => 'required',
             'unit' => 'required',
             'unit_cost' => 'required',
 
@@ -380,7 +381,15 @@ class InternalRequisitionController extends Controller
 
         }
     }else{
-        $stock=null;
+        $stock=Stock::create([
+            'item_number' => 1,
+            'quantity' => 0,
+            'description' => 'error',
+            'estimated_total' => 0,
+            'unit_of_measurement_id' => 1,
+            'unit_cost' => 0,
+            'internal_requisition_id' => $internal_requisition->id,
+        ]);;
     }
         
 
