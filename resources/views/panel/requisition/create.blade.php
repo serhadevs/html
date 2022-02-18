@@ -330,10 +330,10 @@ text-align: center;
                 {{-- <td>{{$stock->unit_cost}}</td>
                 <td> {{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2) }}</td> --}}
                 <td>
-                  <input name='actual_cost[]' id="actual_cost" size="5" id="" class='actual_cost' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+                  <input name='actual_cost[]' id="actual_cost" size="5" id="" class='actual_cost' min="0.00" step="any"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
                 </td>
                 <td>
-                  <input name='actual_total[]' id="actual_total" size="5" id="" class='actual_total' min="0.00" step="0.01"  type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+                  <input name='actual_total[]' id="actual_total" size="5" id="" class='actual_total' min="0.00" step="any"  type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
                 </td>
        
               
@@ -485,8 +485,13 @@ text-align: center;
                         </div>
                          <div class="form-group row">
                       <div class="col-sm-6">
+                        @if(isset($internalrequisition->approve_internal_requisition))
                         Approve IRF by: <span class='badge badge-success'>{{$internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$internalrequisition->approve_internal_requisition->created_at}}</span></br>
+                      @else
+                      Approve IRF by:</br>
+                      Date:
+                        @endif
                       </div>
                       <div class="col-sm-6">
                         Budget Approve by: <span class='badge badge-success'>{{$internalrequisition->approve_budget->user->abbrName()}} </span></br>

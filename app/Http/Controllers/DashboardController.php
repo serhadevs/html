@@ -37,7 +37,7 @@ class DashboardController extends Controller
     public function index()
     {
   
-      if(auth()->user()->institution_id ===0){
+      if(auth()->user()->institution_id ===0 AND in_array(auth()->user()->role_id,[1,12])){
         $internalrequisitions= InternalRequisition::count();
 
         $tendering = InternalRequisition::with('approve_budget')
@@ -64,10 +64,69 @@ class DashboardController extends Controller
         ->sum(DB::raw('requisitions.contract_sum'));
     
         //$users = User::count();
-    
+
+      }elseif(auth()->user()->institution_id ===0 AND !in_array(auth()->user()->role_id,[1,12])){
+        $internalrequisitions= InternalRequisition::where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+  
+       })->count();
+       
+        $requisitions= Requisition::where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+  
+       })
+        ->count();
+
+        $purchase_Orders = PurchaseOrder::with(['requisition'])
+        ->whereHas('requisition', function ($query) {
+        $query->where('institution_id', '=', auth()->user()->institution_id)
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+              })
+        ->count();
+
+        $tendering = InternalRequisition::with('approve_budget')
+        ->whereHas('approve_budget',function($query){
+          $query->where('is_granted',1)->where('deleted_at',null);
+        })
+        ->where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+         })->count();
+        
+  
+  
+        $internal_requisition_sum = InternalRequisition::where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+       })->sum('estimated_cost'); 
+
+        $tendering_sum = InternalRequisition::with('approve_budget')
+        ->whereHas('approve_budget',function($query){
+          $query->where('is_granted',1)->where('deleted_at',null);
+        })->where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+       })->sum('estimated_cost');
+
+        $requisition_sum = Requisition::where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+       })->sum('contract_sum'); 
+        
+        $purchase_Orders_sum = DB::table('purchase_orders')
+        ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+        ->select('contract_sum')
+        ->where(function($query){
+          $query->where('institution_id','=',auth()->user()->institution_id)
+          ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+       })->sum(DB::raw('requisitions.contract_sum'));
 
 
       }else{
+
+        
       $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->count();
       $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
       $purchase_Orders = PurchaseOrder::with(['requisition'])
@@ -82,8 +141,6 @@ class DashboardController extends Controller
       ->where('institution_id', '=', auth()->user()->institution_id)
       ->count();
       // $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
-      $departments =  Department::count();
-
 
       $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->sum('estimated_cost'); 
       $tendering_sum = InternalRequisition::with('approve_budget')->whereHas('approve_budget',function($query){
@@ -204,3 +261,5 @@ class DashboardController extends Controller
 
 // JSON_VALUE(@data,'$.employees') AS 'Result'
 //Package::whereJsonContains('destinations',["Goa"])->get();
+
+

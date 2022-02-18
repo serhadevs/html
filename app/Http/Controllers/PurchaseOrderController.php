@@ -39,7 +39,7 @@ class PurchaseOrderController extends Controller
     {
 
         //aprove purchase requisition
-        $requisitions = Requisition::with(['check','approve','purchaseOrder'])
+        $requisitions = Requisition::with(['','check','approve','purchaseOrder'])
             // ->where('institution_id', '=', auth()->user()->institution_id)
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)

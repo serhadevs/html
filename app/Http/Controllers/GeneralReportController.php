@@ -95,7 +95,7 @@ class GeneralReportController extends Controller
       
        
        
-        if($module == 1){
+        if($module === 1){
            
             if (auth()->user()->institution_id === 0) {
 
@@ -111,7 +111,7 @@ class GeneralReportController extends Controller
          ->get();
         }
 
-        }else if($module = 3){
+        }else if($module === 3){
             
             $report = InternalRequisition::with(['approve_internal_requisition'])
         ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
@@ -123,8 +123,8 @@ class GeneralReportController extends Controller
         ->get();
 
 
-        }else if($module = 6)
-        {
+        }else if($module === 6){
+
             if (auth()->user()->institution_id === 0) {
                 $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                 // ->where('contract_sum', '>=', 500000)
@@ -143,6 +143,12 @@ class GeneralReportController extends Controller
                 ->get();
             }
                
+
+        }else{
+
+           
+        $report =InternalRequisition::all();
+
 
         }
        

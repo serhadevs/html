@@ -105,7 +105,7 @@
                   </tfoot> --}}
                 </table>
 
-                @else
+                @elseif($module === 6)
 
                <table id="table" class="table table-bordered table-hover">
                   <thead>
@@ -199,9 +199,47 @@
                   </tfoot> --}}
                 </table>
 
+                @else
 
-
-
+                <table id="table" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    
+                    {{-- <th>Status</th> --}}
+                    <th>Requisition No.</th>
+                    <th>Requested by</th>
+                    <th>Description</th>
+                    <th>Estimated Cost</th>
+                    <th>Department</th>
+                    <th>Institution</th>
+                    <th>Budget Activity </th>
+                    <th>phone</th>
+                    <th>Email</th>
+                    <th>Request Required</th>
+                    <th>Priority</th>
+                    <th>Date Created</th>
+                    {{-- <th>Date Approved</th> --}}
+                    
+                    
+                  </tr>
+                  </thead>
+                  <tbody>
+                
+            
+                 
+                 
+                  </tbody>
+                  {{-- <tfoot>
+                  <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                  </tr>
+                  </tfoot> --}}
+                </table>
+               
                 @endif
               </div>
               <!-- /.card-body -->

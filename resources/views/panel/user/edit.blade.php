@@ -121,7 +121,7 @@
                          @else
                          
 
-                         <select type="input" class="form-control" name="institution" id="institution" disabled>
+                         <select type="input" class="form-control" name="institution" id="institution">
                           @foreach($institutions as $institution)
                          @if($institution->id === $user->institution->id)
                          <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>

@@ -391,6 +391,8 @@ class InternalRequisitionController extends Controller
             'internal_requisition_id' => $internal_requisition->id,
         ]);;
     }
+
+               
         
 
         
@@ -434,6 +436,7 @@ class InternalRequisitionController extends Controller
             $approve->delete();
             $status = Status::where('internal_requisition_id',$internal_requisition->id)->first();
             $status->name = 'Internal Requisition';
+            $status->update();
       
 
 
@@ -480,7 +483,7 @@ class InternalRequisitionController extends Controller
 
 }
 
-
+          
            
 
         
