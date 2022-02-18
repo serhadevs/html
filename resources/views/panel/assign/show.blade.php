@@ -256,8 +256,9 @@ text-align: center;
                             Approved by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->abbrName()}} </span></br>
                             Date:  <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->created_at}}</span></br>
                             @else
-                              Approve  by: <span class='badge badge-success'></span>
-                              @endif
+                              Approve  by: <span class='badge badge-success'></span></br>
+                              Date: </br>
+                            @endif
 
                               Budget Commitment by: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->abbrName()}} </span></br>
                               Date:  <span class='badge badge-success'>{{$internalRequisition->budget_commitment->created_at}}</span>

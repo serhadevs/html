@@ -53,7 +53,7 @@ class CheckPurchaseController extends Controller
         // ->where('institution_id', '=', auth()->user()->institution_id)->get();
         if (auth()->user()->institution_id === 1) {
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
-         ->where('contract_sum', '>=', 250000)
+        // ->where('contract_sum', '>=', 250000)
          ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
@@ -71,7 +71,7 @@ class CheckPurchaseController extends Controller
 
 } else {
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
-        ->Orwhere('contract_sum', '<', 250000)
+       // ->Orwhere('contract_sum', '<', 250000)
         ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
