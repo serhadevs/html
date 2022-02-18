@@ -40,7 +40,7 @@ class AssignRequisitionController extends Controller
     public function index()
     {
         //
-        if(auth()->user()->institution_id == 0){
+        if(auth()->user()->institution_id === 0){
             $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment','approve_budget'])
             ->whereHas('approve_internal_requisition',function($query){
              $query->where('is_granted','=', 1);
@@ -74,7 +74,7 @@ class AssignRequisitionController extends Controller
     
         
  
-        ->has('approve_budget')
+        //->has('approve_budget')
        // ->doesnthave('assignto')
        ->latest()
         ->get();
