@@ -376,8 +376,8 @@ text-align: center;
                         Approve IRF by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
                       @else
-                      Approve IRF by:
-                      Date:
+                      Approve IRF by:</br>
+                      Date:</br>
                       @endif
 
                         Accepted by: <span class='badge badge-success'>{{$requisition->check->user->abbrName()}}</span></br>
