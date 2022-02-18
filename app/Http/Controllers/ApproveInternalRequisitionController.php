@@ -150,8 +150,16 @@ class ApproveInternalRequisitionController extends Controller
         
                 }else{
                     $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+                    if(epmty($status)){
+                        $status = new Status();
+                        $status->internal_requisition_id = $internal_requisition->id;
+                        $status->name = 'Internal Requisition Approved';
+                        $status->save();
+
+                    }else{
                     $status->name = ' Internal Requisition Approved';
                     $status->update();
+                    }
 
 
                 //notify primary facility users    
