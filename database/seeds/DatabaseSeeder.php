@@ -31,7 +31,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RequisitionTypeTableSeeder::class);
         $this->call(SupplierTableSeeder::class); 
         $this->call(ProcurementMethodTableSeeder::class);
-            
+        $this->call(CurrencyTableSeeder::class);
+
+
+      
         // factory(App\Requisition::class, 100000)->create()->each(function ($user) {
         //     $user->posts()->save(factory(App\Post::class)->make());
         //     });

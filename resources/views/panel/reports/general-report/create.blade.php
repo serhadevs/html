@@ -17,8 +17,11 @@
             @if($module ===1)
          
             Internal Requisition
-            @else
+            @elseif ($module ===6)
             Requisition
+
+            @else
+            All Modules
             @endif
 
             Report </h1>
@@ -52,7 +55,7 @@
                   <thead>
                   <tr>
                     
-                    {{-- <th>Status</th> --}}
+                    <th>Status</th>
                     <th>Requisition No.</th>
                     <th>Requested by</th>
                     <th>Description</th>
@@ -74,7 +77,11 @@
                     @foreach($report as $internal_requisition)
                     <tr>
                   
-                    {{-- <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td> --}}
+                      @if(isset($internal_requisition->status))
+                    <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
+                    @else
+                    <td> <span class ="badge bg-warning">Error warning</span></td>
+                    @endif
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
                     <td>{{$internal_requisition->description}}</td>
@@ -205,29 +212,177 @@
                   <thead>
                   <tr>
                     
-                    {{-- <th>Status</th> --}}
+
                     <th>Requisition No.</th>
+                    <th>Status</th>
                     <th>Requested by</th>
-                    <th>Description</th>
+                   
                     <th>Estimated Cost</th>
+                    <th>Currency</th>
                     <th>Department</th>
                     <th>Institution</th>
                     <th>Budget Activity </th>
-                    <th>phone</th>
-                    <th>Email</th>
-                    <th>Request Required</th>
+                    <th>Requisition Type</th>
                     <th>Priority</th>
                     <th>Date Created</th>
-                    {{-- <th>Date Approved</th> --}}
-                    
-                    
+
+                    <th>Certified IPR By</th>
+                    <th>Date Certify IPR</th>
+                    <th>Approved IPR By</th>
+                    <th>Date Approved IPR</th>
+
+                    <th>Commitment No</th>
+                    <th>Accounting Code</th>
+                    <th>Date IPR Commited</th>
+                    <th>Commit By</th>
+
+                    <th>Budget Approved</th>
+                    <th>Budget Approved by</th>
+                    <th>Assigned to</th>
+                    <th>Assigned date</th>
+
+                    <th>Requisition created Date</th>
+                    <th>Terms</th>
+                    <th>Supplier</th>
+                    <th>Category</th>
+                    <th>Contract Sum</th>
+                    <th>Pro. Method</th>
+                    <th>Percentage Variance</th>
+
+                    <th>Certify Requisition by</th>
+                    <th>Date Certified</th>
+
+                    <th>Requisition Approved by</th>
+                    <th>Date Requisition Approved</th>
+
+                    <th>Purchase Order #</th>
+                    <th>Purchase Order Created By</th>
+                    <th>Purchase Order Created Date</th>                    
                   </tr>
                   </thead>
                   <tbody>
+                    @foreach($report as $report) 
+                   <tr>
+                    <td>{{$report->requisition_no}}</td>
+                    @if(isset($report->status))
+                    <td> <span class ="badge bg-green">{{$report->status->name}}</span></td>
+                    @else
+                    <td> <span class ="badge bg-warning">Error warning</span></td>
+                    @endif
+         
+                    <td>{{$report->user->fullName()}}</td>
+                    <td>{{$report->estimated_cost}}</td>
+                    <td>{{$report->currency->abbr}}</td>
+                    <td>{{$report->department->name}}</td>
+                    <td>{{$report->institution->name}}</td>
+                    <td>{{$report->budget_approve}}</td>
+                    <td>{{$report->requisition_type->name}}</td>
+                    <td>{{$report->priority}}</td>
+                    <td>{{$report->created_at}}</td>
+                    @if($report->certified_internal_requisition)
+                    <td>{{$report->certified_internal_requisition->user->fullName()}}</td>
+                    <td>{{$report->certified_internal_requisition->created_at}}</td>
+                    @else
+                     <td></td>
+                     <td></td>
+
+                   @endif
+                   @if($report->approve_internal_requisition)
+                   <td>{{$report->approve_internal_requisition->user->fullName()}}</td>
+                    <td>{{$report->approve_internal_requisition->created_at}}</td>
+                    @else
+                     <td></td>
+                     <td></td>
+
+                   @endif
+                   @if($report->budget_commitment)
+                   <td>{{$report->budget_commitment->commitment_no}}</td>
+                   <td>{{$report->budget_commitment->account_code}}</td>
+                   <td>{{$report->budget_commitment->created_at}}</td>
+                   <td>{{$report->budget_commitment->user->fullname()}}</td>
+                   @else
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+
+                   @endif
+                   @if($report->approve_budget)
+                   <td>{{$report->approve_budget->created_at}}</td>
+                   <td>{{$report->approve_budget->user->fullName()}}</td>
+
+
+                   @else
+                   <td></td>
+                   <td></td>
+                   @endif
+
+                   @if($report->assignto)
+                   <td>{{$report->assignto->user->fullname()}}</td>
+                   <td>{{$report->assignto->created_at}}</td>
+                   @else
+                   <td></td>
+                   <td></td>
+                   @endif
+                   @if($report->requisition)
+                   <td>{{$report->requisition->created_at}}</td>
+                  <td>{{$report->requisition->terms}}</td>
+                <td>{{$report->requisition->supplier->name}}</td>
+               
+                <td>{{$report->requisition->category->name}}</td>
+                <td>{{$report->requisition->contract_sum}}</td>
+                 <td>{{$report->requisition->procurement_method->name}}</td>
+                <td>{{$report->requisition->cost_variance / 100}} %</td>
+
+                   @else
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   
+
+
+                   @endif
+                   @if(isset($report->requisition->check))
+                  <td>{{$report->requisition->check->user->fullName()}}</td>
+                  <td>{{$report->requisition->check->created_at}}</td>
+                   @else
+                   <td></td>
+                   <td></td>
+                   @endif
+
+                   @if(isset($report->requisition->approve))
+                  <td>{{$report->requisition->approve->user->fullName()}}</td>
+                  <td>{{$report->requisition->approve->created_at}}</td>
+                   @else
+
+                   <td></td>
+                   <td></td>
+                   @endif
+                   @if(isset($report->requisition->purchaseOrder))
+                  <td>{{$report->requisition->purchaseOrder->purchase_order_no}}</td>
+                  <td>{{$report->requisition->purchaseOrder->user->fullName()}}</td>
+                  <td>{{$report->requisition->purchaseOrder->created_at}}</td>
+           
+                  
+                   @else
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   @endif
+
+
+
+
+
+                   </tr>
                 
             
                  
-                 
+                     @endforeach
                   </tbody>
                   {{-- <tfoot>
                   <tr>

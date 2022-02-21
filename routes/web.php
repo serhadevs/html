@@ -197,6 +197,10 @@ Route::resource('/trail-ipr', 'TrailInternalRequisitionController');
 //General report controller
 Route::resource('general-report','GeneralReportController');
 
+//currency
+Route::resource('/currency', CurrencyController::class);
+Route::get('/currency/delete/{id}', 'CurrencyController@destroy');
+
 
 
 

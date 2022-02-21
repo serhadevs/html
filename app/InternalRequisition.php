@@ -29,6 +29,10 @@ class InternalRequisition extends Model implements Auditable
         return $this->belongsTo('App\User')->withTrashed();
     }
 
+    public function currency()
+    {
+        return $this->belongsTo('App\Currency')->withTrashed();
+    }
     public function institution(){
         return $this->belongsTo('App\Institution');
     }

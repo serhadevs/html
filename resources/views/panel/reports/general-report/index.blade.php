@@ -53,9 +53,9 @@
                           <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Module type</label>
                         <div class="col-sm-4">
-                        <select type="input" class="form-control" name="module_type" id="module_type">
-                          <option  value="">Select</option>
-                        <option value="">All modules </option>
+                        <select type="input" class="form-control" name="module_type" id="module_type" required>
+                          <option value="" >Select</option>
+                        <option value="10">All modules </option>
 
                           @foreach($modules as $key => $type)
                         <option value="{{$type['id']}}">{{$type['name']}}</option>

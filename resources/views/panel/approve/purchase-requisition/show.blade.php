@@ -71,7 +71,7 @@ text-align: center;
                         TCC Number: {{$requisition->tcc}}</br>
                         PPC Number: {{$requisition->ppc}}</br>
                         Supplier Trn: {{$requisition->supplier->trn}}</br>
-                        Contract Sum: ${{number_format($requisition->contract_sum,2)}}</br>
+                        Contract Sum: {{$requisition->internalrequisition->currency->abbr}} ${{number_format($requisition->contract_sum,2)}}</br>
                         {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no: {{$requisition->requisition_no}} </br>
                         </div>
@@ -82,7 +82,7 @@ text-align: center;
                         Category: {{$requisition->category->name}} </br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
                         PPC Expired: {{$requisition->ppc_expired_date}}</br>
-                        Estimated Cost: ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
+                        Estimated Cost: {{$requisition->internalrequisition->currency->abbr}} ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
                         Cost Variance: {{$requisition->cost_variance/100}}%</br>
                         Term: {{$requisition->delivery}} </br>
                        
@@ -184,8 +184,12 @@ text-align: center;
   </tr>
    <tr>
     <td style='width:20px;'>Sales Tax (15.0%)</td>
-     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
-  </tr>
+    @if($requisition->tax_confirmed ===0)
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * 0,2) }}" style='border:none;outline:none;background: transparent;'></td>
+  @else
+  <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+  @endif
+    </tr>
    <tr>
     <td  style='width:20px;'>Grand Total</td>
      <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>

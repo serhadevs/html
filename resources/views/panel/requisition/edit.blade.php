@@ -147,6 +147,35 @@ text-align: center;
                         </div>
 
                         <div class="form-group row">
+                          <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
+                         
+                          <div class="col-sm-4">
+                            <select type="input" class="form-control" name="currency_type" id="currency_type" readonly required>
+                              <option  selected value="{{$requisition->internalrequisition->currency->id}}">{{$requisition->internalrequisition->currency->abbr}} </option>
+                          {{-- @foreach($currencies as $currency)
+                          <option value="{{$currency->id}}">{{$currency->abbr}}</option>
+                           @endforeach --}}
+                             </select>  
+                           </select> 
+                          
+                          </div> 
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
+                          <div class="col-sm-4">
+                           <select type="input" class="form-control" name="tax" id="tax" required>
+                            <option selected value={{$requisition->tax_confirmed}}>{{$requisition->tax_confirmed ===1 ? "Yes":"No" }}</option>
+                            @if($requisition->tax_confirmed ===1)
+                            <option value=1>Yes</option>
+                            @else
+                            <option value=0>No</option>
+                            @endif
+                           
+                           </select>  
+                          
+                           
+                          </div>
+                          </div>
+
+                        <div class="form-group row">
                           <label for="cost-centre" class="col-sm-2 col-form-label">Description </label>
                           <div class="col-sm-4">
                               <textarea type="text" class="form-control" value="" name='description'>{{$requisition->description}}</textarea>
@@ -334,11 +363,15 @@ text-align: center;
   </tr>
    <tr>
     <td style='width:20px;'>Sales Tax (15.0%)</td>
-     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
-  </tr>
+    @if($requisition->tax_confirmed ===0)
+     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * 0,2) }}" style='border:none;outline:none;background: transparent;'></td>
+    @else
+    <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+    @endif
+    </tr>
    <tr>
     <td  style='width:20px;'>Grand Total</td>
-     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  
@@ -378,8 +411,6 @@ text-align: center;
         </div>        
         <div class="form-group row img_div ">
                         <div class="col-sm-6">
-                       
-                       <div class="form-group">
                        <label for="exampleInputFile">Support Documents</label>
                        <div class="input-group">
                        <div class="custom-file">
@@ -389,9 +420,9 @@ text-align: center;
                       <button class="btn btn-default btn-add-more" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
                       </div>
                       </div>
-                      </div>
                       </div> 
-                     
+                    </div>
+                    
 
 
 
@@ -455,8 +486,7 @@ text-align: center;
               </div>
                </div> 
               <!-- /.card-body -->
-            </div>
-                      {{-- <div class="form-group">
+              {{-- <div class="form-group">
                         {{ asset('storage/'.$application->photo_upload) }}
                        <label for="exampleInputFile">Attached files</label>
                        <div class="input-group">
@@ -733,7 +763,7 @@ if(contractSum >= 1500000){
 
 
 $(document).ready(function () {
-  $('.quantity, .actual_cost').change(function () {
+  $('.quantity, .actual_cost,#tax').change(function () {
     var parent = $(this).closest('tr');
     parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
    calculateSum();
@@ -747,13 +777,19 @@ $(document).ready(function () {
             var sum = 0;
             var grand = 0;
             var tax = 0;
+            var include_tax = $("#tax").val();
             //iterate through each textboxes and add the values
             $(".actual_total").each(function () {
                 //add only if the value is number
                 if (!isNaN(this.value) && this.value.length != 0) {
                     sum += parseFloat(this.value);
+                    if(include_tax == 0){
+                      tax = 0;
+                    grand = tax + sum
+                    }else{
                     tax = sum * .15;
                     grand = tax + sum
+                    }
                 }
             });
 

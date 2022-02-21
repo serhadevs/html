@@ -59,7 +59,7 @@ text-align: center;
                           Departmentent: {{$internalRequisition->department->name}} </br>
                           Budget activity: {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
-                          Estimated Cost: ${{number_format($internalRequisition->estimated_cost)}}</br>
+                          Estimated Cost:{{$internalRequisition->currency->abbr}} ${{number_format($internalRequisition->estimated_cost)}}</br>
                         </p>
 
                         <p>
@@ -146,7 +146,12 @@ text-align: center;
   </tr>
    <tr>
     <td>Sales Tax (15.0%)</td>
+    @if($internalRequisition->tax_confirmed===0)
+
+     <td>${{number_format($internalRequisition->stocks->sum('estimated_total') * 0,2) }}</td>
+     @else
      <td>${{number_format($internalRequisition->stocks->sum('estimated_total') * .15,2) }}</td>
+     @endif
   </tr>
    <tr>
     <td>Grand Total</td>

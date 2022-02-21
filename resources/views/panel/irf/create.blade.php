@@ -152,6 +152,31 @@ text-align: center;
                          
                         </div>
                         </div>
+                        <div class="form-group row">
+                          <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
+                         
+                          <div class="col-sm-4">
+                            <select type="input" class="form-control" name="currency_type" id="currency_type" required>
+                              <option value="">Select type </option>
+                          @foreach($currencies as $currency)
+                          <option value="{{$currency->id}}">{{$currency->abbr}}</option>
+                           @endforeach
+                             </select>  
+                           </select>  
+                          
+                          </div> 
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
+                          <div class="col-sm-4">
+                           <select type="input" class="form-control" name="tax" id="tax" required>
+                            <option>Select tax</option>
+                            <option value=1>Yes</option>
+                            <option value=0>No</option>
+                           
+                           </select>  
+                          
+                           
+                          </div>
+                          </div>
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">General Description </label>
                         <div class="col-sm-4">
@@ -533,7 +558,7 @@ $('.form-group').attr('disable',true);
 
 
 $(document).ready(function () {
-  $('.quantity, .unitcost').change(function () {
+  $('.quantity, .unitcost, #tax').change(function () {
     var parent = $(this).closest('tr');
     parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
    calculateSum();
@@ -547,13 +572,20 @@ $(document).ready(function () {
             var sum = 0;
             var grand = 0;
             var tax = 0;
+            var include_tax = $("#tax").val();
+            console.log(include_tax);
             //iterate through each textboxes and add the values
             $(".estimated_total").each(function () {
                 //add only if the value is number
                 if (!isNaN(this.value) && this.value.length != 0) {
                     sum += parseFloat(this.value);
+                    if(include_tax == 0){
+                      tax = 0;
+                    grand = tax + sum
+                    }else{
                     tax = sum * .15;
                     grand = tax + sum
+                    }
                 }
             });
 

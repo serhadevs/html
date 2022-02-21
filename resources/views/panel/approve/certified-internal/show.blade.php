@@ -136,8 +136,12 @@ text-align: center;
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
-  </tr>
+    @if($internalRequisition->tax_confirmed ===0)
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * 0) }}" style='border:none;outline:none;background: transparent;'></td>
+  @else
+  <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
+  @endif
+    </tr>
    <tr>
     <td  size="5">Grand Total</td>
      <td><input id='grandtotal' readonly type='text' value="${{$internalRequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>

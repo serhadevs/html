@@ -59,7 +59,7 @@ text-align: center;
                           Departmentent: {{$internalRequisition->department->name}} </br>
                           Budget activity: {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
-                          Estimated Cost: ${{number_format($internalRequisition->estimated_cost)}}</br>
+                          Estimated Cost: {{$internalRequisition->currency->abbr}} ${{number_format($internalRequisition->estimated_cost)}}</br>
                         </p>
 
                         <p>
@@ -145,15 +145,19 @@ text-align: center;
   <table class="table table-bordered table-responsive-md table-striped text-left">
   <tr >
     <td  size="5">Sub Total</td>
-    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{$internalRequisition->stocks->sum('estimated_total')}}" style='border:none;outline:none;background: transparent;'></td>
+    <td><input id='subtotal' readonly  name="subtotal" type='text' size="10" value="${{number_format($internalRequisition->stocks->sum('estimated_total'),2)}}" style='border:none;outline:none;background: transparent;'></td>
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
+    @if($internalRequisition->tax_confirmed ===0)
+    <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($internalRequisition->stocks->sum('estimated_total') * 0,2) }}" style='border:none;outline:none;background: transparent;'></td>
+   @else
+   <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($internalRequisition->stocks->sum('estimated_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
+   @endif
   </tr>
    <tr>
     <td  size="5">Grand Total</td>
-     <td><input id='grandtotal' readonly type='text' value="${{$internalRequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td><input id='grandtotal' readonly type='text' value="${{number_format($internalRequisition->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  

@@ -99,10 +99,10 @@ class GeneralReportController extends Controller
            
             if (auth()->user()->institution_id === 0) {
 
-                $report = InternalRequisition:: whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                $report = InternalRequisition::with(['status','user','institution','department','requisition_type'])-> whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                 ->get();
             }else{
-         $report = InternalRequisition:: whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+         $report = InternalRequisition::with(['status','user','institution','department','requisition_type'])->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
@@ -113,7 +113,7 @@ class GeneralReportController extends Controller
 
         }else if($module === 3){
             
-            $report = InternalRequisition::with(['approve_internal_requisition'])
+            $report = InternalRequisition::with(['approve_internal_requisition','institution','department','requisition_type'])
         ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->whereHas('approve_internal_requisition')
         ->where(function($query){
@@ -139,6 +139,7 @@ class GeneralReportController extends Controller
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         
              })
+             ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                 ->latest()
                 ->get();
             }
@@ -147,20 +148,14 @@ class GeneralReportController extends Controller
         }else{
 
            
-        $report =InternalRequisition::all();
+        $report =InternalRequisition::with(['status','user','currency','institution','department','requisition_type','certified_internal_requisition','approve_internal_requisition','budget_commitment','approve_budget','assignto','requisition.approve','requisition.check'])
+        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+        ->latest()
+        ->get();
 
 
         }
-       
-    //    $internal_requisitions = DB::table('internal_requisitions')
-    //    ->leftJoin('departments','departments.id','=','internal_requisitions.department_id')
-    //    ->leftJoin('institutions','institutions.id','=','internal_requisitions.institution_id')
-    //    ->leftJoin('statuses','statuses.internal_requisition_id','=','internal_requisitions.id')
-    //    ->leftJoin('requisition_types','requisition_types.id','=','internal_requisitions.requisition_type_id')
-    //    ->leftJoin('requisition_types','requisition_types.id','=','internal_requisitions.requisition_type_id')
-    //    ->leftJoin('users','user.id','=','internal_requisitions.user_id')
-    //     ->select('requisitions.*,requisitiontypes.name as requisition_type')
-    //    ->get();
+    
        
         return view('/panel.reports.general-report.create', compact('report','module'));
     }

@@ -165,6 +165,27 @@ text-align: center;
                         <input type="text" class="form-control" value="{{$internal_requisition->priority}}" id='priority' name='priority' disabled> 
                         </div>
                         </div>
+                        <div class="form-group row">
+                          <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
+                         
+                          <div class="col-sm-4">
+                            <select type="input" class="form-control" name="currency_type" id="currency_type" readonly required>
+                            
+                          <option selected value="{{$internal_requisition->currency->id}}">{{$internal_requisition->currency->abbr}}</option>
+                             </select>  
+                           </select>  
+                          
+                          </div> 
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
+                          <div class="col-sm-4">
+                           <select type="input" class="form-control" name="tax" id="tax" readonly required>
+                            <option selected value="{{$internal_requisition->tax_confirmed}}">{{$internal_requisition->tax_confirmed == 1 ? "Yes" : "No"}}</option>
+
+                           </select>  
+                          
+                           
+                          </div>
+                          </div>
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">General Description </label>
                         <div class="col-sm-4">
@@ -255,7 +276,11 @@ text-align: center;
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
+    @if($internal_requisition->tax_confirmed === 1)
      <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($internal_requisition->stocks->sum('estimated_total') * .15),2)}}" style='border:none;outline:none;background: transparent;'></td>
+     @else
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($internal_requisition->stocks->sum('estimated_total') * 0),2)}}" style='border:none;outline:none;background: transparent;'></td>
+     @endif
   </tr>
    <tr>
     <td  size="5">Grand Total</td>

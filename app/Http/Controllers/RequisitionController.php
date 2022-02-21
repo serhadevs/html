@@ -173,7 +173,7 @@ class RequisitionController extends Controller
         // $requisition->date_require = $request->date_require;
         // $requisition->date_last_ordered = $request->date_last_ordered;
         $requisition->internal_requisition_id = $request->id;
-        // $requisition->recommended_cost = $request->recommended_cost;
+        $requisition->tax_confirmed = $request->tax;
 
         // add stocks to requisition
         if ($requisition->save()) {
@@ -299,6 +299,7 @@ class RequisitionController extends Controller
         $requisition->contract_sum = $request->contract_sum;
         $requisition->procurement_method_id = $request->procurement_method;
         $requisition->cost_variance = $request->cost_variance;
+        $requisition->tax_confirmed = $request->tax;
         // $requisition->date_require = $request->date_require;
         // $requisition->date_last_ordered = $request->date_last_ordered;
 

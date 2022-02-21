@@ -93,8 +93,8 @@ body {
                     <td>Type: {{$requisition->internalrequisition->requisition_type->name}}</td>
                   </tr>
                   <tr>
-                    <td>Estimated Cost: ${{number_format($requisition->internalrequisition->estimated_cost,2)}}</td>
-                     <td>Contract Sum: ${{number_format($requisition->contract_sum,2)}}</td>
+                    <td>Estimated Cost: {{$requisition->internalrequisition->currency->abbr}}  ${{number_format($requisition->internalrequisition->estimated_cost,2)}}</td>
+                     <td>Contract Sum: {{$requisition->internalrequisition->currency->abbr}}  ${{number_format($requisition->contract_sum,2)}}</td>
                   </tr>
                   <tr>
                    <td>Cost Centre: {{$requisition->cost_centre}}</td>
@@ -115,7 +115,7 @@ body {
                   <tr>
                   
                    <td>Supplier TRN: {{$requisition->supplier->trn}}</td>
-                    <td>Percentage Variance: {{$requisition->cost_variance}}</td>
+                    <td>Percentage Variance: {{$requisition->cost_variance /100}} %</td>
                   </tr>
                     
 </table>
@@ -169,8 +169,11 @@ body {
    <tr>
    
      <td style="border: 1px solid black; border-collapse: collapse;">Sales Tax (15.0%)</td>
-      <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}</td>
-     
+     @if($requisition->tax_confirmed === 0)
+      <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * 0,2) }}</td>
+     @else
+     <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}</td>
+     @endif
   </tr>
    <tr>
 

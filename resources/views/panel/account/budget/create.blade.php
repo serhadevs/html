@@ -130,6 +130,27 @@ text-align: center;
                                 </div>
                                 </div>
                                 <div class="form-group row">
+                                  <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
+                                 
+                                  <div class="col-sm-4">
+                                    <select type="input" class="form-control" name="currency_type" id="currency_type" readonly required>
+                                    
+                                  <option selected value="{{$internalrequisition->currency->id}}">{{$internalrequisition->currency->abbr}}</option>
+                                     </select>  
+                                   </select>  
+                                  
+                                  </div> 
+                                  <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
+                                  <div class="col-sm-4">
+                                   <select type="input" class="form-control" name="tax" id="tax" readonly required>
+                                    <option selected value="{{$internalrequisition->tax_confirmed}}">{{$internalrequisition->tax_confirmed === 1 ? "Yes" : "no"}}</option>
+        
+                                   </select>  
+                                  
+                                   
+                                  </div>
+                                  </div>
+                                <div class="form-group row">
                                   <label for="cost-centre" class="col-sm-2 col-form-label">Requisition no.</label>
                                   <div class="col-sm-4">
                                       <input type="input" class="form-control" value="{{$internalrequisition->requisition_no}}" readonly>
@@ -197,8 +218,12 @@ text-align: center;
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalrequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
-  </tr>
+    @if($internalrequisition->tax_confirmed===0)
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalrequisition->stocks->sum('estimated_total') * 0) }}" style='border:none;outline:none;background: transparent;'></td>
+  @else
+  <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalrequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
+  @endif
+    </tr>
    <tr>
     <td  size="5">Grand Total</td>
      <td><input id='grandtotal' readonly type='text' value="${{$internalrequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>

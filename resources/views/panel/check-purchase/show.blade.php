@@ -70,7 +70,7 @@ text-align: center;
                         Description: {{$requisition->description}}</br>
                         TCC Number: {{$requisition->tcc}}</br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
-                        Contract Sum: ${{number_format($requisition->contract_sum,2)}}</br>
+                        Contract Sum: {{$requisition->internalrequisition->currency->abbr}} ${{number_format($requisition->contract_sum,2)}}</br>
                         {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no.: {{$requisition->internalrequisition->requisition_no}}</br> 
 
@@ -81,7 +81,7 @@ text-align: center;
                         Commitment: {{$requisition->commitment_no}}</br>
                         Category: {{$requisition->category->name}} </br>
                               Supplier Trn: {{$requisition->supplier->trn}}</br>
-                        Estimate Cost: ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
+                        Estimate Cost: {{$requisition->internalrequisition->currency->abbr}}  ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
                         Cost Variance: {{$requisition->cost_variance}} </br>
                         {{-- Supplier Address: {{$requisition->supplier->address}} </br> --}}
                        
@@ -175,11 +175,15 @@ text-align: center;
   </tr>
    <tr>
     <td style='width:20px;'>Sales Tax (15.0%)</td>
+    @if($requisition->tax_confirmed===0)
+     <td style='width:42px;'>${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * 0,2) }}</td>
+     @else
      <td style='width:42px;'>${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}</td>
+     @endif
   </tr>
    <tr>
     <td  style='width:20px;'>Grand Total</td>
-     <td style='width:20px;'>${{$requisition->contract_sum}}</td>
+     <td style='width:20px;'>${{number_format($requisition->contract_sum,2)}}</td>
   </tr>
  
  

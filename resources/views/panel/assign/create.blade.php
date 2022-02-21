@@ -57,7 +57,7 @@ text-align: center;
 
                           <p><br>Institution: {{$internalRequisition->institution->name}}</br>
                           Departmentent: {{$internalRequisition->department->name}} </br>
-                          Budget activity: {{$internalRequisition->budget_approve}}    </br>
+                          Budget activity:{{$internalRequisition->currency->abbr}} {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
                           Estimated Cost: ${{number_format($internalRequisition->estimated_cost,2)}}</br>
                         </p>
@@ -146,14 +146,16 @@ text-align: center;
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
-  </tr>
+    @if($internalRequisition->tax_confirmed ===0)
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * 0) }}" style='border:none;outline:none;background: transparent;'></td>
+    @else
+    <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($internalRequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
+    @endif
+    </tr>
    <tr>
     <td  size="5">Grand Total</td>
      <td><input id='grandtotal' readonly type='text' value="${{$internalRequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
- 
- 
   </table>
 
 

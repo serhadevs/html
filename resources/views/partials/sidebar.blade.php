@@ -288,13 +288,20 @@
               </li>
               <li class="nav-item">
                 <a href="/measurement" class="nav-link">
-                  <i class="far fa-square nav-icon"></i>
+                  <i class="far fas fa-calculator nav-icon"></i>
                   <p>Add Measurement</p>
                 </a>
-              </li> <li class="nav-item">
+              </li> 
+              <li class="nav-item">
                 <a href="/unit" class="nav-link">
                   <i class="far fa-map nav-icon"></i>
                   <p>Add Units</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/currency" class="nav-link">
+                  <i class="far fa-money-bill-alt nav-icon"></i>
+                  <p>Add Currency</p>
                 </a>
               </li>
               @if(in_array(Auth::user()->role_id, [1,3,9,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1  )

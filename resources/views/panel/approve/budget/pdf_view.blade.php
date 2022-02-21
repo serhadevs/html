@@ -101,7 +101,7 @@ body {
 
                  
                   <tr>
-                    <td>Estimated Cost: ${{number_format($internalRequisition->estimated_cost,2)}}</td>
+                    <td>Estimated Cost:{{$internalRequisition->currency->abbr}} ${{number_format($internalRequisition->estimated_cost,2)}}</td>
                     <td>Department: {{$internalRequisition->Department->name}}</td>
                   </tr>
 
@@ -175,13 +175,16 @@ body {
    <tr>
    
      <td style="border: 1px solid black; border-collapse: collapse;">Sales Tax (15.0%)</td>
-      <td style="border: 1px solid black; border-collapse: collapse;">{{number_format($internalRequisition->stocks->sum('estimated_total') * .15,2) }}</td>
-     
+     @if($internalRequisition->tax_confirmed ===0)
+      <td style="border: 1px solid black; border-collapse: collapse;">{{number_format($internalRequisition->stocks->sum('estimated_total') * 0,2) }}</td>
+     @else
+     <td style="border: 1px solid black; border-collapse: collapse;">{{number_format($internalRequisition->stocks->sum('estimated_total') * .15,2) }}</td>
+     @endif
   </tr>
    <tr>
 
      <td style="border: 1px solid black; border-collapse: collapse;">Grand Total</td>
-      <td style="border: 1px solid black; border-collapse: collapse;">${{$internalRequisition->estimated_cost}}</td>
+      <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($internalRequisition->estimated_cost,2)}}</td>
      
   </tr>
  

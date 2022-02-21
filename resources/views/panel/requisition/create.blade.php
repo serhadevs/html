@@ -177,6 +177,31 @@ text-align: center;
                         </div>
                        
                         </div>
+                        <div class="form-group row">
+                          <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
+                         
+                          <div class="col-sm-4">
+                            <select type="input" class="form-control" name="currency_type" id="currency_type" readonly required>
+                              <option  selected value="{{$internalrequisition->currency->id}}">{{$internalrequisition->currency->abbr}} </option>
+                          {{-- @foreach($currencies as $currency)
+                          <option value="{{$currency->id}}">{{$currency->abbr}}</option>
+                           @endforeach --}}
+                             </select>  
+                           </select> 
+                          
+                          </div> 
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
+                          <div class="col-sm-4">
+                           <select type="input" class="form-control" name="tax" id="tax" required>
+                            <option>Select tax</option>
+                            <option value=1>Yes</option>
+                            <option value=0>No</option>
+                           
+                           </select>  
+                          
+                           
+                          </div>
+                          </div>
 
 
 
@@ -611,7 +636,7 @@ $('#table').ready(function() {
 
 
 $(document).ready(function () {
-  $('.quantity, .actual_cost').change(function () {
+  $('.quantity, .actual_cost,#tax').change(function () {
     var parent = $(this).closest('tr');
     parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
    calculateSum();
@@ -625,13 +650,19 @@ $(document).ready(function () {
             var sum = 0;
             var grand = 0;
             var tax = 0;
+            var include_tax = $("#tax").val();
             //iterate through each textboxes and add the values
             $(".actual_total").each(function () {
                 //add only if the value is number
                 if (!isNaN(this.value) && this.value.length != 0) {
                     sum += parseFloat(this.value);
+                    if(include_tax == 0){
+                      tax = 0;
+                    grand = tax + sum
+                    }else{
                     tax = sum * .15;
                     grand = tax + sum
+                    }
                 }
             });
 
@@ -718,6 +749,22 @@ success: function (data) {
 
 });
 });
+});
+
+
+$(document).ready(function(){
+  $('.btn-add-more').click(function(){
+
+var html = $('.hide').html();
+$('.img_div').after(html);
+});
+
+
+$("body").on("click",".btn-remove",function(){ 
+$('.form-group').attr('disable',true);
+      $(this).parents(".form-group").remove();
+  });
+
 });
 
       </script>

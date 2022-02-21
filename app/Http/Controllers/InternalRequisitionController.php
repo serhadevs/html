@@ -14,6 +14,7 @@ use App\SystemOperations\RequisitionNumberGenerator;
 use App\Unit;
 use App\UnitOfMeasurement;
 use App\User;
+use App\Currency;
 use App\AttachedFile;
 use App\Notifications\InternalRequisitionApprovePublish;
 use App\Notifications\CertifiedInternalRequisitionPublish;
@@ -113,8 +114,9 @@ class InternalRequisitionController extends Controller
         $units = UnitOfMeasurement::all();
         $methods = ProcurementMethod::all();
         $types = RequisitionType::all();
+        $currencies = Currency::all();
 
-        return view('/panel.irf.create', compact('units', 'types', 'methods'));
+        return view('/panel.irf.create', compact('currencies','units', 'types', 'methods'));
 
     }
 
@@ -143,6 +145,7 @@ class InternalRequisitionController extends Controller
             'estimated_total' => 'required',
             'unit' => 'required',
             'unit_cost' => 'required',
+            'currency_type' => 'required',
 
         ]);
         $requisition_no = new RequisitionNumberGenerator();
@@ -161,6 +164,9 @@ class InternalRequisitionController extends Controller
         $internal_requisition->comments = $request->comments;
         $internal_requisition->priority = $request->priority;
         $internal_requisition->description = $request->general_description;
+        $internal_requisition->currency_id = $request->currency_type;
+        $internal_requisition->tax_confirmed = $request->tax;
+        
 
         if ($internal_requisition->save()) {
 
@@ -308,6 +314,7 @@ class InternalRequisitionController extends Controller
             ->find($id);
         // dd($ir->comment);
         $types = RequisitionType::all();
+        $currencies = Currency::all();
 
         if ($ir->approve_internal_requisition) {
             if ($ir->approve_internal_requisition->is_granted === 1) {
@@ -320,7 +327,7 @@ class InternalRequisitionController extends Controller
         //     return redirect('/internal_requisition')->with('error', 'Requisition ' . $ir->requisition_no . ' is already certified.');
         // }
 
-        return view('/panel.irf.edit', compact('units', 'ir', 'types'));
+        return view('/panel.irf.edit', compact('currencies','units', 'ir', 'types'));
 
     }
 
@@ -362,6 +369,8 @@ class InternalRequisitionController extends Controller
         $internal_requisition->budget_approve = $request->budget_approve;
         $internal_requisition->priority = $request->priority;
         $internal_requisition->comments = $request->comments;
+        $internal_requisition->currency_id = $request->currency_type;
+        $internal_requisition->tax_confirmed = $request->tax;
         $input = $request->all();
         foreach ($internal_requisition->stocks as $products) {
         $products->delete();
@@ -406,6 +415,9 @@ class InternalRequisitionController extends Controller
             $internal_requisition->budget_approve = $request->budget_approve;
             $internal_requisition->priority = $request->priority;
             $internal_requisition->comments = $request->comments;
+            $internal_requisition->currency_id = $request->currency_type;
+            $internal_requisition->tax_confirmed = $request->tax;
+        
            // $internal_requisition->update();
             $input = $request->all();
             foreach ($internal_requisition->stocks as $products) {

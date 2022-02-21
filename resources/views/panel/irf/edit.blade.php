@@ -105,25 +105,13 @@ text-align: center;
                         <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
                             <input type="number" readonly class="form-control" min="0.00" step="0.01"  id="estimated_cost" value="{{$ir->estimated_cost}}" name='estimated_cost' >
                         </div>
-                        <label for="date-of-last" class="col-sm-2 col-form-label">Budget activity</label>
+
+                        <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
                         <div class="col-sm-4">
-                         
-                         <select type="input" class="form-control" name="budget_approve" id="budget_approve">
-                       
-                          <option selected value="{{ $ir->budget_approve }}">{{$ir->budget_approve}} </option>
-                          <option value="yes">yes</option>
-                          <option value="no">no</option>
-                          {{-- <option value="no">No</option> --}}
-                      
-                          {{-- @if($ir->budget_approve === 'no')
-                          <option selected value="{{ $ir->budget_approve }}" >No</option>
-                          @els
-                         <option  value="yes" >Yes</option>
-                         @endif --}}
- 
-                         </select>  
-                         
-                        </div>
+                        <input type="input" class="form-control" value="{{$ir->requisition_no}}" readonly>
+                   
+                   
+                    </div>
                         </div>
 
                         
@@ -161,7 +149,7 @@ text-align: center;
                         <label for="date-of-last" class="col-sm-2 col-form-label">Priority</label>
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="priority" id="priority">
-                         <option value="{{$ir->priority}}">{{$ir->priority}}</option>
+                         <option selected value="{{$ir->priority}}">{{$ir->priority}}</option>
                           <option value="very high">Very High</option>
                           <option value="high">High</option>
                           <option value="medium">Medium</option>
@@ -171,16 +159,57 @@ text-align: center;
                          
                         </div>
                         </div>
+                        <div class="form-group row">
+                          <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
+                         
+                          <div class="col-sm-4">
+                            <select type="input" class="form-control" name="currency_type" id="currency_type" required>
+                            
+                          <option selected value="{{$ir->currency->id}}">{{$ir->currency->abbr}}</option>
+                          @foreach($currencies as $currency)
+                          <option value="{{$currency->id}}">{{$currency->abbr}}</option>
+                           @endforeach
+                             </select>  
+                           </select>  
+                          
+                          </div> 
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
+                          <div class="col-sm-4">
+                           <select type="input" class="form-control" name="tax" id="tax" required>
+                            <option selected value="{{$ir->tax_confirmed}}">{{$ir->tax_confirmed == 1 ? "Yes" : "No"}}</option>
+                         
+                            <option value=1>Yes</option>
+                           
+                            <option value=0>No</option>
+                       
+                           </select>  
+                          
+                           
+                          </div>
+                          </div>
                          <div class="form-group row">
                         <label for="cost-centre" class="col-sm-2 col-form-label">General Description </label>
                         <div class="col-sm-4">
                             <textarea type="text" class="form-control" value="" name='general_description' required>{{$ir->description}}</textarea>
                         </div>
-                        <label for="institute" class="col-sm-2 col-form-label">Requisition no.</label>
-                            <div class="col-sm-4">
-                            <input type="input" class="form-control" value="{{$ir->requisition_no}}" readonly>
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Budget activity</label>
+                        <div class="col-sm-4">
+                         
+                         <select type="input" class="form-control" name="budget_approve" id="budget_approve">
                        
-                       
+                          <option selected value="{{ $ir->budget_approve }}">{{$ir->budget_approve}} </option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                          {{-- <option value="no">No</option> --}}
+                      
+                          {{-- @if($ir->budget_approve === 'no')
+                          <option selected value="{{ $ir->budget_approve }}" >No</option>
+                          @els
+                         <option  value="yes" >Yes</option>
+                         @endif --}}
+ 
+                         </select>  
+                         
                         </div>
                         </div>
 
@@ -272,8 +301,12 @@ text-align: center;
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($ir->stocks->sum('estimated_total') * .15),2)}}" style='border:none;outline:none;background: transparent;'></td>
-  </tr>
+    @if($ir->tax_confirmed === 0)
+     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($ir->stocks->sum('estimated_total') * 0),2)}}" style='border:none;outline:none;background: transparent;'></td>
+   @else
+   <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format(($ir->stocks->sum('estimated_total') * .15),2)}}" style='border:none;outline:none;background: transparent;'></td>
+   @endif
+    </tr>
    <tr>
     <td  size="5">Grand Total</td>
      <td><input id='grandtotal' readonly type='text' value="${{number_format($ir->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
@@ -558,7 +591,7 @@ $('.btn-add-more').click(function(){
 
 
 $(document).ready(function () {
-  $('.quantity, .unitcost').change(function () {
+  $('.quantity, .unitcost ,#tax').change(function () {
     var parent = $(this).closest('tr');
     parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
    calculateSum();
@@ -572,13 +605,19 @@ $(document).ready(function () {
             var sum = 0;
             var grand = 0;
             var tax = 0;
+            var include_tax = $("#tax").val();
             //iterate through each textboxes and add the values
             $(".estimated_total").each(function () {
                 //add only if the value is number
                 if (!isNaN(this.value) && this.value.length != 0) {
                     sum += parseFloat(this.value);
+                    if(include_tax == 0){
+                      tax = 0;
+                    grand = tax + sum
+                    }else{
                     tax = sum * .15;
                     grand = tax + sum
+                    }
                 }
             });
 

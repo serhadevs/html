@@ -80,7 +80,7 @@
                      @if(isset($internal_requisition->status))
                     <td> <span class ="badge bg-green">{{$internal_requisition->status->name}}</span></td>
                     @else
-                    <td></td>
+                    <td> <span class ="badge bg-warning">Error warning</span></td>
                     @endif
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
