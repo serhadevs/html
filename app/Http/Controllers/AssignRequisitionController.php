@@ -41,7 +41,7 @@ class AssignRequisitionController extends Controller
     {
         //
         if(auth()->user()->institution_id === 0){
-            $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment','approve_budget'])
+            $internal_requisitions = InternalRequisition::with(['department','requisition_type','institution','user','assignto','approve_internal_requisition','budget_commitment','approve_budget'])
             ->whereHas('approve_internal_requisition',function($query){
              $query->where('is_granted','=', 1);
             })
@@ -60,7 +60,7 @@ class AssignRequisitionController extends Controller
            ->latest()
             ->get();
         }else{
-        $internal_requisitions = InternalRequisition::with(['assignto','approve_internal_requisition','budget_commitment','approve_budget'])
+        $internal_requisitions = InternalRequisition::with(['department','requisition_type','institution','user','assignto','approve_internal_requisition','budget_commitment','approve_budget'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
