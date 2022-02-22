@@ -51,11 +51,13 @@ class InternalRequisitionController extends Controller
         //dd($internal_audit);
         if(in_array(auth()->user()->role_id,[1,10,11,12])){
 
-            if(auth()->user()->institution_id === 0){
-                $internal_requisitions = InternalRequisition::latest()->get();
+            if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])){
+               
+                $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])->latest()->get();
                 
             }else{
-            $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
+               
+            $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
            // ->where('institution_id', auth()->user()->institution_id)
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
@@ -69,7 +71,7 @@ class InternalRequisitionController extends Controller
             }
 
         }else if(in_array(auth()->user()->role_id,[2])){    
-        $internal_requisitions = InternalRequisition::with(['approve_internal_requisition','department','institution','requisition_type','status'])
+        $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
@@ -82,7 +84,7 @@ class InternalRequisitionController extends Controller
             ->get();
         }else{
            
-            $internal_requisitions = InternalRequisition::with(['user','approve_internal_requisition','department','institution','requisition_type','status'])
+            $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
             ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             ->Where(function($query){

@@ -47,7 +47,7 @@ input[type="checkbox"]{
           
         <div class="row">
               
-          <div class="col-12">
+          <div class="col-10">
             <div class="card">
               {{-- <div class="card-header">
                   
@@ -141,8 +141,8 @@ input[type="checkbox"]{
 
 
 @push('scripts')
-{<script src="/plugins/datatables/dataTables.select.min.js"></script> 
-<script src="/js/dataTables.select.min.js"></script> 
+{{-- <script src="/plugins/datatables/dataTables.select.min.js"></script> 
+<script src="/js/dataTables.select.min.js"></script>  --}}
 
 <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

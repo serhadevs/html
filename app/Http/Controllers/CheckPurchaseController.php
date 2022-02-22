@@ -62,12 +62,25 @@ class CheckPurchaseController extends Controller
         ->latest()
         ->get();
 
-        }else if(auth()->user()->institution_id === 0){
+        }else if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])){
             $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
              ->latest()
              ->get();
 
+            }else if(auth()->user()->institution_id === 0 AND !in_array(auth()->user()->role_id,[1,12])){
+            
+                $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
+                ->where(function($query){
+                    $query->where('institution_id','=',auth()->user()->institution_id)
+                    ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+            
+                 })
+                 ->latest()
+                 ->get();
+
         
+
+
 
 } else {
     $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])

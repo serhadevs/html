@@ -51,11 +51,10 @@ class UserController extends Controller
         
        
         if(in_array(auth()->user()->role_id,[1,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
-        $users = User::all();
+        $users = User::with(['institution','department','role','unit'])->get();
         }else{
-        $users = User::where('institution_id','=',auth()->user()->institution_id)
+        $users = User::with(['institution','department','role','unit'])->where('institution_id','=',auth()->user()->institution_id)
         ->whereNotIn('role_id',[1,12])
-        
         ->get();
         }
 

@@ -51,13 +51,13 @@ class RequisitionController extends Controller
         //dd(auth()->user()->accessInstitutions_Id());
         if (in_array(auth()->user()->role_id,[1,12,10,11])) {
 
-            if(auth()->user()->institution_id == 0){
+            if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])  ){
 
-                $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
+                $requisitions = Requisition::with(['user','check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                  ->latest()
                  ->get();
             }else{
-            $requisitions = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
+            $requisitions = Requisition::with(['user','check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                // ->where('contract_sum', '>=', 500000)
                ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
@@ -69,7 +69,7 @@ class RequisitionController extends Controller
             }
 
         } else {
-            $requisitions = Requisition::with(['check', 'approve'])
+            $requisitions = Requisition::with(['user','check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());

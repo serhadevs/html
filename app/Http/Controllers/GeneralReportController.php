@@ -97,10 +97,14 @@ class GeneralReportController extends Controller
        
         if($module === 1){
            
-            if (auth()->user()->institution_id === 0) {
+            if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
 
                 $report = InternalRequisition::with(['status','user','institution','department','requisition_type'])-> whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                 ->get();
+           
+           
+           
+           
             }else{
          $report = InternalRequisition::with(['status','user','institution','department','requisition_type'])->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
         ->where(function($query){
@@ -112,46 +116,66 @@ class GeneralReportController extends Controller
         }
 
         }else if($module === 3){
-            
-            $report = InternalRequisition::with(['approve_internal_requisition','institution','department','requisition_type'])
-        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
-        ->whereHas('approve_internal_requisition')
-        ->where(function($query){
-            $query->where('institution_id','=',auth()->user()->institution_id)
-            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-         })
-        ->get();
+
+                        if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+                            $report = InternalRequisition::with(['approve_internal_requisition','institution','department','requisition_type'])
+                            ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                            ->whereHas('approve_internal_requisition')
+                            ->get();
+                                
+                        }else{
+                        $report = InternalRequisition::with(['approve_internal_requisition','institution','department','requisition_type'])
+                        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                        ->whereHas('approve_internal_requisition')
+                        ->where(function($query){
+                            $query->where('institution_id','=',auth()->user()->institution_id)
+                            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                        })
+                        ->get();
+                            }
 
 
         }else if($module === 6){
 
-            if (auth()->user()->institution_id === 0) {
-                $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
-                // ->where('contract_sum', '>=', 500000)
-                 ->latest()
-                 ->get();
+                    if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+                            $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
+                            ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                            ->latest()
+                            ->get();
 
-            }else{    
-            $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
-               // ->where('contract_sum', '>=', 500000)
-               ->where(function($query){
-                $query->where('institution_id','=',auth()->user()->institution_id)
-                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-        
-             })
-             ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
-                ->latest()
-                ->get();
-            }
+                    }else{    
+                        $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
+                        // ->where('contract_sum', '>=', 500000)
+                        ->where(function($query){
+                            $query->where('institution_id','=',auth()->user()->institution_id)
+                            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                    
+                        })
+                        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                            ->latest()
+                            ->get();
+                        }
                
 
         }else{
 
-           
-        $report =InternalRequisition::with(['status','user','currency','institution','department','requisition_type','certified_internal_requisition','approve_internal_requisition','budget_commitment','approve_budget','assignto','requisition.approve','requisition.check'])
-        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
-        ->latest()
-        ->get();
+                    if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+                        $report =InternalRequisition::with(['status','user','currency','institution','department','requisition_type','certified_internal_requisition','approve_internal_requisition','budget_commitment','approve_budget','assignto','requisition.approve','requisition.check'])
+                        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                        ->latest()
+                        ->get();
+
+                            }else{
+                        $report =InternalRequisition::with(['status','user','currency','institution','department','requisition_type','certified_internal_requisition','approve_internal_requisition','budget_commitment','approve_budget','assignto','requisition.approve','requisition.check'])
+                        ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
+                        ->where(function($query){
+                            $query->where('institution_id','=',auth()->user()->institution_id)
+                            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                    
+                        })
+                        ->latest()
+                        ->get();
+                                }
 
 
         }

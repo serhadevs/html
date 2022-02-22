@@ -41,7 +41,7 @@ class ApprovePurchaseRequisitionController extends Controller
         //
   
       //  dd($approve);
-      if (auth()->user()->institution_id === 0) {
+      if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
 
         $requisitions = Requisition::with(['check','approve'])
     
