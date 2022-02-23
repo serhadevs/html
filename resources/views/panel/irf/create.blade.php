@@ -168,7 +168,7 @@ text-align: center;
                           <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
                           <div class="col-sm-4">
                            <select type="input" class="form-control" name="tax" id="tax" required>
-                            <option>Select tax</option>
+                            <option value="">Select tax</option>
                             <option value=1>Yes</option>
                             <option value=0>No</option>
                            
