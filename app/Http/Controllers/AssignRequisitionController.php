@@ -256,7 +256,7 @@ class AssignRequisitionController extends Controller
             $approve = ApproveInternalRequisition::where('internal_requisition_id',$requisition_id)->first();
             $internal_requisition = InternalRequisition::find($requisition_id);
             $status = Status::where('internal_requisition_id',$requisition_id)->first();
-            $status->name = 'Internal Requisition';
+            $status->name = 'Internal Requisition Rejected';
             $comment = new Comment();
             $comment->internal_requisition_id =  $requisition_id ;
             $comment->type ='rejected';
