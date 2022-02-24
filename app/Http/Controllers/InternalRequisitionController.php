@@ -148,6 +148,8 @@ class InternalRequisitionController extends Controller
             'unit' => 'required',
             'unit_cost' => 'required',
             'currency_type' => 'required',
+            'tax'=>'required',
+            'currency_type'=>'required',
 
         ]);
         $requisition_no = new RequisitionNumberGenerator();
