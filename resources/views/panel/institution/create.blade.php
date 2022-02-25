@@ -83,7 +83,7 @@
                         <div class="col-sm-4">
                          <select type="input" class="form-control" name="parish_id" id="parish_id" required>
                           <option value="">select type </option>
-                          @foreach($parishes as $parish)
+                          @foreach($parishes->except([6,7,8,9,10,11,12,13]) as $parish)
                          <option  value="{{$parish->id}}" >{{$parish->name}}</option>
 
                           @endforeach

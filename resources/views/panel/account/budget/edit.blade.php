@@ -30,7 +30,7 @@ text-align: center;
                <div class="container-fluid">
                   <section class="content-header">
         
-              <div class="col-sm-10">
+                        <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
                         <h3 class="card-title">Edit Commitment Budget</h3>
@@ -53,6 +53,8 @@ text-align: center;
               </div>
             @endif     
                 </section>
+
+               </div>
             
                 <div class="card-body">
 
@@ -213,7 +215,7 @@ text-align: center;
   </tr>
    <tr>
     <td size="5">Sales Tax (15.0%)</td>
-    @if($internalrequisition->tax_confirmed===0)
+    @if($budgetCommitment->internalrequisition->tax_confirmed===0)
      <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($budgetCommitment->internalrequisition->stocks->sum('estimated_total') * 0) }}" style='border:none;outline:none;background: transparent;'></td>
     @else
     <td><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{($budgetCommitment->internalrequisition->stocks->sum('estimated_total') * .15) }}" style='border:none;outline:none;background: transparent;'></td>
@@ -241,20 +243,57 @@ text-align: center;
 
 
                         
-                        <div class="form-group row">
-                        <label for="institute" class="col-sm-2 col-form-label">Commitment No:</label>
-                        <div class="col-sm-4">
-                        <input type="text" name="commitment_no" class="form-control" value="{{$budgetCommitment->commitment_no}}" required>
-                        </div> 
-                        <label for="institute" class="col-sm-2 col-form-label">Accounting Code:</label>
-                        <div class="col-sm-4">
-                        <input type="text" name="account_code" class="form-control" value="{{$budgetCommitment->account_code}}"required>
-                        </div>
+      <div class="form-group row">
+                    
+        <label for="date-of-last" class="col-sm-2 col-form-label">Budget Confirm</label>
+        <div class="col-sm-4">
+        <select type="input" class="form-control" name="budget_option" id="budget_option" required>
+          <option selected value="{{$budgetCommitment->budget_option}}">{{$budgetCommitment->budget_option ===1 ? "Yes":"No" }}</option>
+         @if($budgetCommitment->budget_option !=1 )
+          <option value=1>Yes</option>
+          @else
+          <option value=0>No</option>
+         @endif
 
-                        
-                         
-                        
-                      </div> 
+         
+        
+        </select>  
+        
+        
+        </div>
+        </div>
+
+       
+        <div id="budget_confirm">
+        <div class="form-group row">
+        <label for="institute" class="col-sm-2 col-form-label">Commitment No:</label>
+        <div class="col-sm-4">
+        <input type="text" name="commitment_no" value = "{{$budgetCommitment->commitment_no}}"class="form-control" value="">
+        </div> 
+        <label for="institute" class="col-sm-2 col-form-label">Accounting Code:</label>
+        <div class="col-sm-4">
+        <input type="text" name="account_code" value="{{$budgetCommitment->account_code}}" class="form-control" value="">
+        </div>
+        </div>
+        </div>
+     
+
+        <div id="budget_unconfirmed">
+          <div class="form-group row">
+            <label for="institute" class="col-sm-2 col-form-label">Refusal Comments</label>
+            <div class="col-sm-4">
+            
+              <textarea class="form-control" id="refuse_comment" name="refuse_comment" rows="5" placeholder="Enter ..."></textarea>
+            </div> 
+           
+            </div>
+            </div>
+
+
+          
+
+          
+        </div>
 
                       <div class="row">
                         <div class="col-sm-6">
@@ -328,8 +367,10 @@ text-align: center;
                       </div>
                     </div>
                     
+                  </br>
                         </div>
-                        </div>
+                    
+
 
 
                         <div class="row">
@@ -340,9 +381,13 @@ text-align: center;
                           </div>
                         </div>
 
+
+                       
+                        </div>
+
                         
 
-                      </br>
+                  
 
                        
 
@@ -408,9 +453,34 @@ text-align: center;
     <script>
   
 
+$("#budget_option").on('change', function(){
+    let option= $(this).val();
+    console.log(option);
+  if(option == 1){
+    $("#budget_unconfirmed").hide();
+    $("#budget_confirm").show();
+
+        }else{
+          $("#budget_unconfirmed").show();
+          $("#budget_confirm").hide();
+        }
+      });
 
 
 
+      $(document).ready(function(){
+    
+        let option= $("#budget_option").val();
+    console.log(option);
+  if(option == 1){
+    $("#budget_unconfirmed").hide();
+    $("#budget_confirm").show();
+
+        }else{
+          $("#budget_unconfirmed").show();
+          $("#budget_confirm").hide();
+        }
+      });
 
 
 

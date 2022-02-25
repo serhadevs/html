@@ -8,8 +8,13 @@ use App\InternalRequisition;
 use Illuminate\Http\Request;
 use App\User;
 use App\Status;
+use App\Comment;
 use App\Notifications\BugetCommitmentPublish ;
 use App\Notifications\ApproveBudgetPublish;
+use App\Notifications\RefuseInternalRequisitionPublish;
+
+
+
 
 
 class BudgetCommitmentController extends Controller
@@ -98,17 +103,20 @@ class BudgetCommitmentController extends Controller
     public function store(Request $request)
     {
         //
-
+       // dd($request->all());
         $request->validate([
-            'commitment_no' => 'required',
-            'account_code' => 'required',
+            // 'commitment_no' => 'required',
+            'budget_option' => 'required',
         ]);
+        if($request->budget_option ==1)
+        {
         $commitment = new BudgetCommitment();
         $commitment->internal_requisition_id = $request->id;
         $commitment->account_code = $request->account_code;
         $commitment->commitment_no = $request->commitment_no;
         $commitment->comment=$request->comments;
         $commitment->user_id = auth()->user()->id;
+        $commitment->budget_option = $request->budget_option;
         $commitment->save();
 
         $status = Status::where('internal_requisition_id',$request->id)->first();
@@ -149,6 +157,83 @@ class BudgetCommitmentController extends Controller
                 $internalRequisition = InternalRequisition::find($commitment->internal_requisition_id);
             
                 $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+
+
+        }
+
+    }else{
+
+        $commitment = new BudgetCommitment();
+        $commitment->internal_requisition_id = $request->id;
+        $commitment->account_code = "";
+        $commitment->commitment_no ="";
+        $commitment->comment=$request->comments;
+        $commitment->user_id = auth()->user()->id;
+        $commitment->budget_option = $request->budget_option;
+        $commitment->save();
+
+        if(auth()->user()->role_id == 7)
+        {
+        // notify primary institution users
+        $internalRequisition = InternalRequisition::find($request->id);
+            
+        $users->each->notify(new BugetCommitmentPublish($internalRequisition));
+        //subscribe user institution notification
+        $sub_users = User::users_in_institution($internalRequisition->institution_id)->whereIn('role_id',[8]);
+        $sub_users->each->notify(new BugetCommitmentPublish($internalRequisition));
+        }
+
+         //update requisition status and add comments
+         $comment = new Comment();
+         $comment->internal_requisition_id = $commitment->internal_requisition_id ;
+         $comment->type ='budget refuse';
+         $comment->user_id = auth()->user()->id;
+         $comment->comment =  $request->refuse_comment;
+         $comment->save();
+
+         
+
+         
+         $internalrequisition = internalrequisition::find($commitment->internal_requisition_id);
+         $user = User::find($internalrequisition->user_id);
+         $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
+      //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+         $status = Status::where('internal_requisition_id',$commitment->internal_requisition_id)->first();
+         $status->name = 'Budget commitment rejected';
+         $status->update();
+         
+        //if budget manager
+        if(in_array(auth()->user()->role_id, [1,8,14]))
+        {
+            $approve = new ApproveBudget();
+            $permission = 0;
+            $approve->internal_requisition_id = $commitment->internal_requisition_id;
+            $approve->user_id = auth()->user()->id;
+            $approve->is_granted = $permission ;
+            $approve->save();
+                //update requisition status and add comments
+                // $comment = new Comment();
+                // $comment->internal_requisition_id = $commitment->internal_requisition_id ;
+                // $comment->type ='budget refuse';
+                // $comment->user_id = auth()->user()->id;
+                // $comment->comment =  $request->refuse_comment;
+                // $comment->save();
+
+                
+
+                
+                //$internalrequisition = internalrequisition::find($commitment->internal_requisition_id);
+             //   $user = User::find($internalrequisition->user_id);
+              //  $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
+             //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
+                $status = Status::where('internal_requisition_id',$commitment->internal_requisition_id)->first();
+                $status->name = 'Budget rejected';
+                $status->update();
+
+
+        }
+
+
 
 
         }
@@ -198,10 +283,21 @@ class BudgetCommitmentController extends Controller
     {
        // dd($request->all());
         $budgetCommitment = BudgetCommitment::find($id);
+        if($request->budget_option == 1){
         $budgetCommitment->account_code=$request->account_code;
         $budgetCommitment->commitment_no=$request->commitment_no;
-        $budgetCommitment->comment=$request->comments;
+        $budgetCommitment->budget_option = $request->budget_option;
         $budgetCommitment->update();
+        }else{
+        $budgetCommitment->account_code = "";
+        $budgetCommitment->commitment_no ="";
+        $budgetCommitment->user_id = auth()->user()->id;
+        $budgetCommitment->budget_option = $request->budget_option;
+        $budgetCommitment->update();
+
+
+
+        }
       
         return redirect('/budgetcommitment')->with('status', 'Budget Commitment was updated successfully');
     }

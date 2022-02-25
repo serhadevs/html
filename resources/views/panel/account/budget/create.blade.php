@@ -243,24 +243,54 @@ text-align: center;
 
 
 
-
-
-
+                      <div class="form-group row">
+                    
+                        <label for="date-of-last" class="col-sm-2 col-form-label">Budget Confirm</label>
+                        <div class="col-sm-4">
+                        <select type="input" class="form-control" name="budget_option" id="budget_option" required>
+                          <option value="">Option</option>
+                          <option value=1>Yes</option>
+                          <option value=0>No</option>
                         
+                        </select>  
+                        
+                        
+                        </div>
+                        </div>
+
+                        <div id="budget_confirm">
                         <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Commitment No:</label>
                         <div class="col-sm-4">
-                        <input type="text" name="commitment_no" class="form-control" value="" required>
+                        <input type="text" name="commitment_no" class="form-control" value="">
                         </div> 
                         <label for="institute" class="col-sm-2 col-form-label">Accounting Code:</label>
                         <div class="col-sm-4">
-                        <input type="text" name="account_code" class="form-control" value="" required>
+                        <input type="text" name="account_code" class="form-control" value="">
+                        </div>
+                        </div>
                         </div>
 
-                        
-                         
-                        
-                      </div>
+                        <div id="budget_unconfirmed">
+                          <div class="form-group row">
+                            <label for="institute" class="col-sm-2 col-form-label">Refusal Comments</label>
+                            <div class="col-sm-4">
+                            
+                              <textarea class="form-control" id="refuse_comment" name="refuse_comment" rows="5" placeholder="Enter ..."></textarea>
+                            </div> 
+                           
+                            </div>
+                            </div>
+
+
+                          
+
+                          
+                        </div>
+
+
+
+
 
                       <div class="row">
                         <div class="col-sm-6">
@@ -428,6 +458,22 @@ $("#budget_commitment_form").submit(function (e) {
 });
 
 
+$("#budget_confirm").hide();
+$("#budget_unconfirmed").hide();
+
+
+$("#budget_option").on('change', function(){
+    let option= $(this).val();
+    console.log(option);
+  if(option == 1){
+    $("#budget_unconfirmed").hide();
+    $("#budget_confirm").show();
+
+        }else{
+          $("#budget_unconfirmed").show();
+          $("#budget_confirm").hide();
+        }
+      });
 
 
 

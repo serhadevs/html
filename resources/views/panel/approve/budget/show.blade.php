@@ -425,7 +425,6 @@ text-align: center;
 <script>
 
 function Approve(internal_requisition_id){
-   
         swal({
         title: "Are you sure you want to approve the selected internal requisition form?",
         text: "Tip: Always ensure that you review each internal requisition form thoroughly before approval.",
@@ -442,10 +441,10 @@ function Approve(internal_requisition_id){
             if (data == "success") {
               swal(
                 "Done!",
-                "Internal Requisition was approved. ",
+                "Internal Requisition Budget was approved. ",
                 "success").then(esc => {
                   if(esc){
-                    location.href='/approve-budget-requisition';
+                    location.reload();
                   }
                 });
               }else{
@@ -519,8 +518,16 @@ $(document).ready( function () {
     
 } );
 
+
+
+
+
+
+
+
   
 </script>
+
 
 @endpush
 

@@ -85,7 +85,7 @@
                     <div class="col-sm-4">
                      <select type="input" class="form-control" name="parish_id" id="parish_id" required>
                       <option value="">Select type </option>
-                      @foreach($parishes as $parish)
+                      @foreach($parishes->except([1,4]) as $parish)
                       @if($supplier->parish_id === $parish->id)
                       <option selected  value="{{$parish->id}}" >{{$parish->name}}</option>
                       @else
