@@ -147,8 +147,8 @@ text-align: center;
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="delivery" id="delivery"required>
                           <option value=""  >Select specification </option>
-                          <option value="cod">COD</option>
-                           <option value="credit">Credit</option>
+                          <option value="COD">COD</option>
+                           <option value="Credit">Credit</option>
                            
                          </select>  
                        

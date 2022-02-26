@@ -118,8 +118,8 @@ text-align: center;
                          
                          <select type="input" class="form-control" name="budget_approve" id="budget_approve" required>
                           <option value="">Select method </option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
                          </select>  
                          
                         </div>

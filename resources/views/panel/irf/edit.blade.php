@@ -134,13 +134,11 @@ text-align: center;
                        
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="requisition_type" id="requisition_type">
-                           
-                        @foreach($types as $type)
-                        @if($ir->type === $type)
+                        <option selected value="{{$ir->requisition_type->id}}">{{$ir->requisition_type->name}}</option>
+                        @foreach($types->except([$ir->requisition_type->id]) as $type)
+                      
                         <option value="{{$type->id}}">{{$type->name}}</option>
-                        @else
-                        <option value="{{$type->id}}">{{$type->name}}</option>
-                        @endif
+                       
                          @endforeach
                            </select>  
                           
@@ -166,21 +164,22 @@ text-align: center;
                             <select type="input" class="form-control" name="currency_type" id="currency_type" required>
                             
                           <option selected value="{{$ir->currency->id}}">{{$ir->currency->abbr}}</option>
-                          @foreach($currencies as $currency)
+                          @foreach($currencies->except([$ir->currency->id]) as $currency)
                           <option value="{{$currency->id}}">{{$currency->abbr}}</option>
                            @endforeach
-                             </select>  
                            </select>  
+                        
                           
                           </div> 
                           <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
                           <div class="col-sm-4">
                            <select type="input" class="form-control" name="tax" id="tax" required>
                             <option selected value="{{$ir->tax_confirmed}}">{{$ir->tax_confirmed == 1 ? "Yes" : "No"}}</option>
-                         
+                           @if($ir->tax_confirmed != 1)
                             <option value=1>Yes</option>
-                           
+                           @else
                             <option value=0>No</option>
+                            @endif
                        
                            </select>  
                           
@@ -198,8 +197,11 @@ text-align: center;
                          <select type="input" class="form-control" name="budget_approve" id="budget_approve">
                        
                           <option selected value="{{ $ir->budget_approve }}">{{$ir->budget_approve}} </option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
+                          @if($ir->budget_approve != 'Yes')
+                          <option value="Yes">Yes</option>
+                          @else
+                          <option value="No">No</option>
+                          @endif
                           {{-- <option value="no">No</option> --}}
                       
                           {{-- @if($ir->budget_approve === 'no')
@@ -266,7 +268,7 @@ text-align: center;
                 </td> 
                 <td>
                 
-                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="1"  value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
+                  <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"   value="{{$stock->unit_cost}}" type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
                 <input name='estimated_total[]' class='estimated_total' value="{{$stock->estimated_total,2}}" id="estimated_total"   type='text' size="5" style='border:none;outline:none;background: transparent;' readonly>

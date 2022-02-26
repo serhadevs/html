@@ -117,10 +117,8 @@ text-align: center;
                         <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
                         <div class="col-sm-4">
                            <select type="input" class="form-control" name="delivery" id="delivery" required disabled>
-                          <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
-                          <option value="COD">COD</option>
-                           <option value="Credit">Credit</option>
-                           
+                          <option selected value="{{strtoupper($requisition->delivery)}}"  >{{strtoupper($requisition->delivery)}} </option>
+                          
                          </select>  
                        
                          

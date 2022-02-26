@@ -115,7 +115,7 @@ text-align: center;
                         <label for="date-of-last" class="col-sm-2 col-form-label">Terms</label>
                         <div class="col-sm-4">
                            <select type="input" class="form-control" name="delivery" id="delivery" required>
-                          <option value="{{$requisition->delivery}}"  >{{$requisition->delivery}} </option>
+                          <option value="{{$requisition->delivery}}"  >{{strtoupper($requisition->delivery)}} </option>
                           <option value="COD">COD</option>
                            <option value="Credit">Credit</option>
                            
@@ -218,12 +218,9 @@ text-align: center;
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                           <div class="col-sm-4">
                              <select type="input" class="form-control" name="procurement_method" id="rocurement_method"required>
-                        @foreach($methods as $method)
-                        @if($requisition->procurement_method_id === $method->id)
+                        <option value="{{$requisition->procurement_method->id}}">{{$requisition->procurement_method->name}}</option>
+                        @foreach($methods->except([$requisition->procurement_method->id]) as $method)
                         <option value="{{$method->id}}">{{$method->name}}</option>
-                        @else
-                        <option value="{{$method->id}}">{{$method->name}}</option>
-                        @endif
                          @endforeach
                            </select>  
                         

@@ -83,6 +83,7 @@ class InternalRequisition extends Model implements Auditable
         return $this->hasMany('App\AttachedFile');
 
     }
+    
 
 
 
