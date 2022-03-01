@@ -234,7 +234,7 @@
                           @foreach($user->user_roles as $user_role)
                           <option selected='selected' value="{{$user_role->role->id}}" >{{$user_role->role->name}}</option>
                            @endforeach
-                         @foreach($roles->except([1,6,10,11,12,14]) as $role)
+                         @foreach($roles->except([1,4,6,10,11,12,14]) as $role)
                          <option value="{{$role->id}}"> {{$role->name}} </option>
                          @endforeach
  

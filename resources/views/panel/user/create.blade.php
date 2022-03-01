@@ -204,7 +204,7 @@
                           <label for="roles" class="col-sm-2 col-form-label">Roles</label>
                          <div class="col-lg-10">
                          <select class="form-control multiple-select" name="roles[]" multiple="multiple" id="roles">
-                         @foreach($roles->except([1,6,10,11,12,14]) as $role)
+                         @foreach($roles->except([1,4,6,10,11,12,14]) as $role)
                          <option value="{{$role->id}}"> {{$role->name}} </option>
                          @endforeach
  
