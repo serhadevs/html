@@ -11,6 +11,7 @@ use App\Unit;
 use App\InstitutionUsers;
 use App\DepartmentUsers;
 use App\UnitUsers;
+use App\UserRoles;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Rules\OldPasswordChecker;
@@ -43,13 +44,24 @@ class UserController extends Controller
                 return $next($request);
             }
         });
-         }
+         }else{
+            $this->middleware(function ($request, $next) {
+                if (in_array(auth()->user()->role_id, [1,2,3,9,12]) OR in_array(3,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+                    return $next($request);
+                } else {
+                    return redirect('/dashboard')->with('error','Access Denied');
+                   
+                }
+            });
+
+            
+              }
     }
     public function index()
     {
         //
-        
-       
+       //dd(User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,13));
+       //dd(auth()->user()->userRoles_Id());
         if(in_array(auth()->user()->role_id,[1,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::with(['institution','department','role','unit'])->get();
         }else{
@@ -90,7 +102,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-      //dd($request->all());
+     
         try{
         $request->validate([
             'first_name' => 'required',
@@ -118,6 +130,7 @@ class UserController extends Controller
         $institutions = $request->institutions;
         $departments = $request->departments;
         $units = $request->units;
+        $roles = $request->roles;
         if (!empty($institutions)) {
             foreach ( $institutions as $key => $institution) {
                 $institution =InstitutionUsers::create([
@@ -148,6 +161,19 @@ class UserController extends Controller
                     'user_id' => $user->id,
                     'unit_id' => $unit,
                     'primary' => $user->unit_id,
+                
+                ]);
+
+            }
+
+        }
+
+        if (!empty($roles)) {
+            foreach ( $roles as $key => $role) {
+                $role =UserRoles::create([
+                    'user_id' => $user->id,
+                    'role_id' => $role,
+                    'primary' => $user->role_id,
                 
                 ]);
 
@@ -188,6 +214,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
 
+      // dd(in_array(2,auth()->user()->userRoles_Id()->toArray()));
         $parishes = Parish::all();
         $departments = Department::all();
         $institutions = Institution::all();
@@ -212,6 +239,7 @@ class UserController extends Controller
         $institutions = $request->institutions;
         $departments = $request->departments;
         $units = $request->units;
+        $roles = $request->roles;
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -242,6 +270,9 @@ class UserController extends Controller
         }
         foreach($user->unit_users as $unit){
             $unit->delete();
+        }
+        foreach($user->user_roles as $role){
+            $role->delete();
         }
         
         //make or update new list
@@ -274,6 +305,19 @@ class UserController extends Controller
                     'user_id' => $user->id,
                     'unit_id' => $unit,
                     'primary' => $user->unit_id,
+                
+                ]);
+
+            }
+
+        }
+
+        if (!empty($roles)) {
+            foreach ( $roles as $key => $role) {
+                $role =UserRoles::create([
+                    'user_id' => $user->id,
+                    'role_id' => $role,
+                    'primary' => $user->role_id,
                 
                 ]);
 

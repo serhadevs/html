@@ -13,6 +13,6 @@ class UnitUsers extends Model
     protected $fillable = ['user_id','unit_id','primary'];
 
     public function Unit(){
-        return $this->belongsTo('App\unit');
+        return $this->belongsTo('App\Unit');
     } 
 }

@@ -29,10 +29,11 @@ class ApprovePurchaseRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,9,10,11,12])) {
-                return redirect('/dashboard')->with('error', 'Access Denied');
-            } else {
+            if (in_array(auth()->user()->role_id, [1,2,9,10,11,12]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
+            } else {
+                return redirect('/dashboard')->with('error', 'Access Denied');
+                
             }
         });
     }
@@ -161,6 +162,8 @@ class ApprovePurchaseRequisitionController extends Controller
                 //subscribe user institution notification
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,12]);
                 $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
+                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
+                $add_role_user->each->notify(new ApproveRequisitionPublish($requisition));
         }
         return 'success';
     }

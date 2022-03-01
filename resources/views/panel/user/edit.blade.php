@@ -177,7 +177,7 @@
                         </div>
                         </div> --}}
                         
-                         @if(in_array(auth()->user()->role_id,[1,9,12]))
+                         @if(in_array(auth()->user()->role_id,[1,9,12]) OR in_array(9,auth()->user()->userRoles_Id()->toArray()))
                     
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
                         <div class="row">
@@ -225,6 +225,23 @@
                         </div>
                         </div>
 
+                      </br>
+
+                        <div class="row">
+                          <label for="roles" class="col-sm-2 col-form-label">Roles</label>
+                         <div class="col-lg-10">
+                         <select class="form-control multiple-select" name="roles[]" multiple="multiple" id="roles">
+                          @foreach($user->user_roles as $user_role)
+                          <option selected='selected' value="{{$user_role->role->id}}" >{{$user_role->role->name}}</option>
+                           @endforeach
+                         @foreach($roles->except([1,6,10,11,12,14]) as $role)
+                         <option value="{{$role->id}}"> {{$role->name}} </option>
+                         @endforeach
+ 
+                          </select> 
+                         </div>
+                         </div>
+
 
 
                      
@@ -243,6 +260,35 @@
                           @endforeach                         
                          </select> 
                         </div>
+                         </br>
+
+                        <label for="units" class="col-sm-2 col-form-label">Units</label>
+                        <div class="col-lg-10">
+                          <select class="form-control multiple-select" name="units[]" multiple="multiple" id="units" disabled>
+                            @foreach($user->unit_users as $unit)
+                             <option selected='selected' value="{{$unit->unit->id}}" >{{$unit->unit->name}}</option>
+                              @endforeach
+                              
+                             </select> 
+                        </div>
+
+                        <label for="roles" class="col-sm-2 col-form-label">Roles</label>
+                        <div class="col-lg-10">
+                        <select class="form-control multiple-select" name="roles[]" multiple="multiple" id="roles" disabled>
+                         @foreach($user->user_roles as $user_role)
+                         <option selected='selected' value="{{$user_role->role->id}}" >{{$user_role->role->name}}</option>
+                          @endforeach
+                         </select> 
+                        </div>
+
+
+
+
+                        
+
+
+
+
                         </div>
 
 

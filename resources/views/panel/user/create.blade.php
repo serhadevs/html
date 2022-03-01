@@ -153,9 +153,10 @@
                         </div> 
                         </div>
                        
-                        @if(in_array(auth()->user()->role_id,[1,9,12]))
+                        @if(in_array(auth()->user()->role_id,[1,9,12]) OR in_array(9,auth()->user()->userRoles_Id()->toArray()))
                    
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
+                        {{-- <hr style="width:50%;text-align:left;margin-left:0"> --}}
 
                            <div class="row">
                         <label for="institutions" class="col-sm-2 col-form-label">Institutions</label>
@@ -196,6 +197,20 @@
                          </select> 
                         </div>
                         </div>
+                      </br>
+
+
+                        <div class="row">
+                          <label for="roles" class="col-sm-2 col-form-label">Roles</label>
+                         <div class="col-lg-10">
+                         <select class="form-control multiple-select" name="roles[]" multiple="multiple" id="roles">
+                         @foreach($roles->except([1,6,10,11,12,14]) as $role)
+                         <option value="{{$role->id}}"> {{$role->name}} </option>
+                         @endforeach
+ 
+                          </select> 
+                         </div>
+                         </div>
                       @endif
                         
                        

@@ -685,10 +685,10 @@ $('#actual_cost' ).on('input',function(){
 let cost_variance;
 var contractSum = $('#contract_sum').val();
 var estimated_cost = parseFloat($('#estimated_cost').val());
-cost_variance =parseFloat((contractSum-estimated_cost)/estimated_cost * 100);
+cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
 console.log() ;
 //console.log(cost_variance);
- $('#cost_variance').val(((contractSum-estimated_cost)/estimated_cost * 100  ? (contractSum-estimated_cost)/estimated_cost  *100 : 0).toFixed(2));
+ $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost-contractSum)/estimated_cost  *100 : 0).toFixed(2));
  var requisition_type = $('#requisition_type').val();
  console.log(requisition_type);
  if(cost_variance  > 15 || cost_variance  > 15 ){

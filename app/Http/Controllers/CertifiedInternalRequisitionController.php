@@ -10,6 +10,7 @@ use App\User;
 use App\Status;
 use App\Notifications\CertifiedInternalRequisitionPublish;
 use App\Notifications\RefuseInternalRequisitionPublish;
+use App\Notifications\InternalRequisitionPublish;
 
 
 
@@ -26,10 +27,11 @@ class CertifiedInternalRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,10,11,13,14])) {
-                return redirect('/dashboard');
-            } else {
+            if (in_array(auth()->user()->role_id, [1,2,10,11,13,14]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()) OR in_array(13,auth()->user()->userRoles_Id()->toArray())) {
+               
                 return $next($request);
+            } else {
+                return redirect('/dashboard');
             }
         });
     }
@@ -157,7 +159,9 @@ class CertifiedInternalRequisitionController extends Controller
                 
                $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
-               $users->each->notify(new CertifiedInternalRequisitionPublish($internalRequisition));
+               $users->each->notify(new InternalRequisitionPublish($internalRequisition));
+               $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,13);
+               $add_role_user->each->notify(new InternalRequisitionPublish($internalRequisition));
 
                
             }

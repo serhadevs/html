@@ -244,7 +244,8 @@ class InternalRequisitionController extends Controller
                 // //subscribe user institution notification
                 // $sub_users = User::users_in_institution($internal_requisition->institution_id)->whereIn('role_id',[10,11]);
                 // $sub_users->each->notify(new InternalRequisitionPublish($internal_requisition));
-                
+                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,13);
+                $add_role_user->each->notify(new InternalRequisitionPublish($internalRequisition));
 
 
             }

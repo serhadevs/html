@@ -37,10 +37,11 @@ class CheckPurchaseController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,5,9,10,12])) {
-                return redirect('/dashboard')->with('error', 'Access Denied');
-            } else {
+            if (in_array(auth()->user()->role_id, [1,5,9,10,12]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
+            } else {
+                return redirect('/dashboard')->with('error', 'Access Denied');
+               
             }
         });
     }
@@ -177,6 +178,8 @@ try {
         //subscribe user institution notification
         $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[10,11]);
         $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
+        $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
+        $add_role_user->each->notify(new AcceptRequisitionPublish($requisition));
 
         //update requisition status
         $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();

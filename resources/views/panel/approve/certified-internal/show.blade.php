@@ -269,10 +269,10 @@ text-align: center;
                         <div class="col-10">
                           @if($internalRequisition->certified_internal_requisition)
                           <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Approve</button></br>
+                        <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Certified</button></br>
                         @else
                         <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
-                        @if(in_array(auth()->user()->role_id,[1,2,10,11,12,13]))
+                        @if(in_array(auth()->user()->role_id,[1,2,10,11,12,13]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()) OR in_array(13,auth()->user()->userRoles_Id()->toArray()))
                         <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Certify('{{$internalRequisition->id}}');">Certify</button></br>
                        @else
                        <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Certify</button></br>

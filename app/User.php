@@ -125,6 +125,10 @@ class User extends Authenticatable implements Auditable
     {
         return $this->hasMany('App\UnitUsers');
     }
+    public function user_roles()
+    {
+        return $this->hasMany('App\UserRoles');
+    }
    
     //institutions ids for a user
     public static function accessInstitutions(){
@@ -167,6 +171,11 @@ class User extends Authenticatable implements Auditable
   
         return $units_id;
       }
+
+      public static function userRoles_Id(){
+        $roles_id = UserRoles::where('user_id',auth()->user()->id)->pluck('role_id');
+        return $roles_id;
+      }
     
       //all subcribe users for a institution
       public static function users_in_institution($institutions_id)
@@ -192,6 +201,25 @@ class User extends Authenticatable implements Auditable
                         ->get();
 
         return $unit_users;
+    }
+
+    //user with multiple user roles
+    public static function user_with_roles($institution_id,$department_id,$role_id){
+    $users = User::with('user_roles')
+    ->where(function($query){
+        $query->where('department_id',auth()->user()->department_id)
+        ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
+    })
+    ->where(function($query){
+        $query->where('institution_id','=',auth()->user()->institution_id)
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+     })
+    ->whereHas('user_roles',function($query)use($role_id){
+        $query->where('role_id',$role_id);
+    })
+    ->get();
+    return $users;
     }
 
 

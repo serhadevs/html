@@ -24,10 +24,10 @@ class ApproveBudgetController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,3,5,8,9,12,14])) {
-                return redirect('/dashboard')->with('error', 'Access Denied');
-            } else {
+            if (in_array(auth()->user()->role_id, [1,3,5,8,9,12,14]) OR in_array(8,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
+            } else {
+                return redirect('/dashboard')->with('error', 'Access Denied');
             }
         });
     }
@@ -92,10 +92,7 @@ class ApproveBudgetController extends Controller
     public function store(Request $request)
     {
         try {
-            if(!in_array(auth()->user()->role_id,[1,8,14]) ){
-                abort_if(in_array(auth()->user()->role_id,[2,5,12,9]),redirect('/panel/approve/budget.index')->with('error','No access granted'));
-                }else{
-   
+            if(in_array(auth()->user()->role_id,[1,8,14]) OR in_array(8,auth()->user()->userRoles_Id()->toArray())  ){
                 $approve = new ApproveBudget();
                 $permission = $request->data['permission'];
                 $approve->internal_requisition_id = $request->data['internal_requisition_id'];
@@ -138,14 +135,18 @@ class ApproveBudgetController extends Controller
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
-            
                 $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
+                $add_role_user->each->notify(new ApproveBudgetPublish($internalRequisition));
+
 
                 
 
                
             }
             return 'success';
+        }else{
+            abort_if(in_array(auth()->user()->role_id,[2,5,12,9]),redirect('/panel/approve/budget.index')->with('error','No access granted'));
         }
         } catch (Exception $e) {
             return 'fail';

@@ -31,10 +31,11 @@ class BudgetCommitmentController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,7,8,14])) {
-                return redirect('/dashboard')->with('error', 'Access Denied');
-            } else {
+            if (in_array(auth()->user()->role_id, [1,7,8,14]) OR in_array(7,auth()->user()->userRoles_Id()->toArray()) OR in_array(8,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
+            } else {
+                return redirect('/dashboard')->with('error', 'Access Denied');
+              
             }
         });
     }
@@ -133,9 +134,12 @@ class BudgetCommitmentController extends Controller
                 //subscribe user institution notification
                 $sub_users = User::users_in_institution($internalRequisition->institution_id)->whereIn('role_id',[8]);
                 $sub_users->each->notify(new BugetCommitmentPublish($internalRequisition));
+                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,8);
+                $add_role_user->each->notify(new ApproveBudgetPublish($internalRequisition));
+                
 
         // automatic authorization or apporval budget commitment
-        if(in_array(auth()->user()->role_id, [1,8,14]))
+        if(in_array(auth()->user()->role_id, [1,8,14]) OR in_array(8,auth()->user()->userRoles_Id()->toArray()))
         {
             $approve = new ApproveBudget();
             $permission = 1;
@@ -155,8 +159,9 @@ class BudgetCommitmentController extends Controller
                 ->get();
       
                 $internalRequisition = InternalRequisition::find($commitment->internal_requisition_id);
-            
                 $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
+                $add_role_user->each->notify(new ApproveBudgetPublish($internalRequisition));
 
 
         }

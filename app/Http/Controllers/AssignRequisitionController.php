@@ -30,10 +30,11 @@ class AssignRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,9,12])) {
-                return redirect('/dashboard')->with('error', 'Access Denied');
-            } else {
+            if (in_array(auth()->user()->role_id, [1,9,12]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+                
                 return $next($request);
+            } else {
+                return redirect('/dashboard')->with('error', 'Access Denied');
             }
         });
     }
