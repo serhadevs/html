@@ -640,6 +640,7 @@ $(document).ready(function () {
     var parent = $(this).closest('tr');
     parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
    calculateSum();
+   percentageVariance();
   });
   
    
@@ -672,7 +673,14 @@ $(document).ready(function () {
             $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
              $("#contract_sum").val(grand.toFixed(2));
         }
-
+      
+      function percentageVariance()
+      {
+        var contractSum = $('#contract_sum').val();
+        var estimated_cost = parseFloat($('#estimated_cost').val());
+        console.log(contractSum);
+        $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100).toFixed(2));
+      }
 
 
 
@@ -681,23 +689,22 @@ $(document).ready(function () {
 
 
 <script>
-$('#actual_cost' ).on('input',function(){
-let cost_variance;
-var contractSum = $('#contract_sum').val();
-var estimated_cost = parseFloat($('#estimated_cost').val());
-cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
-console.log() ;
-//console.log(cost_variance);
- $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost-contractSum)/estimated_cost  *100 : 0).toFixed(2));
- var requisition_type = $('#requisition_type').val();
- console.log(requisition_type);
- if(cost_variance  > 15 || cost_variance  > 15 ){
- //alert('error cost variance is 15% above contract sum');
- }else{
- // alert('error cost variance is 15% below contract sum');
- }
+// $('#actual_cost' ).on('input',function(){
+// let cost_variance;
 
-});
+// cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
+// console.log() ;
+// //console.log(cost_variance);
+//  $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost-contractSum)/estimated_cost  *100 : 0).toFixed(2));
+//  var requisition_type = $('#requisition_type').val();
+//  console.log(requisition_type);
+//  if(cost_variance  > 15 || cost_variance  > 15 ){
+//  //alert('error cost variance is 15% above contract sum');
+//  }else{
+//  // alert('error cost variance is 15% below contract sum');
+//  }
+
+// });
 
 
 

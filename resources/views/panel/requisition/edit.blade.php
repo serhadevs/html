@@ -163,7 +163,7 @@ text-align: center;
                           <div class="col-sm-4">
                            <select type="input" class="form-control" name="tax" id="tax" required>
                             <option selected value={{$requisition->tax_confirmed}}>{{$requisition->tax_confirmed ===1 ? "Yes":"No" }}</option>
-                            @if($requisition->tax_confirmed ===1)
+                            @if($requisition->tax_confirmed !=1)
                             <option value=1>Yes</option>
                             @else
                             <option value=0>No</option>
@@ -213,7 +213,7 @@ text-align: center;
                             <label for="cost-centre" class="col-sm-2 col-form-label">Contract Sum </label>
                             <div class="col-sm-4">
                               <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
-                            <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" name='contract_sum'required>
+                            <input type="number" class="form-control" value="{{$requisition->contract_sum}}" id="contract_sum" name='contract_sum' readonly required>
                             </div>
                             <label for="date-required" class="col-sm-2 col-form-label">Pro. Method</label>
                           <div class="col-sm-4">
@@ -588,43 +588,43 @@ text-align: center;
       
     @push('scripts')
     <script>
-    $(document).ready(function(){
-$('#next-1').click(function(){
-$('#second').show();
-$('#first').hide();
-$('#third').hide();
-$('#progressBar').css("width","67%")
-$('#progressText').html('Step -2')
-});
+//     $(document).ready(function(){
+// $('#next-1').click(function(){
+// $('#second').show();
+// $('#first').hide();
+// $('#third').hide();
+// $('#progressBar').css("width","67%")
+// $('#progressText').html('Step -2')
+// });
 
 
-$('#next-2').click(function(){
-    $('#first').hide();
-    $('#second').hide();
-    $('#third').show();
-    $('#progressBar').css("width","100%")
-    $('#progressText').html('Step -3')
+// $('#next-2').click(function(){
+//     $('#first').hide();
+//     $('#second').hide();
+//     $('#third').show();
+//     $('#progressBar').css("width","100%")
+//     $('#progressText').html('Step -3')
 
-})
+// })
 
-$('#previous').click(function(){
-    $('#first').show();
-    $('#second').hide();
-    $('#progressBar').css("width","33.5%")
-    $('#progressText').html('Step -1')
+// $('#previous').click(function(){
+//     $('#first').show();
+//     $('#second').hide();
+//     $('#progressBar').css("width","33.5%")
+//     $('#progressText').html('Step -1')
 
-})
-$('#previous-1').click(function(){
-    $('#first').hide();
-    $('#third').hide();
-    $('#second').show();
+// })
+// $('#previous-1').click(function(){
+//     $('#first').hide();
+//     $('#third').hide();
+//     $('#second').show();
 
-    $('#progressBar').css("width","67%")
-    $('#progressText').html('Step -2')
+//     $('#progressBar').css("width","67%")
+//     $('#progressText').html('Step -2')
 
-})
+// })
 
-});
+// });
 
 
 
@@ -712,22 +712,22 @@ function deleteFile(id){
 
 
 
-    $('#contract_sum,#estimated_cost' ).on('input',function(){
-let cost_variance;
-var contractSum = parseFloat($('#contract_sum').val());
-var estimated_cost = parseFloat($('#estimated_cost').val());
-cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
-console.log(cost_variance);
- $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost-contractSum)/estimated_cost  *100 : 0).toFixed(2));
- var requisition_type = $('#requisition_type').val();
- console.log(requisition_type);
- if(cost_variance  > 15 || cost_variance  > 15 ){
- //alert('error cost variance is 15% above contract sum');
- }else{
- // alert('error cost variance is 15% below contract sum');
- }
+//     $('#contract_sum,#estimated_cost' ).on('input',function(){
+// let cost_variance;
+// var contractSum = parseFloat($('#contract_sum').val());
+// var estimated_cost = parseFloat($('#estimated_cost').val());
+// cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
+// console.log(cost_variance);
+//  $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost-contractSum)/estimated_cost  *100 : 0).toFixed(2));
+//  var requisition_type = $('#requisition_type').val();
+//  console.log(requisition_type);
+//  if(cost_variance  > 15 || cost_variance  > 15 ){
+//  //alert('error cost variance is 15% above contract sum');
+//  }else{
+//  // alert('error cost variance is 15% below contract sum');
+//  }
 
-});
+// });
 
 
 $(document).ready(function(){
@@ -764,6 +764,7 @@ $(document).ready(function () {
     var parent = $(this).closest('tr');
     parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
    calculateSum();
+   percentageVariance();
   });
   
    
@@ -796,6 +797,15 @@ $(document).ready(function () {
             $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
              $("#contract_sum").val(grand.toFixed(2));
         }
+
+
+        function percentageVariance()
+      {
+        var contractSum = parseFloat($('#contract_sum').val());
+        var estimated_cost = {!! json_encode($requisition->internalrequisition->estimated_cost, JSON_HEX_TAG) !!};
+        console.log(estimated_cost);
+        $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100).toFixed(2));
+      }
 
 
 
