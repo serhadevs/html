@@ -278,10 +278,10 @@
                     <td>{{$report->budget_approve}}</td>
                     <td>{{$report->requisition_type->name}}</td>
                     <td>{{$report->priority}}</td>
-                    <td>{{Carbon\Carbon::parse($report->created_at)->format("d/m/Y")}}</td>
+                    <td>{{Carbon\Carbon::parse($report->created_at)->format("Y/m/d")}}</td>
                     @if($report->certified_internal_requisition)
                     <td>{{$report->certified_internal_requisition->user->fullName()}}</td>
-                    <td>{{$report->certified_internal_requisition->created_at}}</td>
+                    <td>{{Carbon\Carbon::parse($report->certified_internal_requisition->created_at)->format("Y/m/d")}}</td>
                     @else
                      <td></td>
                      <td></td>
@@ -289,7 +289,7 @@
                    @endif
                    @if($report->approve_internal_requisition)
                    <td>{{$report->approve_internal_requisition->user->fullName()}}</td>
-                    <td>{{Carbon\Carbon::parse($report->approve_internal_requisition->created_at)->format("d/m/Y")}}</td>
+                    <td>{{Carbon\Carbon::parse($report->approve_internal_requisition->created_at)->format("Y/m/d")}}</td>
                     @else
                      <td></td>
                      <td></td>
@@ -298,7 +298,7 @@
                    @if($report->budget_commitment)
                    <td>{{$report->budget_commitment->commitment_no}}</td>
                    <td>{{$report->budget_commitment->account_code}}</td>
-                   <td>{{Carbon\Carbon::parse($report->budget_commitment->created_at)->format("d/m/Y")}}</td>
+                   <td>{{Carbon\Carbon::parse($report->budget_commitment->created_at)->format("Y/m/d")}}</td>
                    <td>{{$report->budget_commitment->user->fullname()}}</td>
                    @else
                    <td></td>
@@ -308,7 +308,7 @@
 
                    @endif
                    @if($report->approve_budget)
-                   <td>{{Carbon\Carbon::parse($report->approve_budget->created_at)->format("d/m/Y")}}</td>
+                   <td>{{Carbon\Carbon::parse($report->approve_budget->created_at)->format("Y/m/d")}}</td>
                    <td>{{$report->approve_budget->user->fullName()}}</td>
 
 
@@ -319,13 +319,13 @@
 
                    @if($report->assignto)
                    <td>{{$report->assignto->user->fullname()}}</td>
-                   <td>{{Carbon\Carbon::parse($report->assignto->created_at)->format("d/m/Y")}}</td>
+                   <td>{{Carbon\Carbon::parse($report->assignto->created_at)->format("Y/m/d")}}</td>
                    @else
                    <td></td>
                    <td></td>
                    @endif
                    @if($report->requisition)
-                   <td>{{Carbon\Carbon::parse($report->requisition->created_at)->format("d/m/Y")}}</td>
+                   <td>{{Carbon\Carbon::parse($report->requisition->created_at)->format("Y/m/d")}}</td>
                   <td>{{$report->requisition->delivery}}</td>
                 <td>{{$report->requisition->supplier->name}}</td>
                
@@ -348,7 +348,7 @@
                    @endif
                    @if(isset($report->requisition->check))
                   <td>{{$report->requisition->check->user->fullName()}}</td>
-                  <td>{{Carbon\Carbon::parse($report->requisition->check->created_at)->format("d/m/Y")}}</td>
+                  <td>{{Carbon\Carbon::parse($report->requisition->check->created_at)->format("Y/m/d")}}</td>
                    @else
                    <td></td>
                    <td></td>
@@ -356,7 +356,7 @@
 
                    @if(isset($report->requisition->approve))
                   <td>{{$report->requisition->approve->user->fullName()}}</td>
-                  <td>{{Carbon\Carbon::parse($report->requisition->approve->created_at)->format("d/m/Y")}}</td>
+                  <td>{{Carbon\Carbon::parse($report->requisition->approve->created_at)->format("Y/m/d")}}</td>
                    @else
 
                    <td></td>
@@ -365,7 +365,7 @@
                    @if(isset($report->requisition->purchaseOrder))
                   <td>{{$report->requisition->purchaseOrder->purchase_order_no}}</td>
                   <td>{{$report->requisition->purchaseOrder->user->fullName()}}</td>
-                  <td>{{Carbon\Carbon::parse($report->requisition->purchaseOrder->created_at)->format("d/m/Y")}}</td>
+                  <td>{{Carbon\Carbon::parse($report->requisition->purchaseOrder->created_at)->format("Y/m/d")}}</td>
            
                   
                    @else
