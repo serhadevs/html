@@ -188,7 +188,7 @@ try {
     }
 
     // if department head or super user automatic approve requisition
-     if(in_array(auth()->user()->role_id,[1,12])){
+     if(in_array(auth()->user()->role_id,[1,10,11,12])){
         $approve = new Approve();
         $permission = 1;
         $approve->requisition_id=  $requisition->id;

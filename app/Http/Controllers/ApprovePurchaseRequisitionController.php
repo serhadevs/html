@@ -103,7 +103,7 @@ class ApprovePurchaseRequisitionController extends Controller
 
             
     $requisition = Requisition::find($request->data['requisitionId']);
-    if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,12]) ){
+    if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,10,11,12]) ){
         return 'fail';
     }
     if ($request->all()) {
