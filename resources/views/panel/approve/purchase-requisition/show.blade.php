@@ -296,9 +296,13 @@ text-align: center;
                         <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
                         <button type="button"   class="btn btn-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
                       @else
+                      @if(in_array(auth()->user()->institution,[1]))
                       <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                         <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
-                          @endif
+                         
+                        
+                        @endif
+
                       </div>
                         </br>
                         </div>

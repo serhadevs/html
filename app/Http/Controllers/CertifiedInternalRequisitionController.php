@@ -143,10 +143,18 @@ class CertifiedInternalRequisitionController extends Controller
         
                 }else{
 
+                   
                     $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
+                    if($status === null){
+                        $status = new Status();
+                        $status->internal_requisition_id = $approve->internal_requisition_id;
+                        $status->name = 'Certified Internal Requisition';
+                        $status->save();
+
+                    }else{
                     $status->name = 'Certified Internal Requisition';
                     $status->update();
-
+                    }
 
                 $users = User::where('institution_id',auth()->user()->institution_id )
                 // ->where('department_id', auth()->user()->department_id)
