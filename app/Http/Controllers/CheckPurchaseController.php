@@ -171,15 +171,15 @@ try {
 
         //notify primary institution users
         $users = User::where('institution_id', auth()->user()->institution_id)
-            ->whereIn('role_id', [9])
+            ->whereIn('role_id', [10,11,12])
             ->get();
         $requisition = Requisition::find($request->data['requisitionId']);
         $users->each->notify(new AcceptRequisitionPublish($requisition));
         //subscribe user institution notification
-        $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[10,11]);
+        $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[10,11,12]);
         $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
-        $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
-        $add_role_user->each->notify(new AcceptRequisitionPublish($requisition));
+        // $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
+        // $add_role_user->each->notify(new AcceptRequisitionPublish($requisition));
 
         //update requisition status
         $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
@@ -188,7 +188,7 @@ try {
     }
 
     // if department head or super user automatic approve requisition
-     if(in_array(auth()->user()->role_id,[1,10,11,12])){
+     if(in_array(auth()->user()->role_id,[10,11,12])){
         $approve = new Approve();
         $permission = 1;
         $approve->requisition_id=  $requisition->id;
@@ -202,13 +202,13 @@ try {
 
         //notify primary institution users
         $users = User::where('institution_id',auth()->user()->institution_id )
-        ->whereIn('role_id',[9])
+        ->whereIn('role_id',[10,11,12])
         ->get();
     
         $users->each->notify(new ApproveRequisitionPublish($requisition));
 
         //subscribe user from other institution notification
-        $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9]);
+        $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[10,12]);
         $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
 
      }

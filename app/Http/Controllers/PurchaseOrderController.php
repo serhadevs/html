@@ -55,7 +55,8 @@ class PurchaseOrderController extends Controller
             ->doesnthave('purchaseOrder')
             ->latest()
             ->get();
-
+           
+       
         //purchaseOrder
  
         if (auth()->user()->institution_id === 0) {
@@ -93,9 +94,13 @@ class PurchaseOrderController extends Controller
     public function create($id)
     {
         $requisition = Requisition::find($id);
+        if($requisition->approve){
+            // dd($requisition->approve->where('requisition_id',$id));
+        $count = $requisition->approve->where('requisition_id',$id)->count();
+        }
         
 
-        return view('panel.purchase-order.create', ['requisition' => $requisition]);
+        return view('panel.purchase-order.create', ['count'=>$count,'requisition' => $requisition]);
 
     }
 

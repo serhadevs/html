@@ -181,7 +181,9 @@ class BudgetCommitmentController extends Controller
         {
         // notify primary institution users
         $internalRequisition = InternalRequisition::find($request->id);
-            
+        $users = User::where('institution_id',auth()->user()->institution_id )
+        ->whereIn('role_id',[8])
+        ->get();  
         $users->each->notify(new BugetCommitmentPublish($internalRequisition));
         //subscribe user institution notification
         $sub_users = User::users_in_institution($internalRequisition->institution_id)->whereIn('role_id',[8]);

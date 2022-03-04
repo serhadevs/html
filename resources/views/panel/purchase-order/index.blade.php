@@ -239,7 +239,10 @@ $(document).ready( function () {
 
 $(document).ready( function () {
     $('#requisition-table').DataTable({
-         "scrollX": true
+        scrollY:        "500px",
+        scrollX:        true,
+        scrollCollapse: true,
+      //   paging:         true,
     });
     
 } );

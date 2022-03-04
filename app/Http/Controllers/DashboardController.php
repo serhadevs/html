@@ -193,6 +193,7 @@ class DashboardController extends Controller
     // ->where('parishes.id', '=', auth()->user()->institution->parish->id)
     ->groupBy('requisitions.category_id','categoryname')
     ->where('requisitions.deleted_at',null)
+    ->orderBy('sums', 'DESC')
     ->get();
   
       $chart2 = new DataChart;

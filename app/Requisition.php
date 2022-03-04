@@ -57,6 +57,11 @@ class Requisition extends Model implements Auditable
     {
         return $this->hasOne('App\Approve');
     }
+
+    public function latest_approve()
+    {
+        return $this->hasOne('App\Approve')->latest();
+    }
      
 
     public function procurement_method()

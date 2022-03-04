@@ -389,7 +389,11 @@ text-align: center;
                    
                         Approve Requisition by:  <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
-                
+                        @if($count ===2)
+                        Parish Manager: <span class='badge badge-success'>{{$requisition->latest_approve->user->abbrName()}}</span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->latest_approve->created_at}}</span></br>
+                        @endif
+                    
                   
                  
                       </div>

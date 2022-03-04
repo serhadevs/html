@@ -237,7 +237,7 @@ text-align: center;
                     @foreach(App\File_Upload::where('requisition_id',$requisition->id)->get() as $file)
                     <tr> 
                     <td>
-                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' style='border:none;outline:none;background: transparent;' required>
                     </td> 
                   <td> <a class="btn btn-primary " href="{{ asset('/documents/'.$file->filename)}}">View</a></td>
                     <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td>
@@ -248,7 +248,7 @@ text-align: center;
                     @foreach($requisition->internalrequisition->attached as $file)
                     <tr> 
                     <td>
-                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                    <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' style='border:none;outline:none;background: transparent;' required>
                     </td> 
                   <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
                   </tr>
@@ -269,17 +269,20 @@ text-align: center;
                         Budget Commitment by: <span class='badge badge-success'>{{$requisition->internalRequisition->budget_commitment->user->abbrName()}} </span></br>
                         Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->budget_commitment->created_at}}</span></br>
                         @if($requisition->approve)
-                        Approve Requisition by: <span class='badge badge-success'> {{$requisition->approve->user->firstname[0]}}. {{$requisition->approve->user->lastname}} </span>
-                       
+                        Approve Requisition by: <span class='badge badge-success'> {{$requisition->approve->user->firstname[0]}}. {{$requisition->approve->user->lastname}} </span></br>
+                        Date: <span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
+                        @if($count ===2)
+                          Parish Manager: <span class='badge badge-success'>{{$requisition->latest_approve->user->abbrName()}}</span></br>
+                          Date:  <span class='badge badge-success'>{{$requisition->latest_approve->created_at}}</span></br>
                           @endif
+                        @endif
                       </div>
                         <div class="col-sm-6">
                           Accepted by: <span class='badge badge-success'>{{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}} </span></br>
                           Date:  <span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
                           Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
                           Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span></br>
-                        
-                    
+                         
                    
                         </div>
                       
@@ -292,14 +295,20 @@ text-align: center;
           
        
                         <div class="col-12">
-                      @if($requisition->approve )
-                        <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
-                        <button type="button"   class="btn btn-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
-                      @else
-                        <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
-                        <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
-                      @endif
+                      @if($requisition->approve)
+                      @if($requisition->approve->where('requisition_id',$requisition->id)->count() ===1 AND !in_array($requisition->institution_id,[1,5,8,10]) AND in_array(auth()->user()->role_id,[10,11]) OR empty($requisition->approve))
+                      <button type="button"  id="btnrefuse"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                      <button type="button" id="btnapprove"  class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
+       
+                            @else
+                            <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
+                            <button type="button"   class="btn btn-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
+                       @endif
 
+                       @else
+                       <button type="button" id="btnrefuse"  class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                       <button type="button" id="btnapprove"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
+                      @endif
                       </div>
                         </br>
                         </div>
@@ -485,6 +494,21 @@ function Refuse(requisitionId){
         $('#modal-lg').modal('hide');
 }
 
+$(document).ready(function () {
+
+  var user_role_id = {!! json_encode(Auth::user()->role_id) !!};
+  var user_int_id = {!! json_encode(Auth::user()->institution_id) !!};
+  var count = {!! json_encode($count) !!};
+  const int = [1,5,8,10];
+  var requisition_int_id = {!! json_encode($requisition->institution_id) !!};
+ if(user_role_id == 11 && count == 0 && jQuery.inArray(requisition_int_id,int) ===-1){
+  $("#btnapprove,#btnrefuse").attr("disabled", true);
+ }else if(user_role_id == 10 && count == 1 ){
+  $("#btnapprove,#btnrefuse").attr("disabled", true);
+ }
+ 
+
+});
   
 </script>
 
