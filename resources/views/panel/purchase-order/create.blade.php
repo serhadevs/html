@@ -610,6 +610,26 @@ $(document).ready(function(){
 
 
 });
+
+
+$(document).ready(function () {
+
+var user_role_id = {!! json_encode(Auth::user()->role_id) !!};
+var user_int_id = {!! json_encode(Auth::user()->institution_id) !!};
+var count = {!! json_encode($count) !!};
+const int = [1,5,8,10];
+var requisition_int_id = {!! json_encode($requisition->institution_id) !!};
+if( count <= 1 && jQuery.inArray(requisition_int_id,int) ===-1){
+  $("#btnSubmit").attr("disabled", true); 
+  swal(
+  'Warning',
+  'Waiting for second approval.',
+  'warning'
+        )
+}
+
+
+});
 </script>
 
 @endpush
