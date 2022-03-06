@@ -336,6 +336,7 @@ class UserController extends Controller
         $password = Str::random(8);
         $user = \App\User::find($id);
         $user->password = bcrypt($password);
+        $user->password_changed_at = Carbon::now()->toDateTimeString();
         $user->update();
 
         $user->notify(new PasswordResetPublish($password));

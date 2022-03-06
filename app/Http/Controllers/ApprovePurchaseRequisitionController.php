@@ -113,8 +113,11 @@ class ApprovePurchaseRequisitionController extends Controller
    // $count = 2 ;
     if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,10,11,12]) ){
         return 'fail';
-    }else if(isset($requisition->approve->user_id) == auth()->user()->id){
-        return 'fail';
+    }
+    if(isset($requisition->approve)){
+        if($requisition->approve->user_id == auth()->user()->id){
+            return 'fail';
+        }
     }
     if ($request->all()) {
 
@@ -165,12 +168,7 @@ class ApprovePurchaseRequisitionController extends Controller
             if(in_array(auth()->user()->institution_id,[1,5,8,10]))
             {
 
-                $users = User::where(function($query){
-                    $query->where('institution_id','=',auth()->user()->institution_id);
-            
-                 })
-                    ->whereIn('role_id',[5,9])
-                    ->get();
+                $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[5,9])->get();
                 $users->each->notify(new ApproveRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,5]);
                 $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
@@ -189,23 +187,14 @@ class ApprovePurchaseRequisitionController extends Controller
             $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
             }else if($count === 0)
             {
-                $users = User::where(function($query){
-                    $query->where('institution_id','=',auth()->user()->institution_id);
-                 })
-                    ->whereIn('role_id',[11])
-                    ->get();
+                $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[11])->get();
     
                 $users->each->notify(new AcceptRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[11]);
                 $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
             }else{
             //notify primary institution users
-            $users = User::where(function($query){
-                $query->where('institution_id','=',auth()->user()->institution_id);
-             })
-                ->whereIn('role_id',[9])
-                ->get();
-
+            $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[9])->get();
             $users->each->notify(new AcceptRequisitionPublish($requisition));
             $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[5,9]);
             $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
