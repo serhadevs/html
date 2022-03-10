@@ -12,6 +12,7 @@ use App\User;
 use App\Comment;
 use App\Check;
 use App\Status;
+use App\StoreApproves;
 
 
 use Illuminate\Http\Request;
@@ -153,8 +154,8 @@ class ApprovePurchaseRequisitionController extends Controller
 
             //delete all approved requisition that approve by Parish manager
             if(in_array(auth()->user()->role_id,[10,11])){
-                $approve = Approve::where('requisition_id',$request->data['requisitionId'])->get();
-                $approve->delete();
+                $approves = Approve::where('requisition_id',$request->data['requisitionId'])->get();
+                $approves->delete();
 
             }
 
@@ -163,18 +164,44 @@ class ApprovePurchaseRequisitionController extends Controller
             $status->name = ' Requisition Approved ';
             $status->update();
 
-
+            $approve = Approve::where('requisition_id',$requisition->id)->get();
+            if($count ===1 AND $requisition->contract_sum > 500000 AND !auth()->user()->institution_id !=1) {
+           // store approve data b4 transfer
+                foreach ($approve as $key => $store) {
+                    $app_store = StoreApproves::create([
+                        'requisition_id' => $store->requisition_id,
+                        'date_approved' => $store->created_at,
+                        'approve_id' => $store->id,
+                        'user_id' => $store->user_id,
+                    ]);
+                }
+            //change check should be null but store pass certying officer
+             //Approve::where('requisition_id',$requisition->id)->delete();
+            }
+           
          // approve by health departments
             if(in_array(auth()->user()->institution_id,[1,5,8,10]))
             {
+               
 
+               
+                    
                 $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[5,9])->get();
                 $users->each->notify(new ApproveRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,5]);
                 $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
+            
+
+
+
+
+
+
+
             }else{
                 //approve by institutions
             if($count === 1){
+                
             //notify primary institution users
             $users = User::where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id);
@@ -314,7 +341,8 @@ return view('/panel.approve.purchase-requisition.show', compact('requisition','c
         //
         try {
             $requisition = Requisition::find($request->data['requisition_id']);
-            $approve = Approve::where('requisition_id',$requisition->id)->first();
+            $approve = Approve::where('requisition_id',$requisition->id)->orderBy('created_at','desc')->first();
+            $store_appove = StoreApproves::where('requisition_id',$requisition->id)->delete();
            
             if ($requisition->purchase_order) {
                 // if($internal->approve_internal_requisition->is_granted===1)
@@ -324,6 +352,7 @@ return view('/panel.approve.purchase-requisition.show', compact('requisition','c
             $status->name = 'Requisition';
             $status->update();
             $approve->delete();
+            
             return "success";
         
         } catch (Exception $e) {

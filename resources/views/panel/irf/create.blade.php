@@ -221,7 +221,7 @@ text-align: center;
                 <td>
                 
                   
-                   <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
+                   <input name='description[]' class='des' maxlength="100" type='text' size="10" style='border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
                 <input name='quantity[]'  class='quantity' type='number' size="5"style='width:60px;border:none;outline:none;background: transparent;' required>

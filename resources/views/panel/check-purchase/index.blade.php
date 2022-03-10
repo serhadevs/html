@@ -79,7 +79,7 @@ table.dataTable tbody td {
                       <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn  btn-warning btn-m" disabled >Undo</button>
                       @endif
                         </td> 
-                     @if($requisition->check)
+                     @if($requisition->check )
                      @if($requisition->check->is_checked===1)
                     <td> <span class ="badge bg-green">Accepted</span></td>
                     @elseif($requisition->check->is_checked===0)

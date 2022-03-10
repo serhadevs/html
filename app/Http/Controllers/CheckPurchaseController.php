@@ -53,13 +53,14 @@ class CheckPurchaseController extends Controller
         //  $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
         // ->where('institution_id', '=', auth()->user()->institution_id)->get();
         if (auth()->user()->institution_id === 1) {
-    $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
-        // ->where('contract_sum', '>=', 250000)
+    $requisitions = Requisition::with(['check', 'approve', 'purchase_order','store_approves'])
+        //   ->where('contract_sum', '>=', 500000)
          ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
+        ->OrwhereHas('store_approves')
         ->latest()
         ->get();
 
@@ -159,15 +160,15 @@ try {
     } else {
 
       // $requisition = Requisition::find($request->data['requisitionId']);
-        $requisition->institution_id = auth()->user()->institution_id;
-        $requisition->update();
+        // $requisition->institution_id = auth()->user()->institution_id;
+        // $requisition->update();
 
         //delete or reset any approved requisition
-        if ($requisition->approve) {
-            $approve = Approve::where('requisition_id', $requisition->id);
-            $approve->delete();
+        // if ($requisition->approve) {
+        //     $approve = Approve::where('requisition_id', $requisition->id);
+        //     $approve->delete();
 
-        }
+        // }
 
         //notify primary institution users
         $users = User::where('institution_id', auth()->user()->institution_id)

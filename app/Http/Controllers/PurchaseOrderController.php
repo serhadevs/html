@@ -28,7 +28,7 @@ class PurchaseOrderController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,5,9,12]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,5,9,10,11,12]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard');
@@ -53,8 +53,17 @@ class PurchaseOrderController extends Controller
                 $query->where('is_granted', '=', 1);
             })
             ->doesnthave('purchaseOrder')
+            ->where(function($query){
+                if(auth()->user()->institution_id !=1){
+                 $query->where('contract_sum','<',500000);
+                }else{
+                 $query->where('contract_sum','>',1);
+                }
+             
+            })
             ->latest()
             ->get();
+          
            
        
         //purchaseOrder
@@ -93,6 +102,7 @@ class PurchaseOrderController extends Controller
      */
     public function create($id)
     {
+        
         $requisition = Requisition::find($id);
         if($requisition->approve){
             // dd($requisition->approve->where('requisition_id',$id));
@@ -190,7 +200,9 @@ $users->notify(new PurchaseOrderPublish($purchaseorder));
     public function show(PurchaseOrder $purchaseOrder)
     {
         //
-        dd('test');
+      //  dd('test');
+      $count = $purchaseOrder->requisition->approve->where('requisition_id',$purchaseOrder->requisition_id)->count();
+        return view('/panel.purchase-order.show', compact('count','purchaseOrder'));
     }
 
     /**
@@ -228,7 +240,8 @@ $users->notify(new PurchaseOrderPublish($purchaseorder));
         //     ->select('stocks.product_name', 'stocks.quantity', 'requisitions.id', 'requisitions.cost_centre', 'requisitions.created_at', 'requisitions.total', 'stocks.description', 'stocks.unit_cost', 'unit_of_measurements.name as measurement', 'stock_categories.name as category',
         //         'departments.name as department', 'institutions.name as institution', 'suppliers.name as supplier', 'suppliers.address as supplierAddress', 'users.firstname', 'users.lastname')
         //     ->get();
-        return view('panel.purchase-order.edit', compact('purchaseOrder'));
+        $count = $purchaseOrder->requisition->approve->where('requisition_id',$purchaseOrder->requisition_id)->count();
+        return view('panel.purchase-order.edit', compact('count','purchaseOrder'));
 
     }
 

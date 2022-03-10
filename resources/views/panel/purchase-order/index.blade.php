@@ -33,8 +33,10 @@
             <div class="card">
               <div class="card-header">
                   {{-- /purchase-order/create --}}
+                  @if(!in_array(auth()->user()->role_id,[10]))
                   <button class="btn btn-outline-success float-left btn-lg" data-toggle="modal" data-target="#modal-lg">Add Purchase Order</button>
-                <h3 class="card-title  float-right">A list of all procurement order </h3>
+                 @endif
+                  <h3 class="card-title  float-right">A list of all procurement order </h3>
               </div>
 
             {{-- modal started --}}
@@ -120,6 +122,7 @@
                     {{-- <th>Approve</td> --}}
                     <th>Option</th>
                     <th></th>
+                    <th></th>
                     <th>Requisition_no</th>
                     <th>Purchase Order No.</th>
                     <th>Cost Centre</th>
@@ -146,6 +149,9 @@
                     @endif --}}
                     <td>
                       <a  href="/purchase-order/{{$order->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
+                     </td>
+                     <td>
+                      <a  href="/purchase-order/{{$order->id}}" class="btn btn-outline-success btn-m" >Show</a> 
                      </td>
                      <td>
                      <a href="#" onclick= "deletePurchaseOrder({{$order->id}})" class="btn btn-outline-danger btn-m">Delete</a>

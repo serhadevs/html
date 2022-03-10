@@ -89,5 +89,10 @@ class Requisition extends Model implements Auditable
    {
        return $this->hasOne('App\PurchaseOrder');
    }
+
+   public function store_approves()
+   {
+       return $this->hasMany('App\StoreApproves');
+   }
    
 }

@@ -50,9 +50,8 @@ text-align: center;
               <!-- /.card-header -->
               <div class="card-body">
 
-                <form class="form-horizontal" method="Post" autocomplete="off" action="/purchase-order/{{$purchaseOrder->id}}"  enctype="multipart/form-data" " >
-                  @csrf
-                  @method('PATCH') 
+                <form class="form-horizontal" method="Post" autocomplete="off"   enctype="multipart/form-data">
+
                   
                <div class="title">
                         <p><h4>South East Regional Health Authority</h4>
@@ -231,7 +230,7 @@ text-align: center;
                            <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Purchase Order#</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control" id ='purchase_order_number' name="purchase_order_number" value="{{$purchaseOrder->purchase_order_no}}"required>
+                        <input type="input" class="form-control" id ='purchase_order_number' name="purchase_order_number" readonly value="{{$purchaseOrder->purchase_order_no}}"required>
                           </div>
                           <label for="requisition" class="col-sm-2 col-form-label">Requisition no.</label>
                           <div class="col-sm-4">
@@ -241,7 +240,7 @@ text-align: center;
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Comments</label>
                         <div class="col-sm-4">
-                        <textarea class="form-control" name ="comments" id="comments" value="" rows="3" placeholder="">{{$purchaseOrder->comments}}</textarea>
+                        <textarea class="form-control" name ="comments" id="comments" value="" readonly rows="3" placeholder="">{{$purchaseOrder->comments}} </textarea>
                           </div>
                         </div>
                        
@@ -367,7 +366,7 @@ text-align: center;
 <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
 </td> 
 <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
-<td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td>
+{{-- <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td> --}}
 </tr>
 @endforeach
 </tbody>
@@ -446,7 +445,7 @@ text-align: center;
                         <div class="col-10">
                         <a type="button" href="/purchase-order"   class="btn btn-outline-success float-left btn-lg">Back</a>
                      
-                        <button type="submit"  class="btn btn-outline-primary float-right btn-lg">Update</button>
+                        {{-- <button type="submit"  class="btn btn-outline-primary float-right btn-lg">Update</button> --}}
                         </div>
       </div>
                         <br>

@@ -268,23 +268,36 @@ text-align: center;
                         Date:<span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
                         @if($requisition->check)
                           @if($requisition->check->is_checked===1)
-                          Accepted by: <span class='badge badge-success'> {{$requisition->check->user->abbrName()}}</span></br>
-                          Date:<span class='badge badge-success'>{{$requisition->check->created_at}}</span>
+                          @foreach($requisition->check->where('requisition_id',$requisition->id)->get() as $key => $check)
+                          {{$check->user->institution_id == 1? 'RO':'Institute'}} Accepted by: <span class='badge badge-success'> {{$check->user->abbrName()}}</span></br>
+                          Date:<span class='badge badge-success'>{{$check->created_at}}</span></br>
+                          @endforeach
+                         
                           @else
                           Accepted by: 
                           @endif
-                           
                           @endif
-                          <hr style="width:50%;text-align:left;margin-left:0"> </hr>
+                          Budget Approve by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_budget->user->abbrName()}} </span></br>
+                          Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->approve_budget->created_at}}</span></br>
+                          
+                          
                       </div>
                       <div class="col-sm-6">
-                        Budget Approve by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_budget->user->abbrName()}} </span></br>
-                        Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->approve_budget->created_at}}</span><br>
-                        
                         
                               Budget Commitment by: <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->user->abbrName()}} </span></br>
-                              Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->created_at}}</span>
-                  
+                              Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->created_at}}</span></br>
+                              @if(isset($requisition->store_approves))
+                              @foreach($requisition->store_approves as $key => $approve)
+                              {{$key ===0 ? 'CEO':'Parish Manager'}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                               Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
+                              @endforeach
+
+                              {{-- CEO approve: <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
+                              Date:  <span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
+                              Parish Manager: <span class='badge badge-success'>{{$requisition->latest_approve->user->abbrName()}}</span></br>
+                              Date:  <span class='badge badge-success'>{{$requisition->latest_approve->created_at}}</span></br> --}}
+                             
+                              @endif
                  
                       </div>
                     
@@ -295,15 +308,22 @@ text-align: center;
             </div>
             <!-- /.card -->
           </div>
-          
-       
+                    {{-- {{$requisition->store_approves->where('requisition_id',$requisition->id)->count()}} --}}
                         <div class="col-10">
                            @if($requisition->check) 
-                          {{-- @if( $requisition->checked && $requisition->check->is_checked=== 1) --}}
+                           @if($requisition->check->where('requisition_id',$requisition->id)->count()===1 AND $requisition->store_approves->where('requisition_id',$requisition->id)->count()===2)
+                           <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                           <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Accept</button></br>
+                           
+                          @else
                           
-                        <button type="button"   class="btn btn-warning btn-lg" disabled >Refuse</button>
-                        <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');"disabled>Accept</button></br>
-                      @else
+                          <button type="button"   class="btn btn-warning btn-lg"  data-toggle="modal" data-target="#modal-lg" disabled>Refuse</button>
+                           <button type="button"   class="btn btn-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" disabled>Accept</button></br>
+                          @endif
+                      
+                      
+                      
+                          @else
                         <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                         <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Accept</button></br>
                           @endif

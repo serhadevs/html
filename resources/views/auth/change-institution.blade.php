@@ -60,10 +60,10 @@
                            <option value="0" >ALL</option>
                           @foreach($institutions as $institution)
                          @if($institution->id === auth::user()->institution_id)
-                                    <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
-                                @else
+                          <option selected value="{{ $institution->id }}" >{{ $institution->name }}</option>
+                          @else
                                     
-                                    <option value="{{ $institution->id }}" >{{ $institution->name }}</option>
+                        <option value="{{ $institution->id }}" >{{ $institution->name }}</option>
                                 @endif
 
                           @endforeach
