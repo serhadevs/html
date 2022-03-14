@@ -53,6 +53,10 @@ class ApproveBudgetController extends Controller
             ->whereHas('approve_internal_requisition',function($query){
              $query->where('is_granted','=', 1);
             })
+            ->wherehas('budget_commitment',function($query){
+                $query->where('deleted_at','=', null);
+        
+               })
             ->where('department_id','=',32)
                ->where(function($query){
                  $query->where('institution_id','=',auth()->user()->institution_id)
