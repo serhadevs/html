@@ -21,6 +21,7 @@ use App\Notifications\CertifiedInternalRequisitionPublish;
 use App\Comment;
 use App\ApproveBudget;
 use App\BudgetCommitment;
+use Exception;
 
 ini_set('upload_max_filesize', '400M');
 ini_set('post_max_size', '400M');
@@ -131,7 +132,7 @@ class InternalRequisitionController extends Controller
     public function store(Request $request)
     {
 
-     //   dd($request->all());
+     try{
        
         $request->validate([
             'estimated_cost' => 'required',
@@ -282,6 +283,13 @@ class InternalRequisitionController extends Controller
                 }
                
             }
+
+        }catch(Illuminate\Database\QueryException  $error){
+            return edirect('/internal_requisition')->with('error','error something wnent wrong');
+        }catch(PDOException $e){
+            return edirect('/internal_requisition')->with('error','error something wnent wrong');
+
+        }
             
             
 
@@ -346,6 +354,7 @@ class InternalRequisitionController extends Controller
     public function update(Request $request, $id)
     {
 
+        try{
         $request->validate([
             'estimated_cost' => 'required',
             'budget_approve' => 'required',
@@ -502,6 +511,12 @@ class InternalRequisitionController extends Controller
 
           
            
+        }catch(Illuminate\Database\QueryException  $error){
+            return edirect('/internal_requisition')->with('error','error something wnent wrong');
+        }catch(PDOException $e){
+            return edirect('/internal_requisition')->with('error','error something wnent wrong');
+
+        }
 
         
 

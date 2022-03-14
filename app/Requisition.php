@@ -92,7 +92,11 @@ class Requisition extends Model implements Auditable
 
    public function store_approves()
    {
-       return $this->hasMany('App\StoreApproves');
+       return $this->hasOne('App\StoreApproves');
+   }
+
+   public function transfer(){
+    return $this->hasOne('App\InstitutionTransfer');
    }
    
 }

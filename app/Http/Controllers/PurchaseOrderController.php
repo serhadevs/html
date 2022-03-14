@@ -202,7 +202,7 @@ $users->notify(new PurchaseOrderPublish($purchaseorder));
         //
       //  dd('test');
       $count = $purchaseOrder->requisition->approve->where('requisition_id',$purchaseOrder->requisition_id)->count();
-        return view('/panel.purchase-order.show', compact('count','purchaseOrder'));
+      return view('/panel.purchase-order.show', compact('purchaseOrder','count'));
     }
 
     /**

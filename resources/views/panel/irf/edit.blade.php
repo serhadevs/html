@@ -247,7 +247,7 @@ text-align: center;
                
                 </td>
                 <td>
-                   <textarea  name='description[]' class='des' size="40" style='border:none;outline:none;background: transparent;' required>{{$stock->description}} </textarea>
+                   <textarea  name='description[]' maxlength="100" class='des' size="40" style='border:none;outline:none;background: transparent;' required>{{$stock->description}} </textarea>
                 </td>
                 <td>
                 <input name='quantity[]'  class='quantity'  value={{$stock->quantity}} type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>

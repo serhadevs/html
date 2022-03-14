@@ -19,7 +19,7 @@ use App\Comment;
 use App\Notifications\AcceptRequisitionPublish;
 use App\Notifications\RefuseRequisitionPublish;
 use App\Notifications\ApproveRequisitionPublish;
-
+use App\InstitutionTransfer;
 use App\UnitOfMeasurement;
 
 
@@ -60,7 +60,17 @@ class CheckPurchaseController extends Controller
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
-        ->OrwhereHas('store_approves')
+        // ->OrWhere(function($query){
+        //     $query->where('contract_sum','>',500000);
+        // })
+        ->withCount(['approve'=>function($query){
+            $query->where('is_granted',1);
+        }])
+        ->OrWhere(function($query){
+            $query->having('approve_count','>',2)->where('contract_sum','>',500000);
+        })
+        // ->whereHas('store_approves')
+       
         ->latest()
         ->get();
 
@@ -80,6 +90,7 @@ class CheckPurchaseController extends Controller
                  ->latest()
                  ->get();
 
+              
         
 
 
@@ -95,8 +106,6 @@ class CheckPurchaseController extends Controller
         ->latest()
         ->get();
 }
-
-    
                 // $comment = new Comment();
                 // $comment->check_id = 1;
                 // $comment->type ='accept';
@@ -132,6 +141,11 @@ class CheckPurchaseController extends Controller
 try {
 
     // $requisition = Requisition::find($request->data['requisitionId']);
+    if(isset($requisition->check)){
+        if($requisition->check->user_id == auth()->user()->id){
+            return 'fail';
+        }
+    }
     
     $is_checked = $request->data['checked'];
     $check = new Check();
@@ -158,10 +172,26 @@ try {
         // $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
 
     } else {
-
-      // $requisition = Requisition::find($request->data['requisitionId']);
-        // $requisition->institution_id = auth()->user()->institution_id;
-        // $requisition->update();
+ 
+        $requisition = Requisition::find($request->data['requisitionId']);
+         if(auth()->user()->institution_id != $requisition->institution_id){
+        $institute_tranfer = new InstitutionTransfer();
+        $institute_tranfer->requisition_id = $requisition->id;
+        $institute_tranfer->from = $requisition->institution_id;
+        $institute_tranfer->to = auth()->user()->institution_id;
+        $institute_tranfer->save();
+        $requisition->institution_id = auth()->user()->institution_id;
+        $requisition->update();
+         //update requisition status
+         $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
+         $status->name = 'RO Requisition Certify';
+         $status->update();
+         }else{
+          //update requisition status
+        $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
+        $status->name = 'Requisition Certify';
+        $status->update();   
+         }
 
         //delete or reset any approved requisition
         // if ($requisition->approve) {
@@ -181,11 +211,6 @@ try {
         $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
         // $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,9);
         // $add_role_user->each->notify(new AcceptRequisitionPublish($requisition));
-
-        //update requisition status
-        $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
-        $status->name = 'Requisition Certify';
-        $status->update();
     }
 
     // if department head or super user automatic approve requisition
@@ -236,7 +261,7 @@ return redirect('/requisition')->with('status', 'Requisition was created success
     {
        // $internal_requisition_id = Requisition::find($id)->pluck('internal_requisition_id');
        // dd(  $internal_requisition_id);
-        $requisition=  Requisition::with('internalrequisition')->find($id);
+        $requisition=  Requisition::with('internalrequisition')->withCount('approve')->find($id);
        
         
        //dd($requisitions);

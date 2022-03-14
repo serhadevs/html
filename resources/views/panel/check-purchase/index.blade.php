@@ -72,18 +72,25 @@ table.dataTable tbody td {
                   <tbody>
                    @foreach($requisitions as $requisition)
                     <tr>
-                      <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-outline-success btn-m">View</a>
+                      <td> <a href="/check-purchase/{{$requisition->id}}" class="btn btn-block btn-outline-success btn-m">View</a></td>
                         @if($requisition->check)
-                        <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-outline-warning btn-m">Undo</button>
+                        <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn btn-outline-warning btn-m">Undo</button></td>
                       @else 
-                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn  btn-warning btn-m" disabled >Undo</button>
+                      <td> <button href="#" onclick="undo({{$requisition->id}})" class="btn  btn-warning btn-m" disabled >Undo</button> </td> 
                       @endif
-                        </td> 
+                     
                      @if($requisition->check )
-                     @if($requisition->check->is_checked===1)
+                    
+                     @if($requisition->check->is_checked===1 AND $requisition->approve_count===0)
                     <td> <span class ="badge bg-green">Accepted</span></td>
-                    @elseif($requisition->check->is_checked===0)
-                    <td> <span class ="badge bg-red">Refused</span></td>
+
+                    @elseif($requisition->check->where('requisition_id',$requisition->id)->count() ===1 AND $requisition->approve_count >= 1 AND $requisition->institution_id != 1)
+                    <td> <span class ="badge bg-yellow">Institute Approved</span></td>
+
+                    @elseif($requisition->check->where('requisition_id',$requisition->id)->count() >=1 AND $requisition->approve_count >= 1)
+                    <td> <span class ="badge bg-green">Accepted</span></td>
+                    @elseif($requisition->check->is_checked===1)
+                    <td> <span class ="badge bg-green">Accepted</span></td>
                     @endif
                     @else
                     <td> <span class ="badge bg-blue">Uncheck</span></td>

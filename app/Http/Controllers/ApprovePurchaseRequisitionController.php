@@ -47,7 +47,7 @@ class ApprovePurchaseRequisitionController extends Controller
       if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
 
         $requisitions = Requisition::with(['check','approve'])
-    
+        ->withCount('approve')
         //->where('department_id','=',auth()->user()->department_id)
           ->whereHas('check',function($query){
               $query->where('is_checked','=',1);
@@ -58,15 +58,19 @@ class ApprovePurchaseRequisitionController extends Controller
       }else{
       $requisitions = Requisition::with(['check','approve'])
     
-    //->where('department_id','=',auth()->user()->department_id)
+       ->withCount('approve')
       ->whereHas('check',function($query){
           $query->where('is_checked','=',1);
       })
+    // ->OrWhere(function($query){
+    //     $query->having('approve_count','>',2)->where('contract_sum','>',500000)
+    //     ->having('check_count','>',2);
+    // })
       ->where(function($query){
         $query->where('institution_id','=',auth()->user()->institution_id)
         ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-
      })
+    
       ->latest()
       ->get();
     }
@@ -294,7 +298,7 @@ return redirect('/purchase-requisition')->with('status', 'Requisition was create
 
 
 $count = 0;
-$requisition= Requisition::with('internalrequisition')->find($id);
+$requisition= Requisition::with(['internalrequisition'])->withCount(['approve'])->find($id);
 
 if($requisition->approve){
     // dd($requisition->approve->where('requisition_id',$id));

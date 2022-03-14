@@ -379,19 +379,24 @@ text-align: center;
                       Approve IRF by:</br>
                       Date:</br>
                       @endif
-
+                      Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
+                      Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span><br>
                         Accepted by: <span class='badge badge-success'>{{$requisition->check->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
                       </div>
                       <div class="col-sm-6">
-                        Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
-                        Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span><br>
-                   
+                       
+                        @if(isset($requisition->approve))
+                        @if($requisition->approve_count === 1)
                         Approve Requisition by:  <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
-                        Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
-                        @if($count ===2)
-                        Parish Manager: <span class='badge badge-success'>{{$requisition->latest_approve->user->abbrName()}}</span></br>
-                        Date:  <span class='badge badge-success'>{{$requisition->latest_approve->created_at}}</span></br>
+                      Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
+                        @else
+                        @foreach($requisition->approve->where('requisition_id',$requisition->id)->get() as $key=> $approve)
+
+                        {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                         Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
+                        @endforeach
+                        @endif
                         @endif
                     
                   

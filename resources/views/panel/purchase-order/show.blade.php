@@ -412,14 +412,26 @@ text-align: center;
   <div class="col-sm-6">
     
 
-    Approve Requisition by:  <span class='badge badge-success'>{{$purchaseOrder->requisition->approve->user->abbrName()}}</span></br>
+    
     Date:<span class='badge badge-success'>{{$purchaseOrder->requisition->approve->created_at}}</span></br>
     Prepared PO by: :<span class='badge badge-success'>  <b>{{$purchaseOrder->requisition->purchaseorder->user->firstname[0]}}. {{$purchaseOrder->requisition->user->lastname}}</span></b> </br>
     Date:<span class='badge badge-success'>  <b>{{$purchaseOrder->created_at}}</span></b> </br>               
-    @if($count ===2)
-    Parish Manager: <span class='badge badge-success'>{{$purchaseOrder->requisition->latest_approve->user->abbrName()}}</span></br>
-    Date:  <span class='badge badge-success'>{{$purchaseOrder->requisition->latest_approve->created_at}}</span></br>
+    @if(isset($purchaseOrder->requisition->approve))
+    @if($count  > 1)
+    @foreach($purchaseOrder->requisition->approve->where('requisition_id',$purchaseOrder->requisition->id)->get() as $key=> $approve)
+
+    {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+     Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
+    @endforeach
+    @else
+    Approve Requisition by:  <span class='badge badge-success'>{{$purchaseOrder->requisition->approve->user->abbrName()}}</span></br>
+
+
     @endif
+
+  
+    @endif
+
 
   </div>
 

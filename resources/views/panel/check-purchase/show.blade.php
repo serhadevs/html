@@ -269,7 +269,7 @@ text-align: center;
                         @if($requisition->check)
                           @if($requisition->check->is_checked===1)
                           @foreach($requisition->check->where('requisition_id',$requisition->id)->get() as $key => $check)
-                          {{$check->user->institution_id == 1? 'RO':'Institute'}} Accepted by: <span class='badge badge-success'> {{$check->user->abbrName()}}</span></br>
+                          {{$check->user->institution_id == 1? 'RO':'Institute'}} accepted by: <span class='badge badge-success'> {{$check->user->abbrName()}}</span></br>
                           Date:<span class='badge badge-success'>{{$check->created_at}}</span></br>
                           @endforeach
                          
@@ -286,18 +286,20 @@ text-align: center;
                         
                               Budget Commitment by: <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->user->abbrName()}} </span></br>
                               Date:  <span class='badge badge-success'>{{$requisition->internalrequisition->budget_commitment->created_at}}</span></br>
-                              @if(isset($requisition->store_approves))
-                              @foreach($requisition->store_approves as $key => $approve)
-                              {{$key ===0 ? 'CEO':'Parish Manager'}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                              
+                              @if(isset($requisition->approve))
+                              @if($requisition->approve_count === 2)
+                              @foreach($requisition->approve->where('requisition_id',$requisition->id)->get() as $key=> $approve)
+                              {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
                                Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
                               @endforeach
-
-                              {{-- CEO approve: <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
-                              Date:  <span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
-                              Parish Manager: <span class='badge badge-success'>{{$requisition->latest_approve->user->abbrName()}}</span></br>
-                              Date:  <span class='badge badge-success'>{{$requisition->latest_approve->created_at}}</span></br> --}}
-                             
+                              @else
+                               Approve Requisition: <span class='badge badge-success'> {{$requisition->approve->user->abbrName()}}</span></br>
+                               Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br>
                               @endif
+
+                             @endif
+                           
                  
                       </div>
                     
@@ -311,7 +313,7 @@ text-align: center;
                     {{-- {{$requisition->store_approves->where('requisition_id',$requisition->id)->count()}} --}}
                         <div class="col-10">
                            @if($requisition->check) 
-                           @if($requisition->check->where('requisition_id',$requisition->id)->count()===1 AND $requisition->store_approves->where('requisition_id',$requisition->id)->count()===2)
+                           @if($requisition->check->where('requisition_id',$requisition->id)->count()===1 AND $requisition->approve_count===2)
                            <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                            <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Accept</button></br>
                            
