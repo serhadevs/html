@@ -51,6 +51,22 @@ class BudgetCommitmentController extends Controller
             ->latest()
             ->get();
 
+        }elseif(auth()->user()->department_id === 32){
+            $internalrequisitions = InternalRequisition::with(['user','approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
+            ->whereHas('approve_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            })
+            ->where('department_id','=',32)
+               ->where(function($query){
+                 $query->where('institution_id','=',auth()->user()->institution_id)
+                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+         
+              })
+            ->latest()
+            ->get();
+
+        
+
         }else{
        $internalrequisitions = InternalRequisition::with(['user','approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
        ->whereHas('approve_internal_requisition',function($query){
@@ -61,6 +77,7 @@ class BudgetCommitmentController extends Controller
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
+         ->where('department_id','!=',32)
        ->latest()
        ->get();
     }
@@ -123,12 +140,23 @@ class BudgetCommitmentController extends Controller
         $status = Status::where('internal_requisition_id',$request->id)->first();
         $status->name = 'Budget Commitment';
         $status->update();
+        $internalRequisition = InternalRequisition::find($request->id);
 
-        $users = User::where('institution_id',auth()->user()->institution_id )
+        //only email hiv accounts
+                if($internalRequisition->department_id ===32){
+                    $users = User::where('institution_id',auth()->user()->institution_id )
+                    ->whereIn('role_id',[8])
+                    ->where('department_id','=',32)
+                    ->get();
+
+                }else{    
+                $users = User::where('institution_id',auth()->user()->institution_id )
                 ->whereIn('role_id',[8])
+                ->where('department_id','!=',32)
                 ->get();
+                }
       // notify primary institution users
-                $internalRequisition = InternalRequisition::find($request->id);
+        //$internalRequisition = InternalRequisition::find($request->id);
             
                 $users->each->notify(new BugetCommitmentPublish($internalRequisition));
                 //subscribe user institution notification

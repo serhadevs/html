@@ -48,6 +48,20 @@ class ApproveBudgetController extends Controller
             ->latest()
             ->get();
 
+        }elseif(auth()->user()->department_id === 32){
+            $internalrequisitions = InternalRequisition::with(['user','approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
+            ->whereHas('approve_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            })
+            ->where('department_id','=',32)
+               ->where(function($query){
+                 $query->where('institution_id','=',auth()->user()->institution_id)
+                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+         
+              })
+            ->latest()
+            ->get();
+
         }else{   
         $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','budget_commitment','institution','department','requisition_type'])
        //->Orwhere('institution_id','=',auth()->user()->institution_id)
@@ -65,7 +79,7 @@ class ApproveBudgetController extends Controller
 
      })
     
-
+     ->where('department_id','!=',32)
        ->latest()
        ->get();
     }
