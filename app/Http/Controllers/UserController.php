@@ -35,18 +35,19 @@ class UserController extends Controller
     public function __construct(Request $request)
     {
 
-        // dd($request->path());
-         if ($request->path() == "/change-password/user") {
+         
+         if ($request->path() === "change-password/user") {
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,2,3,9,12])) {
-                return redirect('/dashboard')->with('error','Access Denied');
-            } else {
-                return $next($request);
-            }
+            // if (!in_array(auth()->user()->role_id, [1])) {
+            //     return redirect('/dashboard')->with('error','Access Denied');
+            // } else {
+            //     return $next($request);
+            // }
+            return $next($request);
         });
          }else{
             $this->middleware(function ($request, $next) {
-                if (in_array(auth()->user()->role_id, [1,2,3,9,12]) OR in_array(3,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+                if (in_array(auth()->user()->role_id, [1,3,9,12]) OR in_array(3,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
                     return $next($request);
                 } else {
                     return redirect('/dashboard')->with('error','Access Denied');

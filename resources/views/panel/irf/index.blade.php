@@ -69,7 +69,7 @@
                     {{-- <td>{{$internal_requisition->id}}</td> --}}
 
                     <td>
-                      <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-outline-primary" btn-m" >Edit</a> 
+                      <a  href="/internal_requisition/{{$internal_requisition->id}}/edit" class="btn btn-outline-primary btn-m" >Edit</a> 
                      </td>
                      <td>
                        <a  href="/internal_requisition/{{$internal_requisition->id}}" class="btn btn-outline-success btn-m" >View</a> 

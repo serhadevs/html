@@ -285,9 +285,11 @@ class BudgetCommitmentController extends Controller
      * @param  \App\BudgetCommitment  $budgetCommitment
      * @return \Illuminate\Http\Response
      */
-    public function show(BudgetCommitment $budgetCommitment)
+    public function show($id)
     {
         //
+        $budgetCommitment = BudgetCommitment::find($id);
+        return view('/panel.account.budget.show',compact('budgetCommitment'));
     }
 
     /**

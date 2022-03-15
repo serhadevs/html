@@ -78,7 +78,7 @@
                       {{-- <a  href="/budgetcommitment/{{$commitment->id}}/edit" class="btn btn-block btn-primary btn-m" >Edit</a>  --}}
                      
                       @if($internalrequisition->budget_commitment)
-                         <td> <button href="#" class="btn btn-block btn-success btn-m" disabled>Committed</button> </td> 
+                         <td> <a href="/budgetcommitment/{{$internalrequisition->budget_commitment->id}}" class="btn btn-block btn-success btn-m" >Committed</a> </td> 
                       <td><a href="/budgetcommitment/{{$internalrequisition->budget_commitment->id}}/edit" class="btn btn-block btn-outline-primary  btn-m" >Edit</a></td>
                       <td><button href="#" class="btn btn-block btn-outline-danger  btn-m"  onclick="deleteCommitment({{$internalrequisition->budget_commitment->id}})">Delete</button></td>
                         @else
