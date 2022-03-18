@@ -57,7 +57,7 @@ class PurchaseOrderController extends Controller
                 if(auth()->user()->institution_id !=1){
                  $query->where('contract_sum','<',500000);
                 }else{
-                 $query->where('contract_sum','>',1);
+                 $query->where('contract_sum','>',1)->where('contract_sum','<',1500000);
                 }
              
             })

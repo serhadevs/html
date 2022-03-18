@@ -201,6 +201,10 @@ Route::resource('general-report','GeneralReportController');
 Route::resource('/currency', CurrencyController::class);
 Route::get('/currency/delete/{id}', 'CurrencyController@destroy');
 
+//Procurement Committee
+Route::resource('/procurement-committee', 'ProcurementCommitteeController');
+Route::get('/procurement-committee/create/{id}', 'ProcurementCommitteeController@create');
+
 
 
 

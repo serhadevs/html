@@ -71,8 +71,16 @@ text-align: center;
                         TCC Number: {{$requisition->tcc}}</br>
                         TCC Expired: {{$requisition->tcc_expired_date}}</br>
                         Contract Sum: {{$requisition->internalrequisition->currency->abbr}} ${{number_format($requisition->contract_sum,2)}}</br>
-                        {{-- Date Required: {{$requisition->date_require}}</br> --}}
-                        Requisition no.: {{$requisition->internalrequisition->requisition_no}}</br> 
+                        Requisition no.: {{$requisition->internalrequisition->requisition_no}}</br>
+                        @if($requisition->advertisement_method)
+                        Tendering Opening: {{Carbon\Carbon::parse($requisition->tender_opening)->format('Y-M-d')}}</br>
+                        Tender Period From: {{Carbon\Carbon::parse($requisition->tender_from)->format('Y-M-d')}}</br>
+                        Tender Period To: {{Carbon\Carbon::parse($requisition->tender_to)->format('Y-M-d')}}</br>
+                        Tender Bond Request: {{$requisition->tender_bond}}</br>
+                        Number of days: {{$requisition->number_days}}</br>
+                        @endif
+
+                     
 
                         </div>
                         
@@ -80,10 +88,21 @@ text-align: center;
                         Procurement Method: {{$requisition->procurement_method->name}}</br>
                         Commitment: {{$requisition->commitment_no}}</br>
                         Category: {{$requisition->category->name}} </br>
-                              Supplier Trn: {{$requisition->supplier->trn}}</br>
+                        Supplier Trn: {{$requisition->supplier->trn}}</br>
                         Estimate Cost: {{$requisition->internalrequisition->currency->abbr}}  ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
                         Cost Variance: {{$requisition->cost_variance}} </br>
-                        {{-- Supplier Address: {{$requisition->supplier->address}} </br> --}}
+                        @if($requisition->advertisement_method)
+                        Method of Advertisement: {{$requisition->advertisement_method->name}}</br>
+                        Number Bid Request: {{$requisition->bid_request}}</br>
+                        Number Bid Received: {{$requisition->bid_received}}</br>
+                        Bid validity: {{$requisition->validity}}</br>
+                        Expiration Date: {{Carbon\Carbon::parse($requisition->expiration_date)->format('Y-M-d')}}</br>
+                        Transport_cost: ${{number_format($requisition->transport_cost,2)}}</br>
+                        @endif
+                        
+
+
+                        
                        
                         
 
@@ -181,6 +200,12 @@ text-align: center;
      <td style='width:42px;'>${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}</td>
      @endif
   </tr>
+  @if($requisition->transport_cost != null)
+    <tr>
+      <td style='width:20px;'>Transport Cost</td>
+      <td style='width:20px;'><input id='transport' value="${{number_format($requisition->transport_cost,2)}}" readonly type='text' value="0.0" size="10" style='border:none;outline:none;background: transparent;'></td>
+    </tr>
+    @endif
    <tr>
     <td  style='width:20px;'>Grand Total</td>
      <td style='width:20px;'>${{number_format($requisition->contract_sum,2)}}</td>

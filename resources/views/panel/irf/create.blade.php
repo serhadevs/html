@@ -234,7 +234,6 @@ text-align: center;
                   <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
                   @endforeach
                   </select>
-                  </select>
                 </td> 
                 <td>
                   <input name='unit_cost[]' id="unit_cost" size="5" id="" class='unitcost' min="0.00" step="0.01"  type='number'style='width:80px; border:none;outline:none;background: transparent;' required>

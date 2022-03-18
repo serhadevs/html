@@ -17,10 +17,15 @@ use Illuminate\Http\Request;
 use App\InternalRequisition;
 use App\User;
 use App\Status;
+use App\AdvertisementMethod;
 use App\Notifications\RequisitionPublish;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use App\Stock;
+use Carbon\Carbon;
+ini_set('upload_max_filesize', '400M');
+ini_set('post_max_size', '400M');
+
 
 class RequisitionController extends Controller
 {
@@ -112,8 +117,10 @@ class RequisitionController extends Controller
         $categories = StockCategory::all();
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
+        $advertisements = AdvertisementMethod::all();
 
-        return view('panel.requisition.create', compact('internalrequisition','types', 'methods', 'categories', 'suppliers', 'units', 'departments', 'institutions'));
+
+        return view('panel.requisition.create', compact('advertisements','internalrequisition','types', 'methods', 'categories', 'suppliers', 'units', 'departments', 'institutions'));
 
     }
 
@@ -127,7 +134,7 @@ class RequisitionController extends Controller
     {
     
       //  $total = 0;
-      
+        //dd($request->all());
  
         $request->validate([
             // 'requisition_type' => 'required|numeric',
@@ -144,6 +151,17 @@ class RequisitionController extends Controller
             'contract_sum' => 'required|numeric',
             'cost_variance' => 'required',
             'commitment' => 'required',
+            "advertisement_method" => "required",
+            "tender_opening" => "required",
+            "tender_from" => "required",
+            "tender_to" => "required",
+            "tender_bond" => "required",
+            "number_days" => "required",
+            "bid_request" => "required",
+            "bid_received" => "required",
+            "validity" => "required",
+            "expiration_date" => "required",
+            "transport_cost" => "required",
 
         ]);
         // $requisition_no = new RequisitionNumberGenerator();
@@ -174,7 +192,19 @@ class RequisitionController extends Controller
         // $requisition->date_last_ordered = $request->date_last_ordered;
         $requisition->internal_requisition_id = $request->id;
         $requisition->tax_confirmed = $request->tax;
-
+        $requisition->advertisement_method_id = $request->advertisement_method;
+        $requisition->tender_opening = $request->tender_opening;
+        $requisition->tender_from = $request->tender_from;
+        $requisition->tender_to = $request->tender_to;
+        $requisition->tender_bond = $request->tender_bond;
+        $requisition->number_days = $request->number_days;
+        $requisition->bid_request = $request->bid_request;
+        $requisition->bid_received = $request->bid_received;
+        $requisition->validity = $request->validity;
+        $requisition->expiration_date = Carbon::parse($request->expiration_date);
+        $requisition->transport_cost = $request->transport_cost;
+        //$permit->application_date = Carbon::parse($request->application_date);
+        
         // add stocks to requisition
         if ($requisition->save()) {
 
@@ -187,6 +217,27 @@ class RequisitionController extends Controller
                        $stock->update();
                  
                }
+
+            // add new stock stable
+            $input = $request->all();
+           // dd($input['add_item_number']);
+            if (!empty($input['add_item_number'][0])) {
+                foreach ($input['add_item_number'] as $key => $stocks) {
+                    $stocked = Stock::create([
+                        'item_number' => $input['add_item_number'][$key],
+                        'quantity' => $input['add_quantity'][$key],
+                        'description' => $input['add_descriptions'][$key],
+                        'estimated_total' => 0,
+                        'unit_of_measurement_id' => $input['add_unit'][$key],
+                        'unit_cost' => 0,
+                        'internal_requisition_id' => $request->id,
+                        'actual_cost' => $input['add_actual_cost'][$key],
+                        'actual_total' => $input['add_actual_total'][$key],
+                    ]);
+    
+            }
+    
+            }   
 
            //upload file
 
@@ -266,6 +317,7 @@ class RequisitionController extends Controller
         $categories = StockCategory::all();
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();
+        $advertisements = AdvertisementMethod::all();
       // $content = Storage::url('app\public\Maintenance Manager JD.docx');
       if ($requisition->check){
         if ($requisition->check->is_check===1) {
@@ -273,7 +325,7 @@ class RequisitionController extends Controller
         }
     }
 
-        return view('panel.requisition.edit', ['methods' => $methods, 'types' => $types, 'categories' => $categories, 'units' => $units, 'requisition' => $requisition, 'suppliers' => $suppliers]);
+        return view('panel.requisition.edit', ['advertisements'=>$advertisements,'methods' => $methods, 'types' => $types, 'categories' => $categories, 'units' => $units, 'requisition' => $requisition, 'suppliers' => $suppliers]);
 
     }
     /**
@@ -302,8 +354,17 @@ class RequisitionController extends Controller
         $requisition->procurement_method_id = $request->procurement_method;
         $requisition->cost_variance = $request->cost_variance;
         $requisition->tax_confirmed = $request->tax;
-        // $requisition->date_require = $request->date_require;
-        // $requisition->date_last_ordered = $request->date_last_ordered;
+        $requisition->advertisement_method_id = $request->advertisement_method;
+        $requisition->tender_opening = $request->tender_opening;
+        $requisition->tender_from = $request->tender_from;
+        $requisition->tender_to = $request->tender_to;
+        $requisition->tender_bond = $request->tender_bond;
+        $requisition->number_days = $request->number_days;
+        $requisition->bid_request = $request->bid_request;
+        $requisition->bid_received = $request->bid_received;
+        $requisition->validity = $request->validity;
+        $requisition->expiration_date = Carbon::parse($request->expiration_date);
+        $requisition->transport_cost = $request->transport_cost;
 
         //update stock
 
@@ -315,8 +376,29 @@ class RequisitionController extends Controller
                        $stock->actual_cost = $request['actual_cost'][$key];
                        $stock->actual_total = $request['actual_total'][$key];
                        $stock->update();
+
                  
                }
+                // add new stock stable
+            $input = $request->all();
+           //  dd($input['add_item_number']);
+             if (!empty($input['add_item_number'][0])) {
+                 foreach ($input['add_item_number'] as $key => $stocks) {
+                     $stocked = Stock::create([
+                         'item_number' => $input['add_item_number'][$key],
+                         'quantity' => $input['add_quantity'][$key],
+                         'description' => $input['add_descriptions'][$key],
+                         'estimated_total' => 0,
+                         'unit_of_measurement_id' => $input['add_unit'][$key],
+                         'unit_cost' => 0,
+                         'internal_requisition_id' => $requisition->internalrequisition->id,
+                         'actual_cost' => $input['add_actual_cost'][$key],
+                         'actual_total' => $input['add_actual_total'][$key],
+                     ]);
+     
+             }
+     
+             }   
 
             $input = $request->all();
             //reset refuse requisition

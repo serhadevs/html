@@ -117,6 +117,33 @@ body {
                    <td>Supplier TRN: {{$requisition->supplier->trn}}</td>
                     <td>Percentage Variance: {{$requisition->cost_variance /100}} %</td>
                   </tr>
+                    @if($requisition->advertisement_method)
+                        <tr>
+                          <td> Tendering Opening: {{Carbon\Carbon::parse($requisition->tender_opening)->format('Y-M-d')}}</br></td>
+                            <td>Tender Period From: {{Carbon\Carbon::parse($requisition->tender_from)->format('Y-M-d')}}</br></td>
+                        </tr>
+                        <tr>
+                          <td> Tender Period To: {{Carbon\Carbon::parse($requisition->tender_to)->format('Y-M-d')}}</br></td>
+                            <td> Tender Bond Request: {{$requisition->tender_bond}}</br></td>
+                        </tr>
+                        <tr>
+                          <td> Number of days: {{$requisition->number_days}}</br></td>
+                            <td> Method of Advertisement: {{$requisition->advertisement_method->name}}</br></td>
+                        </tr>
+                        <tr>
+                          <td> Number Bid Request: {{$requisition->bid_request}}</br></td>
+                            <td> Number Bid Received: {{$requisition->bid_received}}</br></td>
+                        </tr>
+
+                        <tr>
+                          <td> Bid validity: {{$requisition->validity}}</br></td>
+                            <td>  Expiration Date: {{Carbon\Carbon::parse($requisition->expiration_date)->format('Y-M-d')}}</br></td>
+                        </tr>
+                        <tr>
+                          <td>  Transport_cost: ${{number_format($requisition->transport_cost,2)}}</br></td>
+                        </tr>
+                        @endif
+                  
                     
 </table>
 <br>

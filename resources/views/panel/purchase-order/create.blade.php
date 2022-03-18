@@ -222,31 +222,80 @@ text-align: center;
                                  
                                 </div>
                                 </div>
+                                @if($requisition->advertisement_method != null)
+                                <div class="form-group row">
+                                  <label for="advertisement_method" class="col-sm-2 col-form-label">Method of advertisement </label>
+                                  <div class="col-sm-4">
+                                  <select type="input" class="form-control" name="advertisement_method" id="advertisement_method" readonly required>
+                                    <option value="{{$requisition->advertisement_method->id}}">{{$requisition->advertisement_method->name}}</option>
+                                  </select> 
+                                  </div>
+                                  <label for="tender_opening" class="col-sm-2 col-form-label">Tender Opening</label>
+                                  <div class="col-sm-4">
+                                  <span style="position: absolute; margin-left: 1px; margin-top: 6px;"></span>
+                                  <input type="date" value= "{{$requisition->tender_opening}}"class="form-control" id="tender_opening" name='tender_opening' readonly required>
+                                  </div>
+                                  </div>
+                                  <div class="form-group row">
+                                  <label for="tender_from" class="col-sm-2 col-form-label">Tender Period From</label>
+                                  <div class="col-sm-4">
+                                  <input type="date"  class="form-control" value= "{{$requisition->tender_from}}" id="tender_from" name='tender_from' readonly  required>
+                                  </div>
+                                  <label for="tender_to" class="col-sm-2 col-form-label">Tender Period To</label>
+                                  <div class="col-sm-4">
+                                  <input type="date" class="form-control" value= "{{$requisition->tender_to}}" id="tender_to" name='tender_to' readonly  required>
+                                  </div>
+                                  </div>
+                                  <div class="form-group row">
+                                  <label for="cost-centre" class="col-sm-2 col-form-label">Tender Bond Request</label>
+                                  <div class="col-sm-4">
+                                  <select type="input" class="form-control" name="tender_bond" id="tender_bond" readonly  required>
+                                    <option selected value={{$requisition->tender_bond}}>{{$requisition->tender_bond ===1 ? "Yes":"No" }}</option>
+                                  </select> 
+                                  </div>
+                                  <label for="number_days" class="col-sm-2 col-form-label">Number of days</label>
+                                  <div class="col-sm-4">
+                                  <input type="number" class="form-control" value= "{{$requisition->number_days}}" id="number_days" name='number_days' readonly required>
+                                  </div>
+                                  </div>
+                                  
+                                  <div class="form-group row">
+                                  <label for="bid_request" class="col-sm-2 col-form-label">Bid Request</label>
+                                  <div class="col-sm-4">
+                                  <input type="number" class="form-control" value= "{{$requisition->bid_request}}" id="bid_request" name='bid_request' readonly  required>
+                                  </div>
+                                  <label for="bid_received" class="col-sm-2 col-form-label">Bid Received</label>
+                                  <div class="col-sm-4">
+                                  <input type="number" class="form-control" value= "{{$requisition->bid_received}}" id="bid_received" name='bid_received' readonly  required>
+                                  </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="bid_val" class="col-sm-2 col-form-label">Bid Validity</label>
+                                    <div class="col-sm-4">
+                                    <input type="number" class="form-control" value= "{{$requisition->validity}}" id="validity" name="validity" readonly  required>
+                                    </div>
+                                    <label for="bid_received" class="col-sm-2 col-form-label">Expiration Date</label>
+                                    <div class="col-sm-4">
+                                    <input type="text" class="form-control" value= "{{$requisition->expiration_date}}" id="expiration_date" name="expiration_date" readonly required>
+                                    </div>
+                                    </div>
+                                  
+                                    {{-- <div class="form-group row">
+                                    <label for="transport" class="col-sm-2 col-form-label">Transport Cost</label>
+                                    <div class="col-sm-4">
+                                    <input type="number" class="form-control" value= "{{$requisition->transport_cost}}" id="transport_cost" name="transport_cost" readonly  required>
+                                    </div>
+                                  
+                                    <div class="col-sm-4">
+                                    
+                                    </div>
+                                    </div> --}}
+                                    @endif
         
         
                            
                                 
-                                 {{-- <div class="form-group row">
-                                <label for="cost-centre" class="col-sm-2 col-form-label">Date Required</label>
-                                <div class="col-sm-4">
-                                 
-                               <div class="input-group date" id="date_require" data-target-input="nearest">
-                                <input type="text" class="form-control datepicker-input" name='date_require' value='{{$requisition->date_require}}' data-target="#date_require" readonly/>
-                                <div class="input-group-append" data-target="#date_require" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                                 </div> 
-                               </div>
-                                <label for="date-of-last" class="col-sm-2 col-form-label">Date Last Order</label>
-                                <div class="col-sm-4">
-                                  <div class="input-group date" id="date_last_ordered" data-target-input="nearest">
-                                <input type="text" class="form-control datepicker-input" name='date_last_ordered' value='{{$requisition->date_last_ordered}}' data-target="#date_last_ordered" readonly/>
-                                <div class="input-group-append" data-target="#date_last_ordered" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                                 </div>
-                                </div>
-                                </div> --}}
+                                
                            <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Purchase Order#</label>
                         <div class="col-sm-4">

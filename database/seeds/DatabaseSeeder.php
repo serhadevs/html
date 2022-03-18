@@ -20,18 +20,19 @@ class DatabaseSeeder extends Seeder
         //     $user->posts()->save(factory(App\Post::class)->make());
         // });
 
-        $this->call(UserTableSeeder::class);
-        $this->call(UnitTableSeeder::class);
-        $this->call(InstitutionTableSeeder::class);
-        $this->call(ParishTableSeeder::class);
-        $this->call(RoleTableSeeder::class);
-        $this->call(StockCategoryTableSeeder::class);
-        $this->call(UnitOfMeasurementTableSeeder::class);
-        $this->call(DepartmentTableSeeder::class);
-        $this->call(RequisitionTypeTableSeeder::class);
-        $this->call(SupplierTableSeeder::class); 
-        $this->call(ProcurementMethodTableSeeder::class);
-        $this->call(CurrencyTableSeeder::class);
+        // $this->call(UserTableSeeder::class);
+        // $this->call(UnitTableSeeder::class);
+        // $this->call(InstitutionTableSeeder::class);
+        // $this->call(ParishTableSeeder::class);
+        // $this->call(RoleTableSeeder::class);
+        // $this->call(StockCategoryTableSeeder::class);
+        // $this->call(UnitOfMeasurementTableSeeder::class);
+        // $this->call(DepartmentTableSeeder::class);
+        // $this->call(RequisitionTypeTableSeeder::class);
+        // $this->call(SupplierTableSeeder::class); 
+        // $this->call(ProcurementMethodTableSeeder::class);
+        // $this->call(CurrencyTableSeeder::class);
+        $this->call(AdvertisementMethodSeeder::class);
 
 
       

@@ -165,7 +165,7 @@ class DashboardController extends Controller
               ->join('parishes','parishes.id','=','institutions.parish_id')
               ->select(
                   
-                      DB::raw('sum(contract_sum) as sums'),'parishes.name as parish'
+                      DB::raw('sum(contract_sum) as sums'),'parishes.abbr as parish'
                       // DB::raw("DATE_FORMAT(requisitions.created_at,'%M') as months"),
                       // DB::raw('YEAR(requisitions.created_at) year '),
                       // DB::raw('MONTH(requisitions.created_at) month ')
@@ -174,7 +174,7 @@ class DashboardController extends Controller
    // ->whereYear('requisitions.created_at', '=', 2021)
     ->groupBy('parish','requisitions.institution_id')
     // ->where('parishes.id','=',auth()->user()->institution->parish->id)
-    
+    ->orderBy('sums', 'DESC')
     ->get();
       $chart = new  DataChart;
       $chart -> labels( $spend_by_parish->pluck('parish'));
@@ -207,9 +207,10 @@ class DashboardController extends Controller
     ->join('institutions', 'institutions.id', '=', 'requisitions.institution_id')
     ->join('parishes', 'parishes.id', '=', 'institutions.parish_id')
     ->where('requisitions.deleted_at',null)
+    ->orderBy('sums', 'DESC')
     ->select(
 
-        DB::raw('sum(contract_sum) as sums'), 'institutions.name as institution'
+        DB::raw('sum(contract_sum) as sums'), 'institutions.abbr as institution'
         
     )
     //->whereYear('requisitions.created_at', '=', 2021)

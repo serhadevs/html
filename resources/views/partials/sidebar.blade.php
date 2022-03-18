@@ -90,6 +90,18 @@
           </li>
          
           @endif
+          @if(in_array(auth()->user()->role_id,[1,10,11,12]) OR in_array(1,auth()->user()->userRoles_Id()->toArray()))
+          <li class="nav-item has-treeview">
+            <a href="/procurement-committee" class="nav-link">
+              <i class="nav-icon fas fa-landmark"></i>
+              <p>
+                Procurement Committee
+              </p>
+            </a>
+         
+          </li>
+         
+          @endif
           @if(in_array(Auth::user()->role_id, [1,2,5,8,9,10,11,12,13,14]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()) OR in_array(13,auth()->user()->userRoles_Id()->toArray()))
           <li class="nav-item has-treeview">
             

@@ -61,7 +61,7 @@ class InstitutionController extends Controller
 
         $request->validate([
     'name' => 'required',
-    'institution_code' => 'required|max:3',
+    'institution_code' => 'required|max:10',
     'parish_id' => 'required',
     'code'=> 'required',
     

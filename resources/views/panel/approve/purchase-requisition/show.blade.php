@@ -72,8 +72,14 @@ text-align: center;
                         PPC Number: {{$requisition->ppc}}</br>
                         Supplier Trn: {{$requisition->supplier->trn}}</br>
                         Contract Sum: {{$requisition->internalrequisition->currency->abbr}} ${{number_format($requisition->contract_sum,2)}}</br>
-                        {{-- Date Required: {{$requisition->date_require}}</br> --}}
                         Requisition no: {{$requisition->requisition_no}} </br>
+                        @if($requisition->advertisement_method)
+                        Tendering Opening: {{Carbon\Carbon::parse($requisition->tender_opening)->format('Y-M-d')}}</br>
+                        Tender Period From:{{Carbon\Carbon::parse($requisition->tender_from)->format('Y-M-d')}}</br>
+                        Tender Period To: {{Carbon\Carbon::parse($requisition->tender_to)->format('Y-M-d')}}</br>
+                        Tender Bond Request: {{$requisition->tender_bond}}</br>
+                        Number of days: {{$requisition->number_days}}</br>
+                        @endif
                         </div>
                         
                         <div class="col-sm-6">
@@ -85,6 +91,14 @@ text-align: center;
                         Estimated Cost: {{$requisition->internalrequisition->currency->abbr}} ${{number_format($requisition->internalrequisition->estimated_cost,2)}} </br>
                         Cost Variance: {{$requisition->cost_variance/100}}%</br>
                         Term: {{$requisition->delivery}} </br>
+                        @if($requisition->advertisement_method)
+                        Method of Advertisement:{{$requisition->advertisement_method->name}}</br>
+                        Number Bid Request: {{$requisition->bid_request}}</br>
+                        Number Bid Received: {{$requisition->bid_received}}</br>
+                        Bid validity: {{$requisition->validity}}</br>
+                        Expiration Date: {{$requisition->expiration_date}}</br>
+                        Transport_cost: ${{number_format($requisition->transport_cost,2)}}</br>
+                        @endif
                        
                         
 
@@ -190,6 +204,12 @@ text-align: center;
   <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
   @endif
     </tr>
+    @if($requisition->transport_cost != null)
+    <tr>
+      <td style='width:20px;'>Transport Cost</td>
+      <td style='width:20px;'><input id='transport' value="${{number_format($requisition->transport_cost,2)}}" readonly type='text' value="0.0" size="10" style='border:none;outline:none;background: transparent;'></td>
+    </tr>
+    @endif
    <tr>
     <td  style='width:20px;'>Grand Total</td>
      <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>

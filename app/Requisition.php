@@ -70,6 +70,11 @@ class Requisition extends Model implements Auditable
 
     }
 
+    public function advertisement_method()
+    {
+        return $this->belongsTo('App\AdvertisementMethod');
+
+    }
     public function category()
     {
         return $this->belongsTo('App\StockCategory');
@@ -98,5 +103,10 @@ class Requisition extends Model implements Auditable
    public function transfer(){
     return $this->hasOne('App\InstitutionTransfer');
    }
+
+   public function committee(){
+    return $this->hasOne('App\ProcurementCommittee');
+   }
+   
    
 }

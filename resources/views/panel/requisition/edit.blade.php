@@ -91,7 +91,7 @@ text-align: center;
                       <label for="date-of-last" class="col-sm-2 col-form-label">Estimated Cost</label>
                       <div class="col-sm-4">
                          <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
-                        <input type="number" class="form-control" required placeholder="{{number_format($requisition->internalrequisition->estimated_cost,2)}}" readonly id= 'estimated_cost' name='estimated_cost' read>
+                        <input type="number" class="form-control" value="{{$requisition->internalrequisition->estimated_cost}}" readonly id= 'estimated_cost' name='estimated_cost' read>
                        
                       </div>
                       </div>
@@ -145,6 +145,22 @@ text-align: center;
                          
                         </div>
                         </div>
+                        <div class="form-group row">
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Percentage Variance</label>
+                          <div class="col-sm-4">
+                           
+                           
+                          <input type="number" class="form-control" value="{{$requisition->cost_variance}}" id='cost_variance' name='cost_variance' readonly>
+                          </div>
+  
+                          <label for="date-of-last" class="col-sm-2 col-form-label">Supplier Trn</label>
+                          <div class="col-sm-4">
+                           
+                           <input type="number" class="form-control" value="{{$requisition->supplier->trn}}" id='trn' name='trn'readonly>
+                           
+                          </div>
+                          
+                          </div>
 
                         <div class="form-group row">
                           <label for="currency_type" class="col-sm-2 col-form-label">Currency</label>
@@ -226,7 +242,83 @@ text-align: center;
                         
                           </div>
                             </div>
-
+                            @if($requisition->advertisement_method != null)
+                            <div class="form-group row">
+                              <label for="advertisement_method" class="col-sm-2 col-form-label">Method of advertisement </label>
+                              <div class="col-sm-4">
+                              <select type="input" class="form-control" name="advertisement_method" id="advertisement_method" required>
+                                <option value="{{$requisition->advertisement_method->id}}">{{$requisition->advertisement_method->name}}</option>
+                              @foreach($advertisements->except([$requisition->advertisement_method->id]) as $method)
+                              <option value="{{$method->id}}">{{$method->name}}</option>
+                              @endforeach
+                              </select> 
+                              </div>
+                              <label for="tender_opening" class="col-sm-2 col-form-label">Tender Opening</label>
+                              <div class="col-sm-4">
+                              <span style="position: absolute; margin-left: 1px; margin-top: 6px;"></span>
+                              <input type="date" value= "{{$requisition->tender_opening}}"class="form-control" id="tender_opening" name='tender_opening' required>
+                              </div>
+                              </div>
+                              <div class="form-group row">
+                              <label for="tender_from" class="col-sm-2 col-form-label">Tender Period From</label>
+                              <div class="col-sm-4">
+                              <input type="date"  class="form-control" value= "{{$requisition->tender_from}}" id="tender_from" name='tender_from' required>
+                              </div>
+                              <label for="tender_to" class="col-sm-2 col-form-label">Tender Period To</label>
+                              <div class="col-sm-4">
+                              <input type="date" class="form-control" value= "{{$requisition->tender_to}}" id="tender_to" name='tender_to' required>
+                              </div>
+                              </div>
+                              <div class="form-group row">
+                              <label for="cost-centre" class="col-sm-2 col-form-label">Tender Bond Request</label>
+                              <div class="col-sm-4">
+                              <select type="input" class="form-control" name="tender_bond" id="tender_bond" required>
+                                <option selected value={{$requisition->tender_bond}}>{{$requisition->tender_bond ===1 ? "Yes":"No" }}</option>
+                                @if($requisition->tender_bond !=1)
+                                <option value=1>Yes</option>
+                                @else
+                                <option value=0>No</option>
+                                @endif
+                              </select> 
+                              </div>
+                              <label for="number_days" class="col-sm-2 col-form-label">Number of days</label>
+                              <div class="col-sm-4">
+                              <input type="number" class="form-control" value= "{{$requisition->number_days}}" id="number_days" name='number_days' readonly required>
+                              </div>
+                              </div>
+                              
+                              <div class="form-group row">
+                              <label for="bid_request" class="col-sm-2 col-form-label">Bid Request</label>
+                              <div class="col-sm-4">
+                              <input type="number" class="form-control" value= "{{$requisition->bid_request}}" id="bid_request" name='bid_request' required>
+                              </div>
+                              <label for="bid_received" class="col-sm-2 col-form-label">Bid Received</label>
+                              <div class="col-sm-4">
+                              <input type="number" class="form-control" value= "{{$requisition->bid_received}}" id="bid_received" name='bid_received' required>
+                              </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="bid_val" class="col-sm-2 col-form-label">Bid Validity</label>
+                                <div class="col-sm-4">
+                                <input type="number" class="form-control" value= "{{$requisition->validity}}" id="validity" name="validity" required>
+                                </div>
+                                <label for="bid_received" class="col-sm-2 col-form-label">Expiration Date</label>
+                                <div class="col-sm-4">
+                                <input type="text" class="form-control" value= "{{$requisition->expiration_date}}" id="expiration_date" name="expiration_date" readonly required>
+                                </div>
+                                </div>
+                              
+                                <div class="form-group row">
+                                <label for="transport" class="col-sm-2 col-form-label">Transport Cost</label>
+                                <div class="col-sm-4">
+                                <input type="number" class="form-control" value= "{{$requisition->transport_cost}}" id="transport_cost" name="transport_cost" required>
+                                </div>
+                              
+                                <div class="col-sm-4">
+                                
+                                </div>
+                                </div>
+                                @endif
                             <div class='above'>
 
                               <div class="form-group row">
@@ -234,14 +326,11 @@ text-align: center;
                               <div class="col-sm-4">
                               <input type="number" class="form-control" value="{{$requisition->tcc}}" name='tcc'>
                               </div>
-                              <label for="cost-centre" class="col-sm-2 col-form-label">TCC Expired </label>
+                              <label for="tcc_expired" class="col-sm-2 col-form-label">TCC Expired </label>
                              
                               <div class="col-sm-4">
                               <div class="input-group date" id="tcc_expired" data-target-input="nearest">
-                              <input type="text" class="form-control datepicker-input" name='tcc_expired_date' id='tcc_expired_date' value='{{$requisition->tcc_expired_date}}' data-target="#tcc_expired"/>
-                              <div class="input-group-append" data-target="#tcc_expired" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
+                              <input type="date" class="form-control datepicker-input" name='tcc_expired_date' id='tcc_expired_date' value='{{$requisition->tcc_expired_date}}' data-target="#tcc_expired"/>
                               </div>
                               
                               </div>
@@ -257,10 +346,7 @@ text-align: center;
                              
                               <div class="col-sm-4">
                               <div class="input-group date" id="ppc_expired" data-target-input="nearest">
-                              <input type="text" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{$requisition->ppc_expired_date}}' data-target="#ppc_expired"/>
-                              <div class="input-group-append" data-target="#tcc_expired" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
+                              <input type="date" class="form-control datepicker-input" name='ppc_expired_date' id='ppc_expired_date' value='{{$requisition->ppc_expired_date}}' data-target="#ppc_expired"/>
                               </div>
                               
                               </div>
@@ -272,22 +358,7 @@ text-align: center;
       
                              </div>
       
-                            <div class="form-group row">
-                              <label for="date-of-last" class="col-sm-2 col-form-label">Percentage Variance</label>
-                              <div class="col-sm-4">
-                               
-                               
-                              <input type="number" class="form-control" value="{{$requisition->cost_variance}}" id='cost_variance' name='cost_variance' readonly>
-                              </div>
-      
-                              <label for="date-of-last" class="col-sm-2 col-form-label">Supplier Trn</label>
-                              <div class="col-sm-4">
-                               
-                               <input type="number" class="form-control" value="{{$requisition->supplier->trn}}" id='trn' name='trn'readonly>
-                               
-                              </div>
-                              
-                              </div>
+                           
                         
                         
 
@@ -304,7 +375,10 @@ text-align: center;
 
                         </div>
                            <div id="table" class="table-editable">
-                <span class="table-add float-right mb-3 mr-2"></span>
+                            <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
+                          
+                          <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
+               
           <table id="stock-table" class="table table-bordered table-responsive-md text-center">
             <thead>
               <tr>
@@ -330,9 +404,9 @@ text-align: center;
                 {{-- <td>{{$stock->unit_cost}}</td> --}}
                 {{-- <td>{{$stock->estimated_total}}</td> --}}
                  <td>
-                  <input name='actual_cost[]' id="actual_cost" size="5" value="{{$stock->actual_cost }}" class='actual_cost' min="0.00" step="1"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required></td>
+                  <input name='actual_cost[]' id="actual_cost" size="5" value="{{$stock->actual_cost }}" class='actual_cost' min="0.00" step="any"  type='number'style='width:80px; border:blue;outline:blue;background:white;' required></td>
                 <td>
-                  <input name='actual_total[]' id="actual_total" size="5" value="{{$stock->actual_total}}" class='actual_total' min="0.00" step="1"  type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+                  <input name='actual_total[]' id="actual_total" size="5" value="{{$stock->actual_total}}" class='actual_total' min="0.00" step="any"  type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
                 </td>
             
        
@@ -366,6 +440,12 @@ text-align: center;
     <td style='width:42px;'><input  readonly  name="sales_tax" id="sales_tax" type='text' size="10" value="${{number_format($requisition->internalrequisition->stocks->sum('actual_total') * .15,2) }}" style='border:none;outline:none;background: transparent;'></td>
     @endif
     </tr>
+    @if($requisition->transport_cost)
+    <tr>
+      <td style='width:20px;'>Transport Cost</td>
+      <td style='width:20px;'><input id='transport' value="${{number_format($requisition->transport_cost,2)}}" readonly type='text' value="0.0" size="10" style='border:none;outline:none;background: transparent;'></td>
+    </tr>
+    @endif
    <tr>
     <td  style='width:20px;'>Grand Total</td>
      <td style='width:20px;'><input id='grandtotal' readonly type='text' value="${{number_format($requisition->contract_sum,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
@@ -577,7 +657,7 @@ text-align: center;
 
     @push('scripts')
     <script src="/js/dataTables.select.min.js"></script>
-    <script src="/js/editable-table.js"></script> 
+    {{-- <script src="/js/editable-table.js"></script>  --}}
     <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="/js/pages/dashboard.min.js"></script>
@@ -588,266 +668,272 @@ text-align: center;
       
     @push('scripts')
     <script>
-//     $(document).ready(function(){
-// $('#next-1').click(function(){
-// $('#second').show();
-// $('#first').hide();
-// $('#third').hide();
-// $('#progressBar').css("width","67%")
-// $('#progressText').html('Step -2')
-// });
+    $(document).ready(function () {
 
-
-// $('#next-2').click(function(){
-//     $('#first').hide();
-//     $('#second').hide();
-//     $('#third').show();
-//     $('#progressBar').css("width","100%")
-//     $('#progressText').html('Step -3')
-
-// })
-
-// $('#previous').click(function(){
-//     $('#first').show();
-//     $('#second').hide();
-//     $('#progressBar').css("width","33.5%")
-//     $('#progressText').html('Step -1')
-
-// })
-// $('#previous-1').click(function(){
-//     $('#first').hide();
-//     $('#third').hide();
-//     $('#second').show();
-
-//     $('#progressBar').css("width","67%")
-//     $('#progressText').html('Step -2')
-
-// })
-
-// });
-
-
-
-
-$('#table').ready(function() {
-    var table = $('<table></table>').addClass('foo');
-        for (var i = 0; i < 10; i++) {
-                row = $('<tr></tr>');
-                for (var j = 0; j < 10; j++) {
-                    var rowData = $('<td></td>').addClass('bar').text('result ' + j);
-                    row.append(rowData);
-                }
-                table.append(row);
-            }
-
-        if ($('table').length) {
-             $("#someContainer tr:first").after(row);
-        }
-        else {
-            $('#someContainer').append(table);
-        }
-    });
-
-
-$(document).ready(function(){
-
-  $('.btn-add-more').click(function(){
-  
-    var html = $('.hide').html();
-    $('.img_div').after(html);
-  });
-
-
-   $("body").on("click",".btn-remove",function(){ 
-    $('.form-group').attr('disable',true);
-          $(this).parents(".form-group").remove();
+      $("#requisition_form").submit(function (e) {
+      
+      //stop submitting the form to see the disabled button effect
+      //e.preventDefault();
+      
+      //disable the submit button
+      $("#btnSubmit").attr("disabled", true);
+      
+      
+      return true;
+      
       });
-
-
-});
-
-
-
-function deleteFile(id){
-  swal({
-    title: "Are you sure?",
-    text: "You will not be able to undo this action once it is completed!",
-    dangerMode: true,
-    cancel: true,
-    confirmButtonText: "Yes, Delete it!",
-    closeOnConfirm: false
-  }).then(isConfirm => {
-    if (isConfirm) {
-      $.get( {!! json_encode(url('/')) !!} + "/file/delete/"+id).then(function (data) {
-        console.log(data);
-        if (data == "success") {
-          swal(
-            "Done!",
-            "The File was successfully deleted!",
-            "success").then(esc => {
-              if(esc){
-               location.reload();
-              }
-            });
-          }
-          else if(data=="existing_sign_off"){
-            swal("Error",
-            "This requisition is already signed off and is not allowed to be deleted.",
-            "error");
-          }
-          else{
-            swal(
-              "Oops! Something went wrong.",
-              "The file was NOT deleted.",
-              "error");
-            }
-          });
-        }
       });
-    }
-
-
-
-
-
-
-
-//     $('#contract_sum,#estimated_cost' ).on('input',function(){
-// let cost_variance;
-// var contractSum = parseFloat($('#contract_sum').val());
-// var estimated_cost = parseFloat($('#estimated_cost').val());
-// cost_variance =parseFloat((estimated_cost-contractSum)/estimated_cost * 100);
-// console.log(cost_variance);
-//  $('#cost_variance').val(((estimated_cost-contractSum)/estimated_cost * 100  ? (estimated_cost-contractSum)/estimated_cost  *100 : 0).toFixed(2));
-//  var requisition_type = $('#requisition_type').val();
-//  console.log(requisition_type);
-//  if(cost_variance  > 15 || cost_variance  > 15 ){
-//  //alert('error cost variance is 15% above contract sum');
-//  }else{
-//  // alert('error cost variance is 15% below contract sum');
-//  }
-
-// });
-
-
-$(document).ready(function(){
-$('#contract_sum').on('input',function(){
-let cost_variance;
-var contractSum = parseFloat($('#contract_sum').val());
-var estimated_cost = parseFloat($('#estimated_cost').val());
-//var requisition_type = $('#requisition_type').val());
-if(contractSum >= 1500000){
- $('.above').show();
-
-}else{
-  $('.above').hide();
-}
-
-})
-var contractSum = parseFloat($('#contract_sum').val());
-if(contractSum >= 1500000){
- $('.above').show();
-
-}else{
-  $('.above').hide();
-}
-
-
-
-
-});
-
-
-
-$(document).ready(function () {
-  $('.quantity, .actual_cost,#tax').change(function () {
-    var parent = $(this).closest('tr');
-    parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
-   calculateSum();
-   percentageVariance();
-  });
-  
-   
-});
-
-
-  function calculateSum() {
-            var sum = 0;
-            var grand = 0;
-            var tax = 0;
-            var include_tax = $("#tax").val();
-            //iterate through each textboxes and add the values
-            $(".actual_total").each(function () {
-                //add only if the value is number
-                if (!isNaN(this.value) && this.value.length != 0) {
-                    sum += parseFloat(this.value);
-                    if(include_tax == 0){
-                      tax = 0;
-                    grand = tax + sum
-                    }else{
-                    tax = sum * .15;
-                    grand = tax + sum
-                    }
-                }
-            });
-
-            //.toFixed() method will roundoff the final sum to 2 decimal places
-            $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-            $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-            $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-             $("#contract_sum").val(grand.toFixed(2));
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      // $('#table').ready(function() {
+      // var table = $('<table></table>').addClass('foo');
+      // for (var i = 0; i < 10; i++) {
+      // row = $('<tr></tr>');
+      // for (var j = 0; j < 10; j++) {
+      // var rowData = $('<td></td>').addClass('bar').text('result ' + j);
+      // row.append(rowData);
+      // }
+      // table.append(row);
+      // }
+      
+      // if ($('table').length) {
+      // $("#someContainer tr:first").after(row);
+      // }
+      // else {
+      // $('#someContainer').append(table);
+      // }
+      // });
+      
+      $(document).ready(function () {
+      $('.quantity, .actual_cost,#tax,#transport_cost').change(function () {
+      var parent = $(this).closest('tr');
+      parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
+      calculateSum();
+      percentageVariance();
+      above();
+      });
+      
+      $('#tender_from,#tender_to,#validity').on('change',function(){
+        var date = new Date();
+        var startDate= $("#tender_from").val();
+        var endDate= $("#tender_to").val();
+      
+        var start = new Date(startDate);
+        var end = new Date(endDate);
+        // console.log(start);
+        // alert(start);
+        var diffDate = (end - start) / (1000 * 60 * 60 * 24);
+        var days = Math.round(diffDate);
+        $('#number_days').val(days);
+        DateAdd(start);
+      
+        
+        
+      });
+        function DateAdd(date){
+          var validity = parseInt($("#validity").val());
+         date.setDate(date.getDate() + validity );
+        //var  expiration_date = date.toString();
+       var expiration_date = $.datepicker.formatDate('dd-m-yy', new Date(date));
+        $('#expiration_date').val(expiration_date);
+      
         }
-
-
-        function percentageVariance()
-      {
-        var contractSum = parseFloat($('#contract_sum').val());
-        var estimated_cost = {!! json_encode($requisition->internalrequisition->estimated_cost, JSON_HEX_TAG) !!};
-        console.log(estimated_cost);
-        $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100).toFixed(2));
+      
+      
+      
+      
+      });
+      
+      function calculateSum() {
+      var sum = 0;
+      var grand = 0;
+      var tax = 0;
+      var include_tax = $("#tax").val();
+      var transport = parseFloat($("#transport_cost").val());
+      // alert(transport);
+      //iterate through each textboxes and add the values
+      $(".actual_total").each(function () {
+      //add only if the value is number
+      if (!isNaN(this.value) && this.value.length != 0) {
+      sum += parseFloat(this.value);
+      if(include_tax == 0){
+      tax = 0;
+      grand = tax + sum + transport;
+      }else{
+      tax = sum * .15;
+      grand = tax + sum + transport ;
       }
-
-
-
-
-  </script>
-
-
-  <script>
-
-
-$(document).ready(function(){
- $('#supplier').change(function() {
-   supplier = $(this).val();
-   $("#trn").empty();
-$.ajax({
-type:"GET",
-url:"/getSuppliers",
-dataType:'json', 
-success: function (data) {  
-              var len = 0;
-              if(data != null){
-              len= data.length;
-           
-              }
-              if(len>0){
-                for(var i =0; i< len;i++){
-                 if(data[i].id == supplier){
-                  var trn = data[i].trn;
-                  var address = data[i].address;
-                  $("#trn").val(trn);
-                  $("#address").val(address);
-                  
-                 }
-                }
-              }
-           }  
-
-});
-});
-});
-
+      }
+      });
+      
+      //.toFixed() method will roundoff the final sum to 2 decimal places
+      $("#subtotal").val('$' + parseFloat(sum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+      $("#grandtotal").val('$' + parseFloat(grand, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+      $('#sales_tax').val('$' + parseFloat(tax, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+      $("#transport").val(transport.toFixed(2));
+      $("#contract_sum").val(grand.toFixed(2));
+      }
+      function percentageVariance()
+      {
+      var contractSum = $('#contract_sum').val();
+      var estimated_cost = parseFloat($('#estimated_cost').val());
+      console.log(estimated_cost);
+      $('#cost_variance').val((( estimated_cost-contractSum)/estimated_cost * 100).toFixed(2));
+      }
+      function above()
+      {
+      var contractSum = $('#contract_sum').val();
+      if(contractSum >= 1500000){
+      $('.above').show();
+      console.log(requisition_type);
+      }else{
+      $('.above').hide();
+      }
+      
+      // $('#tender_from,#tender_to').on('change',function(){
+      //   var startDate= $("#tender_from").val();
+      //   var endDate= $("#tender_to").val();
+      
+      //   var start = new Date(startDate);
+      //   var end = new Date(endDate);
+      //   var diffDate = (end - start) / (1000 * 60 * 60 * 24);
+      //   var days = Math.round(diffDate);
+      //   $('#num_days').val(days);
+      
+        
+      // });
+      
+      }
+      
+      
+      
+      
+      
       </script>
+      
+      <script>
+      
+      $(document).ready(function(){
+      $('#supplier').change(function() {
+      supplier = $(this).val();
+      $("#trn").empty();
+      $.ajax({
+      type:"GET",
+      url:"/getSuppliers",
+      dataType:'json', 
+      success: function (data) { 
+      var len = 0;
+      if(data != null){
+      len= data.length;
+      }
+      if(len>0){
+      for(var i =0; i< len;i++){
+      if(data[i].id == supplier){
+      var trn = data[i].trn;
+      var address = data[i].address;
+      $("#trn").val(trn);
+      $("#address").val(address);
+      }
+      }
+      }
+      } 
+      
+      });
+      });
+      });
+      
+      // add support documents
+
+      $(document).ready(function(){
+      $('.btn-add-more').click(function(){
+      
+      var html = $('.hide').html();
+      $('.img_div').after(html);
+      });
+      
+      $("body").on("click",".btn-remove",function(){ 
+      $('.form-group').attr('disable',true);
+      $(this).parents(".form-group").remove();
+      });
+      
+      });
+      
+      </script>
+      
+      
+      <script>
+        $(document).ready(function(){
+       $row= `
+        <tr>
+                      <td>
+                      <input name='add_item_number[]' class='productname' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
+                     
+                      </td>
+                      <td>
+                      
+                        
+                         <input name='add_descriptions[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
+                      </td>
+                      <td>
+                      <input name='add_quantity[]'  class='quantity' type='number' size="5"style='width:60px;border:none;outline:none;background: transparent;' required>
+                      </td>
+                      
+                      <td>
+                        <select name='add_unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'required>
+                          <option value="">select</option>
+                        @foreach ($units as $unit)
+                        <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
+                        @endforeach
+                       
+                        </select>
+                  
+                      </td> 
+                      <td>
+                        <input name='add_actual_cost[]' id="actual_cost" size="5"  class='actual_cost' min="0.00" step="any" type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+                      </td>
+                      <td>
+                      <input name='add_actual_total[]' id="actual_total" size="5" class='actual_total' min="0.00" step="any" type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+                      </td>
+                     
+        </tr>
+        
+        
+        `;
+      
+      
+        $('#add').on("click",function(){
+          $('#stock-table tr:last').after($row); 
+          $('.quantity, .actual_cost,#tax,#transport_cost').change(function () {
+          var parent = $(this).closest('tr');
+          parent.find('.actual_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.actual_cost').val()))
+          calculateSum();
+          percentageVariance();
+          above();
+          });
+          
+         
+        })
+      
+      
+        $('#remove_button').on("click",function(){
+          console.log($tableID.find("tbody tr").length);
+          if ($tableID.find("tbody tr").length === 2) {
+            $(".btn-danger").attr("disabled",true);
+           
+          
+          }
+          
+        })
+      
+      });
+      </script> 
 
 
   
