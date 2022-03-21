@@ -172,10 +172,12 @@ class DashboardController extends Controller
                      )
                      ->where('requisitions.deleted_at',null)
    // ->whereYear('requisitions.created_at', '=', 2021)
-    ->groupBy('parish','requisitions.institution_id')
+    ->groupBy('parish')
     // ->where('parishes.id','=',auth()->user()->institution->parish->id)
     ->orderBy('sums', 'DESC')
     ->get();
+
+    
       $chart = new  DataChart;
       $chart -> labels( $spend_by_parish->pluck('parish'));
       $chart->dataset(' Spend by Parish','bar', $spend_by_parish->pluck('sums'))
