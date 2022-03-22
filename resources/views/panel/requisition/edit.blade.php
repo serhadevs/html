@@ -933,6 +933,48 @@ text-align: center;
         })
       
       });
+
+
+
+
+
+      function deleteFile(id){
+  swal({
+    title: "Are you sure?",
+    text: "You will not be able to undo this action once it is completed!",
+    dangerMode: true,
+    cancel: true,
+    confirmButtonText: "Yes, Delete it!",
+    closeOnConfirm: false
+  }).then(isConfirm => {
+    if (isConfirm) {
+      $.get( {!! json_encode(url('/')) !!} + "/file/delete/"+id).then(function (data) {
+        console.log(data);
+        if (data == "success") {
+          swal(
+            "Done!",
+            "The File was successfully deleted!",
+            "success").then(esc => {
+              if(esc){
+               location.reload();
+              }
+            });
+          }
+          else if(data=="existing_sign_off"){
+            swal("Error",
+            "This requisition is already signed off and is not allowed to be deleted.",
+            "error");
+          }
+          else{
+            swal(
+              "Oops! Something went wrong.",
+              "The file was NOT deleted.",
+              "error");
+            }
+          });
+        }
+      });
+    }
       </script> 
 
 
