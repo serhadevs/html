@@ -69,13 +69,19 @@ class CheckPurchaseController extends Controller
         ->OrWhere(function($query){
             $query->having('approve_count','>',2)->where('contract_sum','>',500000);
         })
-        // ->whereHas('store_approves')
+       
        
         ->latest()
         ->get();
 
         }else if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])){
             $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
+            ->withCount(['approve'=>function($query){
+                $query->where('is_granted',1);
+            }])
+            ->OrWhere(function($query){
+                $query->having('approve_count','>',2);
+            })
              ->latest()
              ->get();
 
@@ -87,11 +93,17 @@ class CheckPurchaseController extends Controller
                     ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
             
                  })
+                 ->withCount(['approve'=>function($query){
+                    $query->where('is_granted',1);
+                }])
+                ->OrWhere(function($query){
+                    $query->having('approve_count','>',2);
+                })
                  ->latest()
                  ->get();
 
               
-        
+      
 
 
 
@@ -103,9 +115,17 @@ class CheckPurchaseController extends Controller
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
+         ->withCount(['approve'=>function($query){
+            $query->where('is_granted',1);
+        }])
+        ->OrWhere(function($query){
+            $query->having('approve_count','>',2);
+        })
         ->latest()
         ->get();
 }
+
+
                 // $comment = new Comment();
                 // $comment->check_id = 1;
                 // $comment->type ='accept';
