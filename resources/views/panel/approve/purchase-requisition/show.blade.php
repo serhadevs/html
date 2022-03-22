@@ -288,8 +288,19 @@ text-align: center;
                        
                         Budget Commitment by: <span class='badge badge-success'>{{$requisition->internalRequisition->budget_commitment->user->abbrName()}} </span></br>
                         Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->budget_commitment->created_at}}</span></br>
-                        Accepted by: <span class='badge badge-success'>{{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}} </span></br>
-                        Date:  <span class='badge badge-success'>{{$requisition->check->created_at}}</span></br>
+                        {{-- Accepted by: <span class='badge badge-success'>{{$requisition->check->user->firstname[0]}}. {{$requisition->check->user->lastname}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$requisition->check->created_at}}</span></br> --}}
+                        @if($requisition->check)
+                          @if($requisition->check->is_checked===1)
+                          @foreach($requisition->check->where('requisition_id',$requisition->id)->get() as $key => $check)
+                          {{$check->user->institution_id == 1? 'RO':'Institute'}} accepted by: <span class='badge badge-success'> {{$check->user->abbrName()}}</span></br>
+                          Date:<span class='badge badge-success'>{{$check->created_at}}</span></br>
+                          @endforeach
+                         
+                          @else
+                          Accepted by: 
+                          @endif
+                          @endif
                         Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
                         Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span></br>
                         @if($requisition->approve)
@@ -327,6 +338,9 @@ text-align: center;
                       @elseif($requisition->approve_count ===2 AND in_array(auth()->user()->role_id,[1,12]))
                       <button type="button"  id="btnrefuse"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                       <button type="button" id="btnapprove"  class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>      
+                      @elseif($requisition->approve_count ===1 AND $requisition->contract_sum >= 5000000)
+                      <button type="button"  id="btnrefuse"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                      <button type="button" id="btnapprove"  class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>    
                       @else
                             <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
                             <button type="button"   class="btn btn-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');"disabled>Approve</button></br>
