@@ -299,7 +299,7 @@ return redirect('/purchase-requisition')->with('status', 'Requisition was create
 
 $count = 0;
 $requisition= Requisition::with(['internalrequisition'])->withCount(['approve'])->find($id);
-
+// dd($requisition);
 if($requisition->approve){
     // dd($requisition->approve->where('requisition_id',$id));
 $count = $requisition->approve->where('requisition_id',$id)->count();
