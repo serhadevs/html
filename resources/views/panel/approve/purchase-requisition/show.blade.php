@@ -338,7 +338,7 @@ text-align: center;
                       @elseif($requisition->approve_count ===2 AND in_array(auth()->user()->role_id,[1,12]))
                       <button type="button"  id="btnrefuse"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                       <button type="button" id="btnapprove"  class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>      
-                      @elseif($requisition->approve_count ===1 AND $requisition->contract_sum >= 5000000)
+                      @elseif($requisition->approve_count >=1 AND $requisition->contract_sum >= 5000000)
                       <button type="button"  id="btnrefuse"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                       <button type="button" id="btnapprove"  class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>    
                       @else
