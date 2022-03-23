@@ -4,12 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ProcurementCommittee extends Model
+class ProcurementCommittee extends Model implements Auditable
 {
     //
     protected $guarded = ['*'];
     use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
 
     public function requisition()
     {

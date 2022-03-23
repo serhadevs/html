@@ -124,38 +124,102 @@ class DashboardController extends Controller
        })->sum(DB::raw('requisitions.contract_sum'));
 
 
+      }elseif(in_array(auth()->user()->role_id,[1,6,10,11,12,14]))
+      {
+        $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->count();
+        $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
+        $purchase_Orders = PurchaseOrder::with(['requisition'])
+        ->whereHas('requisition', function ($query) {
+        $query->where('institution_id', '=', auth()->user()->institution_id);
+              })
+        ->count();
+        $tendering = InternalRequisition::with('approve_budget')
+        ->whereHas('approve_budget',function($query){
+          $query->where('is_granted',1)->where('deleted_at',null);
+        })
+        ->where('institution_id', '=', auth()->user()->institution_id)
+        ->count();
+        // $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
+  
+        $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->sum('estimated_cost'); 
+        $tendering_sum = InternalRequisition::with('approve_budget')->whereHas('approve_budget',function($query){
+          $query->where('is_granted',1)->where('deleted_at',null);
+        })
+        ->where('institution_id', '=', auth()->user()->institution_id)
+        ->sum('estimated_cost');
+        $requisition_sum = Requisition::where('institution_id', '=', auth()->user()->institution_id)->sum('contract_sum'); 
+        $purchase_Orders_sum = DB::table('purchase_orders')
+        ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+        ->select('contract_sum')
+        ->where('institution_id', '=', auth()->user()->institution_id)
+        ->sum(DB::raw('requisitions.contract_sum'));
+
+
+
+
+
       }else{
 
         
-      $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->count();
-      $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
-      $purchase_Orders = PurchaseOrder::with(['requisition'])
+      $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->where('department_id', auth()->user()->department_id)->count();
+      $requisitions= Requisition::with(['requisition'])
+      ->where('institution_id', '=', auth()->user()->institution_id)
+      // ->where('department_id', auth()->user()->department_id)
+      ->whereHas('internalrequisition',function($query){
+        $query->where('department_id',auth()->user()->department_id);
+      })
+      ->count();
+     
+     
+     
+      $purchase_Orders = PurchaseOrder::with(['requisition','internalrequisition'])
       ->whereHas('requisition', function ($query) {
       $query->where('institution_id', '=', auth()->user()->institution_id);
+      $query->whereHas('internalrequisition',function($query){
+        $query->where('department_id',auth()->user()->department_id);
+      });
+     // $query->where('department_id',auth()->user()->department_id);
             })
+      // ->whereHas('internalrequisition',function($query){
+      //         $query->where('department_id',auth()->user()->department_id);
+      //       })
       ->count();
+
       $tendering = InternalRequisition::with('approve_budget')
       ->whereHas('approve_budget',function($query){
         $query->where('is_granted',1)->where('deleted_at',null);
       })
       ->where('institution_id', '=', auth()->user()->institution_id)
+      ->where('department_id', auth()->user()->department_id)
       ->count();
       // $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
 
-      $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->sum('estimated_cost'); 
+      $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->where('department_id', auth()->user()->department_id)->sum('estimated_cost'); 
+      
       $tendering_sum = InternalRequisition::with('approve_budget')->whereHas('approve_budget',function($query){
         $query->where('is_granted',1)->where('deleted_at',null);
       })
       ->where('institution_id', '=', auth()->user()->institution_id)
+      ->where('department_id', auth()->user()->department_id)
       ->sum('estimated_cost');
-      $requisition_sum = Requisition::where('institution_id', '=', auth()->user()->institution_id)->sum('contract_sum'); 
+
+      $requisition_sum = Requisition::with(['internalrequisition'])
+      ->where('institution_id', '=', auth()->user()->institution_id)
+      ->whereHas('internalrequisition',function($query){
+        $query->where('department_id',auth()->user()->department_id);
+      })
+      // ->where('department_id', auth()->user()->department_id)
+      ->sum('contract_sum'); 
+      
       $purchase_Orders_sum = DB::table('purchase_orders')
       ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+      ->join('internal_requisitions','internal_requisitions.id','=','requisitions.internal_requisition_id')
       ->select('contract_sum')
-      ->where('institution_id', '=', auth()->user()->institution_id)
+      ->where('requisitions.institution_id', '=', auth()->user()->institution_id)
+      ->where('internal_requisitions.department_id', auth()->user()->department_id)
       ->sum(DB::raw('requisitions.contract_sum'));
 
-      
+    
           }
     
 
@@ -221,10 +285,45 @@ class DashboardController extends Controller
 // ->where('parishes.id','=',auth()->user()->institution->parish->id)
 
     ->get();
-    //dd($spend_by_institution);
+    $chart3 = new DataChart;
+    $chart3->labels($spend_by_institution->pluck('institution'));
+    $chart3->dataset(' Spend by Institution', 'bar',$spend_by_institution->pluck('sums'))
+    ->backgroundColor('gold');
+
+    //volume by supplier
+    $valume_by_supplier = DB::table('purchase_orders')
+    ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+    ->join('suppliers','suppliers.id','=','requisitions.supplier_id')
+    ->select(          
+      DB::raw('Count(requisitions.id) as total'),'requisitions.supplier_id','suppliers.name as name')
+     ->groupBy('requisitions.supplier_id','suppliers.name')
+    ->get();
+    $chart4 = new DataChart;
+    $chart4->labels(  $valume_by_supplier->pluck('name'));
+    $chart4->dataset('volume by suppliers', 'horizontalBar',$valume_by_supplier->pluck('total'))
+    ->backgroundColor('orange');
+    
+    //spend to supplier
+    $spend_by_supplier = DB::table('purchase_orders')
+    ->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+    ->join('suppliers','suppliers.id','=','requisitions.supplier_id')
+    ->select(          
+      DB::raw('Sum(requisitions.contract_sum) as sum'),'requisitions.supplier_id','suppliers.name as name')
+     ->groupBy('requisitions.supplier_id','suppliers.name')
+     ->orderBy('sum', 'DESC')
+     ->limit(10);
+    
+    $chart5 = new DataChart;
+    $chart5->labels(  $spend_by_supplier->pluck('name'));
+    $chart5->dataset('Top ten spend by suppliers', 'horizontalBar',$spend_by_supplier->pluck('sum'))
+    ->backgroundColor('green');
+ 
 
 
-    //assignto
+  
+   
+
+
     $assign_internal_requisitions = InternalRequisition::with(['assignto', 'approve_internal_requisition', 'budget_commitment', 'approve_budget','requisition'])
     ->whereHas('approve_internal_requisition', function ($query) {
         $query->where('is_granted', '=', 1);
@@ -237,16 +336,22 @@ class DashboardController extends Controller
     ->get();
     // dd(auth()->user()->assignTo->isEmpty());
 
-    $chart3 = new DataChart;
-    $chart3->labels($spend_by_institution->pluck('institution'));
-    $chart3->dataset(' Spend by Institution', 'bar',$spend_by_institution->pluck('sums'))
-    ->backgroundColor('gold');
+    
   
 
       $internalrequisition =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionPublish')->get();
       $internalRequisitionApprove =  Notification::where('notifiable_id',auth()->user()->id)->where('type','App\Notifications\InternalRequisitionApprovePublish')->get();
            
-        return view('panel.dashboard.index',['purchase_Orders_sum'=> $purchase_Orders_sum,'requisition_sum'=>$requisition_sum,'tendering'=> $tendering,'tendering_sum' => $tendering_sum,'internal_requisition_sum'=>$internal_requisition_sum,'assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'internalrequisitions'=> $internalrequisitions]);
+
+
+
+
+
+
+
+
+
+        return view('panel.dashboard.index',['chart5'=>$chart5,'spend_by_supplier'=> $spend_by_supplier,'valume_by_supplier'=>$valume_by_supplier,'purchase_Orders_sum'=> $purchase_Orders_sum,'requisition_sum'=>$requisition_sum,'tendering'=> $tendering,'tendering_sum' => $tendering_sum,'internal_requisition_sum'=>$internal_requisition_sum,'assign_internal_requisitions'=>$assign_internal_requisitions,'internalrequisition'=>$internalrequisition,'chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'chart4'=>$chart4,'requisitions'=>$requisitions,'purchase_Orders'=>$purchase_Orders,'internalrequisitions'=> $internalrequisitions]);
     }
 
     public function markAsRead($id)

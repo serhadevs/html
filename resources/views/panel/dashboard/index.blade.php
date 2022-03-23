@@ -116,10 +116,20 @@
             {!! $chart2->container() !!}
             {!! $chart2->script() !!}
           </div>
-           <div class="col-lg-10 col-8">
+           <div class="col-lg-10 col-10">
             <!-- small box -->
             {!! $chart3->container() !!}
             {!! $chart3->script() !!}
+          </div>
+          <div class="col-lg-6 col-6">
+            <!-- small box -->
+            {!! $chart4->container() !!}
+            {!! $chart4->script() !!}
+          </div>
+          <div class="col-lg-6 col-6">
+            <!-- small box -->
+            {!! $chart5->container() !!}
+            {!! $chart5->script() !!}
           </div>
           @endif
 
