@@ -297,6 +297,7 @@ class DashboardController extends Controller
     ->select(          
       DB::raw('Count(requisitions.id) as total'),'requisitions.supplier_id','suppliers.name as name')
      ->groupBy('requisitions.supplier_id','suppliers.name')
+     ->orderBy('total', 'DESC')
     ->get();
     $chart4 = new DataChart;
     $chart4->labels(  $valume_by_supplier->pluck('name'));
