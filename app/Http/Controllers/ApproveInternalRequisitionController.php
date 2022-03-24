@@ -26,7 +26,7 @@ class ApproveInternalRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,2,3,10,11,12,14]) OR in_array(2,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,2,3,10,11,12,14,15]) OR in_array(2,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');
@@ -37,10 +37,10 @@ class ApproveInternalRequisitionController extends Controller
     public function index()
     {
         //
-      if(in_array(auth()->user()->role_id,[1,10,11,12]))
+      if(in_array(auth()->user()->role_id,[1,10,11,12,15]))
       {
 
-        if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])){
+        if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12,15])){
             $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution'])
             ->whereHas('certified_internal_requisition',function($query){
                  $query->where('is_granted','=', 1);

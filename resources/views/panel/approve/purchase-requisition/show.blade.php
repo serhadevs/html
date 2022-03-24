@@ -315,7 +315,7 @@ text-align: center;
                           @if(isset($requisition->approve))
                           @if($requisition->approve_count >= 2)
                           @foreach($requisition->approve->where('requisition_id',$requisition->id)->get() as $key=> $approve)
-                          {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                          {{$approve->user->role->name}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
                            Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
                           @endforeach
                           @endif
@@ -545,6 +545,9 @@ $(document).ready(function () {
  if(user_role_id == 11 && count == 0 && jQuery.inArray(requisition_int_id,int) ===-1){
   $("#btnapprove,#btnrefuse").attr("disabled", true);
  }else if(user_role_id == 10 && count == 1 ){
+  $("#btnapprove,#btnrefuse").attr("disabled", true);
+ }
+else if(user_role_id == 12  && count == 2 ){
   $("#btnapprove,#btnrefuse").attr("disabled", true);
  }
  

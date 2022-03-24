@@ -19,7 +19,7 @@ class DepartmentController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,3,9,12])) {
+            if (!in_array(auth()->user()->role_id, [1,3,9,12,15])) {
                 return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);

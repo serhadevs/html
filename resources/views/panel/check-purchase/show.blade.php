@@ -315,7 +315,7 @@ text-align: center;
                               @if(isset($requisition->approve))
                               @if($requisition->approve_count === 2)
                               @foreach($requisition->approve->where('requisition_id',$requisition->id)->get() as $key=> $approve)
-                              {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                              {{$approve->user->role->name}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
                                Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
                               @endforeach
                               @else

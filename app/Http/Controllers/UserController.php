@@ -47,7 +47,7 @@ class UserController extends Controller
         });
          }else{
             $this->middleware(function ($request, $next) {
-                if (in_array(auth()->user()->role_id, [1,3,9,12]) OR in_array(3,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+                if (in_array(auth()->user()->role_id, [1,3,9,12,15]) OR in_array(3,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
                     return $next($request);
                 } else {
                     return redirect('/dashboard')->with('error','Access Denied');
@@ -60,10 +60,8 @@ class UserController extends Controller
     }
     public function index()
     {
-        //
-       //dd(User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,13));
-       //dd(auth()->user()->userRoles_Id());
-        if(in_array(auth()->user()->role_id,[1,12]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
+        // dd(auth()->user()->department_count(auth()->user()->department_id));
+        if(in_array(auth()->user()->role_id,[1,12,15]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::with(['institution','department','role','unit'])->get();
         }else{
         $users = User::with(['institution','department','role','unit'])->where('institution_id','=',auth()->user()->institution_id)
@@ -105,6 +103,10 @@ class UserController extends Controller
     {
      
         try{
+            if(!in_array(auth()->user()->role_id,[1,12,15]) AND (User::department_count(auth()->user()->department_id) >=10)){
+          
+                return redirect('/user')->with('error', 'This department has the maximum amount of users.');
+            }
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -237,6 +239,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
        // dd($request->all());
+       if(!in_array(auth()->user()->role_id,[1,12,15]) AND (User::department_count($request->department) >=10)){
+          
+        return redirect('/user')->with('error', 'This department has the maximum amount of users.');
+    }
         $institutions = $request->institutions;
         $departments = $request->departments;
         $units = $request->units;

@@ -96,11 +96,11 @@ input[type="checkbox"]{
                     <td> <span class ="badge bg-green">Approved</span></td>
                     @elseif($requisition->approve->is_granted===0)
                     <td> <span class ="badge bg-yellow">Refused</span></td>
-                    @elseif($requisition->approve_count === 1 AND !in_array($requisition->institution_id,[1]))
+                    @elseif($requisition->approve_count === 1 AND !in_array($requisition->internalrequisition->institution_id,[1]))
                     <td> <span class ="badge bg-blue">Awaitin second Approval</span></td>
-                    @elseif($requisition->approve_count === 3 AND !in_array($requisition->institution_id,[1]))
+                    @elseif($requisition->approve_count === 3 AND !in_array($requisition->internalrequisition->institution_id,[1]))
                     <td> <span class ="badge bg-blue">Approved</span></td>
-                    @elseif($requisition->approve_count >= 1 AND $requisition->transfer AND in_array($requisition->institution_id,[1]))
+                    @elseif($requisition->approve_count === 1 AND $requisition->transfer AND !in_array($requisition->internalrequisition->institution_id,[1]))
                     <td> <span class ="badge bg-blue">Awaitin regional approval</span></td>
                     @else
                     <td> <span class ="badge bg-green">Approved</span></td>

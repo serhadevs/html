@@ -63,7 +63,7 @@
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
-                        @if(in_array(auth()->user()->role_id,[1,12]))
+                        @if(in_array(auth()->user()->role_id,[1,12,15]))
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" required>
                           <option value="">select type </option>
@@ -80,7 +80,7 @@
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="role" id="role" required>
                             <option value="">select type </option>
-                            @foreach($roles->except([1,12,14]) as $role)
+                            @foreach($roles->except([1,12,14,15]) as $role)
                            <option  value="{{$role->id}}" >{{$role->name}}</option>
   
                             @endforeach
@@ -98,7 +98,7 @@
                       </div>
                       <div class="form-group row">
                         <label for="location" class="col-sm-2 col-form-label">Location</label>
-                        @if(in_array(auth()->user()->role_id,[1,12]))
+                        @if(in_array(auth()->user()->role_id,[1,12,15]))
                         <div class="col-sm-4">
                         <select class="form-control multiple-select" name="institution" required>
                           <option value="">select institution </option>
@@ -153,7 +153,7 @@
                         </div> 
                         </div>
                        
-                        @if(in_array(auth()->user()->role_id,[1,12]))
+                        @if(in_array(auth()->user()->role_id,[1,12,15]))
                    
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
                         {{-- <hr style="width:50%;text-align:left;margin-left:0"> --}}

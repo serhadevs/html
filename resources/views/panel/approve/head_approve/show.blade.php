@@ -41,17 +41,18 @@ text-align: center;
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">
-                        <h3 class="card-title">Procurement Committee (PC)- Approval Form</h3>
+                        <h3 class="card-title">Head of Entity Approval Procurement Committee (PC)</h3>
                         </div>
                         </div>
+
+                     
                         </div>
           
                 </section>
             
       <div class="card-body">
-        <form class="form-horizontal" method="Post" autocomplete="off" action="/procurement-committee"  enctype="multipart/form-data" >
-          @csrf
-          
+       
+        
                         <div id="first">
                             <div class="card" style="width:83.6%">
                           <div class="card-body">
@@ -92,7 +93,7 @@ text-align: center;
                       <div class="col-sm-4">
                               <span style="position: absolute; margin-left: 1px; margin-top: 6px;">$</span>
                         <input type="number" class="form-control" placeholder="{{number_format($requisition->internalrequisition->estimated_cost,2)}}" readonly id= 'estimated_cost' readonly>
-                        <input type="hidden" name='id' value="{{$requisition->id}}"> 
+                        {{-- <input type="hidden" name='id' value="{{$requisition->id}}">  --}}
                       </div>
                       </div>
                       <div class="form-group row">
@@ -143,19 +144,10 @@ text-align: center;
                          
                           <div class="col-sm-4">
                             <input type="input" value="{{$requisition->internalrequisition->currency->abbr}}" class="form-control" readonly required>
-
-                        
-                       
-                         
-                          
                           </div> 
                           <label for="date-of-last" class="col-sm-2 col-form-label">Tax</label>
                           <div class="col-sm-4">
                            <input type="input" class="form-control" value="{{$requisition->tax_confirmed ===1 ? "Yes":"No" }}"  id="tax" required readonly>
-
-                          
-                          
-                           
                           </div>
                           </div>
                           <div class="form-group row">
@@ -258,16 +250,7 @@ text-align: center;
                                 </div>
                                 </div>
                               
-                                {{-- <div class="form-group row">
-                                <label for="transport" class="col-sm-2 col-form-label">Transport Cost</label>
-                                <div class="col-sm-4">
-                                <input type="number" class="form-control" value= "{{$requisition->transport_cost}}" id="transport_cost" name="transport_cost" readonly  required>
-                                </div>
-                              
-                                <div class="col-sm-4">
-                                
-                                </div>
-                                </div> --}}
+                               
                                 @endif
 
                             <div class='above'>
@@ -313,23 +296,16 @@ text-align: center;
 
 
 
-
+            
                              <div class="form-group row">
                                 <label for="meeting_type" class="col-sm-2 col-form-label">Meeting Type</label>
                                 <div class="col-sm-4">
-                                <select type="input" class="form-control"name ='meeting_type_id' id="meeting_type" required>
-                                <option value=''>Select meeting type</option>
-                                <option value=1>Face To Face</option>
-                                <option value=2>Virtual</option>
-                                <option value=3>Round Robin</option>
-                                
-                                
-                                </select>
+                                <input type="input" value="{{$requisition->committee->meeting_type->name}}" class="form-control"name ='meeting_type_id' id="meeting_type" readonly required>
                                 </div>
 
                                 <label for="cost-centre" class="col-sm-2 col-form-label">Submission</label>
                                 <div class="col-sm-4">
-                                <input type="date" class="form-control"name ='submission' id="submission" required>
+                                <input type="date" class="form-control" value="{{$requisition->committee->date_submission}}"name ='submission' id="submission" readonly required>
                                 </div>
                                 
                                 </div>
@@ -338,20 +314,13 @@ text-align: center;
                                 <div class="form-group row">
                                     <label for="action_taken" class="col-sm-2 col-form-label">Action Taken</label>
                                     <div class="col-sm-4">
-                                    <select type="input" class="form-control"name ='action_taken_id' id="action_taken" required>
-                                    <option value=''>Select action</option>
-                                    <option value=1>Endorsed</option>
-                                    <option value=2>Rejected</option>
-                                    <option value=3>Deferred</option>
-                                    
-                                    
-                                    </select>
+                                    <input type="input"  value ="{{$requisition->committee->action_taken->name}}" class="form-control"name ='action_taken_id' id="action_taken" readonly required>
                                 </div>
                                 
                           
                                 <label for="location"  class="col-sm-2 col-form-label">Location</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control" id='location' name='location'>
+                                <input type="text" class="form-control" value="{{$requisition->committee->laction}}" id='location' name='location'readonly>
                                 </div> 
                         
                                     </div>
@@ -360,7 +329,7 @@ text-align: center;
                                     <div class="form-group row hiddens">
                                     <label for="date-of-last" class="col-sm-2 col-form-label">Last Signatory</label>
                                     <div class="col-sm-4">
-                                    <input type="date" class="form-control" id='signatory' name='signatory'>
+                                    <input type="date" class="form-control" value="{{$requisition->committee->laction}}" id='signatory' name='signatory' readonly>
                                     </div>
 
 
@@ -370,7 +339,7 @@ text-align: center;
                             <div class="form-group row">
                               <label for="cost-centre" class="col-sm-2 col-form-label">Comments</label>
                               <div class="col-sm-4">
-                                  <textarea type="text" rows="5" cols="200"  class="form-control" value="{{Request::old('comments')}}" id="comments" name='comments'></textarea>
+                                  <textarea type="text" rows="5" cols="200"  class="form-control" value="{{Request::old('comments')}}" id="comments" name='comments' readonly></textarea>
                               </div>
                             </div>
                              
@@ -383,9 +352,9 @@ text-align: center;
                                     <div class="row">
                                         <div class="col-sm-12">
                                           <div id="table" class="table-editable">
-                                            <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
+                                            {{-- <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"> --}}
                                           
-                                          <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
+                                          
                                         <table id="stock-table" class="table table-bordered text-center">
                                         <thead>
                                         <tr>
@@ -396,34 +365,31 @@ text-align: center;
                                         </tr>
                                         </thead>
                                         <tbody>
-                                      
+                                        @foreach ($requisition->committee->members as $member )
                                         <tr>
                                         <td>
-                                            <input  name='name[]' type='text'  size="10"style='border:none;outline:none;background: transparent;'  required>
+                                          {{$member->name }}
                                         </td>
-                                        <td>
-                                          <select type="input" class="form-control"name ='decision[]' id="decision" style='border:none;outline:none;background: transparent;'required>
-                                            <option value=''>Select action</option>
-                                            <option value=1>Endorsed</option>
-                                            <option value=2>Rejected</option>
-                                            <option value=3>Deferred</option>
+                                            <td>
                                             
+                                           {{($member->decision ===1) ? ('Endorsed') : (($member->decision ===2) ? ('Rejected') : ('Deferred'))}}
+                                               
+                                            </td>
+                                            <td>
+                                           {{$member->signature }}
+                                            </td>
                                             
-                                            </select>
-                                        </td>
-                                        <td>
-                                        <input  name='signature[]' type='text'  size="10"style='border:none;outline:none;background: transparent;'required>
-                                        </td>
-                                        
-                                        <td>
-                                        <input name='date[]' id="date"  id=""  type='date' style='border:blue;outline:blue;background:white;' required>
-                                        </td>
-                                        
+                                            <td>
+                                            {{$member->date }}
+                                            </td>
                                         </tr>
+                                        @endforeach
+                                        </tbody>
+                                        
                                      
                                        
                                         
-                                        </tbody>
+                                      
                                         </table>
                                         </div>
                                         </div>
@@ -431,7 +397,6 @@ text-align: center;
                          
 
                          
-                   
                                         @if($requisition->internalrequisition->comment->isNotEmpty())
                                         <div class="col-sm-6">
                                           <!-- textarea -->
@@ -484,7 +449,7 @@ text-align: center;
                                                   {{-- </form> --}}
                                                   </div>
                                                    </div> 
-                                                   <br>
+                        
                       
 
                         
@@ -498,7 +463,7 @@ text-align: center;
         
 
                      
-                      <div class="form-group row">
+                    <div class="form-group row">
                       <div class="col-sm-6">
                         Approve IRF by: <span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$requisition->internalrequisition->approve_internal_requisition->created_at}}</span></br>
@@ -512,19 +477,30 @@ text-align: center;
                         Budget Approve by: <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
                         Date:  <span class='badge badge-success'>{{$requisition->internalRequisition->approve_budget->created_at}}</span><br>
                         
+                        @if($requisition->approve)
+                        @if($requisition->approve_count === 1)
+                        Approve Requisition by:  <span class='badge badge-success'>{{$requisition->approve->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->approve->created_at}}</span></br> 
+                        @endif
+                        @endif
+
                         @if(isset($requisition->approve))
-                          @if($requisition->approve->where('requisition_id',$requisition->id)->count() >= 1)
+                          @if($requisition->approve_count >= 2)
                           @foreach($requisition->approve->where('requisition_id',$requisition->id)->get() as $key=> $approve)
                           {{$approve->user->role->name}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
 
                           @endforeach
                           @endif
                           @endif
+                          @if(isset($requisition->entity_head_approve))
+                          Regional Director by:  <span class='badge badge-success'>{{$requisition->entity_head_approve->user->abbrName()}}</span></br>
+                          Date:<span class='badge badge-success'>{{$requisition->entity_head_approve->created_at}}</span></br> 
+                          @endif
                   
                  
                       </div>
                     
-                      </div> 
+                      </div>  
                    
                       </div> 
 
@@ -540,18 +516,70 @@ text-align: center;
 
                         </div>
                         <div class="row">
-                        <div class="col-10">
-                       
-                        <a type="button" href="/procurement-committee"   class="btn btn-outline-primary float-left btn-lg">Back</a>
-                        <button type="submit" class="btn btn-outline-success float-right btn-lg">Submit</button>
+                          <div class="col-10">
+                            @if($requisition->entity_head_approve)
+                            <button type="button"   class="btn btn-warning btn-lg" disabled>Refuse</button>
+                            <button type="button"   class="btn btn-primary float-right btn-lg" disabled>Approve</button></br>
+                             @else
+                             <button type="button" id="btnrefuse"  class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
+                             <button type="button" id="btnapprove"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Approve</button></br>
+                            @endif
+                            </div>
                         </div>
+
+
+
+
+                               {{-- //modal  --}}
+
+             <div class="modal fade" id="modal-lg">
+              <div class="modal-dialog modal-m">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Refuse Requisition</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="card-body">
+                      <form  id='form-refuse' class="form-horizontal" method="Post" autocomplete="off" action="/approve-budget-requisition" >
+                        @csrf 
+                         <div class="form-group row">
+                        <label for="cost-centre" class="col-m-4 col-form-label">Comments</label>
+                        <div class="col-m-8">
+                            <textarea type="text" style="width:400px; height:200px;" value="{{Request::old('comment')}}" id="comment" name='comment'></textarea>
                         </div>
+                        <input type="hidden" name='requisition_id' id="requisition_id" value="{{$requisition->id}}"> 
+                        </div>
+
+
+                     
+                    </form>
+
+            
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                    <button type="submit"  class="btn btn-outline-primary float-right btn-lg" id="post" onclick="Refuse('{{$requisition->id}}');">Send</button>
+                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            {{-- //end --}}
                         </div>
                         </div>
                   </div>
 
-                  </form>  
-              
+               
             
             
          
@@ -582,193 +610,92 @@ text-align: center;
 
 
 
-$('#table').ready(function() {
-    var table = $('<table></table>').addClass('foo');
-        for (var i = 0; i < 10; i++) {
-                row = $('<tr></tr>');
-                for (var j = 0; j < 10; j++) {
-                    var rowData = $('<td></td>').addClass('bar').text('result ' + j);
-                    row.append(rowData);
-                }
-                table.append(row);
-            }
-
-        if ($('table').length) {
-             $("#someContainer tr:first").after(row);
-        }
-        else {
-            $('#someContainer').append(table);
-        }
-    });
-
-
-$(document).ready(function(){
-
-  $('.btn-add-more').click(function(){
-  
-    var html = $('.hide').html();
-    $('.img_div').after(html);
-  });
-
-
-   $("body").on("click",".btn-remove",function(){ 
-    $('.form-group').attr('disable',true);
-          $(this).parents(".form-group").remove();
-      });
-
-
-});
-
-
-
-function deleteFile(id){
-  swal({
-    title: "Are you sure?",
-    text: "You will not be able to undo this action once it is completed!",
-    dangerMode: true,
-    cancel: true,
-    confirmButtonText: "Yes, Delete it!",
-    closeOnConfirm: false
-  }).then(isConfirm => {
-    if (isConfirm) {
-      $.get( {!! json_encode(url('/')) !!} + "/requisition/delete/"+id).then(function (data) {
-        console.log(data);
-        if (data == "success") {
-          swal(
-            "Done!",
-            "The File was successfully deleted!",
-            "success").then(esc => {
-              if(esc){
-               location.reload();
-              }
-            });
-          }
-          else if(data=="existing_sign_off"){
-            swal("Error",
-            "This requisition is already signed off and is not allowed to be deleted.",
-            "error");
-          }
-          else{
-            swal(
-              "Oops! Something went wrong.",
-              "The file was NOT deleted.",
-              "error");
-            }
-          });
-        }
-      });
-    }
-
 
   </script>
+  <script>
 
-
-<script>
-    $(document).ready(function(){
-   $row= `
-    <tr>
-        <td>
-        <input  class='name[]' type='text'  size="5"style='border:none;outline:none;background: transparent;'  required>
-        </td>
-        <td>
-          <select type="input" class="form-control"name ='decision_id' id="decision[]" style='border:none;outline:none;background: transparent;'required>
-                                            <option value=''>Select action</option>
-                                            <option value=1>Endorsed</option>
-                                            <option value=2>Rejected</option>
-                                            <option value=3>Deferred</option>
-                                            
-                                            
-                                            </select>
-        </td>
-        <td>
-        <input  class='signature[]' type='text'  size="10"style='border:none;outline:none;background: transparent;'required>
-        </td>
-        
-        <td>
-        <input name='date[]' id="date"  id=""  type='date' style='border:blue;outline:blue;background:white;' required>
-        </td>
-                  
-                 
-    </tr>
+    function Accept(requisitionId){
+       swal({
+            title: "Are you sure you want to approve the selected purchase requisition?",
+            text: "Tip: Always ensure that you review each purchase requisition thoroughly before approval.",
+            icon: "warning",
+            buttons: [
+              'No, cancel it!',
+              'Yes, I am sure!'
+            ]
+          }).then(isConfirm => {
+            if (isConfirm) {
+              // console.log("app type:" +  requisitionId);
+              $.post( {!! json_encode(url('/')) !!} + "/entity_head_approve",{ _method: "POST",data:{requisitionId:requisitionId,permission:1},_token: "{{ csrf_token() }}"}).then(function (data) {
+              console.log(data);
+                if (data == "success") {
+                  swal(
+                    "Done!",
+                    "Procurement Committee was approved and will shortly be forwarded for Purchase Order.",
+                    "success").then(esc => {
+                      if(esc){
+                       // location.reload();
+                      location.href='/entity_head_approve';
+                      }
+                    });
+                  }else{
+                    swal(
+                      "Oops! Something went wrong.",
+                      "Application(s) were NOT approved",
+                      "error");
+                       location.reload();
+                    }
+               
+                    
+                   
+                  });
+                }
+           
+            });
+    }
     
     
-    `;
-  
-  
-    $('#add').on("click",function(){
-      $('#stock-table tr:last').after($row); 
-    })
-  
-  
-    $('#remove_button').on("click",function(){
-      console.log($tableID.find("tbody tr").length);
-      if ($tableID.find("tbody tr").length === 2) {
-        $(".btn-danger").attr("disabled",true);
-       
+    function Refuse(requisitionId){
+      var comment = $('#comment').val();
+      // console.log(internal_requisition_id);
+       swal({
+            title: "Are you sure you want to refuse the selected applications?",
+            // text: "Tip: Always ensure that you review each purchase requisition thoroughly before approval.",
+            icon: "warning",
+            buttons: [
+              'No, cancel it!',
+              'Yes, I am sure!'
+            ]
+          }).then(isConfirm => {
+            if (isConfirm) {
+              // console.log("app type:" +  requisitionId);
+              $.post( {!! json_encode(url('/')) !!} + "/entity_head_approve",{ _method: "POST",data:{requisitionId:requisitionId,permission:0,comment:comment},_token: "{{ csrf_token() }}"}).then(function (data) {
+              console.log(data);
+                if (data == "success") {
+                  swal(
+                    "Done!",
+                    "Procurement Committee was refuse and will send an email to the requester.",
+                    "success").then(esc => {
+                      if(esc){
+                        location.reload();
+                      }
+                    });
+                  }else{
+                    swal(
+                      "Oops! Something went wrong.",
+                      "Application(s) were NOT approved",
+                      "error");
+                    }
+                    location.href='/entity_head_approve';
+                   
+                  });
+                }
+           
+            });
+            $('#modal-lg').modal('hide');
+    }
+    
+   
       
-      }
-      
-    })
-  
-  });
-
-
-
-  $(document).ready(function () {
-$('#location').hide();
-$('label[for="location"]').hide();
-$('#meeting_type').change(function () {
-var type = $(this).val();
- if (type ==1 )
- {
-$('#location').show();
-$('#location').attr("required",true)
-$('label[for="location"]').show();
-$('.hidden').hide();
- }else if(type == 3)
- {
- $('.hidden').show();
- $('#location').hide();
- $('#signatory').attr("required",true);
- $('#location').attr("required",false);
- $('#location').attr("disabled",true);
-$('label[for="location"]').hide();
- }else{
-    $('.hidden').hide();
- $('#location').hide();
-$('label[for="location"]').hide();
-$('#signatory').attr("disabled",true);
- $('#location').attr("disabled",true);
- }
-
- 
-});  
-
-$('#action_taken').change(function () {
-  var action = $(this).val();
-  if((action == 2) || (action ==3)){
-    $('.hide').show();
-    $('#comments').attr("required",true);
-  }else{
-    $('.hide').hide();
-    $('#comments').attr("required",false);
-    $('#comments').attr("disabled",true);
-  }
-  
-});
-
-
-
-});
-  </script> 
-
-
-
-  
- 
-
-
-
-
-
-    @endpush
+    </script>
+  @endpush

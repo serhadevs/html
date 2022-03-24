@@ -82,7 +82,7 @@
                       @else
                         <div class="col-sm-4">
                         <select type="input" class="form-control" name="role" id="role" >
-                          @foreach($roles->except([1,12]) as $role)
+                          @foreach($roles->except([1,12,15]) as $role)
                           @if($role->id === $user->role->id)
                           <option selected value="{{ $role->id }}" >{{ $role->name }}</option>
                           @else
@@ -106,7 +106,7 @@
                         
                          
 
-                        @if(in_array(auth()->user()->role_id,[1,12]))
+                        @if(in_array(auth()->user()->role_id,[1,12,15]))
                         <select type="input" class="form-control" name="institution" id="institution" required>
                          <option  value="0" >All Institutions</option>
                            @foreach($institutions as $institution)
@@ -177,7 +177,7 @@
                         </div>
                         </div> --}}
                         
-                         @if(in_array(auth()->user()->role_id,[1,12]))
+                         @if(in_array(auth()->user()->role_id,[1,12,15]))
                     
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
                         <div class="row">

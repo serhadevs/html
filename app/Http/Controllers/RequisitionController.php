@@ -42,7 +42,7 @@ class RequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,5,9,10,11,12]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,5,9,10,11,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');
@@ -54,9 +54,9 @@ class RequisitionController extends Controller
         //  $requisitions = Requisition::with(['check','approve','purchase_order']);
 
         //dd(auth()->user()->accessInstitutions_Id());
-        if (in_array(auth()->user()->role_id,[1,12,10,11])) {
+        if (in_array(auth()->user()->role_id,[1,12,10,11,15])) {
 
-            if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])  ){
+            if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12,15])  ){
 
                 $requisitions = Requisition::with(['user','check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                  ->latest()

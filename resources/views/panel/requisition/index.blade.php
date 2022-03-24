@@ -78,7 +78,7 @@
            <td> <a href="/requisition/create/{{$internal_requisition->id}}" class="btn btn-outline-success btn-lg">Select</a> </td>
            <td>{{$internal_requisition->requisition_no}}</td>
            <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
-           <td>{{$internal_requisition->estimated_cost}}</td>
+           <td>${{number_format($internal_requisition->estimated_cost,2)}}</td>
             <td>{{$internal_requisition->description}}</td>
            <td>{{$internal_requisition->department->name}}</td>
            <td>{{$internal_requisition->institution->name}}</td>
@@ -187,7 +187,7 @@
                     <td>{{$requisition->supplier->name}}</td>
                     <td>{{$requisition->category->name}}</td>
                     <td>{{$requisition->description}}</td>
-                    <td>{{$requisition->contract_sum}}</td>
+                    <td>${{number_format($requisition->contract_sum,2)}}</td>
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     @if($requisition->check)
                     <td>{{Carbon\Carbon::parse($requisition->check->created_at)->format('Y-M-d')}}</td>

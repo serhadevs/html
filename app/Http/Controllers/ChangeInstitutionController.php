@@ -23,7 +23,7 @@ class ChangeInstitutionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (!in_array(auth()->user()->role_id, [1,3,6,10,11,12,14]) and ( !in_array(auth()->user()->id,[4])) ) {
+            if (!in_array(auth()->user()->role_id, [1,3,6,10,11,12,14,15]) and ( !in_array(auth()->user()->id,[4])) ) {
                 return redirect('/dashboard')->with('error', 'Access Denied');
             } else {
                 return $next($request);

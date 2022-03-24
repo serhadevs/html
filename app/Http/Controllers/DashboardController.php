@@ -37,7 +37,7 @@ class DashboardController extends Controller
     public function index()
     {
   
-      if(auth()->user()->institution_id ===0 AND in_array(auth()->user()->role_id,[1,12])){
+      if(auth()->user()->institution_id ===0 AND in_array(auth()->user()->role_id,[1,12,15])){
         $internalrequisitions= InternalRequisition::count();
 
         $tendering = InternalRequisition::with('approve_budget')
@@ -124,7 +124,7 @@ class DashboardController extends Controller
        })->sum(DB::raw('requisitions.contract_sum'));
 
 
-      }elseif(in_array(auth()->user()->role_id,[1,6,10,11,12,14]))
+      }elseif(in_array(auth()->user()->role_id,[1,6,10,11,12,14,15]))
       {
         $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->count();
         $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
@@ -298,7 +298,7 @@ class DashboardController extends Controller
       DB::raw('Count(requisitions.id) as total'),'requisitions.supplier_id','suppliers.name as name')
      ->groupBy('requisitions.supplier_id','suppliers.name')
      ->orderBy('total', 'DESC')
-    ->get();
+     ->limit(10);
     $chart4 = new DataChart;
     $chart4->labels(  $valume_by_supplier->pluck('name'));
     $chart4->dataset('volume by suppliers', 'horizontalBar',$valume_by_supplier->pluck('total'))

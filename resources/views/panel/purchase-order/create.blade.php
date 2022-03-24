@@ -442,10 +442,15 @@ text-align: center;
                         @else
                         @foreach($requisition->approve->where('requisition_id',$requisition->id)->get() as $key=> $approve)
 
-                        {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                        {{$approve->user->role->name}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
                          Date:<span class='badge badge-success'>{{$approve->created_at}}</span></br>
                         @endforeach
                         @endif
+                        @endif
+
+                        @if(isset($requisition->entity_head_approve))
+                        Regional Director by:  <span class='badge badge-success'>{{$requisition->entity_head_approve->user->abbrName()}}</span></br>
+                        Date:<span class='badge badge-success'>{{$requisition->entity_head_approve->created_at}}</span></br> 
                         @endif
                     
                   

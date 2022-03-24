@@ -426,7 +426,59 @@ text-align: center;
                          
 
                          
-                   
+                                        @if($procurementCommittee->requisition->internalrequisition->comment->isNotEmpty())
+                                        <div class="col-sm-6">
+                                          <!-- textarea -->
+                                          <div class="form-group">
+                                            <label>Refusal Comments</label>
+                                    <textarea class="form-control" rows="3" disabled>
+                                    @foreach($procurementCommittee->requisition->internalrequisition->comment as $comment)
+                                    {{$comment->user->abbrName()}}: {{$comment->comment}}
+                                    @endforeach
+                                    </textarea>
+                                          </div>
+                                        </div>
+                                        @endif
+                                         <div class="col-sm-6">
+                                                                <label for="exampleInputFile">Support Documents</label>
+                                                           <div class="card-body p-0">
+                                                      {{-- <form  method="Post" autocomplete="off" action="/requisition/{{$requisition->id}}" >
+                                                      @csrf
+                                                      @method('delete')  --}}
+                                                    <table class="table table-sm" id="filetable">
+                                                      <thead>
+                                                        <tr>
+                                                          <th>Filename</th>
+                                                          <th>Option</th>
+                                                          <th><th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        @foreach(App\File_Upload::where('requisition_id',$procurementCommittee->requisition->id)->get() as $file)
+                                                        <tr> 
+                                                        <td>
+                                                        <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' style='border:none;outline:none;background: transparent;' required>
+                                                        </td> 
+                                                      <td> <a class="btn btn-primary " href="{{ asset('/documents/'.$file->filename)}}">View</a></td>
+                                                        <td> <button class="btn btn-danger" onclick="deleteFile({{$file->id}})" type="button" disabled >Remove</button></td>
+                                                      </tr>
+                                                        @endforeach
+                                                      </tbody>
+                                                       <tbody>
+                                                        @foreach($procurementCommittee->requisition->internalrequisition->attached as $file)
+                                                        <tr> 
+                                                        <td>
+                                                        <input  value="{{$file->filename}}" class='productname' id="product_name" type='text' style='border:none;outline:none;background: transparent;' required>
+                                                        </td> 
+                                                      <td> <a class="btn btn-primary " href="{{ asset('storage/documents/'.$file->filename)}}">View</a></td>
+                                                      </tr>
+                                                        @endforeach
+                                                      </tbody>
+                                                    </table>
+                                                  {{-- </form> --}}
+                                                  </div>
+                                                   </div> 
+                                                   <br>
                         
                       
 
@@ -450,6 +502,9 @@ text-align: center;
                         Accepted by: <span class='badge badge-success'>{{$procurementCommittee->requisition->check->user->abbrName()}}</span></br>
                         Date:<span class='badge badge-success'>{{$procurementCommittee->requisition->check->created_at}}</span></br>
                         @endif
+                        Budget Commitment by: <span class='badge badge-success'>{{$procurementCommittee->requisition->internalRequisition->budget_commitment->user->abbrName()}} </span></br>
+                        Date:  <span class='badge badge-success'>{{$procurementCommittee->requisition->internalRequisition->budget_commitment->created_at}}</span></br>
+                      
                       </div>
                       <div class="col-sm-6">
                         Budget Approve by: <span class='badge badge-success'>{{$procurementCommittee->requisition->internalRequisition->approve_budget->user->abbrName()}} </span></br>
@@ -463,12 +518,17 @@ text-align: center;
                         @endif
 
                         @if(isset($procurementCommittee->requisition->approve))
-                          @if($procurementCommittee->requisition->approve_count >= 2)
+                          @if($procurementCommittee->requisition->approve->where('requisition_id',$procurementCommittee->requisition->id)->count() > 1)
                           @foreach($procurementCommittee->requisition->approve->where('requisition_id',$procurementCommittee->requisition->id)->get() as $key=> $approve)
-                          {{($key ===0) ? ('CEO') : (($key ===1) ? ('Parish Manager') : ('Director of Procurement'))}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
+                          {{$approve->user->role->name}} : <span class='badge badge-success'> {{$approve->user->abbrName()}}</span></br>
 
                           @endforeach
                           @endif
+                          @endif
+
+                          @if(isset($procurementCommittee->requisition->entity_head_approve))
+                          Regional Director by:  <span class='badge badge-success'>{{$procurementCommittee->requisition->entity_head_approve->user->abbrName()}}</span></br>
+                          Date:<span class='badge badge-success'>{{$procurementCommittee->requisition->entity_head_approve->created_at}}</span></br> 
                           @endif
                   
                  

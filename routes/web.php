@@ -205,6 +205,10 @@ Route::get('/currency/delete/{id}', 'CurrencyController@destroy');
 Route::resource('/procurement-committee', 'ProcurementCommitteeController');
 Route::get('/procurement-committee/create/{id}', 'ProcurementCommitteeController@create');
 
+//Entity Head approve
+Route::resource('/entity_head_approve', 'EntityHeadApproveController');
+Route::get('/undo_entity_head_approve','EntityHeadApproveController@undo');
+// Route::get("/approve-requisition/show{id}", "ApprovePurchaseRequisitionController@show");
 
 
 

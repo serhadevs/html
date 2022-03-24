@@ -58,9 +58,13 @@ class PurchaseOrderController extends Controller
                  $query->where('contract_sum','<',500000);
                 }else{
                  $query->where('contract_sum','>',1)->where('contract_sum','<',1500000);
+                 $query->OrwhereHas('entity_head_approve',function($query){
+                    $query->where('is_granted',1);
+                   });
                 }
              
             })
+           
             ->latest()
             ->get();
           
@@ -108,7 +112,7 @@ class PurchaseOrderController extends Controller
             // dd($requisition->approve->where('requisition_id',$id));
         $count = $requisition->approve->where('requisition_id',$id)->count();
         }
-        
+        // $count = $requisition->approve->where('requisition_id',$id)->count();
 
         return view('panel.purchase-order.create', ['count'=>$count,'requisition' => $requisition]);
 

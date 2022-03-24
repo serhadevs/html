@@ -108,5 +108,9 @@ class Requisition extends Model implements Auditable
     return $this->hasOne('App\ProcurementCommittee');
    }
    
+   public function entity_head_approve()
+   {
+       return $this->hasOne('App\EntityHeadApprove');
+   }
    
 }

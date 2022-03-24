@@ -31,7 +31,7 @@ class ApprovePurchaseRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,2,9,10,11,12]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,2,9,10,11,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');
@@ -266,35 +266,6 @@ return redirect('/purchase-requisition')->with('status', 'Requisition was create
     public function show($id)
     {
 
-//         // dd('test');
-//         $stocks = DB::table('requisitions')
-//     ->LeftJoin('suppliers', 'requisitions.supplier_id', '=', 'suppliers.id')
-//     ->Join('stocks', function ($join) {
-//         $join->on('stocks.requisition_id', '=', 'requisitions.id')
-//             ->where('stocks.deleted_at', '=', null);
-
-//     })
-//     ->leftJoin('unit_of_measurements', 'unit_of_measurements.id', '=', 'stocks.unit_of_measurement_id')
-//     ->leftJoin('departments', 'departments.id', '=', 'requisitions.department_id')
-//     ->leftJoin('institutions', 'institutions.id', '=', 'requisitions.institution_id')
-//     ->leftJoin('stock_categories', 'stock_categories.id', '=', 'stocks.stock_category_id')
-//     ->leftJoin('approves', 'approves.requisition_id', '=', 'requisitions.id')
-//     ->leftJoin('checks', 'checks.requisition_id', '=', 'requisitions.id')
-// // ->leftJoin('file__uploads','file__uploads.requisition_id','=','requisitions.id')
-
-//     ->leftJoin('procurement_methods', 'procurement_methods.id', '=', 'procurement_method_id')
-//     ->leftJoin('requisition_types', 'requisition_types.id', '=', 'requisitions.requisition_type_id')
-// // ->leftJoin('stock_categories','stock_categories.id','=','requisitions.category_id')
-
-//     ->leftJoin('users', 'users.id', '=', 'requisitions.user_id')
-//     ->where('requisitions.id', $id)
-// // ->where('stocks.deleted_at','=',null)
-//     ->select('stocks.product_name', 'requisitions.*','checks.user_id as check_id' ,'approves.is_granted','approves.user_id as approve_id' ,'requisitions.description as des', 'requisition_types.name as type', 'procurement_methods.name as method', 'stocks.quantity', 'requisitions.cost_centre', 'requisitions.created_at', 'requisitions.total', 'stocks.description', 'stocks.unit_cost', 'unit_of_measurements.name as measurement', 'stock_categories.name as category',
-//         'departments.name as department', 'institutions.name as institution', 'suppliers.name as supplier', 'suppliers.address as supplierAddress', 'users.firstname', 'users.lastname')
-// // ->groupBy('file__uploads.requisition_id')
-//     ->distinct('file__uploads.requisition_id')
-
-//     ->get();
 
 
 $count = 0;
@@ -364,8 +335,5 @@ return view('/panel.approve.purchase-requisition.show', compact('requisition','c
         }
 
     }
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

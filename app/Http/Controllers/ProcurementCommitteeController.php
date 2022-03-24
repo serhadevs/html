@@ -28,7 +28,7 @@ class ProcurementCommitteeController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,5,9,12]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,5,9,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard');
@@ -53,15 +53,15 @@ class ProcurementCommitteeController extends Controller
         })
         ->doesnthave('purchaseOrder')
         ->where('contract_sum','>',1500000)
-        //->having('approve_count','>',1)
-        ->where(function($query){
-            if(auth()->user()->institution_id ===1){
-             $query->having('approve_count','>',1);
-            }else{
-             $query->having('approve_count','>',2);
-            }
+        ->having('approve_count','>=',1)
+        // ->where(function($query){
+        //     if(auth()->user()->institution_id ===1){
+        //      $query->having('approve_count','>',1);
+        //     }else{
+        //      $query->having('approve_count','>',2);
+        //     }
          
-        })
+        // })
         ->latest()
         ->get();
 
@@ -146,6 +146,8 @@ class ProcurementCommitteeController extends Controller
     {
         //
       //  dd('test');
+  
+      
         return view('/panel.procurement-committee.show', compact('procurementCommittee'));
     }
 
@@ -160,6 +162,11 @@ class ProcurementCommitteeController extends Controller
         //
             $meet_types = MeetingType::all();
             $action_takens =ActionTaken:: all();
+            if(isset($procurementCommittee->requisition->entity_head_approve)){
+                if($procurementCommittee->requisition->entity_head_approve->is_granted ===1){
+                    return redirect('/procurement-committee')->with('error', 'Requisition ' . $procurementCommittee->requisition->requisition_no . ' is already approved By Entity Head.');
+                }
+            }
         return view('/panel.procurement-committee.edit', compact('action_takens','meet_types','procurementCommittee'));
     } 
 
