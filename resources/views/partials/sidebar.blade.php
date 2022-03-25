@@ -146,7 +146,7 @@
                 </a>
               </li>
               @endif
-              @if(in_array(Auth::user()->role_id, [1,15]))
+              @if(in_array(Auth::user()->role_id, [1,12,15]))
                 <li class="nav-item">
                 <a href="/entity_head_approve" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

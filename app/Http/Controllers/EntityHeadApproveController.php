@@ -29,7 +29,7 @@ class EntityHeadApproveController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,15])) {
+            if (in_array(auth()->user()->role_id, [1,12,15])) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');
