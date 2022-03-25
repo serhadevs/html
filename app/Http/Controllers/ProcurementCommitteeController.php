@@ -15,6 +15,9 @@ use App\ CommitteeMember;
 use App\MeetingType;
 use App\ActionTaken;
 use App\Comment;
+use App\Notifications\ProcurementCommitteePublish;
+use App\Notifications\RefuseRequisitionPublish;
+
 
 class ProcurementCommitteeController extends Controller
 {
@@ -127,14 +130,38 @@ class ProcurementCommitteeController extends Controller
                 }
 
             }
-            if(!empty($request['comments'] ))
-            {
-            $comment = new Comment();
-            $comment->internal_requisition_id = $requisition->internal_requisition_id;
-            $comment->type ='refuse';
-            $comment->user_id = auth()->user()->id;
-            $comment->comment =  $request->comments;
-            $comment->save();
+           
+            if( $committee->action_taken_id === 1){
+                    $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
+                    $status->name = 'Procurememt Committee Endorsed';
+                    $status->update();
+                    // notify entity head
+                    $user = User::where('role_id',1)->get();
+                    $user->each->notify(new ProcurementCommitteePublish($committee));
+            }else{
+
+                if(!empty($request['comments'] ))
+                {
+                $comment = new Comment();
+                $comment->internal_requisition_id = $requisition->internal_requisition_id;
+                $comment->type ='refuse';
+                $comment->user_id = auth()->user()->id;
+                $comment->comment =  $request->comments;
+                $comment->save();
+                }
+                $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
+                $status->name = 'Procurememt Committee Rejected';
+                $status->update();
+                //notify
+                $user_group = array($requisition->user_id,$requisition->internalrequisition->approve_budget->user_id,$requisition->approve->user_id,$requisition->internalrequisition->user_id);
+                    $users = User::whereIn('id',$user_group)->get();
+                  $users->each->notify(new RefuseRequisitionPublish($requisition,$comment));
+                    $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
+                    $status->name = ' Requisition refuse';
+                    $status->update();
+            
+
+
             }
 
         }
@@ -236,8 +263,20 @@ class ProcurementCommitteeController extends Controller
      * @param  \App\ProcurementCommittee  $procurementCommittee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProcurementCommittee $procurementCommittee)
+    public function destroy($id)
     {
         //
+        try {
+            $committee = ProcurementCommittee::find($id);
+            if ($committee->requisition->entity_head_approve) {
+                if($committee->requisition->entity_head_approve->is_granted===1)
+                return 'fail';
+            }
+           $committee->delete();
+            return "success";
+        
+        } catch (Exception $e) {
+            return 'fail';
+        }
     }
 }

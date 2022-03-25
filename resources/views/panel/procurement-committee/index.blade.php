@@ -63,7 +63,7 @@
                       @if($requisition->committee)
                      <td> <a href="/procurement-committee/{{$requisition->committee->id}}" class="btn btn-block btn-success btn-m" >Show</a> </td> 
                      <td><a href="/procurement-committee/{{$requisition->committee->id}}/edit" class="btn btn-block btn-outline-primary  btn-m" >Edit</a></td>
-                     <td><button href="#" class="btn btn-block btn-outline-danger  btn-m"  onclick="deleteCommitment({{$requisition->committee->id}})">Delete</button></td>
+                     <td><button href="#" class="btn btn-block btn-outline-danger  btn-m"  onclick="deleteCommittee({{$requisition->committee->id}})">Delete</button></td>
                      @else
                      <td> <a href="/procurement-committee/create/{{$requisition->id}}" class="btn btn-block btn-outline-success  btn-m ">Create</button> </td> 
                      <td><button  href="#" class="btn btn-block btn-primary btn-m"  disabled>Edit</button></td>
@@ -168,7 +168,7 @@ $(document).ready( function () {
 } );
 
 
-function deleteinternal_requisition(Id){
+function deleteCommittee(Id){
   swal({
     title: "Are you sure?",
     text: "You will not be able to undo this action once it is completed!",
@@ -178,8 +178,7 @@ function deleteinternal_requisition(Id){
     closeOnConfirm: false
   }).then(isConfirm => {
     if (isConfirm) {
-      $.get( {!! json_encode(url('/')) !!} + "/internal_requisition/delete/" + Id).then(function (data) {
-        console.log(data);
+      $.get( {!! json_encode(url('/')) !!} + "/procurement-committee/delete/" + Id).then(function (data) {
         if (data == "success") {
           swal(
             "Done!",
@@ -192,7 +191,7 @@ function deleteinternal_requisition(Id){
           }
           else if(data=="fail"){
             swal("Error",
-            "This Internal requisition is already approved and is not allowed to be deleted.",
+            "This requisition is already approved by the head of entity",
             "error");
           }
           else{
@@ -205,6 +204,10 @@ function deleteinternal_requisition(Id){
         }
       });
     }
+
+
+
+    
 </script>
 
 @endpush

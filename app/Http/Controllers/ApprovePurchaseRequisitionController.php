@@ -16,6 +16,9 @@ use App\StoreApproves;
 
 
 use Illuminate\Http\Request;
+ini_set('upload_max_filesize', '400M');
+ini_set('post_max_size', '400M');
+
 
 class ApprovePurchaseRequisitionController extends Controller
 {

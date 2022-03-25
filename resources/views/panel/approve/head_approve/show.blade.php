@@ -28,6 +28,14 @@ text-align: center;
   display:none;
 }
 
+textarea {
+    /* font-size: 1rem;
+    line-height: 1.5em;
+    font-family: 'Roboto'; */
+    float:'left';
+
+}
+
 
 
 </style>
@@ -402,11 +410,12 @@ text-align: center;
                                           <!-- textarea -->
                                           <div class="form-group">
                                             <label>Refusal Comments</label>
-                                    <textarea class="form-control" rows="3" disabled>
-                                    @foreach($requisition->internalrequisition->comment as $comment)
-                                    {{$comment->user->abbrName()}}: {{$comment->comment}}
-                                    @endforeach
-                                    </textarea>
+<textarea class="form-control" rows="5" disabled>
+@foreach($requisition->internalrequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}} 
+{{Carbon\Carbon::parse($comment->created_at)->format('d/M/Y')}}
+@endforeach
+</textarea>
                                           </div>
                                         </div>
                                         @endif
@@ -493,8 +502,10 @@ text-align: center;
                           @endif
                           @endif
                           @if(isset($requisition->entity_head_approve))
+                          @if($requisition->entity_head_approve->is_granted ===1)
                           Regional Director by:  <span class='badge badge-success'>{{$requisition->entity_head_approve->user->abbrName()}}</span></br>
                           Date:<span class='badge badge-success'>{{$requisition->entity_head_approve->created_at}}</span></br> 
+                          @endif
                           @endif
                   
                  
@@ -686,7 +697,7 @@ text-align: center;
                       "Application(s) were NOT approved",
                       "error");
                     }
-                    location.href='/entity_head_approve';
+                    location.reload();
                    
                   });
                 }

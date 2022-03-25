@@ -425,7 +425,8 @@ display:none;
 <label>Refusal Comments</label>
 <textarea class="form-control" rows="3" disabled>
 @foreach($internalrequisition->comment as $comment)
-{{$comment->user->abbrName()}}: {{$comment->comment}}
+{{$comment->user->abbrName()}}: {{$comment->comment}} 
+{{Carbon\Carbon::parse($comment->created_at)->format('d/M/Y')}}
 @endforeach
 </textarea>
 </div>

@@ -12,6 +12,7 @@ use App\User;
 use App\Comment;
 use App\Check;
 use App\Status;
+//use App\Notifications\RequisitionPublish;
 
 
 class EntityHeadApproveController extends Controller
@@ -70,7 +71,8 @@ class EntityHeadApproveController extends Controller
         ->latest()
         ->get();
 
-       // dd($requisitions);
+      //  $requisition = Requisition::find(69);
+       //dd(array($requisition->user_id,$requisition->internalrequisition->approve_budget->user_id,$requisition->approve->user_id,$requisition->internalrequisition->user_id));
         return view('/panel/approve/head_approve.index',compact('requisitions'));
     }
 
@@ -96,54 +98,50 @@ class EntityHeadApproveController extends Controller
 
             
             $requisition = Requisition::find($request->data['requisitionId']);
-           
-    
-        
-            if ($request->all()) {
-        
                // if approve exits
                // $approve = Approve::where('requisition_id',$request->data['requisitionId'])->get();
-              
-               
                 $approve = new EntityHeadApprove();
                 $permission = $request->data['permission'];
                 $approve->requisition_id= $request->data['requisitionId'];
                 $approve->user_id = auth()->user()->id;
                 $approve->is_granted = $permission;
                 $approve->save();
-                if($permission ===0){
+                
+                if($permission == 0){
                     $comment = new Comment();
                     $comment->internal_requisition_id = $requisition->internal_requisition_id;
-                    $comment->type ='refuse requisition';
+                    $comment->type ='refuse committee';
                     $comment->comment =  $request->data['comment'];
                     $comment->user_id = auth()->user()->id;
                     $comment->save();
         
-                    $user = User::find($requisition->check->user_id);
-                    $user->notify(new RefuseRequisitionPublish($requisition,$comment));
+                    //notify all stakeholder
+                    $user_group = array($requisition->user_id,$requisition->internalrequisition->approve_budget->user_id,$requisition->approve->user_id,$requisition->internalrequisition->user_id);
+                    $users = User::whereIn('id',$user_group)->get();
+                    $users->each->notify(new RefuseRequisitionPublish($requisition,$comment));
                     $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
                     $status->name = ' Requisition refuse';
                     $status->update();
             
-                    $acceptRequisition = Check::where('requisition_id',$requisition->id);
-                    $acceptRequisition->delete();
+                    // $acceptRequisition = Check::where('requisition_id',$requisition->id);
+                    // $acceptRequisition->delete();
         
                     //delete all approved requisition that approve by Senior managers
-                        $approves = Approve::where('requisition_id',$request->data['requisitionId'])->get();
-                        $approves->delete();
+                        // $approves = Approve::where('requisition_id',$request->data['requisitionId'])->get();
+                        // $approves->delete();
         
                     
         
                 }else{
                     $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
-                    $status->name = ' Requisition Approved ';
+                    $status->name = 'Entity Head Approved';
                     $status->update();
                     $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[9])->get();
                     $users->each->notify(new ApproveRequisitionPublish($requisition));
                     
                 }
                 return 'success';
-            }
+            
            
         
         } catch (Exception $e) {

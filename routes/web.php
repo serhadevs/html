@@ -204,6 +204,7 @@ Route::get('/currency/delete/{id}', 'CurrencyController@destroy');
 //Procurement Committee
 Route::resource('/procurement-committee', 'ProcurementCommitteeController');
 Route::get('/procurement-committee/create/{id}', 'ProcurementCommitteeController@create');
+Route::get('/procurement-committee/delete/{id}', 'ProcurementCommitteeController@destroy');
 
 //Entity Head approve
 Route::resource('/entity_head_approve', 'EntityHeadApproveController');

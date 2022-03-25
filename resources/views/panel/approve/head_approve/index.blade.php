@@ -83,7 +83,11 @@ input[type="checkbox"]{
                       @endif
                     {{-- <td>{{$requisition->id}}</td>  --}}
                     @if($requisition->entity_head_approve)
+                     @if($requisition->entity_head_approve->is_granted ===1)
                     <td> <span class ="badge bg-green">Approved</span></td>
+                      @else
+                      <td> <span class ="badge bg-red">Refuse</span></td>
+                      @endif
                     @else
                     <td> <span class ="badge bg-red">Uncheck</span></td>
                     @endif

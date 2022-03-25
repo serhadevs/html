@@ -222,9 +222,10 @@ text-align: center;
               <div class="form-group">
                 <label>Refusal Comments</label>
               <textarea class="form-control" rows="3" disabled   >
-            @foreach($internalRequisition->comment as $comment)
-            {{$comment->user->abbrName()}}  : {{$comment->comment}}
-            @endforeach
+@foreach($internalRequisition->comment as $comment)
+{{$comment->user->abbrName()}}: {{$comment->comment}} 
+{{Carbon\Carbon::parse($comment->created_at)->format('d/M/Y')}}
+@endforeach
               </textarea>
               </div>
             </div>
