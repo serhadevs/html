@@ -84,7 +84,7 @@ text-align: center;
                                 <input type="input" class="form-control" value="{{$budgetCommitment->internalrequisition->institution->name}}" readonly>
                                   {{-- <input type="hidden" name='institution' id="institute_id" value="{{auth()->user()->institution->id}}"> --}}
                                   </div>
-                                  <label for="inputEmail4" class="col-sm-2 col-form-label">Departmentent</label>
+                                  <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
                                 <div class="col-sm-4">
                                 <input type="input" class="form-control" value="{{$budgetCommitment->internalrequisition->department->name}}" readonly>
                                 </div>

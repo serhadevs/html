@@ -85,7 +85,7 @@
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
                     <td>{{$internal_requisition->description}}</td>
-                    <td>{{$internal_requisition->estimated_cost}}</td>
+                    <td>${{number_format($internal_requisition->estimated_cost,2)}}</td>
                     
                     <td>{{$internal_requisition->department->name}}</td>
                     <td>{{$internal_requisition->institution->name}}</td>

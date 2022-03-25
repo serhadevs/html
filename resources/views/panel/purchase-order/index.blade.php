@@ -61,10 +61,11 @@
                     <th>Requisition_no</th>
                     {{-- <th>Date Receive</th>  --}}
                     <th>Department</th>
-                    <th>Institution</th>
+                    <th>Institution Origin</th>
                     <th>Parish</th>
                     <th>Supplier Name</th>
-                     <th>Cost Centre</th>
+                    <th>Contract Sum</th>
+                     {{-- <th>Cost Centre</th> --}}
                     <th>Commitment #</th>
                   </tr> 
                   </thead>
@@ -76,10 +77,11 @@
                 <td>{{$requisition->requisition_no}}</td>
                 {{-- <td>{{$requisition->approve->created_at}}</td> --}}
                 <td>{{$requisition->department->name}}</td>
-                <td>{{$requisition->institution->name}}</td>
+                <td>{{$requisition->internalrequisition->institution->name}}</td>
                 <td>{{$requisition->institution->parish->name}}</td>
                 <td>{{$requisition->supplier->name}}</td>
-                <td>{{$requisition->cost_centre}}</td>
+                <td>${{number_format($requisition->contract_sum,2)}}</td>
+                {{-- <td>{{$requisition->cost_centre}}</td> --}}
                 <td>{{$requisition->commitment_no}}</td>
                  </tr>
                  @endforeach

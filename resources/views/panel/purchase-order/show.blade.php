@@ -66,7 +66,7 @@ text-align: center;
                             <input type="input" class="form-control" value="{{$purchaseOrder->requisition->internalrequisition->user->abbrName()}}" readonly>
                               </div>
     
-                            <label for="inputEmail4" class="col-sm-2 col-form-label">Departmentent</label>
+                            <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
                             <div class="col-sm-4">
                               <input type="input" class="form-control" value="{{$purchaseOrder->requisition->department->name}}" readonly>
                             </div>

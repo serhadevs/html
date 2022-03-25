@@ -14,6 +14,7 @@ use App\Status;
 use App\ CommitteeMember;
 use App\MeetingType;
 use App\ActionTaken;
+use App\Comment;
 
 class ProcurementCommitteeController extends Controller
 {
@@ -102,6 +103,7 @@ class ProcurementCommitteeController extends Controller
 
         ]);
        // dd($request->all());
+        $requisition = Requisition::find($request->id);
         $committee = new ProcurementCommittee();
         $committee->meeting_type_id = $request->meeting_type_id;
         $committee->location = $request->location;
@@ -109,6 +111,7 @@ class ProcurementCommitteeController extends Controller
         $committee->date_last_signatory=$request->signatory;
         $committee->requisition_id =$request->id;
         $committee->action_taken_id = $request->action_taken_id;
+        $committee->user_id = auth()->user()->id;
         if($committee->save())
         {
             if ($request['name'][0]) {
@@ -124,13 +127,15 @@ class ProcurementCommitteeController extends Controller
                 }
 
             }
-            $requisition::find($request->id);
+            if(!empty($request['comments'] ))
+            {
             $comment = new Comment();
             $comment->internal_requisition_id = $requisition->internal_requisition_id;
             $comment->type ='refuse';
             $comment->user_id = auth()->user()->id;
-            $comment->comment =  $request->data['comment'];
+            $comment->comment =  $request->comments;
             $comment->save();
+            }
 
         }
         return redirect('/procurement-committee')->with('status', 'Procuremmet committee was created successfully.');

@@ -64,7 +64,7 @@ text-align: center;
                         <input type="input" class="form-control" value="{{$requisition->internalrequisition->user->abbrName()}}" readonly>
                           </div>
 
-                        <label for="inputEmail4" class="col-sm-2 col-form-label">Departmentent</label>
+                        <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
                         <div class="col-sm-4">
                           <input type="input" class="form-control" value="{{$requisition->department->name}}" readonly>
                         </div>
@@ -668,10 +668,10 @@ function deleteFile(id){
    $row= `
     <tr>
         <td>
-        <input  class='name[]' type='text'  size="5"style='border:none;outline:none;background: transparent;'  required>
+        <input  name='name[]' type='text'  size="5"style='border:none;outline:none;background: transparent;'  required>
         </td>
         <td>
-          <select type="input" class="form-control"name ='decision_id' id="decision[]" style='border:none;outline:none;background: transparent;'required>
+          <select type="input" class="form-control" name ='decision[]' id="decision" style='border:none;outline:none;background: transparent;'required>
                                             <option value=''>Select action</option>
                                             <option value=1>Endorsed</option>
                                             <option value=2>Rejected</option>
@@ -681,7 +681,7 @@ function deleteFile(id){
                                             </select>
         </td>
         <td>
-        <input  class='signature[]' type='text'  size="10"style='border:none;outline:none;background: transparent;'required>
+        <input  name='signature[]' type='text'  size="10"style='border:none;outline:none;background: transparent;'required>
         </td>
         
         <td>

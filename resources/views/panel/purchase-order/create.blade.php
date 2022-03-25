@@ -78,7 +78,7 @@ text-align: center;
                                 <input type="hidden" name='id' id="id" value="{{$requisition->id}}"> 
                               </div>
         
-                                <label for="inputEmail4" class="col-sm-2 col-form-label">Departmentent</label>
+                                <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
                                 <div class="col-sm-4">
                                   <input type="input" class="form-control" value="{{$requisition->department->name}}" readonly>
                                 </div>

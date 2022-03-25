@@ -59,14 +59,14 @@ class EntityHeadApproveController extends Controller
         ->doesnthave('purchaseOrder')
         ->where('contract_sum','>',1500000)
    
-        ->where(function($query){
-            if(auth()->user()->institution_id ===1){
-             $query->having('approve_count','>',1);
-            }else{
-             $query->having('approve_count','>',2);
-            }
+        // ->where(function($query){
+        //     if(auth()->user()->institution_id ===1){
+        //      $query->having('approve_count','>',1);
+        //     }else{
+        //      $query->having('approve_count','>',2);
+        //     }
          
-        })
+        // })
         ->latest()
         ->get();
 

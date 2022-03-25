@@ -56,7 +56,7 @@ text-align: center;
                       Requester:  <b>{{$requisition->user->firstname[0]}}. {{$requisition->user->lastname}}</b>
 
                         <p><br>Institution: {{$requisition->institution->name}}</br>
-                          Departmentent: {{$requisition->department->name}} </br>
+                          Department: {{$requisition->department->name}} </br>
                           Cost Centre: {{$requisition->cost_centre}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}
                          
