@@ -28,7 +28,7 @@ class PurchaseOrderController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,5,9,10,11,12]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,5,9,10,11,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard');

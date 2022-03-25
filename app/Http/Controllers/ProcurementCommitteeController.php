@@ -136,7 +136,7 @@ class ProcurementCommitteeController extends Controller
                     $status->name = 'Procurememt Committee Endorsed';
                     $status->update();
                     // notify entity head
-                    $user = User::where('role_id',1)->get();
+                    $user = User::where('role_id',15)->get();
                     $user->each->notify(new ProcurementCommitteePublish($committee));
             }else{
 
