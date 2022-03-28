@@ -243,7 +243,7 @@ text-align: center;
            
               <tr>
                 <td>
-                  <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                  <span class="table-remove"><button type="button" id= "remove_button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
                 </td>
                 <td>
                   
@@ -562,7 +562,7 @@ function deleteAttached(id){
     }
 
 $(document).ready(function(){
-
+  $("#remove_button").attr("disabled", true);
   $('.quantity, .unitcost, #tax').on('change',function(){
   var approve_budget = {!! json_encode($ir->approve_budget) !!};
   var estimated_cost = {!! json_encode($ir->estimated_cost) !!};
