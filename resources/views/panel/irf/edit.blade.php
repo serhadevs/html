@@ -220,20 +220,21 @@ text-align: center;
                           <div class="col-sm-12">
                 <div id="table" class="table-editable">
                   
-                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
+                <span class="table-add float-left mb-3 mr-2"><a href="#!" class="text-success">
             
             <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
            
           <table id="stock-table" style="width:100%;" class=" table-bordered text-center">
             <thead>
               <tr>
+                <th class="text-center">Option</th>
                 <th class="text-center">Item No.</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Measurement</th>
                 <th class="text-center">Unit Cost</th>
                 <th class="text-center">Total</th>
-                <th class="text-center">Option</th>
+    
                 
               </tr>
             </thead>
@@ -241,6 +242,9 @@ text-align: center;
                @foreach($ir->stocks as $stock)
            
               <tr>
+                <td>
+                  <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                </td>
                 <td>
                   
                 <input name='item_number[]' class='productname' id="item_number" value={{$stock->item_number}} type='text' size="5" style='border:none;outline:none;background: transparent;' required>
@@ -275,9 +279,7 @@ text-align: center;
                 </td>
         
 
-                <td>
-                  <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
-                </td>
+               
               </tr>
          
             </tbody>
@@ -482,7 +484,7 @@ text-align: center;
 
     @push('scripts')
     {{-- <script src="/js/dataTables.select.min.js"></script> --}}
-    <script src="/js/editable-table.js"></script> 
+    {{-- <script src="/js/editable-table.js"></script>  --}}
     <script src="/plugins/sweetalert2/sweetalert2.min.js"></script> 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="/js/pages/dashboard.min.js"></script>
@@ -517,24 +519,8 @@ text-align: center;
 
 
 
-$('#estimated_cost').on('change',function(){
-  var approve_budget = {!! json_encode($ir->approve_budget) !!};
-  var $input = $('input#estimated_cost');
-  if(approve_budget != null){
-    swal(
-  'Warning',
-  'Changing estimated cost will result in reseting this application.',
-  'warning'
-        )
-    approve_budget = null;
-  
-  }
-    });
 
-    // $('#add').on('click',function(){
-    // $('.hidden').removeAttr("disabled");
-    // });
-
+   
 
 
 function deleteAttached(id){
@@ -577,20 +563,99 @@ function deleteAttached(id){
 
 $(document).ready(function(){
 
-$('.btn-add-more').click(function(){
-
-  var html = $('.hide').html();
-  $('.img_div').after(html);
-});
-
-
- $("body").on("click",".btn-remove",function(){ 
-  $('.form-group').attr('disable',true);
-        $(this).parents(".form-group").remove();
+  $('.quantity, .unitcost, #tax').on('change',function(){
+  var approve_budget = {!! json_encode($ir->approve_budget) !!};
+  var estimated_cost = {!! json_encode($ir->estimated_cost) !!};
+  var input = $('#estimated_cost').val();
+  alert(input);
+ // console.log(input);
+  if(approve_budget != null ){
+    swal(
+  'Warning',
+  'Changing estimated cost will result in reseting this application.',
+  'warning'
+        )
+    approve_budget = null;
+  
+  }
     });
 
+$tableID = $('#stock-table');
+  $row= `
+  <tr>
+                    <td>
+                    <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                  </td>
+                    <td>
+                  
+                  <input name='item_number[]' class='productname' id="item_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                 
+                  </td>
+                  <td>
+                     <textarea  name='description[]' maxlength="100" class='des' size="40" style='border:none;outline:none;background: transparent;' required> </textarea>
+                  </td>
+                  <td>
+                  <input name='quantity[]'  class='quantity'  type='number' size="5"style='width:80px;border:none;outline:none;background: transparent;' required>
+                  </td>
+                 
+                  <td>
+                    <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;' required>
+                  
+                    @foreach ($units as $unit)
+                    @if($stock->unit_of_measurement_id == $unit->id)
+                    <option selected value="" ></option>
+                    @else
+                    <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
+                    @endif
+                    @endforeach
+                    </select>
+                  
+                  </td> 
+                  <td>
+                  
+                    <input name='unit_cost[]'size="5" class='unitcost' min="0.00" step="0.01"   value="" type='number'style='width:80px; border:none;outline:none;background: transparent;' required>
+                  </td>
+                  <td>
+                  <input name='estimated_total[]' class='estimated_total' value="" id="estimated_total"   type='text' size="5" style='border:none;outline:none;background: transparent;' readonly>
+                  </td>
+  </tr>
+  
+  
+  `;
+ //console.log($tableID.find("tbody tr").length);
+// var table = $('#stock-table');
+  $('#add').on("click",function(){
+    $('#stock-table tr:last').after($row); 
+   //console.log($tableID.find("tbody tr").length);
+    //var tbody = $('#stock-table').children('tbody');
+
+//Then if no tbody just select your table 
+      
+    if ($tableID.find("tbody tr").length === 2) {
+      $(".btn-danger").attr("disabled",false);
+        // $("tbody").append(newTr);
+        // table.append($row);
+    
+    }    
+
+    $('.quantity, .unitcost, #tax').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
+   calculateSum();
+  });
+  })
+
+  $tableID.on('click', '.table-remove', function () {
+  $(this).parents('tr').detach();
+  if ($tableID.find("tbody tr").length === 1) {
+      $(".btn-danger").attr("disabled",true);
+    }    
+    calculateSum();
+
+  
 
 });
+})
 
 
 $(document).ready(function () {

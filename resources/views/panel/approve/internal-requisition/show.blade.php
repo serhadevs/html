@@ -281,7 +281,7 @@ text-align: center;
                         <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Approve</button></br>
                         @else
                         <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
-                        @if(in_array(auth()->user()->role_id,[1,2,10,11,12]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()))
+                        @if(in_array(auth()->user()->role_id,[1,2,10,11,12,15]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()))
                         <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Approve('{{$internalRequisition->id}}');">Approve</button></br>
                        @else
                        <button type="button"   class="btn btn-primary float-right btn-lg"   disabled>Approve</button></br>

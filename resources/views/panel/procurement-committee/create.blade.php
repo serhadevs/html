@@ -327,7 +327,7 @@ text-align: center;
                                 </select>
                                 </div>
 
-                                <label for="cost-centre" class="col-sm-2 col-form-label">Submission</label>
+                                <label for="cost-centre" class="col-sm-2 col-form-label">Meeting Date</label>
                                 <div class="col-sm-4">
                                 <input type="date" class="form-control"name ='submission' id="submission" required>
                                 </div>
@@ -603,22 +603,22 @@ $('#table').ready(function() {
     });
 
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
-  $('.btn-add-more').click(function(){
+//   $('.btn-add-more').click(function(){
   
-    var html = $('.hide').html();
-    $('.img_div').after(html);
-  });
+//     var html = $('.hide').html();
+//     $('.img_div').after(html);
+//   });
 
 
-   $("body").on("click",".btn-remove",function(){ 
-    $('.form-group').attr('disable',true);
-          $(this).parents(".form-group").remove();
-      });
+//    $("body").on("click",".btn-remove",function(){ 
+//     $('.form-group').attr('disable',true);
+//           $(this).parents(".form-group").remove();
+//       });
 
 
-});
+// });
 
 
 
@@ -666,6 +666,7 @@ function deleteFile(id){
 
 <script>
     $(document).ready(function(){
+    
    $row= `
     <tr>
         <td>
@@ -701,15 +702,15 @@ function deleteFile(id){
     })
   
   
-    $('#remove_button').on("click",function(){
-      console.log($tableID.find("tbody tr").length);
-      if ($tableID.find("tbody tr").length === 2) {
-        $(".btn-danger").attr("disabled",true);
+    // $('#remove_button').on("click",function(){
+    //   console.log($tableID.find("tbody tr").length);
+    //   if ($tableID.find("tbody tr").length === 2) {
+    //     $(".btn-danger").attr("disabled",true);
        
       
-      }
+    //   }
       
-    })
+    // })
   
   });
 
@@ -732,14 +733,14 @@ $('.hidden').hide();
  $('#location').hide();
  $('#signatory').attr("required",true);
  $('#location').attr("required",false);
- $('#location').attr("disabled",true);
+ 
 $('label[for="location"]').hide();
  }else{
     $('.hidden').hide();
  $('#location').hide();
 $('label[for="location"]').hide();
-$('#signatory').attr("disabled",true);
- $('#location').attr("disabled",true);
+
+ //$('#location').attr("disabled",true);
  }
 
  
@@ -753,7 +754,7 @@ $('#action_taken').change(function () {
   }else{
     $('.hide').hide();
     $('#comments').attr("required",false);
-    $('#comments').attr("disabled",true);
+  //  $('#comments').attr("disabled",true);
   }
   
 });

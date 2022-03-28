@@ -190,7 +190,7 @@ text-align: center;
                  <div class="row">
                              <div class="col-sm-12">
               <div id="table" class="table-editable">
-              <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
+              <span class="table-add float-left mb-3 mr-2"><a href="#!" class="text-success">
             
             <i class="fas fa-plus fa-2x" id = 'add' aria-hidden="true"></i></a></span>
           <table id="stock-table" class="table table-bordered table-responsive-md table-striped text-center">
@@ -386,7 +386,7 @@ text-align: center;
 
     @push('scripts')
     {{-- <script src="/js/dataTables.select.min.js"></script> --}}
-    <script src="{{asset('/js/editable-table.js')}}"></script> 
+    {{-- <script src="{{asset('/js/editable-table.js')}}"></script>  --}}
     @endpush
 
     @if(session('status'))
@@ -418,9 +418,10 @@ $(document).ready(function () {
  $("#remove_button").attr("disabled", true);
   
  // const $row = $(this).parents("tr");
+ $tableID = $('#stock-table');
   $row= `
   <tr>
-              <td>
+    <td>
                   <span class="table-remove"><button type="button" id="remove_button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
                 </td>
                 <td>
@@ -431,7 +432,7 @@ $(document).ready(function () {
                 <td>
                 
                   
-                   <input name='description[]' class='des' type='text' size="10" style='border:none;outline:none;background: transparent;' required>
+                   <input name='description[]' class='des' maxlength="100" type='text' size="10" style='border:none;outline:none;background: transparent;' required>
                 </td>
                 <td>
                 <input name='quantity[]'  class='quantity' type='number' size="5"style='width:60px;border:none;outline:none;background: transparent;' required>
@@ -440,8 +441,9 @@ $(document).ready(function () {
                 <td>
                   <select name='unit[]' class='unit' id="unit" style='width:80px; border:none;outline:none;background: transparent;'required>
                   <option value="">select</option>
-                 
-                  </select>
+                  @foreach ($units as $unit)
+                  <option name='unit[]' value="{{$unit->id}}">{{$unit->name}}</option>
+                  @endforeach
                   </select>
                 </td> 
                 <td>
@@ -449,38 +451,50 @@ $(document).ready(function () {
                 </td>
                 <td>
                   <input name='estimated_total[]' class='estimated_total' id="estimated_total" type='text' size="10" style='border:none;outline:none;background: transparent;' readonly >
-                </td>
-              </tr>
+                </td>      
+  </tr>
   
   
   `;
- console.log($tableID.find("tbody tr").length);
+ //console.log($tableID.find("tbody tr").length);
 // var table = $('#stock-table');
   $('#add').on("click",function(){
-
-    console.log($tableID.find("tbody tr").length);
+    $('#stock-table tr:last').after($row); 
+   console.log($tableID.find("tbody tr").length);
     //var tbody = $('#stock-table').children('tbody');
 
 //Then if no tbody just select your table 
       
-    if ($tableID.find("tbody tr").length === 1) {
+    if ($tableID.find("tbody tr").length === 2) {
       $(".btn-danger").attr("disabled",false);
         // $("tbody").append(newTr);
         // table.append($row);
     
     }    
+
+    $('.quantity, .unitcost, #tax').change(function () {
+    var parent = $(this).closest('tr');
+    parent.find('.estimated_total').val(parseFloat(parent.find('.quantity').val()) * parseFloat(parent.find('.unitcost').val()))
+   calculateSum();
+  });
   })
 
 
-  $('#remove_button').on("click",function(){
-    console.log($tableID.find("tbody tr").length);
-    if ($tableID.find("tbody tr").length === 2) {
+  // $('#remove_button').on("click",function(){
+  //   alert();
+  //   console.log($tableID.find("tbody tr").length);
+  //   if ($tableID.find("tbody tr").length === 2) {
+  //     $(".btn-danger").attr("disabled",true);
+  //   }    
+  // })
+
+  $tableID.on('click', '.table-remove', function () {
+  $(this).parents('tr').detach();
+  if ($tableID.find("tbody tr").length === 1) {
       $(".btn-danger").attr("disabled",true);
-     
-    
-    }
-    
-  })
+    }    
+    calculateSum();
+  });
     
 
 
