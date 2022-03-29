@@ -341,11 +341,12 @@ text-align: center;
                                     </select>
                                 </div>
                                 
-                          
+                                @if(!empty($procurementCommittee->location))
                                 <label for="location"  class="col-sm-2 col-form-label">Location</label>
                                 <div class="col-sm-4">
                                 <input type="text" value="{{$procurementCommittee->location}}" class="form-control" id='location' name='location'>
                                 </div> 
+                                @endif
                         
                                     </div>
 
@@ -353,7 +354,7 @@ text-align: center;
                                     <div class="form-group row hiddens">
                                     <label for="date-of-last" class="col-sm-2 col-form-label">Last Date Signatory</label>
                                     <div class="col-sm-4">
-                                    <input type="date" class="form-control" id='signatory' name='signatory'>
+                                    <input type="date" class="form-control" value="{{$procurementCommittee->date_last_signatory}}" id='signatory' name='signatory'>
                                     </div>
 
 
@@ -736,11 +737,11 @@ $('.hidden').hide();
 }else if(type == 3)
  {
  $('.hidden').show();
- $('#location').hide();
+ 
  $('#signatory').attr("required",true);
  $('#location').attr("required",false);
 
-$('label[for="location"]').hide();
+
  }else{
     $('.hidden').hide();
  $('#location').hide();
