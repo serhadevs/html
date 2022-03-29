@@ -103,9 +103,9 @@ class UserController extends Controller
     {
      
         try{
-            if(!in_array(auth()->user()->role_id,[1,12,15]) AND (User::department_count(auth()->user()->department_id) >=10)){
+            if(User::institution_count($request->institution) >=15 AND $request->institution !=1 ){
           
-                return redirect('/user')->with('error', 'This department has the maximum amount of users.');
+                return redirect('/user')->with('error', 'This Institution has the maximum amount of users.');
             }
         $request->validate([
             'first_name' => 'required',
@@ -187,7 +187,7 @@ class UserController extends Controller
 
 
 
-        $user->notify(new NewUserAccountPublish());
+       // $user->notify(new NewUserAccountPublish());
 
         }catch(QueryException $ex ){
           //  dd($ex->getMessage());
@@ -239,7 +239,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
        // dd($request->all());
-       if(!in_array(auth()->user()->role_id,[1,12,15]) AND (User::department_count($request->department) >=10)){
+       if((User::institution_count($request->institution) >=15) AND $request->institution !=1 ){
           
         return redirect('/user')->with('error', 'This department has the maximum amount of users.');
     }

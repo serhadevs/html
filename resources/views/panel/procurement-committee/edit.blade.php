@@ -321,7 +321,7 @@ text-align: center;
                                 </select>
                                 </div>
 
-                                <label for="cost-centre" class="col-sm-2 col-form-label">Submission</label>
+                                <label for="cost-centre" class="col-sm-2 col-form-label">Meeting Date</label>
                                 <div class="col-sm-4">
                                 <input type="date" class="form-control" value="{{$procurementCommittee->date_submission}}"name ='submission' id="submission" required>
                                 </div>
@@ -351,7 +351,7 @@ text-align: center;
 
                                     <div class="hidden">
                                     <div class="form-group row hiddens">
-                                    <label for="date-of-last" class="col-sm-2 col-form-label">Last Signatory</label>
+                                    <label for="date-of-last" class="col-sm-2 col-form-label">Last Date Signatory</label>
                                     <div class="col-sm-4">
                                     <input type="date" class="form-control" id='signatory' name='signatory'>
                                     </div>

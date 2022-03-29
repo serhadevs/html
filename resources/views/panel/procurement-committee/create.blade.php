@@ -358,7 +358,7 @@ text-align: center;
 
                                     <div class="hidden">
                                     <div class="form-group row hiddens">
-                                    <label for="date-of-last" class="col-sm-2 col-form-label">Last Signatory</label>
+                                    <label for="date-of-last" class="col-sm-2 col-form-label">Last Date Signatory</label>
                                     <div class="col-sm-4">
                                     <input type="date" class="form-control" id='signatory' name='signatory'>
                                     </div>

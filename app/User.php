@@ -211,6 +211,14 @@ class User extends Authenticatable implements Auditable
         return $count;
 
       }
+      public static function institution_count($institution_id)
+      {
+       // $user_ids = \App\InstitutionUsers::where('institution_id',$institutions_id)->pluck('user_id');
+        $count = User::where('institution_id',$institution_id)
+       ->count();
+        return $count;
+
+      }
     //user with multiple user roles
     public static function user_with_roles($institution_id,$department_id,$role_id){
     $users = User::with('user_roles')

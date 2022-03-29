@@ -63,7 +63,7 @@
                          </div>
                           <div class="form-group row">
                         <label for="trn" class="col-sm-2 col-form-label">Role</label>
-                        @if(in_array(auth()->user()->role_id,[1,2]))
+                        @if(in_array(auth()->user()->role_id,[1,12,15]))
                         <div class="col-sm-4">
                           <select type="input" class="form-control" name="role" id="role" required>
                             {{-- <option value="">select type </option> --}}

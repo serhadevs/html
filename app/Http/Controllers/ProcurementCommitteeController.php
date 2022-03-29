@@ -148,7 +148,7 @@ class ProcurementCommitteeController extends Controller
                 $comment->user_id = auth()->user()->id;
                 $comment->comment =  $request->comments;
                 $comment->save();
-                }
+                
                 $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
                 $status->name = 'Procurememt Committee Rejected';
                 $status->update();
@@ -156,10 +156,10 @@ class ProcurementCommitteeController extends Controller
                 $user_group = array($requisition->user_id,$requisition->internalrequisition->approve_budget->user_id,$requisition->approve->user_id,$requisition->internalrequisition->user_id);
                     $users = User::whereIn('id',$user_group)->get();
                   $users->each->notify(new RefuseRequisitionPublish($requisition,$comment));
-                    $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
-                    $status->name = ' Requisition refuse';
-                    $status->update();
-            
+                    // $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
+                    // $status->name = ' Requisition refuse';
+                    // $status->update();
+                }
 
 
             }

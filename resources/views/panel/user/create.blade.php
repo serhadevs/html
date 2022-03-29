@@ -102,7 +102,7 @@
                         <div class="col-sm-4">
                         <select class="form-control multiple-select" name="institution" required>
                           <option value="">select institution </option>
-                          <option value="0">All Institution </option>
+                          {{-- <option value="0">All Institution </option> --}}
                           @foreach($institutions as $institution)
                          <option  value="{{$institution->id}}" >{{$institution->name}}</option>
 

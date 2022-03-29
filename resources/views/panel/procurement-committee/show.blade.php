@@ -302,11 +302,18 @@ text-align: center;
                                 <div class="col-sm-4">
                                 <input type="input" value="{{$procurementCommittee->meeting_type->name}}" class="form-control"name ='meeting_type_id' id="meeting_type" readonly required>
                                 </div>
-
-                                <label for="cost-centre" class="col-sm-2 col-form-label">Submission</label>
+                                @if(empty($procurementCommittee->date_last_signatory))
+                                <label for="cost-centre" class="col-sm-2 col-form-label">Meeting Date</label>
                                 <div class="col-sm-4">
                                 <input type="date" class="form-control" value="{{$procurementCommittee->date_submission}}"name ='submission' id="submission" readonly required>
                                 </div>
+                                @else
+                                <label for="date-of-last" class="col-sm-2 col-form-label">Last Date Signatory</label>
+                                <div class="col-sm-4">
+                                <input type="date" class="form-control" value="{{$procurementCommittee->date_last_signatory}}" id='signatory' name='signatory' readonly>
+                                </div>
+
+                                @endif
                                 
                                 </div>
                              
@@ -317,17 +324,18 @@ text-align: center;
                                     <input type="input"  value ="{{$procurementCommittee->action_taken->name}}" class="form-control"name ='action_taken_id' id="action_taken" readonly required>
                                 </div>
                                 
-                          
+                                @if(!empty($procurementCommittee->location))
                                 <label for="location"  class="col-sm-2 col-form-label">Location</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control" id='location' name='location'readonly>
+                                <input type="text" class="form-control" value="{{$procurementCommittee->location}}" id='location' name='location'readonly>
                                 </div> 
+                                @endif
                         
                                     </div>
 
                                     <div class="hidden">
                                     <div class="form-group row hiddens">
-                                    <label for="date-of-last" class="col-sm-2 col-form-label">Last Signatory</label>
+                                    <label for="date-of-last" class="col-sm-2 col-form-label">Last Date Signatory</label>
                                     <div class="col-sm-4">
                                     <input type="date" class="form-control" id='signatory' name='signatory' readonly>
                                     </div>
@@ -658,8 +666,8 @@ $('.hidden').hide();
 $('label[for="location"]').hide();
  }else{
     $('.hidden').hide();
- $('#location').hide();
-$('label[for="location"]').hide();
+//  $('#location').hide();
+// $('label[for="location"]').hide();
 $('#signatory').attr("disabled",true);
 
  }
