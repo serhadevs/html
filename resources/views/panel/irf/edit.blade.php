@@ -567,7 +567,7 @@ $(document).ready(function(){
   var approve_budget = {!! json_encode($ir->approve_budget) !!};
   var estimated_cost = {!! json_encode($ir->estimated_cost) !!};
   var input = $('#estimated_cost').val();
-  alert(input);
+
  // console.log(input);
   if(approve_budget != null ){
     swal(
