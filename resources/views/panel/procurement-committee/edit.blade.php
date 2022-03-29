@@ -341,12 +341,12 @@ text-align: center;
                                     </select>
                                 </div>
                                 
-                                @if(!empty($procurementCommittee->location))
+                          
                                 <label for="location"  class="col-sm-2 col-form-label">Location</label>
                                 <div class="col-sm-4">
                                 <input type="text" value="{{$procurementCommittee->location}}" class="form-control" id='location' name='location'>
                                 </div> 
-                                @endif
+                         
                         
                                     </div>
 
@@ -740,6 +740,8 @@ $('.hidden').hide();
  
  $('#signatory').attr("required",true);
  $('#location').attr("required",false);
+ $('#location').hide();
+$('label[for="location"]').hide();
 
 
  }else{
