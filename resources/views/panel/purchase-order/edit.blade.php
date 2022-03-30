@@ -272,6 +272,102 @@ text-align: center;
                                     </div>
                                     </div> --}}
                                     @endif
+                                    @if($purchaseOrder->requisition->committee)
+                                    <div class="box box-info">
+                                    <div class="box-header">
+                                      <h3 class="box-title"><hr>Procurement Committee </hr></h3>
+                                    </div>
+                                    <div class="box-body" >
+                                  
+                                    <div class="form-group row">
+                                      <label for="meeting_type" class="col-sm-2 col-form-label">Meeting Type</label>
+                                      <div class="col-sm-4">
+                                      <input type="input" value="{{$purchaseOrder->requisition->committee->meeting_type->name}}" class="form-control"name ='meeting_type_id' id="meeting_type" readonly required>
+                                      </div>
+                                       @if(empty($purchaseOrder->requisition->committee->date_last_signatory))
+                                      <label for="cost-centre" class="col-sm-2 col-form-label">Meeting Date</label>
+                                      <div class="col-sm-4">
+                                      <input type="date" class="form-control" value="{{$purchaseOrder->requisition->committee->date_submission}}"name ='submission' id="submission" readonly required>
+                                      </div>
+                                      @else
+                                      <label for="date-of-last" class="col-sm-2 col-form-label">Last Date Signatory</label>
+                                          <div class="col-sm-4">
+                                          <input type="date" class="form-control" value="{{$purchaseOrder->requisition->committee->date_last_signatory}}" id='signatory' name='signatory' readonly>
+                                          </div>
+      
+                                      @endif
+                                      
+                                      
+                                      </div>
+
+                                      <div class="form-group row">
+                                        <label for="action_taken" class="col-sm-2 col-form-label">Action Taken</label>
+                                        <div class="col-sm-4">
+                                        <input type="input"  value ="{{$purchaseOrder->requisition->committee->action_taken->name}}" class="form-control"name ='action_taken_id' id="action_taken" readonly required>
+                                    </div>
+                                    
+                                    @if(!empty($purchaseOrder->requisition->committee->laction))
+                                    <label for="location"  class="col-sm-2 col-form-label">Location</label>
+                                    <div class="col-sm-4">
+                                    <input type="text" class="form-control" value="{{$purchaseOrder->requisition->committee->laction}}" id='location' name='location'readonly>
+                                    </div> 
+                                    @endif
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-sm-12">
+                                            <div id="table" class="table-editable">
+                                              {{-- <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"> --}}
+                                            
+                                            
+                                          <table id="stock-table" class="table table-bordered text-center">
+                                          <thead>
+                                          <tr>
+                                          <th class="text-center">Name</th>
+                                          <th class="text-center">Decision</th>
+                                          <th class="text-center">Signature</th>
+                                          <th class="text-center">Date</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          @foreach ($purchaseOrder->requisition->committee->members as $member )
+                                          <tr>
+                                          <td>
+                                            {{$member->name }}
+                                          </td>
+                                              <td>
+                                              
+                                             {{($member->decision ===1) ? ('Endorsed') : (($member->decision ===2) ? ('Rejected') : ('Deferred'))}}
+                                                 
+                                              </td>
+                                              <td>
+                                             {{$member->signature }}
+                                              </td>
+                                              
+                                              <td>
+                                              {{$member->date }}
+                                              </td>
+                                          </tr>
+                                          @endforeach
+                                          </tbody>
+                                          
+                                       
+                                         
+                                          
+                                        
+                                          </table>
+                                          </div>
+                                          </div>
+                                          </div>
+
+
+                                   
+                                  </div>
+                                  </div>
+                                  @endif
+    
+    
+                       
+                               <hr>
     
                        
                             

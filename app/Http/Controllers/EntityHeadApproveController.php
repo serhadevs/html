@@ -136,8 +136,9 @@ class EntityHeadApproveController extends Controller
                     $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
                     $status->name = 'Entity Head Approved';
                     $status->update();
-                    $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[9])->get();
+                    $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[5,9])->get();
                     $users->each->notify(new ApproveRequisitionPublish($requisition));
+                    // dd($users);
                     
                 }
                 return 'success';
