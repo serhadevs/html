@@ -131,7 +131,7 @@ class ProcurementCommitteeController extends Controller
 
             }
            
-            if( $committee->action_taken_id === 1){
+            if( $committee->action_taken_id == 1){
                     $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
                     $status->name = 'Procurememt Committee Endorsed';
                     $status->update();
@@ -154,8 +154,9 @@ class ProcurementCommitteeController extends Controller
                 $status->update();
                 //notify
                 $user_group = array($requisition->user_id,$requisition->internalrequisition->approve_budget->user_id,$requisition->approve->user_id,$requisition->internalrequisition->user_id);
-                    $users = User::whereIn('id',$user_group)->get();
-                  $users->each->notify(new RefuseRequisitionPublish($requisition,$comment));
+               // dd( $user_group);
+                $users = User::whereIn('id',$user_group)->get();
+                $users->each->notify(new RefuseRequisitionPublish($requisition,$comment));
                     // $status = Status::where('internal_requisition_id',$requisition->internal_requisition_id)->first();
                     // $status->name = ' Requisition refuse';
                     // $status->update();

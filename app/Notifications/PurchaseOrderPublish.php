@@ -7,11 +7,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\PurchaseOrder;
+use App\Notifications\PurchaseOrderPublish;
 
-class PurchaseOrderPublish extends Notification
+class PurchaseOrderPublish extends Notification implements ShouldQueue
 {
     use Queueable;
     //protected $filename;
+    protected $purchase_order;
 
     /**
      * Create a new notification instance.
@@ -50,7 +52,6 @@ class PurchaseOrderPublish extends Notification
         ->line('A purchase order was created,the requisition number is '.$this->purchase_order->requisition->requisition_no.'.')
         // ->action('Add payment voucher', url('/payment-voucher'))
         ->line('Thank you for using this application!');
-        // ->attach('storage/documents/'.$this->filename);
 
         
     }

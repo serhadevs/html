@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\InternalRequisition;
 
-class InternalRequisitionApprovePublish extends Notification
+class InternalRequisitionApprovePublish extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $internal;

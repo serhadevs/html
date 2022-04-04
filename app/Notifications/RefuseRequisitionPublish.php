@@ -9,9 +9,11 @@ use Illuminate\Notifications\Notification;
 use App\Requisition;
 use App\Comment;
 
-class RefuseRequisitionPublish extends Notification
+class RefuseRequisitionPublish extends Notification  implements ShouldQueue
 {
     use Queueable;
+    protected $requisition;
+    protected $comment;
 
     /**
      * Create a new notification instance.

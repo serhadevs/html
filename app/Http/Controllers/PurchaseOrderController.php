@@ -12,6 +12,8 @@ use App\User;
 use App\Notifications\PurchaseOrderPublish;
 use App\Status;
 use App\AttachedPurchaseOrder;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactSupplier;
 
 
 class PurchaseOrderController extends Controller
@@ -174,9 +176,19 @@ class PurchaseOrderController extends Controller
 $status = Status::where('internal_requisition_id', $purchaseorder->requisition->internal_requisition_id)->first();
 $status->name = 'Purchase Order';
 $status->update();
+//dd($purchaseorder->requisition->supplier->email);
 
-$users = User::find($purchaseorder->requisition->internalrequisition->user_id);
-$users->notify(new PurchaseOrderPublish($purchaseorder));
+$user = User::find($purchaseorder->requisition->internalrequisition->user_id);
+$user->notify(new PurchaseOrderPublish($purchaseorder));
+// //notiffy supplier , requester, accounts and procurement team
+$procurement_team = User::where('institution_id',auth()->user()->institution_id)->whereIn('role_id',[5,9])->pluck('id');
+$users = User::whereIn('id',$procurement_team)->get();
+$users->each->notify(new PurchaseOrderPublish($purchaseorder));
+
+    Mail::to($purchaseorder->requisition->supplier->email)
+    ->send(new ContactSupplier($purchaseorder));
+    
+
 
 
 }

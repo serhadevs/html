@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use App\PaymentVoucher;
 
 
-class RefuseVoucherCheck extends Notification
+class RefuseVoucherCheck extends Notification  implements ShouldQueue
 {
     use Queueable;
 

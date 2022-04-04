@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use App\InternalRequisition;
 use App\User;
 
-class BugetCommitmentPublish extends Notification
+class BugetCommitmentPublish extends Notification  implements ShouldQueue
 {
     use Queueable;
     protected $internal;
