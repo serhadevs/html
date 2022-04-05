@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\InternalRequisition;
 
-class AssignInternalRequisition extends Notification  implements ShouldQueue
+class AssignInternalRequisition extends Notification  
 {
     use Queueable;
     protected $internal;

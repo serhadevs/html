@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use App\PurchaseOrder;
 use App\Notifications\PurchaseOrderPublish;
 
-class PurchaseOrderPublish extends Notification implements ShouldQueue
+class PurchaseOrderPublish extends Notification 
 {
     use Queueable;
     //protected $filename;

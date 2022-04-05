@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\ProcurementCommittee;
 
 
-class ProcurementCommitteePublish extends Notification implements ShouldQueue
+class ProcurementCommitteePublish extends Notification 
 {
     use Queueable;
     protected $committee;

@@ -239,10 +239,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
        // dd($request->all());
-       if((User::institution_count($request->institution) >=15) AND $request->institution !=1 ){
-          
-        return redirect('/user')->with('error', 'This department has the maximum amount of users.');
-    }
+      
         $institutions = $request->institutions;
         $departments = $request->departments;
         $units = $request->units;

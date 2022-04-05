@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewUserAccountPublish extends Notification  implements ShouldQueue
+class NewUserAccountPublish extends Notification 
 {
     use Queueable;
     //protected $password;

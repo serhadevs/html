@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\InternalRequisition;
 use App\Comment;
 
-class RefuseInternalRequisitionPublish extends Notification  implements ShouldQueue
+class RefuseInternalRequisitionPublish extends Notification  
 {
     use Queueable;
     protected $internal;

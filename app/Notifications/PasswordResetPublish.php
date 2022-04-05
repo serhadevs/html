@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PasswordResetPublish extends Notification  implements ShouldQueue
+class PasswordResetPublish extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $password;
