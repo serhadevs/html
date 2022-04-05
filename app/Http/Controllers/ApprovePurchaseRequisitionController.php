@@ -119,7 +119,7 @@ class ApprovePurchaseRequisitionController extends Controller
     $count = 0;
     }
    // $count = 2 ;
-    if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,10,11,12]) ){
+    if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,10,11,12,15]) ){
         return 'fail';
     }
     if(isset($requisition->approve)){
