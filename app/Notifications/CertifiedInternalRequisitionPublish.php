@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\InternalRequisition;
 
 
-class CertifiedInternalRequisitionPublish extends Notification  
+class CertifiedInternalRequisitionPublish extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $internal;

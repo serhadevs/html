@@ -14,11 +14,12 @@ use App\Status;
 use App\AttachedPurchaseOrder;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactSupplier;
+use App\Events\NotificationPublished;
 
 
 class PurchaseOrderController extends Controller
 {
-    /**
+    /**implements ShouldQueue
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -187,6 +188,8 @@ $users->each->notify(new PurchaseOrderPublish($purchaseorder));
 
     Mail::to($purchaseorder->requisition->supplier->email)
     ->send(new ContactSupplier($purchaseorder));
+
+    // event(new NotificationPublished($purchaseorder));
     
 
 

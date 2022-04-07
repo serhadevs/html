@@ -23,6 +23,7 @@ use Illuminate\Support\Str;
 
 
 
+
 class UserController extends Controller
 {
     /**
@@ -188,6 +189,8 @@ class UserController extends Controller
 
 
        $user->notify(new NewUserAccountPublish());
+       
+
 
         }catch(QueryException $ex ){
           //  dd($ex->getMessage());

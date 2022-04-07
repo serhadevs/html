@@ -5,21 +5,25 @@ namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use App\PurchaseOrder;
 
 
 
 class NotificationPublished
 {
     use Dispatchable,SerializesModels;
+   // public  $purchaseorder;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($purchaseorder)
     {
         //
+        $this->purchaseorder = $purchaseorder;
+        //dd( $this->purchaseorder);
     }
 
     /**
@@ -27,8 +31,8 @@ class NotificationPublished
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
-    }
+    // public function broadcastOn()
+    // {
+    //     return new PrivateChannel('channel-name');
+    // }
 }

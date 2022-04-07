@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Requisition;
 
-class RequisitionPublish extends Notification 
+class RequisitionPublish extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $requisition;
