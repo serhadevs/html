@@ -71,6 +71,7 @@
                                 </select>  
                               
                               </div>
+                              @else
                               <label for="institute" class="col-sm-2 col-form-label">Institution</label>
                               <div class="col-sm-4">
                                 <input type="input" class="form-control" value="{{auth()->user()->institution->name}}" readonly>
