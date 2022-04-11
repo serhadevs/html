@@ -119,7 +119,7 @@ text-align: center;
                 <td>{{$stock->item_number}}</td>
                 <td>{{$stock->description}}</td>
                 <td>{{$stock->quantity}}</td>
-                <td>{{$stock->unit_of_measurement_id}}</td>
+                <td>{{$stock->unit_of_measurement->name}}</td>
                 <td>${{number_format($stock->unit_cost,2)}}</td>
                 <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
             
