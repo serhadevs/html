@@ -147,7 +147,7 @@ body {
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->item_number}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->description}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->quantity}}</td>
-         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_of_measurement_id}}</td>
+         <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->unit_of_measurement->name}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">${{number_format($stock->unit_cost,2)}}</td>
          <td style="border: 1px solid black; border-collapse: collapse;">{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
      
