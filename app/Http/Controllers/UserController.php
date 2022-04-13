@@ -104,7 +104,7 @@ class UserController extends Controller
     {
      
         try{
-            if(User::institution_count($request->institution) >=15 AND $request->institution !=1 ){
+            if(User::institution_count($request->institution) >=25 AND $request->institution !=1 ){
           
                 return redirect('/user')->with('error', 'This Institution has the maximum amount of users.');
             }

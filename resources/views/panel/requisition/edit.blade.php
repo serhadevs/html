@@ -897,7 +897,7 @@ text-align: center;
                   
                       </td> 
                       <td>
-                        <input name='add_actual_cost[]' id="actual_cost" size="5"  class='actual_cost' min="0.00" step="any" type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+                        <input name='add_actual_cost[]' id="actual_cost" size="5"  class='actual_cost' step="any" type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
                       </td>
                       <td>
                       <input name='add_actual_total[]' id="actual_total" size="5" class='actual_total' min="0.00" step="any" type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>

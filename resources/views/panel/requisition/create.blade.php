@@ -346,10 +346,10 @@ display:none;
 {{-- <td>{{$stock->unit_cost}}</td>
 <td> {{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2) }}</td> --}}
 <td>
-<input name='actual_cost[]' id="actual_cost" size="5" id="" class='actual_cost' step="any" type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+<input name='actual_cost[]' id="actual_cost" size="5"  class='actual_cost' step="any" type='number' style='width:80px; border:blue;outline:blue;background:white;' required>
 </td>
 <td>
-<input name='actual_total[]' id="actual_total" size="5" id="" class='actual_total' step="any" type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+<input name='actual_total[]' id="actual_total" size="5" class='actual_total' step="any" type='number' style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
 </td>
 </tr>
 @endforeach
@@ -794,10 +794,10 @@ $(this).parents(".form-group").remove();
             
                 </td> 
                 <td>
-                  <input name='add_actual_cost[]' id="actual_cost" size="5"  class='actual_cost' min="0.00" step="any" type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
+                  <input name='add_actual_cost[]' id="actual_cost" size="5"  class='actual_cost' step="any" type='number'style='width:80px; border:blue;outline:blue;background:white;' required>
                 </td>
                 <td>
-                <input name='add_actual_total[]' id="actual_total" size="5" class='actual_total' min="0.00" step="any" type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
+                <input name='add_actual_total[]' id="actual_total" size="5" class='actual_total' step="any" type='number'style='width:80px; border:blue;outline:none;background: transparent;' readonly required>
                 </td>
                
   </tr>
