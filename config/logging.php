@@ -51,7 +51,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
             'days' => 3,
-            'log_max_files' => 2
+            'log_max_files' => 2,
         ],
 
         'slack' => [
