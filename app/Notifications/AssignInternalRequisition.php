@@ -49,7 +49,7 @@ class AssignInternalRequisition extends Notification implements ShouldQueue
         
         ->line('A new internal requisition  was assigned to you,the requisition number is '.$this->internal->requisition_no.'.')
         ->line($this->internal->description)
-        ->action('Create it Now', url('/requisition'))
+        ->action('Create it Now', url('https://procurement.serha.gov.jm/requisition'))
         ->line('Thank you for using this application!');
     }
 

@@ -48,7 +48,7 @@ class CertifiedInternalRequisitionPublish extends Notification implements Should
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The internal requisition was certified by '.auth()->user()->abbrName().',the requisition number is '.$this->internal->requisition_no.'.')
         ->line($this->internal->description)
-        ->action('Certify Now', url('/certify-internal-requisition'))
+        ->action('Certify Now', url('https://procurement.serha.gov.jm/certify-internal-requisition'))
         ->line('Thank you for using this application!');
     }
 

@@ -49,7 +49,7 @@ class RequisitionPublish extends Notification implements ShouldQueue
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('A new requisition was recieved, requisition number is '.$this->requisition->requisition_no.'.')
         ->line($this->requisition->description)
-        ->action('View requisition', url('check-purchase/'. $this->requisition->id))
+        ->action('View requisition', url('https://procurement.serha.gov.jm/check-purchase/'. $this->requisition->id))
         ->line('Thank you for using this application!');
     }
 

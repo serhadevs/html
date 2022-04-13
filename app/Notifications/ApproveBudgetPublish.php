@@ -48,7 +48,7 @@ class ApproveBudgetPublish extends Notification implements ShouldQueue
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The Budget  was approved,the requisition number is '.$this->internal->requisition_no.'.')
         ->line($this->internal->description)
-        ->action('Assign now', url('/assign_requisition'))
+        ->action('Assign now', url('https://procurement.serha.gov.jm/assign_requisition'))
         ->line('Thank you for using this application!');
     }
 

@@ -48,7 +48,7 @@ class InternalRequisitionApprovePublish extends Notification implements ShouldQu
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The internal requisition was approved and ready for budget commitment,the requisition number is '.$this->internal->requisition_no.'.')
         ->line($this->internal->description)
-        ->action('Commit Now', url('budgetcommitment'))
+        ->action('Commit Now', url('https://procurement.serha.gov.jm/budgetcommitment'))
         ->line('Thank you for using this application!');
     }
 

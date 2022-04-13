@@ -47,7 +47,7 @@ class ApproveRequisitionPublish extends Notification implements ShouldQueue
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The requisition was approve and now available for purchase order,the requisition number is '.$this->requisition->requisition_no.'.')
         ->line($this->requisition->description)
-        ->action('Create Purchase', url('/purchase-order'))
+        ->action('Create Purchase', url('https://procurement.serha.gov.jm/purchase-order'))
         ->line('Thank you for using this application!');
     }
 

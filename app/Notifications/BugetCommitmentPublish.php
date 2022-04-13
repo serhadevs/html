@@ -49,7 +49,7 @@ class BugetCommitmentPublish extends Notification implements ShouldQueue
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The budget commitment was completed,the requisition number is '.$this->internal->requisition_no.'.')
         ->line($this->internal->description)
-        ->action('Approve Budget', url('approve-budget-requisition/'. $this->internal->id))
+        ->action('Approve Budget', url('https://procurement.serha.gov.jm/approve-budget-requisition/'. $this->internal->id))
         ->line('Thank you for using this application!');
     }
 

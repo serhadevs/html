@@ -48,7 +48,7 @@ class ProcurementCommitteePublish extends Notification implements ShouldQueue
         ->subject('Procurement Committee')
         ->greeting('Good day , ' .$notifiable->firstname )
         ->line('The Procurement Committee has endorsed the requisition,The number is '.$this->committee->requisition->requisition_no.'.')
-        ->action('Approve', url('/entity_head_approve'))
+        ->action('Approve', url('https://procurement.serha.gov.jm//entity_head_approve'))
         ->line('Thank you for using this application!');
         // ->attach('storage/documents/'.$this->filename);
     }

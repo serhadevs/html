@@ -49,7 +49,7 @@ class InternalRequisitionPublish extends Notification implements ShouldQueue
                     ->greeting('Good day , ' .$notifiable->firstname )
                     ->line('A new internal requisition form is ready to get approved,the requisition number is '.$this->internal->requisition_no.'.')
                     ->line($this->internal->description)
-                    ->action('Approve it Now', url('/approve-internal-requisition/' . $this->internal->id))
+                    ->action('Approve it Now', url('https://procurement.serha.gov.jm/approve-internal-requisition/' . $this->internal->id))
                     ->line('Thank you for using this application!');
     }
 
