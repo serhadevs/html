@@ -59,7 +59,7 @@
                               <option value="2">Purchase Order</option>
                                </select>  
                                 </div>
-                                @if(in_array(auth()->user()->role_id,[1,3,6,5,9,10,11,12,14,15]))
+                                @if(in_array(auth()->user()->role_id,[1,3,6,5,9,10,11,12,14,15]) OR auth()->user()->department_id ===3)
                                 <label for="institute" class="col-sm-2 col-form-label">Institution</label>
                               <div class="col-sm-4">
                                 <select type="input" class="form-control" name="institution_id" id="institution" required>
