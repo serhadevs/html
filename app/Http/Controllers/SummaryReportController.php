@@ -22,7 +22,7 @@ class SummaryReportController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,2,3,5,6,9,10,11,12,14,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,2,3,5,6,9,10,11,12,14,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray()) OR auth()->user()->department_id ===3) {
                 return $next($request);
             }else if(auth()->user()->institution_id ===0)
             {   

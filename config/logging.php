@@ -50,7 +50,8 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
-            'days' => 14,
+            'days' => 3,
+            'log_max_files' => 2
         ],
 
         'slack' => [
