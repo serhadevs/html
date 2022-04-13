@@ -242,7 +242,7 @@
                   <p>General Report</p>
                 </a>
               </li>
-              @if(in_array(auth()->user()->role_id,[1,2,3,5,6,9,10,11,12,14,15]))
+              @if(in_array(auth()->user()->role_id,[1,2,3,5,6,9,10,11,12,14,15]) OR auth()->user()->department_id ===3)
               <li class="nav-item">
                 <a href="/spend-analysis" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
