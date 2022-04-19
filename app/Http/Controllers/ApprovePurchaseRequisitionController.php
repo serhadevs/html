@@ -8,6 +8,7 @@ use App\InternalRequisition;
 use App\Notifications\ApproveRequisitionPublish;
 use App\Notifications\RefuseRequisitionPublish;
 use App\Notifications\AcceptRequisitionPublish;
+use App\Notifications\RequisitionPublish;
 use App\User;
 use App\Comment;
 use App\Check;
@@ -192,12 +193,16 @@ class ApprovePurchaseRequisitionController extends Controller
                
 
                
-                    
+                if($requisition->contract_sum < 500000){    
                 $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[5,9])->get();
                 $users->each->notify(new ApproveRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,5]);
                 $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
-            
+                }else{
+                    $users = User::where('institution_id','=',1)->whereIn('role_id',[5,9,12])->get();
+                    $users->each->notify(new RequisitionPublish($requisition));
+
+                }
 
 
 
@@ -207,7 +212,7 @@ class ApprovePurchaseRequisitionController extends Controller
 
             }else{
                 //approve by institutions
-            if($count === 1){
+            if($count === 1 AND $requisition->contract_sum < 500000){
                 
             //notify primary institution users
             $users = User::where(function($query){
@@ -219,19 +224,19 @@ class ApprovePurchaseRequisitionController extends Controller
             $users->each->notify(new ApproveRequisitionPublish($requisition));
             $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,5]);
             $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
-            }else if($count === 0)
+            }else if($count === 0  AND $requisition->contract_sum < 500000)
             {
                 $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[11])->get();
     
                 $users->each->notify(new AcceptRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[11]);
                 $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
-            }else{
+            }else if ($requisition->contract_sum >= 500000){
             //notify primary institution users
-            $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[9])->get();
-            $users->each->notify(new AcceptRequisitionPublish($requisition));
-            $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[5,9]);
-            $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
+            $users = User::where('institution_id','=',1)->whereIn('role_id',[5,9,12])->get();
+            $users->each->notify(new RequisitionPublish($requisition));
+            // $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[5,9]);
+            // $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
     
 
 
