@@ -46,8 +46,8 @@ class ApprovePurchaseRequisitionController extends Controller
     public function index()
     {
         //
-  
-      //  dd($approve);
+        // $approve = Approve::approve_list(150)->toArray();
+        // dd($approve);
       if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
 
         $requisitions = Requisition::with(['check','approve'])
@@ -123,10 +123,10 @@ class ApprovePurchaseRequisitionController extends Controller
     if($requisition->check->user_id == auth()->user()->id AND !in_array(auth()->user()->role_id,[1,10,11,12,15]) ){
         return 'fail';
     }
-    if(isset($requisition->approve)){
-        if($requisition->approve->user_id == auth()->user()->id){
-            return 'fail';
-        }
+     
+    $approve_list = Approve::approve_list($requisition->id)->toArray();
+    if(in_array(auth()->user()->id,$approve_list )){
+        return  'fail';
     }
     if ($request->all()) {
 

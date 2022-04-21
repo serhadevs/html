@@ -42,7 +42,7 @@ class PurchaseOrderController extends Controller
     {
 
         //aprove purchase requisition
-        $requisitions = Requisition::with(['check','approve','purchaseOrder','committee'])
+        $requisitions = Requisition::with(['check','approve','purchaseOrder','committee','user'])
             // ->where('institution_id', '=', auth()->user()->institution_id)
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
@@ -53,7 +53,12 @@ class PurchaseOrderController extends Controller
                 $query->where('is_checked', '=', 1);
             })
             ->whereHas('approve', function ($query) {
+              
                 $query->where('is_granted', '=', 1);
+                $query->Orwhere('user_id',1);
+                // $query->OrWhere(function($query){
+                //     $query->where('user_id',1);
+                // });
             })
             ->doesnthave('purchaseOrder')
             ->where(function($query){
@@ -63,6 +68,10 @@ class PurchaseOrderController extends Controller
                  $query->where('contract_sum','>',1)->where('contract_sum','<',1500000);
                  $query->OrwhereHas('entity_head_approve',function($query){
                     $query->where('is_granted',1);
+                   });
+                   $query->OrwhereHas('approve',function($query){
+                       //or approve by RD
+                    $query->where('user_id',1);
                    });
                 }
              

@@ -45,8 +45,8 @@ class ProcurementCommitteeController extends Controller
         $requisitions = Requisition::with(['check','approve','purchaseOrder'])
         ->withCount('approve')
         ->where(function($query){
-            $query->where('institution_id','=',auth()->user()->institution_id)
-            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+            $query->where('institution_id','=',1);
+            //->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
          })
         ->whereHas('check', function ($query) {
@@ -58,14 +58,6 @@ class ProcurementCommitteeController extends Controller
         ->doesnthave('purchaseOrder')
         ->where('contract_sum','>',1500000)
         ->having('approve_count','>=',1)
-        // ->where(function($query){
-        //     if(auth()->user()->institution_id ===1){
-        //      $query->having('approve_count','>',1);
-        //     }else{
-        //      $query->having('approve_count','>',2);
-        //     }
-         
-        // })
         ->latest()
         ->get();
 

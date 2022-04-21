@@ -168,14 +168,23 @@ try {
     }
     
     $is_checked = $request->data['checked'];
-    $check = new Check();
-    $check->is_checked = $is_checked;
-    $check->requisition_id = $request->data['requisitionId'];
-    $check->user_id = auth()->user()->id;
-    $check->save();
     $requisition = Requisition::find($request->data['requisitionId']);
 
     if ($is_checked == 0) {
+        //if already check\
+        //remove already certify requisition
+        $already_check = Check::where('requisition_id', $requisition->id);
+        $already_check->delete();
+        if(auth()->user()->institution_id === 1){
+        $already_approve =Approve::where('requisition_id', $requisition->id);
+        $already_approve->delete();
+        }
+        $check = new Check();
+        $check->is_checked = $is_checked;
+        $check->requisition_id = $request->data['requisitionId'];
+        $check->user_id = auth()->user()->id;
+        $check->save();
+        
         $comment = new Comment();
         $comment->internal_requisition_id = $requisition->internal_requisition_id;
         $comment->type = 'refuse acceptance';
@@ -186,13 +195,20 @@ try {
         $status->name = 'Refuse Requisition';
         $status->update();
 
-        $requisition = Requisition::find($request->data['requisitionId']);
+        
         $user = User::find($requisition->user_id);
         $user->notify(new RefuseRequisitionPublish($requisition, $comment));
         // $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));
 
     } else {
- 
+
+        $check = new Check();
+        $check->is_checked = $is_checked;
+        $check->requisition_id = $request->data['requisitionId'];
+        $check->user_id = auth()->user()->id;
+        $check->save();
+        $requisition = Requisition::find($request->data['requisitionId']);
+    
         $requisition = Requisition::find($request->data['requisitionId']);
          if(auth()->user()->institution_id != $requisition->institution_id){
         $institute_tranfer = new InstitutionTransfer();
@@ -200,6 +216,7 @@ try {
         $institute_tranfer->from = $requisition->institution_id;
         $institute_tranfer->to = auth()->user()->institution_id;
         $institute_tranfer->save();
+        //change requisition location
         $requisition->institution_id = auth()->user()->institution_id;
         $requisition->update();
          //update requisition status
@@ -326,7 +343,7 @@ return redirect('/requisition')->with('status', 'Requisition was created success
             $requisition = Requisition::find($request->data['requisition_id']);
             $check = Check::where('requisition_id',$requisition->id)->first();
            
-            if ($requisition->approve) {
+            if ($requisition->approve && !in_array(auth()->user()->role_id,[1,12,15])) {
                 // if($internal->approve_internal_requisition->is_granted===1)
                 return 'fail';
             }

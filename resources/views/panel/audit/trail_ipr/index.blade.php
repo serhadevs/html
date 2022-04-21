@@ -39,6 +39,8 @@
             @endif  
           
                 </section>
+
+              </div>
             
                 <div class="card-body">
 
@@ -82,10 +84,8 @@
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="start_date" data-target-input="nearest">
-                        <input type="text" class="form-control datepicker-input" name='start_date' id='start_date' value='{{Request::old('start_date')}}' data-target="#start_date"/>
-                        <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                        <input type="date" class="form-control datepicker-input" name='start_date' id='start_date' value='{{Request::old('start_date')}}' data-target="#start_date"/>
+                       
                         </div>
                         
                         </div>
@@ -93,11 +93,8 @@
                        
                         <div class="col-sm-4">
                         <div class="input-group date" id="end_date" data-target-input="nearest">
-                        <input type="text" class="form-control datepicker-input" name='end_date' id='end_date' value='{{Request::old('end_date')}}' data-target="#tcc_expired"/>
-                        <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                        </div>
+                        <input type="date" class="form-control datepicker-input" name='end_date' id='end_date' value='{{Request::old('end_date')}}' data-target="#end_date"/>
+                       
                         
                         </div>
 
@@ -118,13 +115,13 @@
 
 
                         </div>
-                         <div class="col-10">
-                        {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
-                        <button type="submit"   class="btn btn-outline-primary float-right btn-lg">Send</button>
-                        </div>
+                       
                         </div>
                       
-                       
+                        <div class="col-10">
+                          {{-- <button type="button"  name="next-1" id="next-1" class="btn btn-success">Next</button> --}}
+                          <button type="submit"   class="btn btn-outline-primary float-right btn-lg">Send</button>
+                          </div>
                        
                         </div>
 

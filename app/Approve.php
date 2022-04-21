@@ -27,7 +27,7 @@ class Approve extends Model implements Auditable
 
     }
 
-    public function approve_list($requisition_id){
+    public static function approve_list($requisition_id){
         $list = Approve::where('requisition_id',$requisition_id)->pluck('user_id');
         return $list;
     }

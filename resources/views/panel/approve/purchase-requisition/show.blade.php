@@ -542,15 +542,17 @@ $(document).ready(function () {
   var user_int_id = {!! json_encode(Auth::user()->institution_id) !!};
   var count = {!! json_encode($count) !!};
   const int = [1,5,8,10];
+  
   var requisition_int_id = {!! json_encode($requisition->institution_id) !!};
  if(user_role_id == 11 && count == 0 && jQuery.inArray(requisition_int_id,int) ===-1){
   $("#btnapprove,#btnrefuse").attr("disabled", true);
  }else if(user_role_id == 10 && count == 1 ){
   $("#btnapprove,#btnrefuse").attr("disabled", true);
  }
-else if(user_role_id == 12  && count == 2 ){
+else if(user_role_id == 12  && count >= 3 ){
   $("#btnapprove,#btnrefuse").attr("disabled", true);
  }
+ 
  
  
 
