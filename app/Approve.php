@@ -21,11 +21,11 @@ class Approve extends Model implements Auditable
         return $this->belongsTo('App\User');
     }
 
-    public function approve_count($requisition_id){
-        $approve_count = Approve::where('requisition_id',$requisition_id)->count();
-        return $approve_count;
+    // public function approve_count($requisition_id){
+    //     $approve_count = Approve::where('requisition_id',$requisition_id)->count();
+    //     return $approve_count;
 
-    }
+    // }
 
     public static function approve_list($requisition_id){
         $list = Approve::where('requisition_id',$requisition_id)->pluck('user_id');
