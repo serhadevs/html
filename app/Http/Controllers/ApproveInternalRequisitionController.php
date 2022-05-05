@@ -169,7 +169,7 @@ class ApproveInternalRequisitionController extends Controller
                 //subscribe user institution notification
                 // $sub_users = User::users_in_institution( $approve->internal_requisition_id )->whereIn('role_id',[7]);
                 // $sub_users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
-                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,13);
+                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,7);
                 $add_role_user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
                
             }
