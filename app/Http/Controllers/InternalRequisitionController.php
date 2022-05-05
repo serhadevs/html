@@ -385,6 +385,7 @@ class InternalRequisitionController extends Controller
         $internal_requisition->comments = $request->comments;
         $internal_requisition->currency_id = $request->currency_type;
         $internal_requisition->tax_confirmed = $request->tax;
+        $internal_requisition->description = $request->general_description;
         $input = $request->all();
         foreach ($internal_requisition->stocks as $products) {
         $products->delete();
