@@ -81,13 +81,13 @@
                     </td>
                     <td>{{$internal_requisition->requisition_no}}</td>
                     @if($internal_requisition->assignto)
-                    <td>{{$internal_requisition->assignto->user->firstname[0]}}.{{$internal_requisition->assignto->user->lastname}}</td>
+                    <td>{{$internal_requisition->assignto->user->abbrName()}}</td>
                     <td>{{$internal_requisition->assignto->created_at}}</td>
                     @else
                     <td></td>
                     <td></td>
                     @endif
-                    <td>{{$internal_requisition->user->firstname[0]}}.{{$internal_requisition->user->lastname}}</td>
+                    <td>{{$internal_requisition->user->abbrName()}}</td>
                     <td>{{$internal_requisition->description}}</td>
                     <td>{{$internal_requisition->budget_commitment->commitment_no}}</td>
                     <td>{{$internal_requisition->estimated_cost}}</td>
