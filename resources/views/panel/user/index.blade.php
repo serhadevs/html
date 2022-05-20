@@ -41,7 +41,7 @@
                   <tr>
                     <th class="text-center"></th>
                     <th></th>
-                     <th></th>
+                     <th>Status</th>
                 <th class="text-center">First Name</th>
                 <th class="text-center">Last Name</th>
                 <th class="text-center">Role</th>
@@ -50,7 +50,7 @@
                 <th class="text-center">Department</th>
                 <th class="text-center">Institution</th>
                 <th class="text-center">Email</th>
-                <th class="text-center">Status</th>
+                <th class="text-center">Delete</th>
                
                     
                   </tr>
@@ -65,10 +65,15 @@
                      <td>
                      <button class="btn btn-outline-warning btn-m" onclick="resetPassword({{$user->id}})">Reset</button>
                      </td> 
- 
+                     @if($user->status ===0)
                      <td>
-                     <button class="btn  btn-outline-danger btn-m" onclick="deleteUser({{$user->id}})">Delete</button>
-                     </td> 
+                      <button class="btn  btn-danger btn-m" onclick="updateStatus({{$user->id}})">Disabled</button>
+                    </td>
+                    @else
+                   <td><button class="btn  btn-outline-success btn-m" onclick="updateStatus({{$user->id}})">Active</button></td>
+                    @endif
+ 
+                     
  
                    <td>{{$user->firstname}}</td>  
                     <td>{{$user->lastname}}</td>  
@@ -83,13 +88,11 @@
                         @endif
                          <td>{{$user->email}}</td>
                          
-                         @if($user->status ===0)
-                         <td>
-                          <button class="btn  btn-danger btn-m" onclick="updateStatus({{$user->id}})">Disabled</button>
-                        </td>
-                        @else
-                       <td><button class="btn  btn-outline-success btn-m" onclick="updateStatus({{$user->id}})">Active</button></td>
-                        @endif
+                        
+
+                        <td>
+                          <button class="btn  btn-outline-danger btn-m" onclick="deleteUser({{$user->id}})">Delete</button>
+                          </td> 
                              
                           {{-- onclick="deleteRequisition({{$requisition->id}})" --}}
 
