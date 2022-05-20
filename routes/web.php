@@ -124,6 +124,8 @@ Route::get('/getUnits',function(){
 });
 // supervisor authentication override
 Route::post('/verify_password"', 'UserController@verify_password');
+//disable accounts
+Route::get('/user/updateStatus/{id}', 'UserController@updateStatus');
 
 
 

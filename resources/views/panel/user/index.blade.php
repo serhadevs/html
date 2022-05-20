@@ -50,6 +50,7 @@
                 <th class="text-center">Department</th>
                 <th class="text-center">Institution</th>
                 <th class="text-center">Email</th>
+                <th class="text-center">Status</th>
                
                     
                   </tr>
@@ -80,8 +81,15 @@
                         @else
                         <td>{{$user->institution->name}}</td>
                         @endif
-                         <td>{{$user->email}}</td>      
-                     
+                         <td>{{$user->email}}</td>
+                         
+                         @if($user->status ===0)
+                         <td>
+                          <button class="btn  btn-danger btn-m" onclick="updateStatus({{$user->id}})">Disabled</button>
+                        </td>
+                        @else
+                       <td><button class="btn  btn-outline-success btn-m" onclick="updateStatus({{$user->id}})">Active</button></td>
+                        @endif
                              
                           {{-- onclick="deleteRequisition({{$requisition->id}})" --}}
 
@@ -243,6 +251,39 @@ function deleteUser(Id){
                         swal(
                             "Oops! Something went wrong.",
                             "User Password was Not reset successful.",
+                            "error");
+                    }
+                });
+            }
+        });
+    }
+
+
+    function updateStatus(Id){
+    swal({
+        title: "Are you sure?",
+        text: "You are changing the user status",
+        dangerMode: true,
+        cancel: true,
+        buttons: ["Cancel", "Yes, Change Status!"],
+        closeOnConfirm: false
+    }).then(isConfirm => {
+            if (isConfirm) {
+                $.get( {!! json_encode(url('/')) !!} + "/user/updateStatus/" + Id).then(function (data) {
+                   console.log(Id);
+                    if (data == "success") {
+                        swal(
+                            "Done!",
+                            "User status was updated successful!.",
+                            "success").then(esc => {
+                                if(esc){
+                                    location.reload();
+                                }
+                            });
+                    }else{
+                        swal(
+                            "You dont have the privillege to disable user",
+                            "User NOT status was updated.",
                             "error");
                     }
                 });

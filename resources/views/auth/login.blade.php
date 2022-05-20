@@ -24,6 +24,13 @@
 </div>
 </div>
 @endif 
+@if (session('error'))
+   <div class="alert alert-danger">
+        {{ session('error') }}
+   </div>
+@endif
+
+
   <body class="hold-transition login-page">
        
 <div class="login-box">

@@ -379,8 +379,29 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
+            abort_if(!in_array(auth()->user()->id,[1,3,12,15]),redirect(''));
             $user = User::find($id);
             $user->delete();
+            return "success";
+        } catch (Exception $e) {
+            return 'fail';
+        }
+
+
+   
+    }
+//abort_if(in_array(auth()->user()->role_id,[2,6,8]),redirect('foodhandlers')->with('error','No access granted'));
+    public function updateStatus($id)
+    {
+        try {
+            abort_if(!in_array(auth()->user()->id,[1,3,12,15]),redirect(''));
+            $user = User::find($id);
+            if($user->status === 0){
+                $user->status = 1;
+            }else if( $user->status === 1){
+                $user->status = 0;
+            }
+            $user->update();
             return "success";
         } catch (Exception $e) {
             return 'fail';
