@@ -394,7 +394,7 @@ class UserController extends Controller
     public function updateStatus($id)
     {
         try {
-            abort_if(!in_array(auth()->user()->id,[1,3,12,15]),redirect(''));
+            abort_if(!in_array(auth()->user()->role_id,[1,3,12,15]),redirect(''));
             $user = User::find($id);
             if($user->status === 0){
                 $user->status = 1;
