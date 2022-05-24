@@ -41,19 +41,31 @@ class ApproveInternalRequisitionController extends Controller
       {
 
         if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12,15])){
-            $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution'])
-            ->whereHas('certified_internal_requisition',function($query){
+            $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution','department','approve_internal_requisition'])
+            ->where(function($query){
+                $query->whereHas('certified_internal_requisition',function($query){
                  $query->where('is_granted','=', 1);
-                })
+                });
+                $query->OrWhereHas('approve_internal_requisition',function($query){
+                 $query->where('is_granted','=', 1);
+                });
+     
+             })
               ->latest()
               ->get();
             
         }else{
             
-        $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution'])
-       ->whereHas('certified_internal_requisition',function($query){
-            $query->where('is_granted','=', 1);
-           })
+        $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution','department','approve_internal_requisition'])
+        ->where(function($query){
+            $query->whereHas('certified_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            });
+            $query->OrWhereHas('approve_internal_requisition',function($query){
+             $query->where('is_granted','=', 1);
+            });
+ 
+         })
       ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
@@ -64,22 +76,28 @@ class ApproveInternalRequisitionController extends Controller
         }
 
       }else{
-      $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution'])
+      $internalRequisitions = InternalRequisition::with(['user','approve_internal_requisition','institution','department','certified_internal_requisition'])
       ->where(function($query){
         $query->where('department_id',auth()->user()->department_id)
         ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
     })
+    ->where(function($query){
+        $query->where('institution_id','=',auth()->user()->institution_id)
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+     })
       //where('department_id', auth()->user()->department_id)
-       ->whereHas('certified_internal_requisition',function($query){
-            $query->where('is_granted','=', 1);
-           })
       ->where(function($query){
-            $query->where('institution_id','=',auth()->user()->institution_id)
-            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-    
-         })
-         ->latest()
+           $query->whereHas('certified_internal_requisition',function($query){
+            $query->where('is_granted','=', 1);
+           });
+           $query->OrWhereHas('approve_internal_requisition',function($query){
+            $query->where('is_granted','=', 1);
+           });
+
+        })
       
+      ->latest()
       ->get();
         }
 

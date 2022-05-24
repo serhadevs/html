@@ -264,6 +264,12 @@ class InternalRequisitionController extends Controller
 
          //if manager create ipr
        else  if(auth()->user()->role_id === 2){
+            // Certify by manager
+                $certify = new CertifiedInternalRequisition();
+                $certify->internal_requisition_id = $internal_requisition->id;
+                $certify->user_id = auth()->user()->id;
+                $certify->is_granted = 1;
+            //approve by manager
                 $approve =  new ApproveInternalRequisition();
                 $permission = 1;
                 $approve->internal_requisition_id = $internal_requisition->id;
