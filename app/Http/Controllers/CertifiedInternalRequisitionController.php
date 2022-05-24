@@ -148,11 +148,11 @@ class CertifiedInternalRequisitionController extends Controller
                     if($status === null){
                         $status = new Status();
                         $status->internal_requisition_id = $approve->internal_requisition_id;
-                        $status->name = 'Certified Internal Requisition';
+                        $status->name = 'Internal Requisition Certified ';
                         $status->save();
 
                     }else{
-                    $status->name = 'Certified Internal Requisition';
+                    $status->name = 'Internal Requisition Certified ';
                     $status->update();
                     }
 

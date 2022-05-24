@@ -243,19 +243,23 @@ text-align: center;
         
 
                            <div class="col-10">
-                         @if($internalRequisition->certified_internal_requisition)
+                         @if(isset($internalRequisition->certified_internal_requisition))
+                         @if($internalRequisition->certified_internal_requisition->is_granted===1)
                         <div class="col-sm-5">
                        
                         Certify by: <span class='badge badge-success'>{{$internalRequisition->certified_internal_requisition->user->abbrName()}} </span></br>
                         Date:  <span class='badge badge-success'>{{$internalRequisition->certified_internal_requisition->created_at}}</span>
                         </div> 
                         @endif
+                        @endif
                         <div class="col-sm-5">
                          @if($internalRequisition->approve_internal_requisition)
+                         @if($internalRequisition->approve_internal_requisition->is_granted===1)
                         Approve by: <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->user->firstname[0]}}. {{$internalRequisition->approve_internal_requisition->user->lastname}} </span></br>
                         Date:  <span class='badge badge-success'>{{$internalRequisition->approve_internal_requisition->created_at}}</span>
                         @else
                           Approve  by: <span class='badge badge-success'></span>
+                          @endif
                           @endif
                         </div>
                       </div>
