@@ -15,6 +15,7 @@ use App\Unit;
 use App\UnitOfMeasurement;
 use App\User;
 use App\Currency;
+use App\Institution;
 use App\AttachedFile;
 use App\Notifications\InternalRequisitionApprovePublish;
 use App\Notifications\CertifiedInternalRequisitionPublish;
@@ -118,8 +119,10 @@ class InternalRequisitionController extends Controller
         $methods = ProcurementMethod::all();
         $types = RequisitionType::all();
         $currencies = Currency::all();
+        $institutions = Institution::all();
+       // dd(auth()->user()->accessInstitutions_Id()->toArray());
 
-        return view('/panel.irf.create', compact('currencies','units', 'types', 'methods'));
+        return view('/panel.irf.create', compact('institutions','currencies','units', 'types', 'methods'));
 
     }
 
@@ -132,6 +135,7 @@ class InternalRequisitionController extends Controller
     public function store(Request $request)
     {
 
+     
      try{
        
         $request->validate([
@@ -141,6 +145,7 @@ class InternalRequisitionController extends Controller
             'email' => 'required',
             'requisition_type' => 'required',
             'priority' => 'required',
+            'institution'=>'required',
 
             'item_number'=>'required',
             'quantity' => 'required',
@@ -158,7 +163,8 @@ class InternalRequisitionController extends Controller
 
         $internal_requisition->requisition_no = $requisition_no->generateRequisitionNumber($request->requisition_type);
         $internal_requisition->user_id = auth()->user()->id;
-        $internal_requisition->institution_id = auth()->user()->institution_id;
+       // $internal_requisition->institution_id = auth()->user()->institution_id;
+       $internal_requisition->institution_id = $request->institution;
         $internal_requisition->department_id = auth()->user()->department_id;
         $internal_requisition->estimated_cost = $request->estimated_cost;
         $internal_requisition->budget_approve = $request->budget_approve;

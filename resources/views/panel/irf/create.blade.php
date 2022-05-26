@@ -78,7 +78,18 @@ text-align: center;
                           <div class="form-group row">
                         <label for="institute" class="col-sm-2 col-form-label">Institution</label>
                         <div class="col-sm-4">
-                        <input type="input" class="form-control" value="{{auth()->user()->institution->name}}" readonly>
+                        @if(auth()->user()->accessInstitutions_Id()->isEmpty())
+                        <input type="input"  name="institution" class="form-control" value="{{auth()->user()->institution->name}}" readonly>
+                        @else
+                        <select class="form-control multiple-select" name="institution" required>
+                          <option value="">Select institution </option>
+                          <option  value="{{auth()->user()->institution->id}}" >{{auth()->user()->institution->name}}</option>
+                          @foreach($institutions->only(auth()->user()->accessInstitutions_Id()->toArray())->except([auth()->user()->institution->id]) as $institution)
+                         <option  value="{{$institution->id}}" >{{$institution->name}}</option>
+                          @endforeach
+                          
+                         </select> 
+                        @endif
                           {{-- <input type="hidden" name='institution' id="institute_id" value="{{auth()->user()->institution->id}}"> --}}
                           </div>
                           <label for="inputEmail4" class="col-sm-2 col-form-label">Department</label>
