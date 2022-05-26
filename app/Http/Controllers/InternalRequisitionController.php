@@ -84,10 +84,10 @@ class InternalRequisitionController extends Controller
             ->latest()
             ->get();
         }else{
-           
+        
             $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
-            ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
+           // ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             ->Where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());

@@ -67,7 +67,7 @@ input[type="checkbox"]{
                     <th>Requisition_no</th>
                     <th>Description</th>
                     <th>Date Receive</th>
-                    <th>Parish</th>
+                    <th>Institution</th>
                     <th>Cost Centre</th>
                     <th>Priority</th>
                     <th>Procurement Type</th>
@@ -99,7 +99,7 @@ input[type="checkbox"]{
                   <td>{{$internal->requisition_no}}</td>
                   <td>{{$internal->description}}</td>
                   <td>{{$internal->created_at}}</td>
-                  <td>{{$internal->institution->parish->name}}</td>
+                  <td>{{$internal->institution->name}}</td>
                   <td>{{$internal->institution->code}}</td>
                   <td>{{$internal->priority}}</td>
                     <td>{{$internal->requisition_type->name}}</td>

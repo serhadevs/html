@@ -105,7 +105,7 @@
          
           {{-- @if(in_array(auth()->user()->role_id,[1,5,9,12])) --}}
          
-              @if(in_array(auth()->user()->role_id,[1,12]) OR in_array(auth()->user()->role_id,[9]) AND auth()->user()->institution[1] )
+              @if(in_array(auth()->user()->role_id,[1,12,15]) OR in_array(auth()->user()->role_id,[9]) AND auth()->user()->institution[1] )
           <div class="col-lg-6 col-6">
             <!-- small box -->
             {!! $chart->container() !!}
