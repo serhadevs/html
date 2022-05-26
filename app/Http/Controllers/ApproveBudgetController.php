@@ -24,7 +24,7 @@ class ApproveBudgetController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,3,5,8,9,12,14,15]) OR in_array(8,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,3,5,6,8,9,12,14,15]) OR in_array(8,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');

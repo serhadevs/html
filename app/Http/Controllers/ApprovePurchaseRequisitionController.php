@@ -35,7 +35,7 @@ class ApprovePurchaseRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,2,9,10,11,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,2,6,9,10,11,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');

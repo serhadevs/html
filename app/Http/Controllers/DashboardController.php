@@ -37,7 +37,7 @@ class DashboardController extends Controller
     public function index()
     {
   
-      if(auth()->user()->institution_id ===0 AND in_array(auth()->user()->role_id,[1,12,15])){
+      if(auth()->user()->institution_id ===0 AND in_array(auth()->user()->role_id,[1,6,12,15])){
         $internalrequisitions= InternalRequisition::count();
 
         $tendering = InternalRequisition::with('approve_budget')
@@ -126,6 +126,7 @@ class DashboardController extends Controller
 
       }elseif(in_array(auth()->user()->role_id,[1,6,10,11,12,14,15]))
       {
+
         $internalrequisitions= InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->count();
         $requisitions= Requisition::where('institution_id', '=', auth()->user()->institution_id)->count();
         $purchase_Orders = PurchaseOrder::with(['requisition'])
@@ -194,7 +195,8 @@ class DashboardController extends Controller
       ->count();
       // $users = User::where('institution_id', '=', auth()->user()->institution_id)->count();
 
-      $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)->where('department_id', auth()->user()->department_id)->sum('estimated_cost'); 
+      $internal_requisition_sum = InternalRequisition::where('institution_id', '=', auth()->user()->institution_id)
+      ->where('department_id', auth()->user()->department_id)->sum('estimated_cost'); 
       
       $tendering_sum = InternalRequisition::with('approve_budget')->whereHas('approve_budget',function($query){
         $query->where('is_granted',1)->where('deleted_at',null);
@@ -222,8 +224,10 @@ class DashboardController extends Controller
     
           }
     
+          //graph methods
 
-
+    if(in_array(auth()->user()->role_id,[1,6,12,15]) OR in_array(auth()->user()->role_id,[9]) AND auth()->user()->institution[1] )
+    {
     $spend_by_parish= DB::table('requisitions')
               ->join('institutions','institutions.id','=','requisitions.institution_id')
               ->join('parishes','parishes.id','=','institutions.parish_id')
@@ -319,7 +323,140 @@ class DashboardController extends Controller
     $chart5->dataset('Top ten spend by suppliers', 'horizontalBar',$spend_by_supplier->pluck('sum'))
     ->backgroundColor('green');
  
+    }elseif(in_array(auth()->user()->role_id,[11,10]))
+    {
 
+$spend_by_parish= 0;
+
+//remove
+$chart = 0;
+
+
+//spend by category
+
+$spend_by_category = DB::table('requisitions')
+// ->leftJoin('institutions', 'institutions.id', '=', 'requisitions.institution_id')
+// ->leftJoin('parishes', 'parishes.id', '=', 'institutions.parish_id')
+->join('stock_categories','stock_categories.id','=','requisitions.category_id')
+->select('stock_categories.name as categoryname', DB::raw('sum(contract_sum) as sums'))   
+->where(function($query){
+  $query->where('institution_id','=',auth()->user()->institution_id)
+  ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+})
+->groupBy('requisitions.category_id','categoryname')
+->where('requisitions.deleted_at',null)
+->orderBy('sums', 'DESC')
+->get();
+
+$chart2 = new DataChart;
+$chart2->labels($spend_by_category->pluck('categoryname'));
+$chart2->dataset(' Spend By Category', 'horizontalBar', $spend_by_category->pluck('sums'))
+->backgroundColor('blue');
+
+
+//Spend by institution
+$spend_by_institution = DB::table('requisitions')
+->join('institutions', 'institutions.id', '=', 'requisitions.institution_id')
+->join('parishes', 'parishes.id', '=', 'institutions.parish_id')
+->where('requisitions.deleted_at',null)
+->where(function($query){
+  $query->where('institution_id','=',auth()->user()->institution_id)
+  ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+})
+->orderBy('sums', 'DESC')
+->select(
+
+DB::raw('sum(contract_sum) as sums'), 'institutions.abbr as institution'
+
+)
+//->whereYear('requisitions.created_at', '=', 2021)
+->groupBy('institution','requisitions.institution_id')
+
+// ->where('parishes.id','=',auth()->user()->institution->parish->id)
+
+->get();
+
+
+
+$chart3 = new DataChart;
+$chart3->labels($spend_by_institution->pluck('institution'));
+$chart3->dataset(' Spend by Institution', 'bar',$spend_by_institution->pluck('sums'))
+->backgroundColor('gold');
+
+//volume by supplier
+$valume_by_supplier = DB::table('purchase_orders')
+->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+->join('suppliers','suppliers.id','=','requisitions.supplier_id')
+->where(function($query){
+  $query->where('institution_id','=',auth()->user()->institution_id)
+  ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+})
+->select(          
+DB::raw('Count(requisitions.id) as total'),'requisitions.supplier_id','suppliers.name as name')
+->groupBy('requisitions.supplier_id','suppliers.name')
+->orderBy('total', 'DESC')
+->limit(10);
+$chart4 = new DataChart;
+$chart4->labels(  $valume_by_supplier->pluck('name'));
+$chart4->dataset('volume by suppliers', 'horizontalBar',$valume_by_supplier->pluck('total'))
+->backgroundColor('orange');
+
+//spend to supplier
+$spend_by_supplier = DB::table('purchase_orders')
+->join('requisitions','requisitions.id','=','purchase_orders.requisition_id')
+->join('suppliers','suppliers.id','=','requisitions.supplier_id')
+->where(function($query){
+  $query->where('institution_id','=',auth()->user()->institution_id)
+  ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+})
+->select(          
+DB::raw('Sum(requisitions.contract_sum) as sum'),'requisitions.supplier_id','suppliers.name as name')
+->groupBy('requisitions.supplier_id','suppliers.name')
+->orderBy('sum', 'DESC')
+->limit(10);
+
+$chart5 = new DataChart;
+$chart5->labels(  $spend_by_supplier->pluck('name'));
+$chart5->dataset('Top ten spend by suppliers', 'horizontalBar',$spend_by_supplier->pluck('sum'))
+->backgroundColor('green');
+
+
+
+
+    }else{
+
+
+$spend_by_parish= 0;
+
+//remove
+$chart = 0;
+
+
+//spend by category
+
+$spend_by_category = null;
+$chart2 = NULL;
+
+//Spend by institution
+$spend_by_institution = null;
+
+$valume_by_supplier= null;
+
+$chart3 =null;
+$chart4 = null;
+
+//spend to supplier
+$spend_by_supplier =null;
+
+$chart5 = null;
+
+    }
+
+    
 
   
    

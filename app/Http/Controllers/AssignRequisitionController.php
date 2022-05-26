@@ -30,7 +30,7 @@ class AssignRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,9,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,6,9,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray())) {
                 
                 return $next($request);
             } else {

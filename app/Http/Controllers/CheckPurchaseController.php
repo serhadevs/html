@@ -37,7 +37,7 @@ class CheckPurchaseController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,5,9,10,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,5,6,9,10,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');
@@ -76,7 +76,7 @@ class CheckPurchaseController extends Controller
         ->latest()
         ->get();
 
-        }else if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])){
+        }else if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,12])){
             $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
             ->withCount(['approve'=>function($query){
                 $query->where('is_granted',1);
@@ -87,7 +87,7 @@ class CheckPurchaseController extends Controller
              ->latest()
              ->get();
 
-            }else if(auth()->user()->institution_id === 0 AND !in_array(auth()->user()->role_id,[1,12])){
+            }else if(auth()->user()->institution_id === 0 AND !in_array(auth()->user()->role_id,[1,6,12])){
             
                 $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
                 ->where(function($query){

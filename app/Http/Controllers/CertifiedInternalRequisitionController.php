@@ -27,7 +27,7 @@ class CertifiedInternalRequisitionController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,2,10,11,13,14,15]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()) OR in_array(13,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,2,6,10,11,13,14,15]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()) OR in_array(13,auth()->user()->userRoles_Id()->toArray())) {
                
                 return $next($request);
             } else {
