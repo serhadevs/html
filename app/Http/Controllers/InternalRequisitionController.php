@@ -102,7 +102,7 @@ class InternalRequisitionController extends Controller
 
 
         }
-
+  
         return view('/panel.irf.index', compact('internal_requisitions'));
 
     }
@@ -135,7 +135,7 @@ class InternalRequisitionController extends Controller
     public function store(Request $request)
     {
 
-     
+   // dd($request->all());
      try{
        
         $request->validate([
@@ -145,7 +145,7 @@ class InternalRequisitionController extends Controller
             'email' => 'required',
             'requisition_type' => 'required',
             'priority' => 'required',
-            'institution'=>'required',
+            'institution_id'=>'required',
 
             'item_number'=>'required',
             'quantity' => 'required',
@@ -156,6 +156,7 @@ class InternalRequisitionController extends Controller
             'currency_type' => 'required',
             'tax'=>'required',
             'currency_type'=>'required',
+  
 
         ]);
         $requisition_no = new RequisitionNumberGenerator();
@@ -164,7 +165,7 @@ class InternalRequisitionController extends Controller
         $internal_requisition->requisition_no = $requisition_no->generateRequisitionNumber($request->requisition_type);
         $internal_requisition->user_id = auth()->user()->id;
        // $internal_requisition->institution_id = auth()->user()->institution_id;
-       $internal_requisition->institution_id = $request->institution;
+       $internal_requisition->institution_id = $request->institution_id;
         $internal_requisition->department_id = auth()->user()->department_id;
         $internal_requisition->estimated_cost = $request->estimated_cost;
         $internal_requisition->budget_approve = $request->budget_approve;

@@ -39,7 +39,7 @@ text-align: center;
                         </div>
                         
                         @if(count($errors)>0)
-                        <div class="col-sm-12">
+                        <div class="col-sm-10">
                   <div class="alert alert-danger">
                     <ul>
                         @foreach($errors->all() as $error)
@@ -80,8 +80,9 @@ text-align: center;
                         <div class="col-sm-4">
                         @if(auth()->user()->accessInstitutions_Id()->isEmpty())
                         <input type="input"  name="institution" class="form-control" value="{{auth()->user()->institution->name}}" readonly>
+                        <input type="hidden"  name="institution_id" class="form-control" value="{{auth()->user()->institution->id}}" readonly>
                         @else
-                        <select class="form-control multiple-select" name="institution" required>
+                        <select class="form-control multiple-select" name="institution_id" required>
                           <option value="">Select institution </option>
                           <option  value="{{auth()->user()->institution->id}}" >{{auth()->user()->institution->name}}</option>
                           @foreach($institutions->only(auth()->user()->accessInstitutions_Id()->toArray())->except([auth()->user()->institution->id]) as $institution)

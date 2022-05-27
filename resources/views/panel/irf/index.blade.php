@@ -88,7 +88,7 @@
                     <td>${{number_format($internal_requisition->estimated_cost,2)}}</td>
                     
                     <td>{{$internal_requisition->department->name}}</td>
-                    <td>{{$internal_requisition->institution->name}}</td>
+                    <td>{{$internal_requisition->institution}}</td>
                     <td>{{$internal_requisition->budget_approve}}</td>
                     <td>{{$internal_requisition->phone}}</td>
                     <td>{{$internal_requisition->email}}</td>
