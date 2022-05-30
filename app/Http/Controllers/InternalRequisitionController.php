@@ -90,8 +90,8 @@ class InternalRequisitionController extends Controller
             ->where('department_id', auth()->user()->department_id)
            ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             ->Where(function($query){
-                $query->where('institution_id','=',auth()->user()->institution_id);
-                // ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                $query->where('institution_id','=',auth()->user()->institution_id)
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         
              })
             // ->Orwhere('user_id',auth()->user()->id)
