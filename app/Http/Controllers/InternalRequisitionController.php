@@ -72,7 +72,7 @@ class InternalRequisitionController extends Controller
             ->get();
             }
 
-        }else if(in_array(auth()->user()->role_id,[2])){    
+        }else if(in_array(auth()->user()->role_id,[2,6,9])){    
         $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
             ->where(function($query){
@@ -88,10 +88,10 @@ class InternalRequisitionController extends Controller
         
             $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
-           // ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
+           ->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             ->Where(function($query){
-                $query->where('institution_id','=',auth()->user()->institution_id)
-                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+                $query->where('institution_id','=',auth()->user()->institution_id);
+                // ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         
              })
             // ->Orwhere('user_id',auth()->user()->id)
@@ -366,7 +366,7 @@ class InternalRequisitionController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        
         try{
         $request->validate([
             'estimated_cost' => 'required',

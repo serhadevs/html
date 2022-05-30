@@ -84,15 +84,27 @@ class PurchaseOrderController extends Controller
        
         //purchaseOrder
  
-        if (auth()->user()->institution_id === 0) {
+        if (auth()->user()->institution_id === 0 AND !in_array(auth()->user()->role_id,[1,6,12,15])) {
 
             $purchase_orders = PurchaseOrder::with(['requisition'])
             ->whereHas('requisition', function ($query) {
-
-                
+            $query->whereIn('institution_id',auth()->user()->accessInstitutions_Id()); 
             })
             ->latest()
             ->get();
+
+         }elseif(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,12,15]))
+        {
+
+            $purchase_orders = PurchaseOrder::with(['requisition'])
+            ->whereHas('requisition', function ($query) {
+            //$query->whereIn('institution_id',auth()->user()->accessInstitutions_Id()); 
+            })
+            ->latest()
+            ->get();
+        
+
+            
         }else{
         $purchase_orders = PurchaseOrder::with(['requisition'])
             ->whereHas('requisition', function ($query) {
