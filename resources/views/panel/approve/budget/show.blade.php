@@ -155,7 +155,7 @@ text-align: center;
   </tr>
    <tr>
     <td>Grand Total</td>
-     <td>${{$internalRequisition->estimated_cost}}</td>
+     <td>${{number_format($internalRequisition->estimated_cost,2)}}</td>
   </tr>
  
  

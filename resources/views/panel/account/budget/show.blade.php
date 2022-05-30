@@ -222,7 +222,7 @@ text-align: center;
     </tr>
    <tr>
     <td  size="5">Grand Total</td>
-     <td><input id='grandtotal' readonly type='text' value="${{$budgetCommitment->internalrequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td><input id='grandtotal' readonly type='text' value="${{number_format($budgetCommitment->internalrequisition->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  

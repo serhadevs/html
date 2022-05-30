@@ -50,7 +50,7 @@
                            <div class="col-m-10">
 
                           <div class="form-group row">
-                        <label for="name" class="col-sm-2 col-form-label">Frist Name</label>
+                        <label for="name" class="col-sm-2 col-form-label">First Name</label>
                         <div class="col-sm-4">
                         <input type="text" name ="first_name" class="form-control" value="{{Request::old('first_name')}}" required>
                           </div>

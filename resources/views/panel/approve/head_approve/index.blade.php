@@ -94,7 +94,7 @@ input[type="checkbox"]{
                     <td>{{$requisition->requisition_no}}</td>
                     <td>{{$requisition->description}}</td>
                     <td>{{Carbon\Carbon::parse($requisition->committee->created_at)->format('d-M-Y')}}</td>
-                    <td>{{$requisition->contract_sum}}</td>
+                    <td>${{number_format($requisition->contract_sum,2)}}</td>
                     <td>{{$requisition->internalrequisition->user->abbrName()}}</td>
                     <td>{{$requisition->department->name}}</td>
                     <td>{{$requisition->institution->name}}</td>

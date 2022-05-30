@@ -119,7 +119,7 @@ text-align: center;
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->unit_of_measurement->name}}</td>
                 <td>${{number_format($stock->unit_cost,2)}}</td>
-                <td>{{$stock->estimated_total ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
+                <td>${{number_format($stock->estimated_total,2) ? '$'.number_format($stock->estimated_total,2) : '$'.number_format($stock->quantity * $stock->unit_cost,2)}}</td>
             
        
               
@@ -153,7 +153,7 @@ text-align: center;
   </tr>
    <tr>
     <td  size="5">Grand Total</td>
-     <td><input id='grandtotal' readonly type='text' value="${{$internalRequisition->estimated_cost}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td><input id='grandtotal' readonly type='text' value="${{number_format($internalRequisition->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  
