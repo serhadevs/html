@@ -110,8 +110,8 @@ class RequisitionController extends Controller
     public function create($id)
     {
         $internalrequisition = InternalRequisition::with('stocks')->find($id);
-        $suppliers = Supplier::all();
-        $units = UnitOfMeasurement::all();
+        $suppliers = Supplier::orderBy('name')->get();
+        $units = UnitOfMeasurement::orderBy('name')->get();
         $departments = Department::all();
         $institutions = Institution::all();
         $categories = StockCategory::all();
@@ -311,9 +311,9 @@ class RequisitionController extends Controller
      */
     public function edit(Requisition $requisition)
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::orderBy('name')->get();
     //    $supply =Supplier::find($requisition->supplier_id);
-        $units = UnitOfMeasurement::all();
+        $units = UnitOfMeasurement::orderBy('name')->get();
         $categories = StockCategory::all();
         $types = RequisitionType::all();
         $methods = ProcurementMethod::all();

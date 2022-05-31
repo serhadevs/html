@@ -115,7 +115,7 @@ class InternalRequisitionController extends Controller
     public function create()
     {
         //
-        $units = UnitOfMeasurement::all();
+        $units = UnitOfMeasurement::orderBy('name')->get();
         $methods = ProcurementMethod::all();
         $types = RequisitionType::all();
         $currencies = Currency::all();
@@ -334,7 +334,7 @@ class InternalRequisitionController extends Controller
     public function edit($id)
     {
 
-        $units = UnitOfMeasurement::all();
+        $units = UnitOfMeasurement::orderBy('name')->get();
         //  dd(('test'));
         $ir = InternalRequisition::with(['stocks', 'comment','approve_budget'])
             ->find($id);
