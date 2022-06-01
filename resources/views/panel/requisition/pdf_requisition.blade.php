@@ -115,7 +115,7 @@ body {
                   <tr>
                   
                    <td>Supplier TRN: {{$requisition->supplier->trn}}</td>
-                    <td>Percentage Variance: {{$requisition->cost_variance /100}} %</td>
+                    <td>Percentage Variance: {{$requisition->cost_variance}}</td>
                   </tr>
                     @if($requisition->advertisement_method)
                         <tr>
