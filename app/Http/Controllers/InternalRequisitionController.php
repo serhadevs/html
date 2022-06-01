@@ -72,7 +72,7 @@ class InternalRequisitionController extends Controller
             ->get();
             }
 
-        }else if(in_array(auth()->user()->role_id,[2,6,5,9])){    
+        }else if(in_array(auth()->user()->role_id,[2,5,6,9])){    
         $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where('department_id', auth()->user()->department_id)
             ->where(function($query){
@@ -523,21 +523,6 @@ class InternalRequisitionController extends Controller
 
 }
 
-        //send notification mail to manager when updated
-       // dd($internal_requisition->approve_budget->is_granted );
-        if($internal_requisition->approve_budget->is_granted === 1){
-            //primary user institution notification
-       
-            $users = User::where('institution_id', auth()->user()->institution_id)
-            ->where('department_id', auth()->user()->department_id)
-            ->whereIn('role_id', [2])
-            ->get();
-           
-            $users->each->notify(new InternalRequisitionPublish($internal_requisition));
-            $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
-            $add_role_user->each->notify(new InternalRequisitionPublish($internal_requisition));
-    
-        }
           
            
         }catch(Illuminate\Database\QueryException  $error){
