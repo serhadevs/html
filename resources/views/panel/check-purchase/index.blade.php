@@ -54,6 +54,7 @@ table.dataTable tbody td {
                     <th></th>
                     <th>Check</th>
                     <th>Requisition_no</th>
+                    <th>Contract Sum</th>
                      <th>Description</th>
                     <th>Date Receive</th>
                     {{-- <th>Date Re-submitted</th> --}}
@@ -96,6 +97,7 @@ table.dataTable tbody td {
                     <td> <span class ="badge bg-blue">Uncheck</span></td>
                     @endif
                     <td>{{$requisition->requisition_no}}</td>
+                    <td>${{number_format($requisition->contract_sum,2)}}</td>
                      <td>{{$requisition->description}}</td>
                     {{-- <td></td> --}}
                  
