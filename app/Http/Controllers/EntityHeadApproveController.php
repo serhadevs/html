@@ -43,11 +43,11 @@ class EntityHeadApproveController extends Controller
 
         $requisitions = Requisition::with(['check','approve','purchaseOrder','committee'])
         ->withCount('approve')
-        ->where(function($query){
-            $query->where('institution_id','=',auth()->user()->institution_id)
-            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+        // ->where(function($query){
+        //     $query->where('institution_id','=',auth()->user()->institution_id)
+        //     ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
     
-         })
+        //  })
         ->whereHas('check', function ($query) {
             $query->where('is_checked', '=', 1);
         })

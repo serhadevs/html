@@ -19,10 +19,12 @@ use App\Institution;
 use App\AttachedFile;
 use App\Notifications\InternalRequisitionApprovePublish;
 use App\Notifications\CertifiedInternalRequisitionPublish;
+use App\Notifications\UpdateInternalRequisitionPublish;
 use App\Comment;
 use App\ApproveBudget;
 use App\BudgetCommitment;
 use Exception;
+use DB;
 
 ini_set('upload_max_filesize', '400M');
 ini_set('post_max_size', '400M');
@@ -31,7 +33,7 @@ ini_set('post_max_size', '400M');
 use Illuminate\Http\Request;
 
 class InternalRequisitionController extends Controller
-{
+{// ->where('department_id', auth()->user()->department_id)
     /**
      * Display a listing of the resource.
      *
@@ -244,29 +246,31 @@ class InternalRequisitionController extends Controller
                 $status->update();
 
                 //primary user institution notification
-                $users = User::where('institution_id', auth()->user()->institution_id)
-                ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id', [2])
-                ->get();
-                $users->each->notify(new InternalRequisitionPublish($internal_requisition));
+                // $users = User::where('institution_id', auth()->user()->institution_id)
+                // ->where('department_id', auth()->user()->department_id)
+                // ->whereIn('role_id', [2])
+                // ->get();
+                // $users->each->notify(new InternalRequisitionPublish($internal_requisition));
                 // //subscribe user institution notification
                 // $sub_users = User::users_in_institution($internal_requisition->institution_id)->whereIn('role_id',[10,11]);
                 // $sub_users->each->notify(new InternalRequisitionPublish($internal_requisition));
                 $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
                 $add_role_user->each->notify(new InternalRequisitionPublish($internal_requisition));
-
-
+                
+    
             }
         
 
         }else if(auth()->user()->role_id===4)
         {
+          
             $users = User::where('institution_id', auth()->user()->institution_id)
             ->where('department_id', auth()->user()->department_id)
             ->whereIn('role_id', [13])
             ->get();
             $users->each->notify(new CertifiedInternalRequisitionPublish($internal_requisition));
-
+            //dd($users);
+         
         }
 
          //if manager create ipr
@@ -522,6 +526,17 @@ class InternalRequisitionController extends Controller
     }
 
 }
+        ///if buget approve notify update
+        if($internal_requisition->approve_budget )
+        {
+
+            $users = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
+            $users->each->notify(new UpdateInternalRequisitionPublish($internal_requisition));
+           
+           //dd($users);
+           
+        }
+
 
           
            

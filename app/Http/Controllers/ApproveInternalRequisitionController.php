@@ -12,6 +12,8 @@ use App\User;
 use App\Status;
 use App\Comment;
 use App\CertifiedInternalRequisition;
+use App\Notifications\UpdateInternalRequisitionNotification;
+
 
 class ApproveInternalRequisitionController extends Controller
 {
@@ -127,6 +129,8 @@ class ApproveInternalRequisitionController extends Controller
     {
         //
         try {
+
+            $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             if ($request->all()) {
                 $approve = new ApproveInternalRequisition();
                 $permission = $request->data['permission'];
@@ -160,9 +164,29 @@ class ApproveInternalRequisitionController extends Controller
                     $status->name = ' Internal Requisition rejected';
                     $status->update();
         
+
+
+                 ///if budget is already approve notify procurement
+                }elseif($internalRequisition->approve_budget AND $permission ==1 )
+                 {
+
+                    // $users = User::where('institution_id', $internalRequisition->institution_id )
+                    // // ->where('department_id', auth()->user()->department_id)
+                    // ->whereIn('role_id',[9,12])
+                    // ->get();
+                    // $users->each->notify(new UpdateInternalRequisitionPublish($internalRequisition));
+                    $add_role_user = User::user_with_roles($internalRequisition->institution_id,auth()->user()->department_id,9);
+                    $add_role_user->each->notify(new UpdateInternalRequisitionNotification($internalRequisition));
+                    
+                
+                //dd($users);
+           
+        
             
         
                 }else{
+
+
                     $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
                     if($status ===null){
                         $status = new Status();
@@ -177,18 +201,19 @@ class ApproveInternalRequisitionController extends Controller
 
 
                 //notify primary facility users    
-                $users = User::where('institution_id',auth()->user()->institution_id )
-                ->whereIn('role_id',[7])
-                ->get();
+                // $users = User::where('institution_id',auth()->user()->institution_id )
+                // ->whereIn('role_id',[7])
+                // ->get();
                 
-                $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
+              
             
-                $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
+                // $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
                 //subscribe user institution notification
                 // $sub_users = User::users_in_institution( $approve->internal_requisition_id )->whereIn('role_id',[7]);
                 // $sub_users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
                 $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,7);
                 $add_role_user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
+        
                
             }
             return 'success';

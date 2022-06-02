@@ -8,11 +8,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\InternalRequisition;
 
-
-class CertifiedInternalRequisitionPublish extends Notification implements ShouldQueue
+class UpdateInternalRequisitionPublish extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $internal;
+
+
     /**
      * Create a new notification instance.
      *
@@ -32,7 +33,7 @@ class CertifiedInternalRequisitionPublish extends Notification implements Should
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['database','mail'];
     }
 
     /**
@@ -44,11 +45,11 @@ class CertifiedInternalRequisitionPublish extends Notification implements Should
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Certified internal requisition ')
+        ->subject('Updated Internal Requisition ')
         ->greeting('Good day , ' .$notifiable->firstname )
-        ->line('The internal requisition is ready to be certified,the requisition number is '.$this->internal->requisition_no.'.')
+        ->line('The Internal requisition was updated  and is ready to get approved,the requisition number is '.$this->internal->requisition_no.'.')
         ->line($this->internal->description)
-        ->action('Certify Now', url('https://procurement.serha.gov.jm/certify-internal-requisition/'. $this->internal->id))
+        ->action('Approve it Now', url('https://procurement.serha.gov.jm/approve-internal-requisition/' . $this->internal->id))
         ->line('Thank you for using this application!');
     }
 

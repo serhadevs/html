@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use DB;
 
 
 
@@ -195,6 +196,35 @@ class User extends Authenticatable implements Auditable
 
       }
 
+      // all subscribe users for a department
+
+      public static function users_in_departments($department_id)
+      {
+        $user_ids = \App\DepartmentUsers::where('department_id',$department_id)->pluck('user_id');
+        $users = User::whereIn('id', $user_ids)
+       ->get();
+        return $users;
+
+      }
+
+      public static function users_in_departments_ids($department_id)
+      {
+        $users_ids = \App\DepartmentUsers::where('department_id',$department_id)->pluck('user_id'); 
+     
+        return $users_ids;
+
+      }
+
+
+
+
+
+
+
+
+
+      //
+
       public static function unitUsers(){
         $unit_users = User::where('unit_id', auth()->user()->unit_id)
                         ->withTrashed()
@@ -234,9 +264,13 @@ class User extends Authenticatable implements Auditable
     ->whereHas('user_roles',function($query)use($role_id){
         $query->where('role_id',$role_id);
     })
+     ->Orwhere(function($query)use($role_id,$institution_id){
+       $query->where('role_id',$role_id)->where('institution_id',$institution_id);
+     })
     ->get();
     return $users;
     }
+  
 
 
  

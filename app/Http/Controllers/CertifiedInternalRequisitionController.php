@@ -156,19 +156,19 @@ class CertifiedInternalRequisitionController extends Controller
                     $status->update();
                     }
 
-                $users = User::where('institution_id',auth()->user()->institution_id )
-                // ->where('department_id', auth()->user()->department_id)
-                ->where(function($query){
-                    $query->where('department_id',auth()->user()->department_id)
-                    ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
-                })
-                ->whereIn('role_id',[2])
-                ->get();
+                // $users = User::where('institution_id',auth()->user()->institution_id )
+                // // ->where('department_id', auth()->user()->department_id)
+                // ->where(function($query){
+                //     $query->where('department_id',auth()->user()->department_id)
+                //     ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
+                // })
+                // ->whereIn('role_id',[2])
+                // ->get();
                 
                $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
             
-               $users->each->notify(new InternalRequisitionPublish($internalRequisition));
-               $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,13);
+              // $users->each->notify(new InternalRequisitionPublish($internalRequisition));
+               $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
                $add_role_user->each->notify(new InternalRequisitionPublish($internalRequisition));
 
                

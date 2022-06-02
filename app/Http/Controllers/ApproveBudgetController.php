@@ -148,11 +148,11 @@ class ApproveBudgetController extends Controller
 
                 //notify procurement department
                 $internalRequisition = InternalRequisition::find($request->data['internal_requisition_id']);
-                $users = User::where('institution_id', $internalRequisition->institution_id )
-                // ->where('department_id', auth()->user()->department_id)
-                ->whereIn('role_id',[9,12])
-                ->get();
-                $users->each->notify(new ApproveBudgetPublish($internalRequisition));
+                // $users = User::where('institution_id', $internalRequisition->institution_id )
+                // // ->where('department_id', auth()->user()->department_id)
+                // ->whereIn('role_id',[9,12])
+                // ->get();
+                // $users->each->notify(new ApproveBudgetPublish($internalRequisition));
                 $add_role_user = User::user_with_roles($internalRequisition->institution_id,auth()->user()->department_id,9);
                 $add_role_user->each->notify(new ApproveBudgetPublish($internalRequisition));
 
