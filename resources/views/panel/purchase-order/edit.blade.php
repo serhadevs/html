@@ -558,7 +558,7 @@ text-align: center;
     
 
   
-    Date:<span class='badge badge-success'>{{$purchaseOrder->requisition->approve->created_at}}</span></br>
+   
     Prepared PO by: :<span class='badge badge-success'>  <b>{{$purchaseOrder->requisition->purchaseorder->user->abbrName()}}</span></b> </br>
     Date:<span class='badge badge-success'>  <b>{{$purchaseOrder->created_at}}</span></b> </br>               
     @if(isset($purchaseOrder->requisition->approve))
@@ -570,6 +570,7 @@ text-align: center;
                          
     @else
     Approve Requisition by:  <span class='badge badge-success'>{{$purchaseOrder->requisition->approve->user->abbrName()}}</span></br>
+    Date:<span class='badge badge-success'>{{$purchaseOrder->requisition->approve->created_at}}</span></br>
     @endif
     @endif
 
