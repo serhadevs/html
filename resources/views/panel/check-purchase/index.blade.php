@@ -84,7 +84,7 @@ table.dataTable tbody td {
                      @if($requisition->check->is_checked===1 AND $requisition->approve_count===0)
                     <td> <span class ="badge bg-green">Accepted</span></td>
 
-                    @elseif($requisition->check->where('requisition_id',$requisition->id)->count() ===1 AND $requisition->approve_count >= 1 And $requisition->institution_id != 1 AND $requisition->contract_sum >= 500000)
+                    @elseif($requisition->check->where('requisition_id',$requisition->id)->count() ===1 AND $requisition->approve_count >= 1 And $requisition->institution_id != 1 AND $requisition->contract_sum >= 1500000)
                     <td> <span class ="badge bg-yellow">Institute Approved</span></td>
 
                     @elseif($requisition->check->where('requisition_id',$requisition->id)->count() >=1 AND $requisition->approve_count >= 1)

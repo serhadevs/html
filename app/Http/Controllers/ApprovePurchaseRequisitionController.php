@@ -177,7 +177,7 @@ class ApprovePurchaseRequisitionController extends Controller
             $status->update();
 
             $approve = Approve::where('requisition_id',$requisition->id)->get();
-            if($count ===1 AND $requisition->contract_sum > 500000 AND !auth()->user()->institution_id !=1) {
+            if($count ===1 AND $requisition->contract_sum > 1500000 AND !auth()->user()->institution_id !=1) {
            // store approve data b4 transfer
                 foreach ($approve as $key => $store) {
                     $app_store = StoreApproves::create([
@@ -197,7 +197,7 @@ class ApprovePurchaseRequisitionController extends Controller
                
 
                //notify health departments users
-                if($requisition->contract_sum < 500000){    
+                if($requisition->contract_sum < 1500000){    
                 $users = User::where('institution_id','=',$requisition->institution_id)->whereIn('role_id',[5,9])->get();
                 $users->each->notify(new ApproveRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,5]);
@@ -217,7 +217,7 @@ class ApprovePurchaseRequisitionController extends Controller
 
             }else{
                 //approve by institutions
-            if($count === 1 AND $requisition->contract_sum < 500000){
+            if($count === 1 AND $requisition->contract_sum < 1500000){
                 
             //notify primary institution procurement users
             $users = User::where(function($query){
@@ -229,7 +229,7 @@ class ApprovePurchaseRequisitionController extends Controller
             $users->each->notify(new ApproveRequisitionPublish($requisition));
             $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[9,5]);
             $sub_users->each->notify(new ApproveRequisitionPublish($requisition));
-            }else if($count === 0  AND $requisition->contract_sum < 500000)
+            }else if($count === 0  AND $requisition->contract_sum < 1500000)
             {
                 //notify institute ceo
                 $users = User::where('institution_id','=',auth()->user()->institution_id)->whereIn('role_id',[11])->get();
@@ -237,7 +237,7 @@ class ApprovePurchaseRequisitionController extends Controller
                 $users->each->notify(new AcceptRequisitionPublish($requisition));
                 $sub_users = User::users_in_institution($requisition->institution_id)->whereIn('role_id',[11]);
                 $sub_users->each->notify(new AcceptRequisitionPublish($requisition));
-            }else if ($requisition->contract_sum >= 500000){
+            }else if ($requisition->contract_sum >= 1500000){
 
             //notify primary regional office users
             $users = User::where('institution_id','=',1)->whereIn('role_id',[5,9,12])->get();

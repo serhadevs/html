@@ -67,7 +67,7 @@ class CheckPurchaseController extends Controller
             $query->where('is_granted',1);
         }])
         ->OrWhere(function($query){
-            $query->having('approve_count','>',1)->where('contract_sum','>',500000)->wherehas('check',function($query){
+            $query->having('approve_count','>',1)->where('contract_sum','>',1500000)->wherehas('check',function($query){
                 $query->where('is_checked',1);
             });
         })

@@ -63,7 +63,7 @@ class PurchaseOrderController extends Controller
             ->doesnthave('purchaseOrder')
             ->where(function($query){
                 if(auth()->user()->institution_id !=1){
-                 $query->where('contract_sum','<',500000);
+                 $query->where('contract_sum','<',1500000);
                 }else{
                  $query->where('contract_sum','>',1)->where('contract_sum','<',1500000);
                  $query->OrwhereHas('entity_head_approve',function($query){
