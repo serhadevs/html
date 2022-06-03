@@ -697,6 +697,23 @@ $(document).ready(function () {
         }
 
 
+
+
+        $(document).ready(function(){
+  $('.btn-add-more').click(function(){
+
+var html = $('.hide').html();
+$('.img_div').after(html);
+});
+
+
+$("body").on("click",".btn-remove",function(){ 
+$('.form-group').attr('disable',true);
+      $(this).parents(".form-group").remove();
+  });
+
+});
+
   </script>
 
   
