@@ -160,10 +160,10 @@ class BudgetCommitmentController extends Controller
             
                 $users->each->notify(new BugetCommitmentPublish($internalRequisition));
                 //subscribe user institution notification
-                $sub_users = User::users_in_institution($internalRequisition->institution_id)->whereIn('role_id',[8]);
-                $sub_users->each->notify(new BugetCommitmentPublish($internalRequisition));
-                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,8);
-                $add_role_user->each->notify(new ApproveBudgetPublish($internalRequisition));
+                // $sub_users = User::users_in_institution($internalRequisition->institution_id)->whereIn('role_id',[8]);
+                // $sub_users->each->notify(new BugetCommitmentPublish($internalRequisition));
+                // $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,8);
+                // $add_role_user->each->notify(new BugetCommitmentPublish($internalRequisition));
                 
 
         // automatic authorization or apporval budget commitment

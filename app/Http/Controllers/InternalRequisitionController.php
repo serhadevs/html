@@ -234,7 +234,7 @@ class InternalRequisitionController extends Controller
 
         $unit_count = Unit::where('department_id', auth()->user()->department_id)->count();
 
-        if ($unit_count == 1 and auth()->user()->role_id !=2 OR (in_array(auth()->user()->role_id, [13]))) {
+        if ($unit_count == 1 and auth()->user()->role_id !=2 OR (in_array(auth()->user()->role_id, [13])) OR in_array(13,auth()->user()->userRoles_Id()->toArray())) {
 
             $certify = new CertifiedInternalRequisition();
             $certify->internal_requisition_id = $internal_requisition->id;
@@ -256,12 +256,12 @@ class InternalRequisitionController extends Controller
                 // $sub_users->each->notify(new InternalRequisitionPublish($internal_requisition));
                 $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
                 $add_role_user->each->notify(new InternalRequisitionPublish($internal_requisition));
-                
+               
     
             }
         
 
-        }else if(auth()->user()->role_id===4)
+        }else if(auth()->user()->role_id===4 OR in_array(4,auth()->user()->userRoles_Id()->toArray()))
         {
           
             $users = User::where('institution_id', auth()->user()->institution_id)
@@ -274,7 +274,7 @@ class InternalRequisitionController extends Controller
         }
 
          //if manager create ipr
-       else  if(auth()->user()->role_id === 2){
+       else  if(auth()->user()->role_id === 2 OR in_array(2,auth()->user()->userRoles_Id()->toArray())){
             // Certify by manager
                 $certify = new CertifiedInternalRequisition();
                 $certify->internal_requisition_id = $internal_requisition->id;
