@@ -245,21 +245,24 @@ class InternalRequisitionController extends Controller
                 $status->name = 'Internal Requisition Certified ';
                 $status->update();
 
-                //primary user institution notification
-                // $users = User::where('institution_id', auth()->user()->institution_id)
-                // ->where('department_id', auth()->user()->department_id)
-                // ->whereIn('role_id', [2])
-                // ->get();
-                // $users->each->notify(new InternalRequisitionPublish($internal_requisition));
-                // //subscribe user institution notification
-                // $sub_users = User::users_in_institution($internal_requisition->institution_id)->whereIn('role_id',[10,11]);
-                // $sub_users->each->notify(new InternalRequisitionPublish($internal_requisition));
-                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
-                $add_role_user->each->notify(new InternalRequisitionPublish($internal_requisition));
+               // primary user institution notification
+               if(auth()->user()->institution_id ===1){
+                $users = User::with('user_roles')->where('institution_id', auth()->user()->institution_id)
+                ->where('department_id', auth()->user()->department_id)
+                ->whereIn('role_id', [2])
+                ->get();
+                $users->each->notify(new InternalRequisitionPublish($internal_requisition));
                
-    
+            
+               }else{
+          
+                $sub_users = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
+                $sub_users->each->notify(new InternalRequisitionPublish($internal_requisition));
+               }
+           
             }
-        
+
+
 
         }else if(auth()->user()->role_id===4 OR in_array(4,auth()->user()->userRoles_Id()->toArray()))
         {
