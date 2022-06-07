@@ -181,7 +181,11 @@
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     <td></td>
                     <td></td>
+                     @if(isset($requisition->internalrequisition))
                     <td>{{$requisition->internalrequisition->user->abbrName()."   "." / ". $requisition->department->name}}</td>
+                    @else
+                    <td>{{$requisition->department->name}}</td>
+                    @endif
                     <td>{{$requisition->institution->name}}</td>
                     <td>{{$requisition->institution->parish->name}}</td>
                     <td>{{$requisition->supplier->name}}</td>

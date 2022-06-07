@@ -77,7 +77,11 @@
                 <td>{{$requisition->requisition_no}}</td>
                 {{-- <td>{{$requisition->approve->created_at}}</td> --}}
                 <td>{{$requisition->department->name}}</td>
+                @if(isset($requisition->internalrequisition))
                 <td>{{$requisition->internalrequisition->institution->name}}</td>
+                @else
+                <td></td>
+                @endif
                 <td>{{$requisition->institution->parish->name}}</td>
                 <td>{{$requisition->supplier->name}}</td>
                 <td>${{number_format($requisition->contract_sum,2)}}</td>

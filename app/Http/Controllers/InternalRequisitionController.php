@@ -575,6 +575,9 @@ class InternalRequisitionController extends Controller
                 }
             }
             $internal_requisition->delete();
+            if(isset( $internal_requisition->requisition)){
+                $internal_requisition->requisition->delete();
+            }
             return "success";
         } catch (Exception $e) {
             return 'fail';
