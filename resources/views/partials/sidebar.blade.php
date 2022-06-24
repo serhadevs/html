@@ -285,7 +285,7 @@
             </ul> --}}
           </li>
           {{-- <li class="nav-header">Settings</li> --}}
-          @if(in_array(Auth::user()->role_id, [1,3,5,9,12,15]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1  OR in_array(3,auth()->user()->userRoles_Id()->toArray()))
+          @if(in_array(Auth::user()->role_id, [1,3,5,9,12,15]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1  OR in_array(9,auth()->user()->userRoles_Id()->toArray()) OR in_array(3,auth()->user()->userRoles_Id()->toArray()))
          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

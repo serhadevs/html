@@ -162,7 +162,8 @@ class CheckPurchaseController extends Controller
 
 try {
 
-    // $requisition = Requisition::find($request->data['requisitionId']);
+    
+    
     if(isset($requisition->check)){
         if($requisition->check->user_id == auth()->user()->id){
             return 'fail';
@@ -171,7 +172,11 @@ try {
     
     $is_checked = $request->data['checked'];
     $requisition = Requisition::find($request->data['requisitionId']);
+    if($requisition->user_id === auth()->user()->id ){
+        return 'fail';
+    }
 
+    
     if ($is_checked == 0) {
         //if already check\
         //remove already certify requisition

@@ -763,7 +763,7 @@ $(document).ready(function () {
 var user_role_id = {!! json_encode(Auth::user()->role_id) !!};
 var user_int_id = {!! json_encode(Auth::user()->institution_id) !!};
 var count = {!! json_encode($count) !!};
-const int = [1,5,8,10];
+const int = [1,5,8,10,12,13];
 var requisition_int_id = {!! json_encode($requisition->institution_id) !!};
 if( count < 2 && jQuery.inArray(requisition_int_id,int) ===-1){
   $("#btnSubmit").attr("disabled", true); 

@@ -485,7 +485,7 @@ function Accept(requisitionId){
               }else{
                 swal(
                   "Oops! Something went wrong.",
-                  "Application(s) were NOT approved",
+                  "Application was NOT approved,You cannot create and Certify Requisition,",
                   "error");
                   location.reload();
                 }
