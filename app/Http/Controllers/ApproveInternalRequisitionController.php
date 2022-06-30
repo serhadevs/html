@@ -200,17 +200,11 @@ class ApproveInternalRequisitionController extends Controller
                     }
 
 
-                //notify primary facility users    
-                // $users = User::where('institution_id',auth()->user()->institution_id )
-                // ->whereIn('role_id',[7])
-                // ->get();
-                
-              
-            
-                // $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
-                //subscribe user institution notification
-                // $sub_users = User::users_in_institution( $approve->internal_requisition_id )->whereIn('role_id',[7]);
-                // $sub_users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
+                    // if($internalRequisition->department_id ===32){
+                    // $user = User::where('deparment_id',32)->where('requisition_id',$internalRequisition->id)->where('role_id',8)->get();
+                    // $user->notify(new InternalRequisitionApprovePublish($internalRequisition));
+    
+                    // }
                 $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,7);
                 $add_role_user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
         
