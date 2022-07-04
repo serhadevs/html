@@ -319,16 +319,16 @@ class RequisitionController extends Controller
         $methods = ProcurementMethod::all();
         $advertisements = AdvertisementMethod::all();
       // $content = Storage::url('app\public\Maintenance Manager JD.docx');
-      if ($requisition->check){
-        if ($requisition->check->is_checked===1) {
-            return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
-        }
-    }
+    //   if ($requisition->check){
+    //     if ($requisition->check->is_checked===1) {
+    //         return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already accepted');
+    //     }
+    // }
 
-    if($requisition->approve){
-        return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already approve');
+    // if($requisition->approve){
+    //     return redirect('/requisition')->with('error', 'Requisition ' . $requisition->requisition_no . ' is already approve');
 
-    }
+    // }
 
         return view('panel.requisition.edit', ['advertisements'=>$advertisements,'methods' => $methods, 'types' => $types, 'categories' => $categories, 'units' => $units, 'requisition' => $requisition, 'suppliers' => $suppliers]);
 
@@ -459,6 +459,11 @@ class RequisitionController extends Controller
                 if ($requisition->check->is_checked===1) {
                     return 'fail';
                 }
+            }
+
+            if($requisition->approve){
+                return 'fail';
+        
             }
             $requisition->delete();
             return "success";
