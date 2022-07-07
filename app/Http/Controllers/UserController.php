@@ -65,8 +65,13 @@ class UserController extends Controller
         if(in_array(auth()->user()->role_id,[1,12,15]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::with(['institution','department','role','unit'])->get();
         }else{
-        $users = User::with(['institution','department','role','unit'])->where('institution_id','=',auth()->user()->institution_id)
-        ->whereNotIn('role_id',[1,12])
+        $users = User::with(['institution','department','role','unit'])
+        ->where(function($query){
+            $query->where('institution_id','=',auth()->user()->institution_id)
+            ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+    
+         })
+        ->whereNotIn('role_id',[1,12,15])
         ->get();
         }
 
