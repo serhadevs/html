@@ -126,6 +126,7 @@ class BudgetCommitmentController extends Controller
             // 'commitment_no' => 'required',
             'budget_option' => 'required',
         ]);
+        $internalRequisition = InternalRequisition::find($request->id);
         if($request->budget_option ==1)
         {
         $commitment = new BudgetCommitment();
@@ -140,7 +141,7 @@ class BudgetCommitmentController extends Controller
         $status = Status::where('internal_requisition_id',$request->id)->first();
         $status->name = 'Budget Commitment';
         $status->update();
-        $internalRequisition = InternalRequisition::find($request->id);
+        
 
         //only email hiv accounts
                 if($internalRequisition->department_id ===32){

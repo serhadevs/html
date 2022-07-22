@@ -117,6 +117,7 @@ class ApproveBudgetController extends Controller
                 $approve->user_id = auth()->user()->id;
                 $approve->is_granted = $permission ;
                 $approve->save();
+                $internalrequisition = internalrequisition::find($request->data['internal_requisition_id']);
             
                 if($permission ==0){
                     $comment = new Comment();
@@ -126,10 +127,17 @@ class ApproveBudgetController extends Controller
                     $comment->comment =  $request->data['comment'];
                     $comment->save();
 
+                    //delete budget
+                    $approve->delete();
+                    //delete commitment
+                    $internalrequisition->budget_commitment->delete();
+                    //delete ipr approve
+                    $internalrequisition-> approve_internal_requisition->delete();
+
                     
 
                     
-                    $internalrequisition = internalrequisition::find($request->data['internal_requisition_id']);
+                  
                     $user = User::find($internalrequisition->user_id);
                     $user->notify(new RefuseInternalRequisitionPublish($internalrequisition,$comment));
                  //  $users->each->notify(new  RefuseRequisitionPublish($requisition,$comment ));

@@ -263,10 +263,13 @@ text-align: center;
                             @else
                               Approve  by: <span class='badge badge-success'></span>
                               @endif
-
+                            @if($internalRequisition->budget_commitment===1)
                               Budget Commitment by: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->abbrName()}} </span></br>
                               Date:  <span class='badge badge-success'>{{$internalRequisition->budget_commitment->created_at}}</span>
-
+                              @else
+                              Refuse Budget Commitment by: <span class='badge badge-success'>{{$internalRequisition->budget_commitment->user->abbrName()}} </span></br>
+                              Date:  <span class='badge badge-success'>{{$internalRequisition->budget_commitment->created_at}}</span>
+                              @endif
                           </div>
   
                           
