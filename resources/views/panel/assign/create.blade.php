@@ -269,7 +269,7 @@ text-align: center;
                          <select type="input" class="form-control" name="user_id" id="user_id" required>
                           <option value="">Select Officer</option>
                           @foreach($users as $user)
-                         <option value="{{$user->id}}">{{$user->firstname[0]}}. {{$user->lastname}}</option>
+                         <option value="{{$user->id}}">{{$user->firstname}} {{$user->lastname}}</option>
                           @endforeach
                           
                          </select>  

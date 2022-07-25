@@ -85,18 +85,25 @@ class RequisitionController extends Controller
         }
 
         // dd($requisitions);
-        $internalrequisitions = InternalRequisition::with(['assignto','requisition','approve_internal_requisition','budget_commitment','assignto','approve_budget'])
+        $internalrequisitions = InternalRequisition::with(['assignto','requisition','approve_internal_requisition','budget_commitment','approve_budget'])
         ->whereHas('approve_internal_requisition',function($query){
          $query->where('is_granted','=', 1);
         })
        ->doesnthave('requisition')
-       ->wherehas('assignto')
-       ->where('institution_id',auth()->user()->institution_id)
-       ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+       ->Orwherehas('assignto')
+    //    ->where('institution_id',auth()->user()->institution_id)
+    //    ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
+    ->where(function($query){
+        $query->where('institution_id','=',auth()->user()->institution_id)
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+
+     })
         
         ->has('approve_budget')
         ->latest()
         ->get();
+
+      //  dd($internalrequisitions);
 
         return view('/panel.requisition.index', ['requisitions' => $requisitions, 'internalrequisitions'=>$internalrequisitions]);
 

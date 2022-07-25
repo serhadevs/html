@@ -42,7 +42,7 @@ class AssignRequisitionController extends Controller
     {
         //
         if(auth()->user()->institution_id === 0){
-            $internal_requisitions = InternalRequisition::with(['department','requisition_type','institution','user','assignto','approve_internal_requisition','budget_commitment','approve_budget'])
+            $internal_requisitions = InternalRequisition::with(['requisition','department','requisition_type','institution','user','assignto','approve_internal_requisition','budget_commitment','approve_budget'])
             ->whereHas('approve_internal_requisition',function($query){
              $query->where('is_granted','=', 1);
             })
@@ -57,7 +57,7 @@ class AssignRequisitionController extends Controller
             
      
             ->has('approve_budget')
-           
+            ->doesnthave('requisition')
            ->latest()
             ->get();
         }else{
@@ -74,7 +74,7 @@ class AssignRequisitionController extends Controller
          })
     
         
- 
+         ->doesnthave('requisition')
         //->has('approve_budget')
        // ->doesnthave('assignto')
        ->latest()
@@ -96,14 +96,16 @@ class AssignRequisitionController extends Controller
        
         $internalRequisition = InternalRequisition::with(['stocks'])->find($id);
 
-        $users = User::
-        where(function($query)use($internalRequisition){
+        if(auth()->user()->institution_id ==0 AND in_array(auth()->user()->role_id,[1,12,9])){
+            $users = User::whereIn('role_id',[5,9])->get();
+        }else{
+        $users = User::where(function($query)use($internalRequisition){
         $query->where('institution_id','=',$internalRequisition->institution_id)
-        ->OrWhereIn('id',User:: users_in_institution_ids($internalRequisition->institution_id));
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         })
         ->whereIn('role_id',[5,9])
         ->get();
-       
+    }
          
         if ($internalRequisition->assignto) {
             return reirect('/assign_requisition')->with('error', 'The Internal Requisition is already assign to'.' ' . $internalRequisition->assignto->user->lastname);
@@ -169,7 +171,7 @@ class AssignRequisitionController extends Controller
         $users = User::
         where(function($query)use($internalRequisition){
         $query->where('institution_id','=',$internalRequisition->institution_id)
-        ->OrWhereIn('id',User:: users_in_institution_ids($internalRequisition->institution_id));
+        ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
         })
         ->whereIn('role_id',[5,9])
         ->get();
