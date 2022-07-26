@@ -200,15 +200,15 @@ class ApproveInternalRequisitionController extends Controller
                     }
 
 
-                    // if($internalRequisition->department_id ===32){
-                    // $user = User::where('deparment_id',32)->where('requisition_id',$internalRequisition->id)->where('role_id',8)->get();
-                    // $user->notify(new InternalRequisitionApprovePublish($internalRequisition));
+                    if( $internalRequisition->department_id ===32){
+                    $user = User::where('department_id',32)->where('role_id',8)->get();
+                    $user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
     
-                    // }
+                    }else{
                 $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,7);
                 $add_role_user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
         
-               
+                    }
             }
             return 'success';
         }
