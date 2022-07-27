@@ -208,10 +208,10 @@ class BudgetCommitmentController extends Controller
 
         if(auth()->user()->role_id == 7)
         {
-        // notify primary institution users
-       // $internalRequisition = InternalRequisition::find($request->id);
+         //except hiv accounts department
         $users = User::where('institution_id',$internalRequisition->institution_id )
         ->whereIn('role_id',[8])
+        ->where('department_id','!=',32)
         ->get();  
         $users->each->notify(new BugetCommitmentPublish($internalRequisition));
         //subscribe user institution notification
