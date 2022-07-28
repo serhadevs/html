@@ -90,7 +90,7 @@ class RequisitionController extends Controller
          $query->where('is_granted','=', 1);
         })
        ->doesnthave('requisition')
-       ->Orwherehas('assignto')
+     
     //    ->where('institution_id',auth()->user()->institution_id)
     //    ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id())
     ->where(function($query){
@@ -98,12 +98,14 @@ class RequisitionController extends Controller
         ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
 
      })
-        
+     ->Orwherehas('assignto',function($query){
+        $query->where('user_id','=',auth()->user()->id);
+      })
         ->has('approve_budget')
         ->latest()
         ->get();
 
-      //  dd($internalrequisitions);
+     // dd($internalrequisitions);
 
         return view('/panel.requisition.index', ['requisitions' => $requisitions, 'internalrequisitions'=>$internalrequisitions]);
 
