@@ -264,8 +264,8 @@ class User extends Authenticatable implements Auditable
     ->whereHas('user_roles',function($query)use($role_id){
         $query->where('role_id',$role_id);
     })
-     ->Orwhere(function($query)use($role_id,$institution_id){
-       $query->where('role_id',$role_id)->where('institution_id',$institution_id);
+     ->Orwhere(function($query)use($role_id,$institution_id,$department_id){
+       $query->where('role_id',$role_id)->where('institution_id',$institution_id)->where('department_id',$department_id);
      })
     ->get();
     return $users;

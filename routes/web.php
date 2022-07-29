@@ -46,7 +46,7 @@ Route::get('/logout', function () {
     return redirect('/login');
 });
 
-Auth::routes();
+
 
 
 // Panel Routes
@@ -228,3 +228,4 @@ Route::get('/undo_entity_head_approve','EntityHeadApproveController@undo');
 
 
 });
+Auth::routes();
