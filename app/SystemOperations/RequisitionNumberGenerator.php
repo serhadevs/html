@@ -7,11 +7,11 @@ use App\Requisition;
 class RequisitionNumberGenerator
 {
 
-    public function generateRequisitionNumber($service)
+    public function generateRequisitionNumber($service,$code)
     {
 
         do {
-            $institution_code = Auth::user()->institution->code;
+            $institution_code = $code;
             $digits_limit = 4;
             $current_date = date("Y");
             $random_digits = str_pad(rand(0, pow(10, $digits_limit) - 1), $digits_limit, '0', STR_PAD_LEFT);

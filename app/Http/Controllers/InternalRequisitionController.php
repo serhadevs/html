@@ -166,8 +166,9 @@ class InternalRequisitionController extends Controller
         ]);
         $requisition_no = new RequisitionNumberGenerator();
         $internal_requisition = new InternalRequisition();
+        $institution = Institution::find($request->institution_id);
 
-        $internal_requisition->requisition_no = $requisition_no->generateRequisitionNumber($request->requisition_type);
+        $internal_requisition->requisition_no = $requisition_no->generateRequisitionNumber($request->requisition_type,$institution->code);
         $internal_requisition->user_id = auth()->user()->id;
        // $internal_requisition->institution_id = auth()->user()->institution_id;
        $internal_requisition->institution_id = $request->institution_id;
