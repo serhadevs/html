@@ -97,7 +97,7 @@ class GeneralReportController extends Controller
        
         if($module === 1){
            
-            if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+            if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,10,11,12,15])) {
 
                 $report = InternalRequisition::with(['status','user','institution','department','requisition_type'])-> whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                 ->get();
@@ -117,7 +117,7 @@ class GeneralReportController extends Controller
 
         }else if($module === 3){
 
-                        if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+                        if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,10,11,12])) {
                             $report = InternalRequisition::with(['approve_internal_requisition','institution','department','requisition_type'])
                             ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                             ->whereHas('approve_internal_requisition')
@@ -137,7 +137,7 @@ class GeneralReportController extends Controller
 
         }else if($module === 6){
 
-                    if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+                    if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,10,11,12])) {
                             $report = Requisition::with(['check', 'approve','internalrequisition','department','institution','purchaseOrder','category','approve','supplier'])
                             ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                             ->latest()
@@ -159,7 +159,7 @@ class GeneralReportController extends Controller
 
         }else{
 
-                    if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
+                    if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,10,11,12])) {
                         $report =InternalRequisition::with(['status','user','currency','institution','department','requisition_type','certified_internal_requisition','approve_internal_requisition','budget_commitment','approve_budget','assignto','requisition.approve','requisition.check'])
                         ->whereBetween('created_at', [$start_date, $end_date->format('Y-m-d')." 23:59:59"])
                         ->latest()
