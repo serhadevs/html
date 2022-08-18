@@ -142,7 +142,7 @@ class ApproveInternalRequisitionController extends Controller
 
                
 
-                if($permission ==0){
+                if($permission ===0){
                     $comment = new Comment();
                     $comment->internal_requisition_id = $approve->internal_requisition_id;
                     $comment->type ='refuse internal requisition';
@@ -167,14 +167,14 @@ class ApproveInternalRequisitionController extends Controller
 
 
                  ///if budget is already approve notify procurement
-                }elseif($internalRequisition->approve_budget AND $permission ==1 )
+                }elseif($internalRequisition->approve_budget)
                  {
-
-                    // $users = User::where('institution_id', $internalRequisition->institution_id )
-                    // // ->where('department_id', auth()->user()->department_id)
-                    // ->whereIn('role_id',[9,12])
-                    // ->get();
-                    // $users->each->notify(new UpdateInternalRequisitionPublish($internalRequisition));
+               
+                    $users = User::where('institution_id', $internalRequisition->institution_id )
+                    // ->where('department_id', auth()->user()->department_id)
+                    ->whereIn('role_id',[9,12])
+                    ->get();
+                    $users->each->notify(new UpdateInternalRequisitionPublish($internalRequisition));
                     $add_role_user = User::user_with_roles($internalRequisition->institution_id,auth()->user()->department_id,9);
                     $add_role_user->each->notify(new UpdateInternalRequisitionNotification($internalRequisition));
                     
@@ -205,6 +205,9 @@ class ApproveInternalRequisitionController extends Controller
                     $user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
     
                     }else{
+                        
+                        $user = User::where('institution_id',$internalRequisition->institution_id)->where('role_id',7)->get();
+                        $user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
                 $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,7);
                 $add_role_user->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
         
