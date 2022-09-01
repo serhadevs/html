@@ -65,6 +65,13 @@ text-align: center;
 
                  
                             <div class="card" style="width:82.9%">
+                              @if(in_array(auth()->user()->id,[1,12,5,9]) AND $internal_requisition->approve_budget )
+                              <div class="card-body">
+                  
+                                <a href="/print_pdf/{{$internal_requisition->id}}" class="btn btn-outline-danger float-right btn-lg">Print PDF</a>
+                                
+                                </div> 
+                                @endif
                           <div class="card-body">
                            <div class="col-m-10">
 

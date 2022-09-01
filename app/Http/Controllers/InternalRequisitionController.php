@@ -74,7 +74,7 @@ class InternalRequisitionController extends Controller
             ->get();
             }
 
-        }else if(in_array(auth()->user()->role_id,[2,5,6,9])){    
+        }else if(in_array(auth()->user()->role_id,[2,6])){    
         $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where(function($query){
                 $query->where('department_id','=',auth()->user()->department_id)
@@ -89,6 +89,28 @@ class InternalRequisitionController extends Controller
             // ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
             ->latest()
             ->get();
+
+        }else if(in_array(auth()->user()->role_id,[5,9,12])){    
+            $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
+                // ->where(function($query){
+                //     $query->where('department_id','=',auth()->user()->department_id)
+                //     ->OrWhereIn('department_id',auth()->user()->accessDepartments_Id());
+                // })
+                ->where(function($query){
+                    $query->where('institution_id','=',auth()->user()->institution_id)
+                    ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+            
+                 })
+                 ->whereHas('approve_budget',function($query){
+                    $query->where('is_granted',1);
+                 })
+                ->Orwhere('user_id',auth()->user()->id)
+                // ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
+                ->latest()
+                ->get();
+
+
+
         }else{
         
             $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
