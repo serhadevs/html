@@ -74,7 +74,7 @@ class InternalRequisitionController extends Controller
             ->get();
             }
 
-        }else if(in_array(auth()->user()->role_id,[2,6])){    
+        }else if(in_array(auth()->user()->role_id,[3,6])){    
         $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
             ->where(function($query){
                 $query->where('department_id','=',auth()->user()->department_id)
