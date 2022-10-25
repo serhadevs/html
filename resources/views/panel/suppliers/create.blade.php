@@ -6,20 +6,7 @@
     @section('content')
 
 
-                           @if(count($errors)>0)
-                        <div class="col-sm-10">
-                  <div class="alert alert-danger">
-                   {{-- <a class="alert alert-danger-close"></a> --}}
-
-
-                    <ul>
-                        @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-              </div>
-            @endif  
+                     
 
     <div class="card-body">
     <div class="content-wrapper">
@@ -28,7 +15,20 @@
         <!-- Main content -->
                <div class="container-fluid">
                   <section class="content-header">
-        
+                    @if(count($errors)>0)
+                    <div class="col-sm-10">
+              <div class="alert alert-danger">
+               {{-- <a class="alert alert-danger-close"></a> --}}
+            
+            
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </div>
+            </div>
+            @endif  
               <div class="col-sm-10">
                         <div class="card card-primary">
                         <div class="card-header">

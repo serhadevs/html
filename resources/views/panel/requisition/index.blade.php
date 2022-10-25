@@ -188,7 +188,11 @@
                     @endif
                     <td>{{$requisition->institution->name}}</td>
                     <td>{{$requisition->institution->parish->name}}</td>
+                    @if(isset($requisition->supplier))
                     <td>{{$requisition->supplier->name}}</td>
+                    @else
+                    <td></td>
+                    @endif
                     <td>{{$requisition->category->name}}</td>
                     <td>{{$requisition->description}}</td>
                     <td>${{number_format($requisition->contract_sum,2)}}</td>

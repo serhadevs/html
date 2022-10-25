@@ -11,6 +11,7 @@ use App\Status;
 use App\Notifications\CertifiedInternalRequisitionPublish;
 use App\Notifications\RefuseInternalRequisitionPublish;
 use App\Notifications\InternalRequisitionPublish;
+use App\Notifications\InternalRequisitionApprovePublish;
 
 
 
@@ -143,7 +144,38 @@ class CertifiedInternalRequisitionController extends Controller
         
                 }else{
 
-                   
+                    if(in_array(auth()->user()->role_id,[2]) OR in_array(2,auth()->user()->userRoles_Id()->toArray()))
+                   {
+            
+               
+            //approve by manager
+                $approve =  new ApproveInternalRequisition();
+                $permission = 1;
+                $approve->internal_requisition_id = $internalRequisition->id;
+                $approve->user_id = auth()->user()->id;
+                $approve->is_granted = $permission;
+                if($approve->save()){
+                                $status = Status::where('internal_requisition_id', $internalRequisition->id)->first();
+                                $status->status_list_id = 3;
+                                $status->update();
+                                $users = User::where('institution_id', auth()->user()->institution_id)
+                                ->where(function($query){
+                                    $query->whereIn('role_id',[7])
+                                    ->orWhereHas('user_roles',function($query){
+                                        $query->where('role_id',7);
+                                    });
+                                })
+                               
+                                ->get();
+                                $users->each->notify(new InternalRequisitionApprovePublish($internalRequisition));
+
+
+
+                }
+
+
+
+                    }else{
                     $status = Status::where('internal_requisition_id',$request->data['internal_requisition_id'])->first();
                     if($status === null){
                         $status = new Status();
@@ -170,7 +202,7 @@ class CertifiedInternalRequisitionController extends Controller
               // $users->each->notify(new InternalRequisitionPublish($internalRequisition));
                $add_role_user = User::user_with_roles(auth()->user()->institution_id,auth()->user()->department_id,2);
                $add_role_user->each->notify(new InternalRequisitionPublish($internalRequisition));
-
+                    }
                
             }
             return 'success';
