@@ -227,7 +227,7 @@ text-align: center;
                 </td>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
+                <input name='item_number[]' class='item_number' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
                
                 </td>
                 <td>
@@ -438,7 +438,7 @@ $(document).ready(function () {
                 </td>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
+                <input name='item_number[]' class='item_number' id="item_number" type='number' size="2" style='width:40px; border:none;outline:none;background: transparent;' required>
                
                 </td>
                 <td>
@@ -470,7 +470,14 @@ $(document).ready(function () {
   `;
  //console.log($tableID.find("tbody tr").length);
 // var table = $('#stock-table');
+
   $('#add').on("click",function(){
+    $('#item_number').val(count);
+    var count = 1;
+    $(".item_number").each(function () {
+      this.value = count++;
+    });
+
     $('#stock-table tr:last').after($row); 
    console.log($tableID.find("tbody tr").length);
     //var tbody = $('#stock-table').children('tbody');
