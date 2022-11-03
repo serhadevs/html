@@ -247,7 +247,7 @@ text-align: center;
                 </td>
                 <td>
                   
-                <input name='item_number[]' class='productname' id="item_number" value={{$stock->item_number}} type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                <input name='item_number[]' class='item_number' id="item_number" value={{$stock->item_number}} type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                
                 </td>
                 <td>
@@ -588,7 +588,7 @@ $tableID = $('#stock-table');
                   </td>
                     <td>
                   
-                  <input name='item_number[]' class='productname' id="item_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
+                  <input name='item_number[]' class='item_number' id="item_number" type='text' size="5" style='border:none;outline:none;background: transparent;' required>
                  
                   </td>
                   <td>
@@ -626,8 +626,11 @@ $tableID = $('#stock-table');
 // var table = $('#stock-table');
   $('#add').on("click",function(){
     $('#stock-table tr:last').after($row); 
-   //console.log($tableID.find("tbody tr").length);
-    //var tbody = $('#stock-table').children('tbody');
+    $('#item_number').val(count);
+    var count = 1;
+    $(".item_number").each(function () {
+      this.value = count++;
+    });
 
 //Then if no tbody just select your table 
       
