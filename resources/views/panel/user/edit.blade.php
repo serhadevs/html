@@ -262,6 +262,20 @@
                         </div>
                          </br>
 
+                      
+                          <label for="departments" class="col-sm-2 col-form-label">Departments</label>
+                         <div class="col-lg-10">
+                         <select class="form-control multiple-select" name="departments[]" multiple="multiple" id="departments" disabled >
+                         @foreach($user->department_users as $department)
+                          <option selected='selected' value="{{$department->department->id}}" >{{$department->department->name}}</option>
+                           @endforeach
+                           @foreach($departments->diff($user->department_users) as $department)
+                           <option value="{{$department->id}}"> {{$department->name}} </option>
+                           @endforeach    
+                          </select> 
+                         </div>
+                      
+
                         <label for="units" class="col-sm-2 col-form-label">Units</label>
                         <div class="col-lg-10">
                           <select class="form-control multiple-select" name="units[]" multiple="multiple" id="units" disabled>

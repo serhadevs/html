@@ -67,7 +67,7 @@ class CertifiedInternalRequisitionController extends Controller
 
 
         }else{
-          
+
             $internalRequisitions = InternalRequisition::with(['user','certified_internal_requisition','institution','requisition_type'])
             // ->where('department_id',auth()->user()->department_id)
             ->where(function($query){

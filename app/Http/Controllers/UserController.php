@@ -273,7 +273,7 @@ class UserController extends Controller
         $user->update();
         
         //remove institution_users list
-        
+        if(in_array(auth()->user()->role_id,[1,12,15])){
         foreach($user->institution_users as $institution){
             $institution->delete();
         }
@@ -336,6 +336,8 @@ class UserController extends Controller
             }
 
         }
+
+    }
 
         
 
