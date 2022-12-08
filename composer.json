@@ -19,6 +19,7 @@
         "laravel/tinker": "^1.0",
         "laraveldaily/laravel-charts": "^0.1.25",
         "owen-it/laravel-auditing": "^10.0",
+        "stechstudio/laravel-zipstream": "^4.8",
         "webklex/laravel-imap": "^2.4"
     },
     "require-dev": {

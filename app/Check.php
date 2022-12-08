@@ -22,7 +22,7 @@ class Check extends Model implements Auditable
     protected $fillable = ['is_check','is_refuse','requisition_id','user_id'];
 
      public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
 

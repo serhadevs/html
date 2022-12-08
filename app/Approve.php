@@ -18,7 +18,7 @@ class Approve extends Model implements Auditable
     protected $fillable = ['requisition_id','is_granted','user_id'];
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     // public function approve_count($requisition_id){

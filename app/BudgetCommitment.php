@@ -18,7 +18,7 @@ class BudgetCommitment extends Model implements Auditable
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
 
