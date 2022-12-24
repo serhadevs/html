@@ -35,7 +35,7 @@ class ResetPasswordController extends Controller
 
     public function password_send(Request $request){
      
-      $user = User::where('email',$request->email)->first();
+      $user = User::where('email',$request->email)->where('status',1)->first();
       if($user != null){
         $password = Str::random(8);
         $user->password = bcrypt($password);
