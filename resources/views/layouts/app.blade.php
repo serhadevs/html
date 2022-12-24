@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+@include('partials.panel-header')
 <body>
     <div id="app">
         {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"> --}}
@@ -79,4 +80,6 @@
         </main>
     </div>
 </body>
+@include('partials.panel-scripts')
+@stack('scripts')
 </html>

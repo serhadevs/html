@@ -418,9 +418,9 @@ class UserController extends Controller
    
     }
 
+   
     public function verify_password(Request $request)
     {
-
 
         // $credentials = $request->validate([
         //     'email'=>'email',

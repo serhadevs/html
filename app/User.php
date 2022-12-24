@@ -215,6 +215,17 @@ class User extends Authenticatable implements Auditable
 
       }
 
+      public static function users_in_units_ids()
+      {
+        $units_ids = \App\UnitUsers::where('user_id',auth()->user()->id)->pluck('unit_id'); 
+        $users = \App\User::whereIn('unit_id',$units_ids)
+                  // ->where('department_id',auth()->user()->department_id)
+                  ->where('institution_id',auth()->user()->institution_id)
+        ->pluck('id');
+        return $users;
+
+      }
+
 
 
 

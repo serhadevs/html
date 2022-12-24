@@ -41,6 +41,12 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::get('/password-reset',function(){
+    return view('auth/passwords/reset');
+});
+
+Route::patch('/password-send','Auth\ResetPasswordController@password_send')->name('password_send');
+
 Route::get('/logout', function () {
     auth::logout();
     return redirect('/login');
@@ -126,7 +132,6 @@ Route::get('/getUnits',function(){
 Route::post('/verify_password"', 'UserController@verify_password');
 //disable accounts
 Route::get('/user/updateStatus/{id}', 'UserController@updateStatus');
-
 
 
 
