@@ -192,7 +192,7 @@ class ApprovePurchaseRequisitionController extends Controller
             }
            
          // approve by health departments
-            if(in_array(auth()->user()->institution_id,[1,5,8,10]))
+            if(in_array(auth()->user()->institution_id,[1,5,8,10,12]))
             {
                
 

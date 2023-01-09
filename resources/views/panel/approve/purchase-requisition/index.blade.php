@@ -92,7 +92,7 @@ input[type="checkbox"]{
                       @endif
                     {{-- <td>{{$requisition->id}}</td>  --}}
                     @if($requisition->approve)
-                     @if($requisition->approve->is_granted===1 AND in_array($requisition->institution_id,[1,8,5,10]) AND empty($requisition->transfer)  OR $requisition->approve_count=== 2 AND !in_array($requisition->institution_id,[1,5,8,10]) AND empty($requisition->transfer))
+                     @if($requisition->approve->is_granted===1 AND in_array($requisition->institution_id,[1,8,5,10,12,13]) AND empty($requisition->transfer)  OR $requisition->approve_count=== 2 AND !in_array($requisition->institution_id,[1,5,8,10,12,13]) AND empty($requisition->transfer))
                     <td> <span class ="badge bg-green">Approved</span></td>
                     @elseif($requisition->approve->is_granted===0)
                     <td> <span class ="badge bg-yellow">Refused</span></td>
