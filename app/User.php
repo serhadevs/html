@@ -256,6 +256,7 @@ class User extends Authenticatable implements Auditable
       {
        // $user_ids = \App\InstitutionUsers::where('institution_id',$institutions_id)->pluck('user_id');
         $count = User::where('institution_id',$institution_id)
+        ->whereNotIn('role_id',[1,6,12,14,15])
        ->count();
         return $count;
 

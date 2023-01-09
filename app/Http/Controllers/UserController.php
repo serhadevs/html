@@ -61,6 +61,7 @@ class UserController extends Controller
     }
     public function index()
     {
+      
         // dd(auth()->user()->department_count(auth()->user()->department_id));
         if(in_array(auth()->user()->role_id,[1,12,15]) OR Auth::user()->role_id===2 And Auth::user()->department_id===1){
         $users = User::with(['institution','department','role','unit'])->get();
