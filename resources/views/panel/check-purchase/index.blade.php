@@ -92,6 +92,8 @@ table.dataTable tbody td {
                     <td> <span class ="badge bg-green">Accepted </span></td>
                     @elseif($requisition->check->is_checked===1)
                     <td> <span class ="badge bg-green">Accepted </span></td>
+                    @elseif($requisition->check->is_checked===0)
+                    <td> <span class ="badge bg-red">Refused </span></td>
                     @endif
                     @else
                     <td> <span class ="badge bg-blue">Uncheck</span></td>

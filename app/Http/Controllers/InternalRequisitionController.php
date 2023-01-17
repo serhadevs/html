@@ -112,17 +112,20 @@ class InternalRequisitionController extends Controller
 
 
         }else{
-    
+    //dd(auth()->user()->users_in_units_ids());
             $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
-            ->where('department_id', auth()->user()->department_id)
-           ->Where(function($query){
-            $query->whereIn('user_id',User::unitUsers()->pluck('id')->flatten());
-          
-         })
-            ->Where(function($query){
+           ->where('department_id', auth()->user()->department_id)
+           ->where(function($query){
+            $query->whereIn('user_id',auth()->user()->users_in_units_ids())
+            ->Orwhere(function($query){
+            $query->where('department_id', auth()->user()->department_id)
+            ->where('institution_id','=',auth()->user()->institution_id)
+                ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
+            });
+            })
+            ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-        
              })
              //->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
             // ->Orwhere('user_id',auth()->user()->id)
