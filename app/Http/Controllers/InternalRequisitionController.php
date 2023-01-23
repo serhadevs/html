@@ -57,11 +57,11 @@ class InternalRequisitionController extends Controller
 
             if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,12,15])){
                
-                $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])->latest()->get();
+                $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status','approve_budget'])->latest()->get();
                 
             }else{
                
-            $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status'])
+            $internal_requisitions = InternalRequisition::with(['user','department','institution','requisition_type','status','approve_budget'])
            // ->where('institution_id', auth()->user()->institution_id)
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
@@ -128,7 +128,7 @@ class InternalRequisitionController extends Controller
                 ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
              })
              //->whereIn('user_id',User::unitUsers()->pluck('id')->flatten())
-            // ->Orwhere('user_id',auth()->user()->id)
+            ->Orwhere('user_id',auth()->user()->id)
             // ->OrwhereIn('institution_id',auth()->user()->AccessInstitutions())
             ->latest()
             ->get();
