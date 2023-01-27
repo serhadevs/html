@@ -217,7 +217,7 @@ try {
         $requisition = Requisition::find($request->data['requisitionId']);
     
         $requisition = Requisition::find($request->data['requisitionId']);
-         if(auth()->user()->institution_id != $requisition->institution_id){
+         if(auth()->user()->institution_id != $requisition->institution_id AND auth()->user()->institution_id ===1 ){
         $institute_tranfer = new InstitutionTransfer();
         $institute_tranfer->requisition_id = $requisition->id;
         $institute_tranfer->from = $requisition->institution_id;

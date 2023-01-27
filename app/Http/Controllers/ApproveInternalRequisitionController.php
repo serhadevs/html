@@ -274,7 +274,7 @@ class ApproveInternalRequisitionController extends Controller
             $internal = InternalRequisition::find($request->data['internal_requisition_id']);
             $approve = ApproveInternalRequisition::where('internal_requisition_id',$internal->id)->first();
            
-            if ($internal->approve_budget) {
+            if ($internal->approve_budget && $internal->approve_internal_requisition->is_granted ===1) {
                // if($internal->approve_internal_requisition->is_granted===1)
                 return 'fail';
             }
