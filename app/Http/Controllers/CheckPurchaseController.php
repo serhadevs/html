@@ -235,8 +235,8 @@ try {
         $status = Status::where('internal_requisition_id', $requisition->internal_requisition_id)->first();
         $status->name = 'Requisition Certify';
         $status->update();   
-        $requisition->institution_id = auth()->user()->institution_id;
-        $requisition->update();
+        // $requisition->institution_id = auth()->user()->institution_id;
+        // $requisition->update();
          }
 
         //delete or reset any approved requisition
