@@ -106,7 +106,7 @@
                         
                          
 
-                        @if(in_array(auth()->user()->role_id,[1,12,15]))
+                        @if(in_array(auth()->user()->role_id,[1,3,12,15]))
                         <select type="input" class="form-control" name="institution" id="institution" required>
                          <option  value="0" >All Institutions</option>
                            @foreach($institutions as $institution)

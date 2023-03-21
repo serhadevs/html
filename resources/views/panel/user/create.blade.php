@@ -98,7 +98,7 @@
                       </div>
                       <div class="form-group row">
                         <label for="location" class="col-sm-2 col-form-label">Location</label>
-                        @if(in_array(auth()->user()->role_id,[1,12,15]))
+                        @if(in_array(auth()->user()->role_id,[1,3,12,15]))
                         <div class="col-sm-4">
                         <select class="form-control multiple-select" name="institution" required>
                           <option value="">select institution </option>
