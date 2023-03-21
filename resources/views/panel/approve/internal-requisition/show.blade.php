@@ -242,7 +242,7 @@ text-align: center;
           <br>
         
 
-                           <div class="col-10">
+                        <div class="col-10">
                          @if(isset($internalRequisition->certified_internal_requisition))
                          @if($internalRequisition->certified_internal_requisition->is_granted===1)
                         <div class="col-sm-5">
@@ -264,9 +264,21 @@ text-align: center;
                         </div>
                       </div>
 
+                      @if(isset($internalRequisition->approve_internal_requisition->audits()->latest()->first()->old_values['is_granted']))
+                      <div class="form-group row">
+                        <div class="col-sm-6">
+                          <div class="info-box-content bg-gray">
+                            Update By: {{$internalRequisition->audits()->latest()->first()->user->lastname}} </br>
+                            <br>
+                            Old Estimated Cost: ${{number_format($internalRequisition->audits()->latest()->first()->old_values['estimated_cost'],2)}}  <br>
+                            <br>
+                          </div>
+                        </div>
+                      </div>
+                      @endif
+
+      </div>                
       </div>
-                      
-                  </div>
 
      
       

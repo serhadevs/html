@@ -153,7 +153,7 @@
                         </div> 
                         </div>
                        
-                        @if(in_array(auth()->user()->role_id,[1,12,15]))
+                        @if(in_array(auth()->user()->role_id,[1,3,12,15]) OR in_array(3,auth()->user()->userRoles_Id()->toArray()) )
                    
                         <label for="" class="col-sm-12 col-form-label">Access Control</label>
                         {{-- <hr style="width:50%;text-align:left;margin-left:0"> --}}

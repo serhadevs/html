@@ -233,6 +233,7 @@ class ApproveInternalRequisitionController extends Controller
     {
         //
           $internalRequisition = InternalRequisition::with(['stocks','comment'])->find($id);
+          dd($internalRequisition->approve_internal_requisition->audits()->latest()->first());
         //  dd( $internalRequisition);
         return view('/panel/approve/internal-requisition.show', compact('internalRequisition'));
 
