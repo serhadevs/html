@@ -264,7 +264,7 @@ text-align: center;
                         </div>
                       </div>
 
-                      @if(isset($internalRequisition->approve_internal_requisition->audits()->latest()->first()->old_values['is_granted']))
+                      {{-- @if(isset($internalRequisition->approve_internal_requisition->audits()->latest()->first()->old_values['is_granted']))
                       <div class="form-group row">
                         <div class="col-sm-6">
                           <div class="info-box-content bg-gray">
@@ -275,7 +275,7 @@ text-align: center;
                           </div>
                         </div>
                       </div>
-                      @endif
+                      @endif --}}
 
       </div>                
       </div>
