@@ -60,12 +60,12 @@ class CheckPurchaseController extends Controller
         }])
         ->Orwhere(function($query){
           $query->where('contract_sum','>',10000)
-          ->whereHas(['approve'=>function($query){
-            $query->where('is_granted',1);
-        }])
+          ->having('approve_count','>',1)
+          ->wherehas('check',function($query){
+            $query->where('is_checked',1);
+          })
           ->wherehas('internalrequisition',function($query){
-            $query->where('currency_id','!=',1);
-            
+            $query->where('currency_id','!=',1);  
           });
         
         })
