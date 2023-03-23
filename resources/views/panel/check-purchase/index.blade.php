@@ -85,7 +85,7 @@ table.dataTable tbody td {
                      @if($requisition->check->is_checked===1 AND $requisition->approve_count===0)
                     <td> <span class ="badge bg-green">Accepted</span></td>
 
-                    @elseif($requisition->check->where('requisition_id',$requisition->id)->count() ===1 AND $requisition->approve_count >= 1 And $requisition->institution_id != 1 AND $requisition->contract_sum >= 1500000)
+                    @elseif($requisition->check->where('requisition_id',$requisition->id)->count() ===1 AND $requisition->approve_count >= 1 And $requisition->institution_id != 1 AND $requisition->rate_calculation($requisition->internalrequisition->currency_id,$requisition->contract_sum) >= 1500000)
                     <td> <span class ="badge bg-yellow">Institute Approved</span></td>
 
                     @elseif($requisition->check->where('requisition_id',$requisition->id)->count() >=1 AND $requisition->approve_count >= 1)
@@ -99,7 +99,7 @@ table.dataTable tbody td {
                     <td> <span class ="badge bg-blue">Uncheck</span></td>
                     @endif
                     <td>{{$requisition->requisition_no}}</td>
-                    <td>${{number_format($requisition->contract_sum,2)}}</td>
+                    <td>${{number_format($requisition->contract_sum,2)}} {{$requisition->internalrequisition->currency->abbr}}</td>
                      <td>{{$requisition->description}}</td>
                     {{-- <td></td> --}}
                  

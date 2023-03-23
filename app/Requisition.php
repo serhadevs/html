@@ -85,6 +85,18 @@ class Requisition extends Model implements Auditable
         return $this->hasMany('App\File_Upload');
 
     }
+
+    public function rate_calculation($currency,$value)
+    {
+
+        $rate = 155;
+        if($currency === 1){
+            return $value;
+
+        }else{
+            return $value * 155;
+        }
+    }
     public function internalrequisition()
     {
         return $this->HasOne('App\InternalRequisition','id','internal_requisition_id');

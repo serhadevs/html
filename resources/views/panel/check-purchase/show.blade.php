@@ -339,7 +339,7 @@ text-align: center;
                     {{-- {{$requisition->store_approves->where('requisition_id',$requisition->id)->count()}} --}}
                         <div class="col-10">
                            @if($requisition->check) 
-                           @if($requisition->check->where('requisition_id',$requisition->id)->count()===1 AND $requisition->approve_count >=1 AND $requisition->institution_id != 1 AND $requisition->contract_sum > 1500000)
+                           @if($requisition->check->where('requisition_id',$requisition->id)->count()===1 AND $requisition->approve_count >=1 AND $requisition->institution_id != 1 AND $requisition->rate_calculation($requisition->internalrequisition->currency_id,$requisition->contract_sum) > 1500000)
                            <button type="button"   class="btn btn-outline-warning btn-lg"  data-toggle="modal" data-target="#modal-lg">Refuse</button>
                            <button type="button"   class="btn btn-outline-primary float-right btn-lg"  onclick="Accept('{{$requisition->id}}');" >Accept</button></br>
                            

@@ -49,31 +49,32 @@ class CheckPurchaseController extends Controller
     public function index()
     {
 
-       
-        //  $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
-        // ->where('institution_id', '=', auth()->user()->institution_id)->get();
         if (auth()->user()->institution_id === 1) {
-    $requisitions = Requisition::with(['check', 'approve', 'purchase_order','store_approves'])
-        //   ->where('contract_sum', '>=', 500000)
+    $requisitions = Requisition::with(['check','department','institution','supplier' ,'approve', 'purchase_order','store_approves','internalrequisition'])
          ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
             ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
-    
          })
-        // ->OrWhere(function($query){
-        //     $query->where('contract_sum','>',500000);
-        // })
         ->withCount(['approve'=>function($query){
             $query->where('is_granted',1);
         }])
+        ->Orwhere(function($query){
+          $query->where('contract_sum','>',10000)
+          ->wherehas('internalrequisition',function($query){
+            $query->where('currency_id','!=',1);
+            
+          });
+        
+        })
         ->OrWhere(function($query){
-            $query->having('approve_count','>',1)->where('contract_sum','>',1500000)->wherehas('check',function($query){
+            $query->having('approve_count','>',1)
+            ->where('contract_sum','>',1500000)
+            ->wherehas('check',function($query){
                 $query->where('is_checked',1);
             });
         })
-       
-       
         ->latest()
+        
         ->get();
 
         }else if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,12])){

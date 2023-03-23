@@ -195,7 +195,7 @@
                     @endif
                     <td>{{$requisition->category->name}}</td>
                     <td>{{$requisition->description}}</td>
-                    <td>${{number_format($requisition->contract_sum,2)}}</td>
+                    <td>${{number_format($requisition->contract_sum,2)}} {{$requisition->internalrequisition->currency->abbr}}</td>
                     <td>{{Carbon\Carbon::parse($requisition->created_at)->format('Y-M-d')}}</td>
                     @if($requisition->check)
                     <td>{{Carbon\Carbon::parse($requisition->check->created_at)->format('Y-M-d')}}</td>

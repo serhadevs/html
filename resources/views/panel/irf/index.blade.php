@@ -86,7 +86,7 @@
                     <td>{{$internal_requisition->requisition_no}}
                     <td>{{$internal_requisition->user->abbrName()}}</td>
                     <td>{{$internal_requisition->description}}</td>
-                    <td>${{number_format($internal_requisition->estimated_cost,2)}}</td>
+                    <td>${{number_format($internal_requisition->estimated_cost,2)}} {{$internal_requisition->currency->abbr}}</td>
                     <td>{{$internal_requisition->user->unit->name}}</td>
                     <td>{{$internal_requisition->department->name}}</td>
                     <td>{{$internal_requisition->institution->name}}</td>
