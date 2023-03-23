@@ -42,7 +42,7 @@ class PurchaseOrderController extends Controller
     {
 
         //aprove purchase requisition
-        $requisitions = Requisition::with(['check','approve','purchaseOrder','committee','user'])
+        $requisitions = Requisition::with(['department','institution','supplier','check','approve','purchaseOrder','committee','user'])
             // ->where('institution_id', '=', auth()->user()->institution_id)
             ->where(function($query){
                 $query->where('institution_id','=',auth()->user()->institution_id)
@@ -86,7 +86,7 @@ class PurchaseOrderController extends Controller
  
         if (auth()->user()->institution_id === 0 AND !in_array(auth()->user()->role_id,[1,6,12,15])) {
 
-            $purchase_orders = PurchaseOrder::with(['requisition'])
+            $purchase_orders = PurchaseOrder::with(['requisition','department','institution','supplier'])
             ->whereHas('requisition', function ($query) {
             $query->whereIn('institution_id',auth()->user()->accessInstitutions_Id()); 
             })

@@ -50,7 +50,7 @@ class ApprovePurchaseRequisitionController extends Controller
         // dd($approve);
       if (auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,12])) {
 
-        $requisitions = Requisition::with(['check','approve'])
+        $requisitions = Requisition::with(['check','approve','department','institution','internalrequisition','supplier'])
         ->withCount('approve')
         //->where('department_id','=',auth()->user()->department_id)
           ->whereHas('check',function($query){
@@ -60,7 +60,7 @@ class ApprovePurchaseRequisitionController extends Controller
           ->get();
 
       }else{
-      $requisitions = Requisition::with(['check','approve'])
+      $requisitions = Requisition::with(['check','approve','department','institution','internalrequisition','supplier'])
     
        ->withCount('approve')
       ->whereHas('check',function($query){

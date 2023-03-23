@@ -60,6 +60,9 @@ class CheckPurchaseController extends Controller
         }])
         ->Orwhere(function($query){
           $query->where('contract_sum','>',10000)
+          ->withCount(['approve'=>function($query){
+            $query->where('is_granted',1);
+        }])
           ->wherehas('internalrequisition',function($query){
             $query->where('currency_id','!=',1);
             
