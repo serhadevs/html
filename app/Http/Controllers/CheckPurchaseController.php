@@ -60,7 +60,7 @@ class CheckPurchaseController extends Controller
         }])
         ->Orwhere(function($query){
           $query->where('contract_sum','>',10000)
-          ->withCount(['approve'=>function($query){
+          ->whereHas(['approve'=>function($query){
             $query->where('is_granted',1);
         }])
           ->wherehas('internalrequisition',function($query){
