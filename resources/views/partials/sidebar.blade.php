@@ -68,7 +68,7 @@
             </a>
           </li>
           @endif
-          @if(in_array(auth()->user()->role_id,[1,5,6,9,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray()))
+          @if(in_array(auth()->user()->role_id,[1,3,5,6,9,12,15]) OR in_array(5,auth()->user()->userRoles_Id()->toArray()) OR in_array(9,auth()->user()->userRoles_Id()->toArray()) OR in_array(3,auth()->user()->userRoles_Id()->toArray()))
           <li class="nav-item has-treeview">
             <a href="/check-purchase" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>

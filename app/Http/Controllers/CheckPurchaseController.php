@@ -37,7 +37,7 @@ class CheckPurchaseController extends Controller
         $this->middleware('password.expired');
 
         $this->middleware(function ($request, $next) {
-            if (in_array(auth()->user()->role_id, [1,5,6,9,10,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray()) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
+            if (in_array(auth()->user()->role_id, [1,3,5,6,9,10,12,15]) OR in_array(9,auth()->user()->userRoles_Id()->toArray()) OR in_array(5,auth()->user()->userRoles_Id()->toArray())) {
                 return $next($request);
             } else {
                 return redirect('/dashboard')->with('error', 'Access Denied');
@@ -81,7 +81,7 @@ class CheckPurchaseController extends Controller
         ->get();
 
         }else if(auth()->user()->institution_id === 0 AND in_array(auth()->user()->role_id,[1,6,12])){
-            $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
+            $requisitions = Requisition::with(['check','department','institution','supplier' ,'approve', 'purchase_order','store_approves','internalrequisition'])
             ->withCount(['approve'=>function($query){
                 $query->where('is_granted',1);
             }])
@@ -93,7 +93,7 @@ class CheckPurchaseController extends Controller
 
             }else if(auth()->user()->institution_id === 0 AND !in_array(auth()->user()->role_id,[1,6,12])){
             
-                $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
+                $requisitions = Requisition::with(['check','department','institution','supplier' ,'approve', 'purchase_order','store_approves','internalrequisition'])
                 ->where(function($query){
                     $query->where('institution_id','=',auth()->user()->institution_id)
                     ->OrWhereIn('institution_id',auth()->user()->accessInstitutions_Id());
@@ -114,7 +114,7 @@ class CheckPurchaseController extends Controller
 
 
 } else {
-    $requisitions = Requisition::with(['check', 'approve', 'purchase_order'])
+    $requisitions = Requisition::with(['check','department','institution','supplier' ,'approve', 'purchase_order','store_approves','internalrequisition'])
        // ->Orwhere('contract_sum', '<', 250000)
         ->where(function($query){
             $query->where('institution_id','=',auth()->user()->institution_id)
