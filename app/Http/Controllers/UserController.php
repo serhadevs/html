@@ -274,7 +274,7 @@ class UserController extends Controller
         $user->update();
         
         //remove institution_users list
-        if(in_array(auth()->user()->role_id,[1,12,15])){
+        if(in_array(auth()->user()->role_id,[1,3,12,15]) OR in_array(3,auth()->user()->userRoles_Id()->toArray())){
         foreach($user->institution_users as $institution){
             $institution->delete();
         }
