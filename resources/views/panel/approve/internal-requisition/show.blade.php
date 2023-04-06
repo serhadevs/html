@@ -59,7 +59,7 @@ text-align: center;
                           Department: {{$internalRequisition->department->name}} </br>
                           Budget activity: {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
-                          Estimated Cost: ${{number_format($internalRequisition->estimated_cost,2)}} {{$internalRequisition->currency->abbr}}</br>
+                          Estimated Cost:({{$internalRequisition->currency->abbr}}) ${{number_format($internalRequisition->estimated_cost,2)}}</br>
                           Requisition no: {{$internalRequisition->requisition_no}}</br
                         </p>
 
@@ -153,7 +153,7 @@ text-align: center;
   </tr>
    <tr>
     <td  size="5">Grand Total</td>
-     <td><input id='grandtotal' readonly type='text' value="${{number_format($internalRequisition->estimated_cost,2)}}" size="10" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
+     <td><input id='grandtotal' readonly type='text' value="({{$internalRequisition->currency->abbr}}) ${{number_format($internalRequisition->estimated_cost,2)}}" size="15" style='border:none;outline:none;background: transparent;' name="grandtotal"></td>
   </tr>
  
  
