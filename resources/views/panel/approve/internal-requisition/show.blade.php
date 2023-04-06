@@ -59,7 +59,7 @@ text-align: center;
                           Department: {{$internalRequisition->department->name}} </br>
                           Budget activity: {{$internalRequisition->budget_approve}}    </br>
                           Date Ordered: {{Carbon\Carbon::parse($internalRequisition->created_at)->format('Y-M-d')}}</br>
-                          Estimated Cost: ${{number_format($internalRequisition->estimated_cost,2)}}</br>
+                          Estimated Cost: ${{number_format($internalRequisition->estimated_cost,2)}} {{$internalRequisition->currency->abbr}}</br>
                           Requisition no: {{$internalRequisition->requisition_no}}</br
                         </p>
 
