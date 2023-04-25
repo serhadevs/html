@@ -55,7 +55,7 @@ return [
             'strict' => false,
             'engine' => null,
             'options' => [
-                PDO::ATTR_TIMEOUT => 1, // 10 minutes
+                PDO::ATTR_TIMEOUT => 10, // 10 minutes
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_KEEPALIVE => 1,
             ],
