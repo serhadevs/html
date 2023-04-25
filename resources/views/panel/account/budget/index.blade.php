@@ -163,7 +163,7 @@
 <script>
 $(document).ready( function () {
     $('#table').DataTable({
-        scrollY:        "400px",
+       
         scrollX:        true,
         scrollCollapse: true,
         paging:         true,
