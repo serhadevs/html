@@ -54,11 +54,11 @@ return [
             'prefix_indexes' => true,
             'strict' => false,
             'engine' => null,
-            'options' => [
-                PDO::ATTR_TIMEOUT => 10, // 10 minutes
-                PDO::ATTR_PERSISTENT => true,
-                PDO::ATTR_KEEPALIVE => 1,
-            ],
+            // 'options' => [
+            //     PDO::ATTR_TIMEOUT => 10, // 10 minutes
+            //     PDO::ATTR_PERSISTENT => true,
+            //     PDO::ATTR_KEEPALIVE => 1,
+            // ],
             // 'options' => array_filter([
             //     PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             // ]),
